@@ -218,9 +218,9 @@ app.use(function(err, req, res, next) {
     });
 });
 var server_ip_address = '127.0.0.1';
-app.set('port', process.env.PORT || 3000);
+/*app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), server_ip_address, function() {
   console.log('Express server listening on port ' + server.address().port);
-});
+});*/
 
 module.exports = app;
