@@ -25,6 +25,11 @@
 					message: 'bar_save'
 				},
 				secondary: [
+                	{ 
+						// Link Button that opens in a new window
+						label: "home", href: '/', 
+						target: "app" 
+					},
 					// Dropdown example
 					{ 
 						label: "More",
@@ -40,6 +45,16 @@
 						// Link Button that opens in a new window
 						label: "Preview", href: 'http://<%= shop %>.myshopify.com', 
 						target: "new" 
+					},
+                    { 
+						// Link Button that opens in a new window
+						label: "Current Offers", href: '/current-offers', 
+						target: "app" 
+					},
+                    { 
+						// Link Button that opens in a new window
+						label: "Upsell Settings", href: '/upsell-settings', 
+						target: "app" 
 					},
 					{ 
 						label: "Open Modal", 
