@@ -98,6 +98,192 @@ app.get('/', function(req, res) {
     }
 })
 
+// This is to render the current-offers page that shows all active offers created by store owner 
+// This page should display a table from the data retrieved from store metafields Namespace: simple_upsells_offers 
+app.get('/current-offers', function(req, res) {
+    request.get({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=simple_upsells_offers',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, function(error, response, body){
+        if(error)
+            return next(error);
+        body = JSON.parse(body);
+        res.render('current_offers', {
+            title: 'Current Offers', 
+            api_key: config.oauth.api_key,
+            shop: req.session.shop,
+            current_offers: body.metafields
+        });
+    })
+}
+
+// This is to render the create-offer form page to allow users to customize their offers
+app.get('/create-offer', function(req, res) {
+    res.render('create_offer', {
+        title: 'Create Your Offer', 
+        api_key: config.oauth.api_key,
+        shop: req.session.shop,
+    });
+}
+
+// This is used to post form data from the create-offer page to the store metafields Namespace: simple_upsells_offers 
+// I will be using a product-list array contained within a json object
+// Might need logic to check if key/value of existing is being edited
+// if page has offer already has metafield id do put else do post*
+app.post('/create-offer', function(req, res) {
+    request.get({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=simple_upsells_offers' + '&key=' + req.body.offer_name,
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, function(error, response, body){
+        if(error)
+            return next(error);
+        body = JSON.parse(body);
+        
+        if (body.metafields.length > 0) {
+            var id = body.metafields[0].id.toString();
+            var data = {
+                metafield: {
+                    id: body.metafields[0].id,
+                    value: {
+                        offer_name: req.body.offer_name,
+                        offer_title: req.body.offer_title,
+                        offer_description: req.body.offer_description,
+                        upsell_products: req.body.upsell_products,
+                        products: req.body.products,
+                        offer_type: req.body.offer_type
+                    },
+                    value_type: string
+                }
+            }
+            req_body = JSON.stringify(data);
+            console.log(data);
+            console.log(req_body);
+            
+            request({
+                method: "PUT",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                },
+                body: req_body
+            }, function(error, response, body){
+                if(error)
+                    return next(error);
+                console.log(body);
+                body = JSON.parse(body);
+                if (body.errors) {
+                    return res.json(500);
+                } 
+                res.json(201);
+            });
+        }
+        else {
+            var data = {
+                metafield: {
+                    namespace: simple_upsells_offers,
+                    key: req.body.offer_name,
+                    value: {
+                        offer_name: req.body.offer_name,
+                        offer_title: req.body.offer_title,
+                        offer_description: req.body.offer_description,
+                        upsell_products: req.body.upsell_products,
+                        products: req.body.products,
+                        offer_type: req.body.offer_type
+                    },
+                    value_type: string
+                }
+            }
+            req_body = JSON.stringify(data);
+            console.log(data);
+            console.log(req_body);
+            request({
+                method: "POST",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                },
+                body: req_body
+            }, function(error, response, body){
+                if(error)
+                    return next(error);
+                console.log(body);
+                body = JSON.parse(body);
+                if (body.errors) {
+                    return res.json(500);
+                } 
+                res.json(201);
+            });
+        }
+    });
+}
+
+// This is used to allow store owners to delete their offers from the store metafields Namespace: simple_upsells_offers
+app.get('/delete-offer', function(req, res) {
+
+}
+
+// This is used to render the create-offer page with selected offer metafield data contained within it so the user can edit it.
+app.get('/update-offer', function(req, res) {
+
+}
+
+// This is to render a select-products modal popup window so the user can select upsells to give an offer
+app.get('/select-products', function(req, res) {
+    
+}
+
+// This is used to let the store owner post the selected upsells into the product-list array 
+app.post('/select-products', function(req, res) {
+    var products = req.body.products;
+    
+    for (var i = 0; i < products.length; i++) {
+        
+    }
+}
+
+// This is used to filter through all products so that the store owner can find the products they want to include in the product-list array 
+app.get('/search-products', function(req, res) {
+    var next, previous, page, limit;
+    page = req.query.page ? ~~req.query.page:1;
+    limit = req.query.limit;
+    
+    next = page + 1;
+    previous = page == 1 ? page : page - 1;
+    
+    request.get({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit='+ limit +'&page=' + page,
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, function(error, response, body){
+        if(error)
+            return next(error);
+        body = JSON.parse(body);
+        res.render('products', {
+            title: 'Products', 
+            api_key: config.oauth.api_key,
+            shop: req.session.shop,
+            next: next,
+            previous: previous,
+            products: body.products
+        });
+    }) 
+}
+
+app.get('/upsell-settings', function(req, res) {
+    res.render('upsell_settings', {
+        title: 'Upsell Settings', 
+        api_key: config.oauth.api_key,
+        shop: req.session.shop,
+    });
+}
+
 app.get('/add_product', function(req, res) {
     res.render('add_product', {
         title: 'Add A Product', 
