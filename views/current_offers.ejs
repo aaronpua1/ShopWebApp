@@ -15,35 +15,6 @@
     <title><%= title %></title>
 </head>
 <body>
-    <script type="text/javascript">
-    ShopifyApp.ready(function(){
-        ShopifyApp.Bar.initialize({
-            buttons: {
-                primary: {
-                    label: "Add A Product",
-                    href: '/'
-                },
-                secondary: [
-                    { 
-                        label: "Preview", href: 'http://<%= shop %>.myshopify.com', 
-                        target: "new"
-                    }
-                ]
-            },
-            pagination: {
-        next: {
-          href: "/products?page=<%= next %>"
-        },
-        previous: {
-          href: "/products?page=<%= previous %>"
-        }
-      },
-            title: '<%= title %>',
-            icon: '/images/logo.png'
-        });
-        ShopifyApp.Bar.loadingOff();
-    });
-    </script>
 <div class="container">
     <div class="row">
       <div class="col-md-12">
