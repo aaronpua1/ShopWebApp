@@ -117,7 +117,7 @@ app.get('/current-offers', function(req, res) {
             current_offers: body.metafields
         });
     })
-}
+})
 
 // This is to render the create-offer form page to allow users to customize their offers
 app.get('/create-offer', function(req, res) {
@@ -126,7 +126,7 @@ app.get('/create-offer', function(req, res) {
         api_key: config.oauth.api_key,
         shop: req.session.shop,
     });
-}
+})
 
 // This is used to post form data from the create-offer page to the store metafields Namespace: simple_upsells_offers 
 // I will be using a product-list array contained within a json object
@@ -221,22 +221,22 @@ app.post('/create-offer', function(req, res) {
             });
         }
     });
-}
+})
 
 // This is used to allow store owners to delete their offers from the store metafields Namespace: simple_upsells_offers
 app.get('/delete-offer', function(req, res) {
 
-}
+})
 
 // This is used to render the create-offer page with selected offer metafield data contained within it so the user can edit it.
 app.get('/update-offer', function(req, res) {
 
-}
+})
 
 // This is to render a select-products modal popup window so the user can select upsells to give an offer
 app.get('/select-products', function(req, res) {
     
-}
+})
 
 // This is used to let the store owner post the selected upsells into the product-list array 
 app.post('/select-products', function(req, res) {
@@ -245,7 +245,7 @@ app.post('/select-products', function(req, res) {
     for (var i = 0; i < products.length; i++) {
         
     }
-}
+})
 
 // This is used to filter through all products so that the store owner can find the products they want to include in the product-list array 
 app.get('/search-products', function(req, res) {
@@ -274,7 +274,7 @@ app.get('/search-products', function(req, res) {
             products: body.products
         });
     }) 
-}
+})
 
 app.get('/upsell-settings', function(req, res) {
     res.render('upsell_settings', {
@@ -282,7 +282,7 @@ app.get('/upsell-settings', function(req, res) {
         api_key: config.oauth.api_key,
         shop: req.session.shop,
     });
-}
+})
 
 app.get('/add_product', function(req, res) {
     res.render('add_product', {
