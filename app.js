@@ -100,8 +100,9 @@ app.get('/', function(req, res) {
 
 // This is to render the current-offers page that shows all active offers created by store owner 
 // This page should display a table from the data retrieved from store metafields Namespace: simple_upsells_offers 
+// http://bootsnipp.com/snippets/BDDND
 app.get('/current-offers', function(req, res) {
-    /*request.get({
+    request.get({
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=simple_upsells_offers',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
@@ -116,13 +117,13 @@ app.get('/current-offers', function(req, res) {
             shop: req.session.shop,
             current_offers: body.metafields
         });
-    })*/
-    res.render('current_offers', {
+    })
+    /*res.render('current_offers', {
         title: 'Current Offers', 
         api_key: config.oauth.api_key,
         shop: req.session.shop,
         //current_offers: body.metafields
-    });
+    });*/
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
