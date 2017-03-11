@@ -49,9 +49,9 @@
         </div>
         <div class="form-group col-md-12">
           <div class="control-group">
-            <span class="required-lbl">*</span> <label class="control-label" for="offer_title">Offer Title</label>
+            <span class="required-lbl">*</span> <label class="control-label" for="offer_description">Offer Description</label>
             <div class="controls">
-              <textarea class="form-control" id="offer_title" name="offer_title" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
+              <textarea class="form-control" id="offer_title" name="offer_description" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
             </div>
           </div>
         </div>
@@ -90,19 +90,7 @@
               <select class="form-control" id="upsell_vendor" name="upsell_vendor" placeholder="Select Vendors" required="" type="text"> 
                 <% for(var i = 0; i < vendor.length; i++) { %>
                   <option value=<%= vendor[i].name %>><%= vendor[i].name %></option>
-                <% } %>                    
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <span class="required-lbl">*</span> <label class="control-label" for="upsell_product_type">Search by product type</label>
-            <div class="controls">
-              <select class="form-control" id="upsell_product_type" name="upsell_product_type" placeholder="Select Vendors" required="" type="text"> 
-                <% for(var i = 0; i < product_type.length; i++) { %>
-                  <option value=<%= product_type[i].name %>><%= product_type[i].name %></option>
-                <% } %>                    
+                <% } %>
               </select>
             </div>
           </div>
@@ -188,7 +176,118 @@
         </div>
         <hr>
         <div class="form-group col-md-12 bg-primary">
-          <label class="control-label" for="billinginformation">Billing Address</label>
+          <label class="control-label" for="billinginformation">Step 3: Select Offer Placememt</label>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="product_title">Enter Product Title</label>
+            <div class="controls">
+              <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" required="" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="product_custom_collection">Custom Collection</label>
+            <div class="controls">
+              <select class="form-control" id="product_custom_collection" name="product_custom_collection" placeholder="Select Custom Collection" required="" type="text"> 
+                <% for(var i = 0; i < custom_collection.length; i++) { %>
+                  <option value=<%= custom_collection[i].name %>><%= custom_collection[i].name %></option>
+                <% } %>                    
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="product_vendor">Search by vendor</label>
+            <div class="controls">
+              <select class="form-control" id="product_vendor" name="product_vendor" placeholder="Select Vendors" required="" type="text"> 
+                <% for(var i = 0; i < vendor.length; i++) { %>
+                  <option value=<%= vendor[i].name %>><%= vendor[i].name %></option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="product_type">Search by product type</label>
+            <div class="controls">
+              <select class="form-control" id="product_type" name="product_type" placeholder="Select Vendors" required="" type="text"> 
+                <% for(var i = 0; i < product_type.length; i++) { %>
+                  <option value=<%= product_type[i].name %>><%= product_type[i].name %></option>
+                <% } %>                    
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="product_results">Results per page</label>
+            <div class="controls">
+              <select class="form-control" id="product_results" name="upsell_results"> 
+                <option value=10>10</option>
+                <option value=25>25</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <br>
+          <div class="row">
+            <div class="dual-list list-left col-md-5">
+              <div class="well text-right">
+                <div class="row">
+                  <div class="col-md-10">
+                    <div class="input-group">
+                      <span class="input-group-addon glyphicon glyphicon-search"></span> <input class="form-control" name="SearchDualList" placeholder="search" type="text">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="btn-group">
+                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <ul class="list-group">
+                  <li class="list-group-item">bootstrap-duallist <a href="https://github.com/bbilginn/bootstrap-duallist" target="_blank">github</a></li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Morbi leo risus</li>
+                  <li class="list-group-item">Porta ac consectetur ac</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+              </div>
+            </div>
+            <div class="list-arrows col-md-1 text-center">
+              <button class="btn btn-default btn-sm move-left"><span class="glyphicon glyphicon-chevron-left"></span></button> <button class="btn btn-default btn-sm move-right"><span class="glyphicon glyphicon-chevron-right"></span></button>
+            </div>
+            <div class="dual-list list-right col-md-5">
+              <div class="well">
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="btn-group">
+                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="input-group">
+                      <input class="form-control" name="SearchDualList" placeholder="search" type="text"> <span class="input-group-addon glyphicon glyphicon-search"></span>
+                    </div>
+                  </div>
+                </div>
+                <ul class="list-group">
+                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Morbi leo risus</li>
+                  <li class="list-group-item">Porta ac consectetur ac</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="form-group col-md-6">
           <span class="required-lbl">*</span> <label class="control-label" for="billingaddress1">Address 1</label>
@@ -200,107 +299,6 @@
           <label class="control-label" for="billingaddress2">Address 2</label>
           <div class="controls">
             <input class="form-control" id="billingaddress2" name="billingaddress2" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="billingcountry">Billing Country</label>
-          <div class="controls">
-            <div class="controls">
-              <select class="input-xlarge" id="billingcountry" name="billingcountry">
-                <option>
-                  Please Select
-                </option>
-                <option>
-                  Australia
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="billingstate">Billing State</label>
-          <div class="controls">
-            <select class="input-xlarge" id="billingstate" name="billingstate">
-              <option>
-                Please Select
-              </option>
-              <option>
-                Australian Capital Territory
-              </option>
-              <option>
-                New South Wales
-              </option>
-              <option>
-                Northern Territory
-              </option>
-              <option>
-                Queensland
-              </option>
-              <option>
-                South Australia
-              </option>
-              <option>
-                Tasmania
-              </option>
-              <option>
-                Victoria
-              </option>
-              <option>
-                Western Australia
-              </option>
-              <option>
-                Other
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="billingcity">Billing City</label>
-          <div class="controls">
-            <input class="form-control" id="billingcity" name="billingcity" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="billingpostcode">Post Code</label>
-          <div class="controls">
-            <input class="form-control" id="billingpostcode" name="billingpostcode" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-12 bg-primary">
-          <label class="control-label" for="contactinformation">Contact Information:</label>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="emailaddress">Email Address</label>
-          <div class="controls">
-            <input class="form-control" id="email" name="email" placeholder="" required="" type="email">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <label class="control-label" for="phone">Phone</label>
-          <div class="controls">
-            <input class="form-control" id="phone" name="phone" placeholder="" required="" type="number">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <label class="control-label" for="organization">Organization</label>
-          <div class="controls">
-            <input class="form-control" id="organization" name="organization" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-12 bg-primary">
-          <label class="control-label" for="contactinformation">Additional Information:</label>
-        </div><label>* To avoid duplication, Type "YES" if you are a current subscriber wishing to extend your subscription OR "NO" if you don’t have an active subscription</label>
-        <div class="form-group col-md-6">
-          <div class="controls">
-            <input class="form-control" id="additionalinfo" name="additionalinfo" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="iaccept"></label>
-            <div class="controls">
-              <label class="checkbox" for="iaccept-0"><input id="iaccept-0" name="iaccept" type="checkbox" value="I accept the Teams and conditions"> I accept the <a href="">Teams and conditions</a></label>
-            </div>
           </div>
         </div>
         <div class="form-group col-md-12">

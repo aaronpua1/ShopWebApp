@@ -10,6 +10,7 @@ var request = require('request');
 var config = require('./settings')
 var session = require('express-session')
 var app = express();
+var async = require("async");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -102,7 +103,7 @@ app.get('/', function(req, res) {
 // This page should display a table from the data retrieved from store metafields Namespace: simple_upsells_offers 
 // http://bootsnipp.com/snippets/BDDND
 app.get('/current-offers', function(req, res) {
-    /*request.get({
+    request.get({
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=simple_upsells_offers',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
@@ -117,24 +118,67 @@ app.get('/current-offers', function(req, res) {
             shop: req.session.shop,
             current_offers: body.metafields
         });
-    })*/
-    res.render('current_offers', {
+    })
+    /*res.render('current_offers', {
         title: 'Current Offers', 
         api_key: config.oauth.api_key,
         shop: req.session.shop,
         //current_offers: body.metafields
-    });
+    });*/
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
 app.get('/create-offer', function(req, res) {
-    res.render('create_offer', {
-        title: 'Create Your Offer', 
-        api_key: config.oauth.api_key,
-        shop: req.session.shop,
-        //custom_collection:
-        //vendor:
-        //product_type:
+    var requests = [{
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, {
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/custom_collections.json?limit=250&fields=id,handle,title',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }];
+    
+    async.map(requests, function(obj, callback) {
+        request(obj, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var body = JSON.parse(body);
+                callback(null, body);
+            }
+            else {
+                callback(error || response.statusCode);
+            }
+        });
+    },  function(err, results) {
+        if (err) {
+            return next(error);
+        } 
+        else {
+            var result_collections;
+            var result_products;
+            
+            for (var i = 0; i < results.length; i++) {
+                if(results[i].hasOwnProperty('products')){
+                    result_products = results[i];
+                }
+                else {
+                    result_collections = results[i];
+                }
+            }
+            
+            console.log(results);
+            res.render('create_offer', {
+                title: 'Create Your Offer', 
+                api_key: config.oauth.api_key,
+                shop: req.session.shop,
+                custom_collections: result_collections,
+                products: result_products
+            });
+        }
     });
 })
 
@@ -420,3 +464,41 @@ var server = app.listen(app.get('port'), server_ip_address, function() {
 });*/
 
 module.exports = app;
+
+
+/*
+https://www.w3schools.com/js/tryit.asp?filename=tryjs_json_parse
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Create Object from JSON String</h2>
+
+<p id="demo"></p>
+
+<script>
+var text = '{"employees":[' +
+'{"firstName":"John","lastName":"Doe" },' +
+'{"firstName":"Anna","lastName":"Smith" },' +
+'{"firstName":"Peter","lastName":"Jones" }]}';
+
+var text1 = '{"products":[{"id":"8861586760","title":"food"}]}';
+var text2 = '{"custom_collections":[{"id":"419695560","title":"drink"}]}';
+
+var obj = [];
+obj.push(JSON.parse(text1));
+obj.push(JSON.parse(text2));
+
+//obj = JSON.parse(text);
+document.getElementById("demo").innerHTML = obj[0].products[0].title;
+
+if(obj[0].hasOwnProperty('products')){
+    document.getElementById("demo").innerHTML = obj[0].products[0].title;
+}
+
+//obj.employees[1].firstName + " " + obj.employees[1].lastName;
+</script>
+
+</body>
+</html>
+*/
