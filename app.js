@@ -132,6 +132,9 @@ app.get('/create-offer', function(req, res) {
         title: 'Create Your Offer', 
         api_key: config.oauth.api_key,
         shop: req.session.shop,
+        custom_collection:
+        vendor:
+        product_type:
     });
 })
 

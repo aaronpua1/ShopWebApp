@@ -28,252 +28,123 @@
       <p>Your bonus pack will be sent via email to the email address you provide.</p><strong>Purchase Summary:</strong>
       <h2 class="bg-success">Today's Total: $74.95 AUD</h2>
       <div class="form-group col-md-12 bg-primary">
-        <label class="control-label" for="billinginformation">Shipping Information</label>
+        <label class="control-label" for="billinginformation">Step 1: Setup Offer</label>
       </div>
       <div class="shipping-info">
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="firstname">First Name</label>
-          <div class="controls">
-            <input class="form-control" id="firstname" name="firstname" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="lastname">Last Name</label>
-          <div class="controls">
-            <input class="form-control" id="lastname" name="lastname" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="shippingaddress1">Shipping Address 1</label>
-          <div class="controls">
-            <input class="form-control" id="shippingaddress1" name="shippingaddress1" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <label class="control-label" for="shippingaddress2">Shipping Address 2</label>
-          <div class="controls">
-            <input class="form-control" id="shippingaddress2" name="shippingaddress2" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="shippingcountry">Shipping Country</label>
-          <div class="controls">
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="offer_name">Offer Name</label>
             <div class="controls">
-              <select class="input-xlarge" id="shippingcountry" name="shippingcountry">
-                <option>
-                  Please Select
-                </option>
-                <option>
-                  Australia
-                </option>
-              </select>
+              <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text">
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="shippingstate">Shipping State</label>
-          <div class="controls">
-            <select class="input-xlarge" id="shippingstate" name="shippingstate">
-              <option>
-                Please Select
-              </option>
-              <option>
-                Australian Capital Territory
-              </option>
-              <option>
-                New South Wales
-              </option>
-              <option>
-                Northern Territory
-              </option>
-              <option>
-                Queensland
-              </option>
-              <option>
-                South Australia
-              </option>
-              <option>
-                Tasmania
-              </option>
-              <option>
-                Victoria
-              </option>
-              <option>
-                Western Australia
-              </option>
-              <option>
-                Other
-              </option>
-            </select>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="offer_title">Offer Title</label>
+            <div class="controls">
+              <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text">
+            </div>
           </div>
         </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="shippingcity">Shipping City</label>
-          <div class="controls">
-            <input class="form-control" id="shippingcity" name="shippingcity" placeholder="" required="" type="text">
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <span class="required-lbl">*</span> <label class="control-label" for="postcode">Post Code</label>
-          <div class="controls">
-            <input class="form-control" id="postcode" name="postcode" placeholder="" required="" type="text">
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="offer_title">Offer Title</label>
+            <div class="controls">
+              <textarea class="form-control" id="offer_title" name="offer_title" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
+            </div>
           </div>
         </div>
         <hr>
         <div class="form-group col-md-12 bg-primary">
           <div class="control-group">
             <div class="controls">
-              <label class="control-label" for="billinginformation">Billing Information</label> <label class="checkbox" for="billinginformation"><input id="billinginformation" name="billinginformation" type="checkbox" value="Use Shipping Address"> Use Shipping Address</label>
+              <label class="control-label" for="billinginformation">Step 2: Select product(s) to upsell</label>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <div class="control-group">
-            <span class="required-lbl">*</span> <label class="control-label" for="firstnameonaccount">First Name on Account</label>
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_title">Enter Product Title</label>
             <div class="controls">
-              <input class="form-control" id="firstnameonaccount" name="firstnameonaccount" placeholder="" required="" type="text">
+              <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" required="" type="text">
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <div class="control-group">
-            <span class="required-lbl">*</span> <label class="control-label" for="lastnameonaccount">Last Name on Account</label>
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_custom_collection">Custom Collection</label>
             <div class="controls">
-              <input class="form-control" id="lastnameonaccount" name="lastnameonaccount" placeholder="" required="" type="text">
+              <select class="form-control" id="upsell_custom_collection" name="upsell_custom_collection" placeholder="Select Custom Collection" required="" type="text"> 
+                <% for(var i = 0; i < custom_collection.length; i++) { %>
+                  <option value=<%= custom_collection[i].name %>><%= custom_collection[i].name %></option>
+                <% } %>                    
+              </select>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12">
           <div class="control-group">
-            <span class="required-lbl">*</span> <label class="control-label" for="cardnumber">Card Number</label>
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_vendor">Search by vendor</label>
             <div class="controls">
-              <input class="form-control" id="cardnumber" name="cardnumber" placeholder="" required="" type="text">
+              <select class="form-control" id="upsell_vendor" name="upsell_vendor" placeholder="Select Vendors" required="" type="text"> 
+                <% for(var i = 0; i < vendor.length; i++) { %>
+                  <option value=<%= vendor[i].name %>><%= vendor[i].name %></option>
+                <% } %>                    
+              </select>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6" style="height: 60px;">
-          Visa and master card Images
-        </div>
-        <div class="form-group col-md-6 card-expiry">
-          <div class="control-group col-md-4">
-            <span class="required-lbl">*</span> <label class="control-label" for="cvv">CVV</label>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_product_type">Search by product type</label>
             <div class="controls">
-              <input class="form-control" id="cvv" name="cvv" placeholder="" required="" type="text">
-            </div>
-          </div>
-          <div class="control-group col-md-4">
-            <div class="control-group">
-              <label class="control-label" for="month">Expiration Date</label>
-              <div class="controls">
-                <select class="input-xlarge" id="month" name="month">
-                  <option>
-                    Select Month
-                  </option>
-                  <option>
-                    01
-                  </option>
-                  <option>
-                    02
-                  </option>
-                  <option>
-                    03
-                  </option>
-                  <option>
-                    04
-                  </option>
-                  <option>
-                    05
-                  </option>
-                  <option>
-                    06
-                  </option>
-                  <option>
-                    07
-                  </option>
-                  <option>
-                    08
-                  </option>
-                  <option>
-                    09
-                  </option>
-                  <option>
-                    10
-                  </option>
-                  <option>
-                    11
-                  </option>
-                  <option>
-                    12
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="control-group col-md-4">
-            <div class="control-group">
-              <label class="control-label" for="selectyear"></label>
-              <div class="controls">
-                <select class="input-xlarge" id="selectyear" name="selectyear">
-                  <option>
-                    Select Year
-                  </option>
-                  <option>
-                    14
-                  </option>
-                  <option>
-                    15
-                  </option>
-                  <option>
-                    16
-                  </option>
-                  <option>
-                    17
-                  </option>
-                  <option>
-                    18
-                  </option>
-                  <option>
-                    19
-                  </option>
-                  <option>
-                    20
-                  </option>
-                  <option>
-                    21
-                  </option>
-                  <option>
-                    22
-                  </option>
-                  <option>
-                    23
-                  </option>
-                  <option>
-                    24
-                  </option>
-                  <option>
-                    25
-                  </option>
-                  <option>
-                    26
-                  </option>
-                  <option>
-                    27
-                  </option>
-                  <option>
-                    28
-                  </option>
-                  <option>
-                    29
-                  </option>
-                  <option>
-                    30
-                  </option>
-                </select>
-              </div>
+              <select class="form-control" id="upsell_product_type" name="upsell_product_type" placeholder="Select Vendors" required="" type="text"> 
+                <% for(var i = 0; i < product_type.length; i++) { %>
+                  <option value=<%= product_type[i].name %>><%= product_type[i].name %></option>
+                <% } %>                    
+              </select>
             </div>
           </div>
         </div>
-        <div class="form-group col-md-6"></div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_product_type">Search by product type</label>
+            <div class="controls">
+              <select class="form-control" id="upsell_product_type" name="upsell_product_type" placeholder="Select Vendors" required="" type="text"> 
+                <% for(var i = 0; i < product_type.length; i++) { %>
+                  <option value=<%= product_type[i].name %>><%= product_type[i].name %></option>
+                <% } %>                    
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_results">Results per page</label>
+            <div class="controls">
+              <select class="form-control" id="upsell_results" name="upsell_results"> 
+                <option value=10>10</option>
+                <option value=25>25</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group">
+            <span class="required-lbl">*</span> <label class="control-label" for="upsell_results">Results per page</label>
+            <div class="controls">
+              <select class="form-control" id="upsell_results" name="upsell_results"> 
+                <option value=10>10</option>
+                <option value=25>25</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+              </select>
+            </div>
+          </div>
+        </div>
         <hr>
         <div class="form-group col-md-12 bg-primary">
           <label class="control-label" for="billinginformation">Billing Address</label>
