@@ -278,27 +278,91 @@ app.post('/create-offer', function(req, res) {
 })
 
 // This is used to allow store owners to delete their offers from the store metafields Namespace: simple_upsells_offers
-app.get('/delete-offer', function(req, res) {
-
+app.post('/delete-offer', function(req, res) {
+	request({
+		method: "DELETE",
+		url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.body.id + '.json',
+		headers: {
+			'X-Shopify-Access-Token': req.session.access_token,
+			'Content-type': 'application/json; charset=utf-8'
+		}
+	}, function(error, response, body){
+		if(error)
+			return next(error);
+		console.log(body);
+		body = JSON.parse(body);
+		if (body.errors) {
+			return res.json(500);
+		} 
+		res.json(201);
+	});
 })
 
 // This is used to render the create-offer page with selected offer metafield data contained within it so the user can edit it.
 app.get('/update-offer', function(req, res) {
+    var requests = [{
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, {
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/custom_collections.json?limit=250&fields=id,handle,title',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+	},  {
+		method: "GET", 
+		url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.body.id + '.json',
+		headers: {
+			'X-Shopify-Access-Token': req.session.access_token,
+			'Content-type': 'application/json; charset=utf-8'
+		}
+    }];
 
-})
-
-// This is to render a select-products modal popup window so the user can select upsells to give an offer
-app.get('/select-products', function(req, res) {
-    
-})
-
-// This is used to let the store owner post the selected upsells into the product-list array 
-app.post('/select-products', function(req, res) {
-    var products = req.body.products;
-    
-    for (var i = 0; i < products.length; i++) {
-        
-    }
+    async.map(requests, function(obj, callback) {
+        request(obj, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var body = JSON.parse(body);
+                callback(null, body);
+            }
+            else {
+                callback(error || response.statusCode);
+            }
+        });
+    },  function(err, results) {
+        if (err) {
+            return next(error);
+        } 
+        else {
+            var result_collections;
+            var result_products;
+            var result_values;
+			
+            for (var i = 0; i < results.length; i++) {
+                if(results[i].hasOwnProperty('products')){
+                    result_products = results[i];
+                }
+				else if (results[i].hasOwnProperty('metafield')) {
+					result_values = results[i];
+				}
+                else {
+                    result_collections = results[i];
+                }
+            }
+            
+            console.log(results);
+            res.render('create_offer', {
+                title: 'Create Your Offer', 
+                api_key: config.oauth.api_key,
+                shop: req.session.shop,
+                custom_collections: result_collections,
+                products: result_products,
+				values: result_values
+            });
+        }
+    });
 })
 
 // This is used to filter through all products so that the store owner can find the products they want to include in the product-list array 
