@@ -262,7 +262,7 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[0]
-    },  {
+    }/*,  {
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
         headers: {
@@ -294,7 +294,7 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[4]
-    }];
+    }*/];
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
