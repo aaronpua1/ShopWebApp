@@ -297,7 +297,7 @@ app.get('/test-metafields', function(req, res) {
     }];
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
-            if (!err && resp.statusCode == 200) {
+            if (!err && resp.statusCode == 201) {
                 var body = JSON.parse(body);
                 callback(null, body);
             }
