@@ -189,7 +189,8 @@ app.get('/test-metafields', function(req, res) {
                 offer_type: "offerType"
             },
             value_type: string
-        },
+        }
+    },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su2",
@@ -202,7 +203,8 @@ app.get('/test-metafields', function(req, res) {
                 offer_type: "offerType"
             },
             value_type: string
-        },
+        }
+    },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su3",
@@ -215,7 +217,8 @@ app.get('/test-metafields', function(req, res) {
                 offer_type: "offerType"
             },
             value_type: string
-        },
+        }
+    },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su4",
@@ -228,7 +231,8 @@ app.get('/test-metafields', function(req, res) {
                 offer_type: "offerType"
             },
             value_type: string
-        },
+        }
+    },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su5",
