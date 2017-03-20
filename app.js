@@ -317,10 +317,24 @@ app.get('/test-metafields', function(req, res) {
         }
     });*/
     var data = {
-        metafield: {
+        /*metafield: {
             namespace: "suo",
             key: "su1",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
+            value_type: "string"
+        }*/
+        metafield: {
+            namespace: "suo",
+            key: "su2",
+            value: {
+                offer_id: "offerID",
+                offer_name: "offerName",
+                offer_title: "offerTitle",
+                offer_description: "offerDescription",
+                upsell_products: "upsellProducts",
+                products: "products",
+                offer_type: "offerType"
+            },
             value_type: "string"
         }
     }
