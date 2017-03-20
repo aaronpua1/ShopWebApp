@@ -176,18 +176,23 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    var data = [{
+    var data = [];
+    for (var i = 1; i < 10; i++) {
+        var temp = {
+            metafield: {
+                namespace: "simple_upsells_offers",
+                key: "su" + i.toString(),
+                value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
+                value_type: "string"
+            }
+        }
+        data.push(temp);
+    }
+    /*{
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su1",
-            value: {
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: string
         }
     },  {
@@ -246,10 +251,10 @@ app.get('/test-metafields', function(req, res) {
             },
             value_type: string
         }
-    }];
+    }];*/
     
     var requests = [];
-    for (var i = 0; i < data.length; i++) {
+    /*for (var i = 0; i < data.length; i++) {
         req_body = JSON.stringify(data[i]);
         var temp = {
             method: "POST",
@@ -261,8 +266,20 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    }
-
+    }*/
+    data.forEach(function(element) {
+        req_body = JSON.stringify(element);
+        var temp = {
+            method: "POST",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token,
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            body: req_body
+        }
+        requests.push(temp);
+    });
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
