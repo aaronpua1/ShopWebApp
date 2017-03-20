@@ -187,7 +187,7 @@ app.get('/test-metafields', function(req, res) {
             }
         }
         data.push(temp);
-    }*/
+    }
     var data = [{
         metafield: {
             namespace: "simple_upsells_offers",
@@ -227,7 +227,7 @@ app.get('/test-metafields', function(req, res) {
     for (var i = 0; i < data.length; i++) {
         data[i] = JSON.stringify(data[i]);
     }
-    /*var requests = [];
+    var requests = [];
     for (var i = 0; i < data.length; i++) {
         req_body = JSON.stringify(data[i]);
         var temp = {
@@ -253,7 +253,7 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    });*/
+    });
     var requests = [{
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -262,7 +262,7 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[0]
-    }/*,  {
+    },  {
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
         headers: {
@@ -294,7 +294,7 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[4]
-    }*/];
+    }];
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
@@ -315,6 +315,35 @@ app.get('/test-metafields', function(req, res) {
             console.log(results);
             res.redirect('/');
         }
+    });*/
+    var data = {
+        metafield: {
+            namespace: "simple_upsells_offers",
+            key: "su1",
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
+            value_type: "string"
+        }
+    }
+    req_body = JSON.stringify(data);
+    console.log(data);
+    console.log(req_body);
+    request({
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: req_body
+    }, function(err, resp, body){
+        if(err)
+            return next(err);
+        console.log(body);
+        body = JSON.parse(body);
+        if (body.errs) {
+            return res.json(500);
+        } 
+        res.json(201);
     });
 })
 
