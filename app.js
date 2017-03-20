@@ -308,7 +308,7 @@ app.get('/test-metafields', function(req, res) {
     },  
     function(err, results) {
         if (err) {
-            return next(err);
+            res.send(err);
         } 
         else {            
             console.log(results);
