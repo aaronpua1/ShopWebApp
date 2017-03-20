@@ -318,7 +318,7 @@ app.get('/test-metafields', function(req, res) {
     });*/
     var data = {
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su1",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
