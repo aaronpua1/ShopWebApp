@@ -176,7 +176,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    var data = [];
+    /*var data = [];
     for (var i = 1; i < 10; i++) {
         var temp = {
             metafield: {
@@ -187,8 +187,8 @@ app.get('/test-metafields', function(req, res) {
             }
         }
         data.push(temp);
-    }
-    /*{
+    }*/
+    var data = [{
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su1",
@@ -199,62 +199,36 @@ app.get('/test-metafields', function(req, res) {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su2",
-            value: {
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: string
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su3",
-            value: {
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: string
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su4",
-            value: {
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: string
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su5",
-            value: {
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
+            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: string
         }
-    }];*/
-    
-    var requests = [];
-    /*for (var i = 0; i < data.length; i++) {
+    }];
+    for (var i = 0; i < data.length; i++) {
+        data[i] = JSON.stringify(data[i]);
+    }
+    /*var requests = [];
+    for (var i = 0; i < data.length; i++) {
         req_body = JSON.stringify(data[i]);
         var temp = {
             method: "POST",
@@ -266,7 +240,7 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    }*/
+    }
     data.forEach(function(element) {
         req_body = JSON.stringify(element);
         var temp = {
@@ -279,7 +253,48 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    });
+    });*/
+    var requests = [{
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: data[0]
+    },  {
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: data[1]
+    },  {
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: data[2]
+    },  {
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: data[3]
+    },  {
+        method: "POST",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token,
+            'Content-type': 'application/json; charset=utf-8'
+        },
+        body: data[4]
+    }];
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
