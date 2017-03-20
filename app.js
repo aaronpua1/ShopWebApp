@@ -187,38 +187,38 @@ app.get('/test-metafields', function(req, res) {
             }
         }
         data.push(temp);
-    }
+    }*/
     var data = [{
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su1",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
     },  {
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su2",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
     },  {
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su3",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
     },  {
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su4",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
     },  {
         metafield: {
-            namespace: "simple_upsells_offers",
+            namespace: "suo",
             key: "su5",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
@@ -227,7 +227,7 @@ app.get('/test-metafields', function(req, res) {
     for (var i = 0; i < data.length; i++) {
         data[i] = JSON.stringify(data[i]);
     }
-    var requests = [];
+    /*var requests = [];
     for (var i = 0; i < data.length; i++) {
         req_body = JSON.stringify(data[i]);
         var temp = {
@@ -253,7 +253,7 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    });
+    });*/
     var requests = [{
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -315,26 +315,12 @@ app.get('/test-metafields', function(req, res) {
             console.log(results);
             res.redirect('/');
         }
-    });*/
-    var data = {
-        /*metafield: {
+    });
+    /*var data = {
+        metafield: {
             namespace: "suo",
             key: "su1",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }*/
-        metafield: {
-            namespace: "suo",
-            key: "su2",
-            value: {
-                offer_id: "offerID",
-                offer_name: "offerName",
-                offer_title: "offerTitle",
-                offer_description: "offerDescription",
-                upsell_products: "upsellProducts",
-                products: "products",
-                offer_type: "offerType"
-            },
             value_type: "string"
         }
     }
@@ -358,7 +344,7 @@ app.get('/test-metafields', function(req, res) {
             return res.json(500);
         } 
         res.json(201);
-    });
+    });*/
 })
 
 // Renders the install/login form
