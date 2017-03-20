@@ -301,9 +301,6 @@ app.get('/test-metafields', function(req, res) {
                 var body = JSON.parse(body);
                 callback(null, body);
             }
-            else {
-                callback(err || resp.statusCode);
-            }
         });
     },  
     function(err, results) {
