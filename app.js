@@ -193,35 +193,35 @@ app.get('/test-metafields', function(req, res) {
             namespace: "simple_upsells_offers",
             key: "su1",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: string
+            value_type: "string"
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su2",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: string
+            value_type: "string"
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su3",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: string
+            value_type: "string"
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su4",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: string
+            value_type: "string"
         }
     },  {
         metafield: {
             namespace: "simple_upsells_offers",
             key: "su5",
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: string
+            value_type: "string"
         }
     }];
     for (var i = 0; i < data.length; i++) {
