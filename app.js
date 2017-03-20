@@ -309,7 +309,7 @@ app.get('/test-metafields', function(req, res) {
     function(err, results) {
         if (err) {
             console.log(err);
-            return res.json(500);
+            return res.json(JSON.parse(err));
         } 
         else {            
             console.log(results);
