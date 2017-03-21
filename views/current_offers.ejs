@@ -126,9 +126,6 @@ box-shadow:none !important;
 
 <script type="text/javascript">
 ShopifyApp.ready(function() {
-    $('#datatable').dataTable();    
-    $("[data-toggle=tooltip]").tooltip();
-    
     $('.delete').click(function() {
         ShopifyApp.Modal.confirm({
             title: "Delete offer?",
@@ -147,12 +144,12 @@ ShopifyApp.ready(function() {
     });
 });
 
-/*$(document).ready(function() {
+$(document).ready(function() {
     $('#datatable').dataTable();
     
-     $("[data-toggle=tooltip]").tooltip();
+    $("[data-toggle=tooltip]").tooltip();
     
-} );*/
+});
 </script>
 </body>
 </html>
