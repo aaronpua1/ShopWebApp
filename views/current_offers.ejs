@@ -38,7 +38,8 @@
                         data: "id=" + id,
                         success: function(data){
                             ShopifyApp.flashNotice("Offer Deleted Successfully");
-                            $('#' + id).closest('tr').remove();
+                            //$('#' + id).closest('tr').remove();
+                            table.row($('#' + id).parents('tr')).remove().draw();
                         },
                         error: function() {
                             ShopifyApp.flashError("Warning: Offer Deletion Failed");
@@ -47,7 +48,7 @@
                 }
             });
         });
-        $('#datatable').dataTable();
+        var table = $('#datatable').dataTable();
         $("[data-toggle=tooltip]").tooltip(); 
     });
   </script>
