@@ -126,6 +126,9 @@ box-shadow:none !important;
 
 <script type="text/javascript">
 ShopifyApp.ready(function() {
+    ShopifyApp.window().$('#datatable').dataTable();    
+    ShopifyApp.window().$("[data-toggle=tooltip]").tooltip();    
+    
     ShopifyApp.window().$('.delete').click(function() {
         var id = this.id.toString();
         ShopifyApp.Modal.confirm({
@@ -136,24 +139,7 @@ ShopifyApp.ready(function() {
             style: "danger"
         }, 
         function(result) {
-            if (result) {
-                $.ajax({
-                    url:'/delete-offer,
-                    type:'GET',
-                    data: { id: id },
-                    contentType: 'application/JSON',
-                    dataType: 'json',
-                    success:function(data){
-                        ShopifyApp.window().$('#' + id).closest('tr').remove();
-                        return false;
-                    },
-                    error: function(data){
-                        return false;
-                    }
-                }).done(function(data) {
-                    console.log(data);
-                });
-            }
+
         });
     });
     
@@ -162,10 +148,10 @@ ShopifyApp.ready(function() {
     });
 });
 
-$(document).ready(function() {
+/*$(document).ready(function() {
     $('#datatable').dataTable();    
     $("[data-toggle=tooltip]").tooltip();    
-});
+});*/
 </script>
 </body>
 </html>
