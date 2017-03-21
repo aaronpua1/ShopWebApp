@@ -595,10 +595,10 @@ app.post('/create-offer', function(req, res) {
 })
 
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
-app.post('/delete-offer', function(req, res) {
+app.get('/delete-offer', function(req, res) {
     request({
         method: "DELETE",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.body.id + '.json',
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token,
             'Content-type': 'application/json; charset=utf-8'
@@ -609,9 +609,9 @@ app.post('/delete-offer', function(req, res) {
         console.log(body);
         body = JSON.parse(body);
         if (body.errs) {
-            return res.json(500);
+            return res.json(404);
         } 
-        res.json(201);
+        res.json(200);
     });
 })
 
