@@ -180,7 +180,7 @@ app.get('/test-metafields', function(req, res) {
     for (var i = 1; i < 10; i++) {
         var temp = {
             metafield: {
-                namespace: "simple_upsells_offers",
+                namespace: "suo",
                 key: "su" + i.toString(),
                 value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
                 value_type: "string"
@@ -376,11 +376,11 @@ app.get('/', function(req, res) {
 })
 
 // This is to render the current-offers page that shows all active offers created by store owner 
-// This page should display a table from the data retrieved from store metafields Namespace: simple_upsells_offers 
+// This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
 app.get('/current-offers', function(req, res) {
     request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=simple_upsells_offers',
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
@@ -388,11 +388,21 @@ app.get('/current-offers', function(req, res) {
         if(err)
             return next(err);
         body = JSON.parse(body);
+        
+        var metafields = [];
+        for (var i = 0; i < body.metafields.length; i++) {
+            var temp = parse_values(body.metafields[i].value);
+            temp.id = body.metafields[i].id;
+            metafields.push(temp);
+        }
+        
+        var values = JSON.parse(JSON.stringify(metafields));
+        
         res.render('current_offers', {
             title: 'Current Offers', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
-            current_offers: body.metafields
+            current_offers: values,
         });
     })
     /*res.render('current_offers', {
@@ -463,7 +473,7 @@ app.post('/create-offer', function(req, res) {
     async.waterfall([
         function(callback) {
             request.get({
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=simple_upsells_offers' + '&key=' + req.body.offer_name,
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
@@ -523,7 +533,7 @@ app.post('/create-offer', function(req, res) {
             else {
                 var data1 = {
                     metafield: {
-                        namespace: simple_upsells_offers,
+                        namespace: suo,
                         key: req.body.offer_name,
                         value: {
                             offer_id: 0,
@@ -609,13 +619,13 @@ app.post('/create-offer', function(req, res) {
     });
 })*/
 
-// This is used to post form data from the create-offer page to the store metafields Namespace: simple_upsells_offers 
+// This is used to post form data from the create-offer page to the store metafields Namespace: suo 
 // I will be using a product-list array contained within a json object
 // Might need logic to check if key/value of existing is being edited
 // if page has offer already has metafield id do put else do post*
 app.post('/create-offer', function(req, res) {
     request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=simple_upsells_offers' + '&key=' + req.body.offer_name,
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
@@ -666,7 +676,7 @@ app.post('/create-offer', function(req, res) {
         else {
             var data = {
                 metafield: {
-                    namespace: simple_upsells_offers,
+                    namespace: suo,
                     key: req.body.offer_name,
                     value: {
                         offer_name: req.body.offer_name,
@@ -704,7 +714,7 @@ app.post('/create-offer', function(req, res) {
     });
 })
 
-// This is used to allow store owners to delete their offers from the store metafields Namespace: simple_upsells_offers
+// This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.post('/delete-offer', function(req, res) {
     request({
         method: "DELETE",
@@ -915,7 +925,16 @@ function verifyRequest(req, res, next) {
     } else {
         return res.json(400);
     }
+}
 
+function parse_values(values) {
+    var result = {};
+    var pairs = values.split(";");
+    for (var i = 0; i < pairs.length; i++) {
+        var temp = pairs[i].split(":");
+        result.temp[0] = temp[1];
+    }
+    return result;
 }
 
 // catch 404 and forward to err handler
