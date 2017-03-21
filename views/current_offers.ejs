@@ -54,20 +54,30 @@
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
-
-            $.ajax({
-                type: 'GET',
-                url: '/delete-offer',
-                data: "id=" + id,
-                success: function(callback)
-                {
-                    table.row( $button.parents('tr') ).remove().draw();
-                    ShopifyApp.flashNotice("Offer Deleted Successfully");
-                },
-                error: function(status)
-                {
-                    console.log(status);
-                    ShopifyApp.flashError("Warning: Offer Deletion Failed");
+            ShopifyApp.Modal.confirm({
+                title: "Delete offer?",
+                message: "Do you want to delete this offer?",
+                okButton: "Yes, delete this offer",
+                cancelButton: "No, keep this offer",
+                style: "danger"
+            }, 
+            function(result) {
+                if (result) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/delete-offer',
+                        data: "id=" + id,
+                        success: function(callback)
+                        {
+                            table.row( $button.parents('tr') ).remove().draw();
+                            ShopifyApp.flashNotice("Offer Deleted Successfully");
+                        },
+                        error: function(status)
+                        {
+                            console.log(status);
+                            ShopifyApp.flashError("Warning: Offer Deletion Failed");
+                        }
+                    })
                 }
             });
         });
