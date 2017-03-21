@@ -51,7 +51,7 @@
             });
         });*/
         
-        $(document).on('click', '[id^="delete-product-"]', function() {
+        $('#datatable tbody').on('click', '[id^="delete-product-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
 
