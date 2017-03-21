@@ -126,7 +126,7 @@ box-shadow:none !important;
 
 <script type="text/javascript">
 ShopifyApp.ready(function() {
-    $('.delete').click(function() {
+    ShopifyApp.window().$('.delete').click(function() {
         var id = this.id.toString();
         ShopifyApp.Modal.confirm({
             title: "Delete offer?",
@@ -144,7 +144,7 @@ ShopifyApp.ready(function() {
                     contentType: 'application/JSON',
                     dataType: 'json',
                     success:function(data){
-                        ShopifyApp.Modal.window().$('#' + id).closest('tr').remove();
+                        ShopifyApp.window().$('#' + id).closest('tr').remove();
                         return false;
                     },
                     error: function(data){
@@ -157,7 +157,7 @@ ShopifyApp.ready(function() {
         });
     });
     
-    $('.edit').click(function() {
+    ShopifyApp.window().$('.edit').click(function() {
 
     });
 });
