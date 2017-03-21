@@ -60,10 +60,10 @@
                   <td><%= current_offers.metafields[i].upsell_products %></td>
                   <td><%= current_offers.metafields[i].products %></td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id=<%= current_offers.metafields[i].id %> value=<%= current_offers.metafields[i].id %>><span class="glyphicon glyphicon-pencil"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" data-target="#edit" data-title="Edit" data-toggle="modal" id=<%= current_offers.metafields[i].id %> value=<%= current_offers.metafields[i].id %>><span class="glyphicon glyphicon-pencil"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id=<%= current_offers.metafields[i].id %> value=<%= current_offers.metafields[i].id %>><span class="glyphicon glyphicon-trash"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" data-target="#delete" data-title="Delete" data-toggle="modal" id=<%= current_offers.metafields[i].id %> value=<%= current_offers.metafields[i].id %>><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
                 </tr>
             <% } %>
@@ -89,7 +89,6 @@ iframe
 {
     height:700px !important;
 }
-
 .btn {
 display: inline-block;
 padding: 6px 12px !important;
@@ -111,7 +110,6 @@ background-image: none;
 border: 1px solid transparent;
 border-radius: 4px;
 }
-
 .btn-primary {
 color: #fff !important;
 background: #428bca !important;
@@ -124,7 +122,6 @@ background: #d9534f !important;
 border-color: #d9534f !important;
 box-shadow:none !important;
 }
-
 </style>
 
 <script type="text/javascript">
