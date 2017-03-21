@@ -176,7 +176,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    /*var data = [];
+    var data = [];
     for (var i = 1; i < 10; i++) {
         var temp = {
             metafield: {
@@ -186,9 +186,24 @@ app.get('/test-metafields', function(req, res) {
                 value_type: "string"
             }
         }
-        data.push(temp);
-    }*/
-    var data = [{
+        data.push(JSON.stringify(temp));
+    }
+    
+    var requests = [];
+    for (var i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        var temp = {
+            method: "POST",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token,
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            body: data[i]
+        }
+        requests.push(temp);
+    }
+    /*var data = [{
         metafield: {
             namespace: "suo",
             key: "su1",
@@ -223,25 +238,8 @@ app.get('/test-metafields', function(req, res) {
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
-    }];
-    for (var i = 0; i < data.length; i++) {
-        data[i] = JSON.stringify(data[i]);
-    }
-    /*var requests = [];
-    for (var i = 0; i < data.length; i++) {
-        req_body = JSON.stringify(data[i]);
-        var temp = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: req_body
-        }
-        requests.push(temp);
-    }
-    data.forEach(function(element) {
+    }];*/
+    /*data.forEach(function(element) {
         req_body = JSON.stringify(element);
         var temp = {
             method: "POST",
@@ -253,7 +251,7 @@ app.get('/test-metafields', function(req, res) {
             body: req_body
         }
         requests.push(temp);
-    });*/
+    });
     var requests = [{
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -294,7 +292,7 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[4]
-    }];
+    }];*/
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 201) {
@@ -399,11 +397,11 @@ app.get('/current-offers', function(req, res) {
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
         }
-        //console.log(metafields);
+
         var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
-        values = JSON.parse(JSON.stringify(values));
-        
+        values = JSON.parse(JSON.stringify(values));        
         console.log(values);
+        
         res.render('current_offers', {
             title: 'Current Offers', 
             api_key: config.oauth.api_key,
@@ -411,12 +409,6 @@ app.get('/current-offers', function(req, res) {
             current_offers: values
         });
     })
-    /*res.render('current_offers', {
-        title: 'Current Offers', 
-        api_key: config.oauth.api_key,
-        shop: req.session.shop,
-        //current_offers: body.metafields
-    });*/
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
