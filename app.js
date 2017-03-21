@@ -176,88 +176,8 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    /*
-    var data = [{
-        metafield: {
-            namespace: "suo",
-            key: "su1",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    },  {
-        metafield: {
-            namespace: "suo",
-            key: "su2",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    },  {
-        metafield: {
-            namespace: "suo",
-            key: "su3",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    },  {
-        metafield: {
-            namespace: "suo",
-            key: "su4",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    },  {
-        metafield: {
-            namespace: "suo",
-            key: "su5",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    }];
-
-    var requests = [{
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: data[0]
-    },  {
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: data[1]
-    },  {
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: data[2]
-    },  {
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: data[3]
-    },  {
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: data[4]
-    }];*/
-    
     var requests = [];
-    for (var i = 1; i < 10; i++) {
+    for (var i = 1; i <= 20; i++) {
         var data = {
             metafield: {
                 namespace: "suo",
