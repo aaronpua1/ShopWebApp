@@ -135,24 +135,7 @@ ShopifyApp.ready(function() {
             style: "danger"
         }, 
         function(result) {
-            if (result) {
-                $.ajax({
-                    url:'/delete-offer,
-                    type:'GET',
-                    data: { id: this.id },
-                    contentType: 'application/JSON',
-                    dataType: 'json',
-                    success:function(data){
-                        $('#' + this.id.toString()).closest('tr').remove();
-                        return false;
-                    },
-                    error: function(data){
-                        return false;
-                    }
-                }).done(function(data) {
-                    console.log(data);
-                });
-            }
+            console.log(result);
         });
     });
     
