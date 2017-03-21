@@ -384,9 +384,13 @@ app.get('/current-offers', function(req, res) {
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
-    }, function(err, resp, body){
-        if(err)
-            return next(err);
+    }, 
+    function(err, resp, body){
+        if(err) {
+            console.log(err);
+            return res.json(JSON.parse(err));
+        }
+
         body = JSON.parse(body);
         
         var metafields = [];
@@ -395,14 +399,14 @@ app.get('/current-offers', function(req, res) {
             temp.id = body.metafields[i].id;
             metafields.push(temp);
         }
-        
+        console.log(metafields);
         var values = JSON.parse(JSON.stringify(metafields));
-        
+        console.log(values);
         res.render('current_offers', {
             title: 'Current Offers', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
-            current_offers: values,
+            current_offers: values
         });
     })
     /*res.render('current_offers', {
