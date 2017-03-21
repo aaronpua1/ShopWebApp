@@ -21,6 +21,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
+        var table = $('#datatable').dataTable();
         $('.delete').on('click', function(e){
             var id = this.id.toString();
             ShopifyApp.Modal.confirm({
@@ -37,9 +38,10 @@
                         type: 'GET',
                         data: "id=" + id,
                         success: function(data){
-                            ShopifyApp.flashNotice("Offer Deleted Successfully");
-                            //$('#' + id).closest('tr').remove();
                             table.row($('#' + id).parents('tr')).remove().draw();
+                            table.fixedHeader.adjust();
+                            ShopifyApp.flashNotice("Offer Deleted Successfully");
+                            //$('#' + id).closest('tr').remove();                            
                         },
                         error: function() {
                             ShopifyApp.flashError("Warning: Offer Deletion Failed");
@@ -48,7 +50,7 @@
                 }
             });
         });
-        var table = $('#datatable').dataTable();
+        //$('#datatable').dataTable();
         $("[data-toggle=tooltip]").tooltip(); 
     });
   </script>
