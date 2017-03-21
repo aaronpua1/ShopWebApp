@@ -932,7 +932,7 @@ function parse_values(values) {
     var pairs = values.split(";");
     for (var i = 0; i < pairs.length; i++) {
         var temp = pairs[i].split(":");
-        result.temp[0] = temp[1];
+        result[temp[0]] = temp[1];
     }
     return result;
 }
