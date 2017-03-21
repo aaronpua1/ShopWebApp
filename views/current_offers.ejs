@@ -126,8 +126,8 @@ box-shadow:none !important;
 
 <script type="text/javascript">
 ShopifyApp.ready(function() {
-    ShopifyApp.window().$('#datatable').dataTable();    
-    ShopifyApp.window().$("[data-toggle=tooltip]").tooltip();    
+    //ShopifyApp.window().$('#datatable').dataTable();    
+    //ShopifyApp.window().$("[data-toggle=tooltip]").tooltip();    
     
     ShopifyApp.window().$('.delete').click(function() {
         var id = this.id.toString();
@@ -148,10 +148,10 @@ ShopifyApp.ready(function() {
     });
 });
 
-/*$(document).ready(function() {
+$(document).ready(function() {
     $('#datatable').dataTable();    
     $("[data-toggle=tooltip]").tooltip();    
-});*/
+});
 </script>
 </body>
 </html>
