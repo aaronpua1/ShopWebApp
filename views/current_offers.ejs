@@ -21,9 +21,6 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        $('#datatable').dataTable();
-        $("[data-toggle=tooltip]").tooltip(); 
-        
         $('.delete').on('click', function(e){
             var id = this.id.toString();
             ShopifyApp.Modal.confirm({
@@ -50,6 +47,8 @@
                 }
             });
         });
+        $('#datatable').dataTable();
+        $("[data-toggle=tooltip]").tooltip(); 
     });
   </script>
   <div class="container">
