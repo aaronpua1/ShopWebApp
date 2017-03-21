@@ -399,11 +399,11 @@ app.get('/current-offers', function(req, res) {
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
         }
-
+        //console.log(metafields);
         var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
         values = JSON.parse(JSON.stringify(values));
-        console.log(values);
         
+        console.log(values);
         res.render('current_offers', {
             title: 'Current Offers', 
             api_key: config.oauth.api_key,
@@ -411,6 +411,12 @@ app.get('/current-offers', function(req, res) {
             current_offers: values
         });
     })
+    /*res.render('current_offers', {
+        title: 'Current Offers', 
+        api_key: config.oauth.api_key,
+        shop: req.session.shop,
+        //current_offers: body.metafields
+    });*/
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
@@ -981,34 +987,25 @@ https://www.w3schools.com/js/tryit.asp?filename=tryjs_json_parse
 <!DOCTYPE html>
 <html>
 <body>
-
 <h2>Create Object from JSON String</h2>
-
 <p id="demo"></p>
-
 <script>
 var text = '{"employees":[' +
 '{"firstName":"John","lastName":"Doe" },' +
 '{"firstName":"Anna","lastName":"Smith" },' +
 '{"firstName":"Peter","lastName":"Jones" }]}';
-
 var text1 = '{"products":[{"id":"8861586760","title":"food"}]}';
 var text2 = '{"custom_collections":[{"id":"419695560","title":"drink"}]}';
-
 var obj = [];
 obj.push(JSON.parse(text1));
 obj.push(JSON.parse(text2));
-
 //obj = JSON.parse(text);
 document.getElementById("demo").innerHTML = obj[0].products[0].title;
-
 if(obj[0].hasOwnProperty('products')){
     document.getElementById("demo").innerHTML = obj[0].products[0].title;
 }
-
 //obj.employees[1].firstName + " " + obj.employees[1].lastName;
 </script>
-
 </body>
 </html>
 */
