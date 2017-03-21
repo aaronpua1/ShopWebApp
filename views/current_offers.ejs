@@ -21,7 +21,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        var table = $('#datatable').dataTable();
+        var table = $('#datatable').dataTable().api();
         /*$('.delete').on('click', function(e){
             var id = this.id.toString();
             ShopifyApp.Modal.confirm({
@@ -61,7 +61,7 @@
                 data: "id=" + id,
                 success: function(callback)
                 {
-                    table.row( $button.closest('tr') ).remove().draw();
+                    table.row( $button.parents('tr') ).remove().draw();
                     ShopifyApp.flashNotice("Offer Deleted Successfully");
                 },
                 error: function(status)
