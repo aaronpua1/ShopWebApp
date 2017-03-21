@@ -21,11 +21,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        var table = $('#datatable').dataTable({
-            "columnDefs": [{
-                "className": "dt-center", "targets": "_all"
-            }]
-        }).api();
+        var table = $('#datatable').dataTable().api();
         
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);
@@ -214,7 +210,6 @@ box-shadow:none !important;
     left: 20px;
 }
 
-th.dt-center, td.dt-center { text-align: center; }
 </style>
 </body>
 </html>
