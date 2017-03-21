@@ -176,47 +176,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    //var data = [];
-    var requests = [];
-    for (var i = 1; i < 10; i++) {
-        var data = {
-            metafield: {
-                namespace: "suo",
-                key: "su" + i.toString(),
-                value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-                value_type: "string"
-            }
-        };
-        
-        data = JSON.stringify(data);
-        
-        var temp_request = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: data
-        };
-        
-        requests.push(temp_request);
-    }
-    
-    /*var requests = [];
-    for (var i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        var temp = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: data[i]
-        }
-        requests.push(temp);
-    }
+    /*
     var data = [{
         metafield: {
             namespace: "suo",
@@ -252,20 +212,8 @@ app.get('/test-metafields', function(req, res) {
             value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
             value_type: "string"
         }
-    }];*/
-    /*data.forEach(function(element) {
-        req_body = JSON.stringify(element);
-        var temp = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: req_body
-        }
-        requests.push(temp);
-    });
+    }];
+
     var requests = [{
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -307,6 +255,35 @@ app.get('/test-metafields', function(req, res) {
         },
         body: data[4]
     }];*/
+    
+    var requests = [];
+    for (var i = 1; i < 10; i++) {
+        var data = {
+            metafield: {
+                namespace: "suo",
+                key: "su" + i.toString(),
+                value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
+                value_type: "string"
+            }
+        }
+        
+        req_body = JSON.stringify(data);
+        
+        var temp_request = {
+            method: "POST",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token,
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            body: req_body
+        }
+        
+        requests.push(temp_request);
+    }
+    
+    requests = JSON.parse(JSON.stringify(requests));
+    
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 201) {
@@ -328,35 +305,6 @@ app.get('/test-metafields', function(req, res) {
             res.redirect('/');
         }
     });
-    /*var data = {
-        metafield: {
-            namespace: "suo",
-            key: "su1",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    }
-    req_body = JSON.stringify(data);
-    console.log(data);
-    console.log(req_body);
-    request({
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: req_body
-    }, function(err, resp, body){
-        if(err)
-            return next(err);
-        console.log(body);
-        body = JSON.parse(body);
-        if (body.errs) {
-            return res.json(500);
-        } 
-        res.json(201);
-    });*/
 })
 
 // Renders the install/login form
@@ -413,7 +361,7 @@ app.get('/current-offers', function(req, res) {
         }
 
         var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
-        values = JSON.parse(JSON.stringify(values));        
+        values = JSON.parse(JSON.stringify(values));
         console.log(values);
         
         res.render('current_offers', {
