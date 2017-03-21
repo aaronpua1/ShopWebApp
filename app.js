@@ -395,12 +395,14 @@ app.get('/current-offers', function(req, res) {
         
         var metafields = [];
         for (var i = 0; i < body.metafields.length; i++) {
-            var temp = { parse_values(body.metafields[i].value) };
-            temp.id = body.metafields[i].id;
+            var temp = body.metafields[i].value + ";id:" + body.metafields[i].id.toString();
+            temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
         }
         //console.log(metafields);
-        var values = JSON.parse(JSON.stringify(metafields));
+        var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
+        values = JSON.parse(JSON.stringify(values));
+        
         console.log(values);
         res.render('current_offers', {
             title: 'Current Offers', 
