@@ -21,7 +21,11 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        var table = $('#datatable').dataTable().api();
+        var table = $('#datatable').dataTable({
+            "columnDefs": [{
+                "className": "dt-center", "targets": "_all"
+            }]
+        }).api();
         
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);
@@ -74,6 +78,7 @@
               <th>End Date</th>
               <th>Edit</th>
               <th>Delete</th>
+              <th>Activate</th>
             </tr>
           </thead>
           <tfoot>
@@ -105,7 +110,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Activate"  class="material-switch pull-right"><input id="activate-offer-<%= current_offers.metafields[i].id %>" name="activate" type="checkbox" value="<%= current_offers.metafields[i].id %>"/><label for="activate-offer-<%= current_offers.metafields[i].id %>" class="label-success"></label></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Activate" class="material-switch pull-right"><input id="activate-offer-<%= current_offers.metafields[i].id %>" name="activate" type="checkbox" value="<%= current_offers.metafields[i].id %>"/><label for="activate-offer-<%= current_offers.metafields[i].id %>" class="label-success"></label></p>
                   </td>
                 </tr>
             <% } %>
@@ -208,6 +213,8 @@ box-shadow:none !important;
     background: inherit;
     left: 20px;
 }
+
+th.dt-center, td.dt-center { text-align: center; }
 </style>
 </body>
 </html>
