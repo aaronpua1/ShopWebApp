@@ -354,7 +354,7 @@ app.get('/current-offers', function(req, res) {
         body = JSON.parse(body);
 
         var metafields = [];
-        for (var i = 0; i < body.length; i++) {
+        for (var i = 0; i < body["metafields"].length; i++) {
             var temp = body.metafields[i].value + ";id:" + body.metafields[i].id.toString();
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
