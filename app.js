@@ -176,18 +176,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
 app.get('/test-metafields', function(req, res) {
-    /*var data = [];
-    for (var i = 1; i < 10; i++) {
-        var temp = {
-            metafield: {
-                namespace: "suo",
-                key: "su" + i.toString(),
-                value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-                value_type: "string"
-            }
-        }
-        data.push(temp);
-    }*/
+    /*
     var data = [{
         metafield: {
             namespace: "suo",
@@ -224,36 +213,7 @@ app.get('/test-metafields', function(req, res) {
             value_type: "string"
         }
     }];
-    for (var i = 0; i < data.length; i++) {
-        data[i] = JSON.stringify(data[i]);
-    }
-    /*var requests = [];
-    for (var i = 0; i < data.length; i++) {
-        req_body = JSON.stringify(data[i]);
-        var temp = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: req_body
-        }
-        requests.push(temp);
-    }
-    data.forEach(function(element) {
-        req_body = JSON.stringify(element);
-        var temp = {
-            method: "POST",
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token,
-                'Content-type': 'application/json; charset=utf-8'
-            },
-            body: req_body
-        }
-        requests.push(temp);
-    });*/
+
     var requests = [{
         method: "POST",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -294,7 +254,36 @@ app.get('/test-metafields', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         },
         body: data[4]
-    }];
+    }];*/
+    
+    var requests = [];
+    for (var i = 1; i < 10; i++) {
+        var data = {
+            metafield: {
+                namespace: "suo",
+                key: "su" + i.toString(),
+                value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
+                value_type: "string"
+            }
+        }
+        
+        req_body = JSON.stringify(data);
+        
+        var temp_request = {
+            method: "POST",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token,
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            body: req_body
+        }
+        
+        requests.push(temp_request);
+    }
+    
+    requests = JSON.parse(JSON.stringify(requests));
+    
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 201) {
@@ -311,40 +300,11 @@ app.get('/test-metafields', function(req, res) {
             console.log(err);
             return res.json(JSON.parse(err));
         } 
-        else {            
+        else {
             console.log(results);
             res.redirect('/');
         }
     });
-    /*var data = {
-        metafield: {
-            namespace: "suo",
-            key: "su1",
-            value: "offer_name:offerName;offer_title:offerTitle;offer_description:offerDescription;upsell_products:upsellProducts;products:products;offer_type:offerType",
-            value_type: "string"
-        }
-    }
-    req_body = JSON.stringify(data);
-    console.log(data);
-    console.log(req_body);
-    request({
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: req_body
-    }, function(err, resp, body){
-        if(err)
-            return next(err);
-        console.log(body);
-        body = JSON.parse(body);
-        if (body.errs) {
-            return res.json(500);
-        } 
-        res.json(201);
-    });*/
 })
 
 // Renders the install/login form
@@ -392,18 +352,18 @@ app.get('/current-offers', function(req, res) {
         }
 
         body = JSON.parse(body);
-        
+
         var metafields = [];
-        for (var i = 0; i < body.metafields.length; i++) {
+        for (var i = 0; i < body.length; i++) {
             var temp = body.metafields[i].value + ";id:" + body.metafields[i].id.toString();
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
         }
-        //console.log(metafields);
+
         var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
         values = JSON.parse(JSON.stringify(values));
-        
         console.log(values);
+        
         res.render('current_offers', {
             title: 'Current Offers', 
             api_key: config.oauth.api_key,
@@ -411,12 +371,6 @@ app.get('/current-offers', function(req, res) {
             current_offers: values
         });
     })
-    /*res.render('current_offers', {
-        title: 'Current Offers', 
-        api_key: config.oauth.api_key,
-        shop: req.session.shop,
-        //current_offers: body.metafields
-    });*/
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
@@ -987,25 +941,34 @@ https://www.w3schools.com/js/tryit.asp?filename=tryjs_json_parse
 <!DOCTYPE html>
 <html>
 <body>
+
 <h2>Create Object from JSON String</h2>
+
 <p id="demo"></p>
+
 <script>
 var text = '{"employees":[' +
 '{"firstName":"John","lastName":"Doe" },' +
 '{"firstName":"Anna","lastName":"Smith" },' +
 '{"firstName":"Peter","lastName":"Jones" }]}';
+
 var text1 = '{"products":[{"id":"8861586760","title":"food"}]}';
 var text2 = '{"custom_collections":[{"id":"419695560","title":"drink"}]}';
+
 var obj = [];
 obj.push(JSON.parse(text1));
 obj.push(JSON.parse(text2));
+
 //obj = JSON.parse(text);
 document.getElementById("demo").innerHTML = obj[0].products[0].title;
+
 if(obj[0].hasOwnProperty('products')){
     document.getElementById("demo").innerHTML = obj[0].products[0].title;
 }
+
 //obj.employees[1].firstName + " " + obj.employees[1].lastName;
 </script>
+
 </body>
 </html>
 */
