@@ -22,7 +22,7 @@
   <script type="text/javascript">
     ShopifyApp.ready(function(){
         var table = $('#datatable').dataTable();
-        $('.delete').on('click', function(e){
+        /*$('.delete').on('click', function(e){
             var id = this.id.toString();
             ShopifyApp.Modal.confirm({
                 title: "Delete offer?",
@@ -47,6 +47,27 @@
                             ShopifyApp.flashError("Warning: Offer Deletion Failed");
                         }
                     })
+                }
+            });
+        });*/
+        
+        $(document).on('click', '[id^="delete-product-"]', function() {
+            var $button = $(this);
+            var id = this.id.split('-').pop();
+
+            $.ajax({
+                type: 'GET',
+                url: '/delete-offer',
+                data: "id=" + id,
+                success: function(callback)
+                {
+                    table.row( $button.parents('tr') ).remove().draw();
+                    ShopifyApp.flashNotice("Offer Deleted Successfully");
+                },
+                error: function(status)
+                {
+                    console.log(status);
+                    ShopifyApp.flashError("Warning: Offer Deletion Failed");
                 }
             });
         });
@@ -98,7 +119,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-product-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
                 </tr>
             <% } %>
