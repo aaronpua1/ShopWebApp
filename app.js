@@ -274,16 +274,11 @@ app.get('/current-offers', function(req, res) {
         body = JSON.parse(body);
 
         var metafields = [];
-        body.metafields.forEach(function(entry) {
-            var temp = entry.value + ";id:" + entry.id.toString();
-            temp = JSON.parse(JSON.stringify(parse_values(temp)));
-            metafields.push(temp);
-        });
-        /*for (var i = 0; i < body["metafields"].length; i++) {
+        for (var i = 0, len = body.metafields.length; i < len; i++) {
             var temp = body.metafields[i].value + ";id:" + body.metafields[i].id.toString();
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
-        }*/
+        }
 
         var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
         values = JSON.parse(JSON.stringify(values));
