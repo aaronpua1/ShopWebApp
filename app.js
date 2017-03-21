@@ -399,7 +399,7 @@ app.get('/current-offers', function(req, res) {
             temp.id = body.metafields[i].id;
             metafields.push(temp);
         }
-        console.log(metafields);
+        //console.log(metafields);
         var values = JSON.parse(JSON.stringify(metafields));
         console.log(values);
         res.render('current_offers', {
