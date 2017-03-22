@@ -59,6 +59,7 @@
       <hr>
       <h2>Create Your Offer</h2>
       <hr>
+      <form class="form-inline">
       <div class="form-group col-md-12 bg-primary">
         <label class="control-label" for="billinginformation">Step 1: Setup Offer</label>
       </div>
@@ -107,7 +108,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="49%">
+              <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="48%">
                 <option value="none">Filter by custom collection</option>
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
@@ -120,7 +121,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_vendor">Filter by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="49%">
+              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="48%">
                 <option value="none">Filter by vendor</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
@@ -133,7 +134,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_product_type">Filter by product type</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="49%">
+              <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="48%">
                 <option value="none">Filter by product type</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
@@ -195,7 +196,7 @@
           <div class="control-group">
             <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
             <div class="controls">
-              <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="49%">
+              <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="48%">
                 <option value="none">Filter by custom collection</option>
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
@@ -208,7 +209,7 @@
           <div class="control-group">
             <label class="control-label" for="product_vendor">Filter by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="49%"> 
+              <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="48%"> 
                 <option value="none">Filter by vendor</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
@@ -221,7 +222,7 @@
           <div class="control-group">
             <label class="control-label" for="product_type">Filter by product type</label>
             <div class="controls">
-              <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="49%">
+              <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="48%">
                 <option value="none">Filter by product type</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
@@ -278,11 +279,12 @@
           </div>
         </div>
       </div>
+      </form>
     </div>
   </div>
 <style>
 .form-group{
-    margin-bottom: 1px;
+    margin-bottom: 3px;
 }
 
 h2.bg-success{
