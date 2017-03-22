@@ -233,7 +233,7 @@
         <div class="container">
           <br>
           <div class="row">
-            <div class="product-dual-list list-left col-md-5">
+            <div class="dual-list list-left col-md-5">
               <div class="well text-right">
                 <div class="row">
                   <div class="col-md-10">
@@ -259,7 +259,7 @@
             <div class="list-arrows col-md-1 text-center">
               <button class="btn btn-default btn-sm move-left"><span class="glyphicon glyphicon-chevron-left"></span></button> <button class="btn btn-default btn-sm move-right"><span class="glyphicon glyphicon-chevron-right"></span></button>
             </div>
-            <div class="product-dual-list list-right col-md-5">
+            <div class="dual-list list-right col-md-5">
               <div class="well">
                 <div class="row">
                   <div class="col-md-2">
@@ -359,17 +359,7 @@ $(function () {
             actives.remove();
         }
     });
-    $('.upsell-dual-list .selector').click(function () {
-        var $checkBox = $(this);
-        if (!$checkBox.hasClass('selected')) {
-            $checkBox.addClass('selected').closest('.well').find('ul li:not(.active)').addClass('active');
-            $checkBox.children('i').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
-        } else {
-            $checkBox.removeClass('selected').closest('.well').find('ul li.active').removeClass('active');
-            $checkBox.children('i').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-        }
-    });
-    $('.product-dual-list .selector').click(function () {
+    $('.dual-list .selector').click(function () {
         var $checkBox = $(this);
         if (!$checkBox.hasClass('selected')) {
             $checkBox.addClass('selected').closest('.well').find('ul li:not(.active)').addClass('active');
