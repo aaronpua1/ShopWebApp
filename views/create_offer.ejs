@@ -59,226 +59,226 @@
       <hr>
       <h2>Create Your Offer</h2>
       <hr>
-      <form class="form-inline">
-      <div class="form-group col-md-12 bg-primary">
-        <label class="control-label" for="billinginformation">Step 1: Setup Offer</label>
-      </div>
-      <div class="shipping-info">
-        <div class="form-group col-md-6">
-          <div class="control-group">
-            <label class="control-label" for="offer_name">Offer Name</label>
-            <div class="controls">
-              <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text">
-            </div>
+      <form>
+          <div class="form-group col-md-12 bg-primary">
+            <label class="control-label" for="billinginformation">Step 1: Setup Offer</label>
           </div>
-        </div>
-        <div class="form-group col-md-6">
-          <div class="control-group">
-            <label class="control-label" for="offer_title">Offer Title</label>
-            <div class="controls">
-              <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text">
+          <div class="shipping-info">
+            <div class="form-group col-md-6">
+              <div class="control-group">
+                <label class="control-label" for="offer_name">Offer Name</label>
+                <div class="controls">
+                  <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="offer_description">Offer Description</label>
-            <div class="controls">
-              <textarea class="form-control" id="offer_title" name="offer_description" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
+            <div class="form-group col-md-6">
+              <div class="control-group">
+                <label class="control-label" for="offer_title">Offer Title</label>
+                <div class="controls">
+                  <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <hr>
-        <div class="form-group col-md-12 bg-primary">
-          <div class="control-group">
-            <div class="controls">
-              <label class="control-label" for="billinginformation">Step 2: Select product(s) to upsell</label>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="offer_description">Offer Description</label>
+                <div class="controls">
+                  <textarea class="form-control" id="offer_title" name="offer_description" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-6">
-          <div class="control-group">
-            <label class="control-label" for="upsell_title">Filter by product title</label>
-            <div class="controls">
-              <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" required="" type="text">
+            <hr>
+            <div class="form-group col-md-12 bg-primary">
+              <div class="control-group">
+                <div class="controls">
+                  <label class="control-label" for="billinginformation">Step 2: Select product(s) to upsell</label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
-            <div class="controls">
-              <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="48%">
-                <option value="none">Filter by custom collection</option>
-                <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                  <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
-                <% } %>
+            <div class="form-group col-md-6">
+              <div class="control-group">
+                <label class="control-label" for="upsell_title">Filter by product title</label>
+                <div class="controls">
+                  <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" required="" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
+                <div class="controls">
+                  <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="48%">
+                    <option value="none">Filter by custom collection</option>
+                    <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
+                      <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="upsell_vendor">Filter by vendor</label>
+                <div class="controls">
+                  <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="48%">
+                    <option value="none">Filter by vendor</option>
+                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                      <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="upsell_product_type">Filter by product type</label>
+                <div class="controls">
+                  <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="48%">
+                    <option value="none">Filter by product type</option>
+                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                      <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <div class="control-group">
+                <label class="control-label" for="upsell_results">Results per page</label>
+                <div class="controls">
+                  <select class="selectpicker" id="upsell_results" name="upsell_results" style="display: none;"> 
+                    <option value=10>10</option>
+                    <option value=25>25</option>
+                    <option value=50>50</option>
+                    <option value=100>100</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3" selected="selected">Option 3</option>
+                <option value="option4">Option 4</option>
+                <option value="option5">Option 5</option>
+                <option value="option6" selected="selected">Option 6</option>
+                <option value="option7">Option 7</option>
+                <option value="option8">Option 8</option>
+                <option value="option9">Option 9</option>
+                <option value="option0">Option 10</option>
+                <option value="option0">Option 11</option>
+                <option value="option0">Option 12</option>
+                <option value="option0">Option 13</option>
+                <option value="option0">Option 14</option>
+                <option value="option0">Option 15</option>
+                <option value="option0">Option 16</option>
+                <option value="option0">Option 17</option>
+                <option value="option0">Option 18</option>
+                <option value="option0">Option 19</option>
+                <option value="option0">Option 20</option>
               </select>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="upsell_vendor">Filter by vendor</label>
-            <div class="controls">
-              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="48%">
-                <option value="none">Filter by vendor</option>
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
-                <% } %>
-              </select>
+            <hr>
+            <div class="form-group col-md-12 bg-primary">
+              <label class="control-label" for="billinginformation">Step 3: Select Products to Place Offer</label>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="upsell_product_type">Filter by product type</label>
-            <div class="controls">
-              <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="48%">
-                <option value="none">Filter by product type</option>
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
-                <% } %>
-              </select>
+            <div class="form-group col-md-6">
+              <div class="control-group">
+                <label class="control-label" for="product_title">Filter by product title</label>
+                <div class="controls">
+                  <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" required="" type="text">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-3">
-          <div class="control-group">
-            <label class="control-label" for="upsell_results">Results per page</label>
-            <div class="controls">
-              <select class="selectpicker" id="upsell_results" name="upsell_results" style="display: none;"> 
-                <option value=10>10</option>
-                <option value=25>25</option>
-                <option value=50>50</option>
-                <option value=100>100</option>
-              </select>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
+                <div class="controls">
+                  <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="48%">
+                    <option value="none">Filter by custom collection</option>
+                    <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
+                      <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3" selected="selected">Option 3</option>
-            <option value="option4">Option 4</option>
-            <option value="option5">Option 5</option>
-            <option value="option6" selected="selected">Option 6</option>
-            <option value="option7">Option 7</option>
-            <option value="option8">Option 8</option>
-            <option value="option9">Option 9</option>
-            <option value="option0">Option 10</option>
-            <option value="option0">Option 11</option>
-            <option value="option0">Option 12</option>
-            <option value="option0">Option 13</option>
-            <option value="option0">Option 14</option>
-            <option value="option0">Option 15</option>
-            <option value="option0">Option 16</option>
-            <option value="option0">Option 17</option>
-            <option value="option0">Option 18</option>
-            <option value="option0">Option 19</option>
-            <option value="option0">Option 20</option>
-          </select>
-        </div>
-        <hr>
-        <div class="form-group col-md-12 bg-primary">
-          <label class="control-label" for="billinginformation">Step 3: Select Products to Place Offer</label>
-        </div>
-        <div class="form-group col-md-6">
-          <div class="control-group">
-            <label class="control-label" for="product_title">Filter by product title</label>
-            <div class="controls">
-              <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" required="" type="text">
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="product_vendor">Filter by vendor</label>
+                <div class="controls">
+                  <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="48%"> 
+                    <option value="none">Filter by vendor</option>
+                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                      <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
-            <div class="controls">
-              <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="48%">
-                <option value="none">Filter by custom collection</option>
-                <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                  <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
-                <% } %>
-              </select>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <label class="control-label" for="product_type">Filter by product type</label>
+                <div class="controls">
+                  <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="48%">
+                    <option value="none">Filter by product type</option>
+                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                      <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="product_vendor">Filter by vendor</label>
-            <div class="controls">
-              <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="48%"> 
-                <option value="none">Filter by vendor</option>
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
-                <% } %>
-              </select>
+            <div class="form-group col-md-3">
+              <div class="control-group">
+                <label class="control-label" for="product_results">Results per page</label>
+                <div class="controls">
+                  <select class="selectpicker" id="product_results" name="upsell_results" style="display: none;"> 
+                    <option value=10>10</option>
+                    <option value=25>25</option>
+                    <option value=50>50</option>
+                    <option value=100>100</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <div class="control-group">
-            <label class="control-label" for="product_type">Filter by product type</label>
-            <div class="controls">
-              <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="48%">
-                <option value="none">Filter by product type</option>
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
-                <% } %>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-md-3">
-          <div class="control-group">
-            <label class="control-label" for="product_results">Results per page</label>
-            <div class="controls">
-              <select class="selectpicker" id="product_results" name="upsell_results" style="display: none;"> 
-                <option value=10>10</option>
-                <option value=25>25</option>
-                <option value=50>50</option>
-                <option value=100>100</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
-        <div class="form-group col-md-12">
-          <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3" selected="selected">Option 3</option>
-            <option value="option4">Option 4</option>
-            <option value="option5">Option 5</option>
-            <option value="option6" selected="selected">Option 6</option>
-            <option value="option7">Option 7</option>
-            <option value="option8">Option 8</option>
-            <option value="option9">Option 9</option>
-            <option value="option0">Option 10</option>
-            <option value="option0">Option 11</option>
-            <option value="option0">Option 12</option>
-            <option value="option0">Option 13</option>
-            <option value="option0">Option 14</option>
-            <option value="option0">Option 15</option>
-            <option value="option0">Option 16</option>
-            <option value="option0">Option 17</option>
-            <option value="option0">Option 18</option>
-            <option value="option0">Option 19</option>
-            <option value="option0">Option 20</option>
-          </select>
-        </div>
+            <div class="form-group col-md-12">
+              <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3" selected="selected">Option 3</option>
+                <option value="option4">Option 4</option>
+                <option value="option5">Option 5</option>
+                <option value="option6" selected="selected">Option 6</option>
+                <option value="option7">Option 7</option>
+                <option value="option8">Option 8</option>
+                <option value="option9">Option 9</option>
+                <option value="option0">Option 10</option>
+                <option value="option0">Option 11</option>
+                <option value="option0">Option 12</option>
+                <option value="option0">Option 13</option>
+                <option value="option0">Option 14</option>
+                <option value="option0">Option 15</option>
+                <option value="option0">Option 16</option>
+                <option value="option0">Option 17</option>
+                <option value="option0">Option 18</option>
+                <option value="option0">Option 19</option>
+                <option value="option0">Option 20</option>
+              </select>
+            </div>
 
-        <div class="form-group col-md-12">
-          <div class="control-group confirm-btn">
-            <label class="control-label" for="placeorderbtn"></label>
-            <div class="controls">
-              <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
+            <div class="form-group col-md-12">
+              <div class="control-group confirm-btn">
+                <label class="control-label" for="placeorderbtn"></label>
+                <div class="controls">
+                  <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
       </form>
     </div>
   </div>
