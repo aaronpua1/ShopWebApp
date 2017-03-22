@@ -107,7 +107,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_custom_collection">Custom Collection</label>
             <div class="controls">
-              <select class="form-control" id="upsell_custom_collection" name="upsell_custom_collection" placeholder="Select Custom Collection" required="" type="text"> 
+              <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" placeholder="Select Custom Collection" style="display: none;"> 
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
                 <% } %>
@@ -119,7 +119,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_vendor">Search by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" data-header="Select a condiment" style="display: none;"> 
+              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" placeholder="Select Vendor" style="display: none;"> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
                 <% } %>
@@ -131,7 +131,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_product_type">Search by product type</label>
             <div class="controls">
-              <select class="form-control" id="upsell_product_type" name="upsell_product_type" placeholder="Select Vendors" required="" type="text"> 
+              <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" placeholder="Select Product Type" style="display: none;"> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
                 <% } %>
@@ -192,10 +192,10 @@
           <div class="control-group">
             <label class="control-label" for="product_custom_collection">Custom Collection</label>
             <div class="controls">
-              <select class="form-control" id="product_custom_collection" name="product_custom_collection" placeholder="Select Custom Collection" required="" type="text"> 
+              <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" placeholder="Select Custom Collection" style="display: none;"> 
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
-                <% } %>                
+                <% } %>
               </select>
             </div>
           </div>
@@ -204,7 +204,7 @@
           <div class="control-group">
             <label class="control-label" for="product_vendor">Search by vendor</label>
             <div class="controls">
-              <select class="form-control" id="product_vendor" name="product_vendor" placeholder="Select Vendors" required="" type="text"> 
+              <select class="selectpicker" id="product_vendor" name="product_vendor" placeholder="Select Vendors" style="display: none;"> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
                 <% } %>
@@ -216,7 +216,7 @@
           <div class="control-group">
             <label class="control-label" for="product_type">Search by product type</label>
             <div class="controls">
-              <select class="form-control" id="product_type" name="product_type" placeholder="Select Vendors" required="" type="text"> 
+              <select class="selectpicker" id="product_type" name="product_type" placeholder="Select Product Type" required="" type="text"> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
                 <% } %>
