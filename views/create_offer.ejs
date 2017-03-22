@@ -63,57 +63,56 @@
       <h2>Create Your Offer</h2>
       <hr>
       <form>
-          <div class="shipping-info">
-                    <div class="form-group col-md-12 bg-primary">
-            <div class="control-group">
-              <div class="controls">
-                <p class="control-label" for="form-steps">Step 1: Setup Offer</p>
+        <div class="form-group col-md-12 bg-primary">
+          <div class="control-group">
+            <div class="controls">
+              <p class="control-label">Step 1: Setup Offer</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-body">
+            <div class="form-group col-md-12 offer-input-groups">
+              <div class="control-group">
+                <label class="control-label" for="offer_name">Offer Name</label>
+                <div class="controls">
+                  <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 48%;" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 offer-input-groups">
+              <div class="control-group">
+                <label class="control-label" for="offer_title">Offer Title</label>
+                <div class="controls">
+                  <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 48%;" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 offer-input-groups">
+              <div class="control-group">
+                <label class="control-label" for="offer_description">Offer Description</label>
+                <div class="controls">
+                  <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 48%;">Briefly describe what your offer means and how it works</textarea>
+                </div>
               </div>
             </div>
           </div>
-            <div class = "panel panel-success">
-              <div class = "panel-body">
-                <div class="form-group col-md-12 offer-input-groups">
-                  <div class="control-group">
-                    <label class="control-label" for="offer_name">Offer Name</label>
-                    <div class="controls">
-                      <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text" style="width: 48%;">
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col-md-12 offer-input-groups">
-                  <div class="control-group">
-                    <label class="control-label" for="offer_title">Offer Title</label>
-                    <div class="controls">
-                      <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text" style="width: 48%;">
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col-md-12 offer-input-groups">
-                  <div class="control-group">
-                    <label class="control-label" for="offer_description">Offer Description</label>
-                    <div class="controls">
-                      <textarea class="form-control" id="offer_description" name="offer_description" required="" type="text" rows="10" cols="65" style="width: 48%;">Briefly describe what your offer means and how it works</textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        </div>
+        <hr>
+        <div class="form-group col-md-12 bg-primary">
+          <div class="control-group">
+            <div class="controls">
+              <p class="control-label">Step 2: Select product(s) to upsell</p>
             </div>
-            <hr>
-            <div class="form-group col-md-12 bg-primary">
-              <div class="control-group">
-                <div class="controls">
-                  <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell</p>
-                </div>
-              </div>
-            </div>
-            <div class = "panel panel-success">
-            <div class = "panel-body">
+          </div>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-body">
             <div class="form-group col-md-12 offer-input-groups">
               <div class="control-group">
                 <label class="control-label" for="upsell_title">Filter by product title</label>
                 <div class="controls">
-                  <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" type="text" style="width: 48%;">
+                  <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" style="width: 48%;" type="text">
                 </div>
               </div>
             </div>
@@ -121,11 +120,13 @@
               <div class="control-group">
                 <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
                 <div class="controls">
-                  <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="48%">
-                    <option value="none">Filter by custom collection</option>
-                    <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                      <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;">
+                    <option value="none">
+                      Filter by custom collection
+                    </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
+                    <option value="<%= collection_selections.custom_collections[i].title %>">
+                      <%= collection_selections.custom_collections[i].title %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
@@ -134,11 +135,13 @@
               <div class="control-group">
                 <label class="control-label" for="upsell_vendor">Filter by vendor</label>
                 <div class="controls">
-                  <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="48%">
-                    <option value="none">Filter by vendor</option>
-                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                      <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="upsell_vendor" name="upsell_vendor" style="display: none;">
+                    <option value="none">
+                      Filter by vendor
+                    </option><%for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="<%= product_selections.products[i].vendor %>">
+                      <%= product_selections.products[i].vendor %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
@@ -147,59 +150,102 @@
               <div class="control-group">
                 <label class="control-label" for="upsell_product_type">Filter by product type</label>
                 <div class="controls">
-                  <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="48%">
-                    <option value="none">Filter by product type</option>
-                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                      <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="upsell_product_type" name="upsell_product_type" style="display: none;">
+                    <option value="none">
+                      Filter by product type
+                    </option><%for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="<%= product_selections.products[i].product_type %>">
+                      <%= product_selections.products[i].product_type %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="{'handle':'<%= product_selections.products[i].handle %>','id':'<%= product_selections.products[i].id %>'}"><%= product_selections.products[i].title %></option>
-                <% } %>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3" selected="selected">Option 3</option>
-                <option value="option4">Option 4</option>
-                <option value="option5">Option 5</option>
-                <option value="option6" selected="selected">Option 6</option>
-                <option value="option7">Option 7</option>
-                <option value="option8">Option 8</option>
-                <option value="option9">Option 9</option>
-                <option value="option0">Option 10</option>
-                <option value="option0">Option 11</option>
-                <option value="option0">Option 12</option>
-                <option value="option0">Option 13</option>
-                <option value="option0">Option 14</option>
-                <option value="option0">Option 15</option>
-                <option value="option0">Option 16</option>
-                <option value="option0">Option 17</option>
-                <option value="option0">Option 18</option>
-                <option value="option0">Option 19</option>
-                <option value="option0">Option 20</option>
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell-dual-box" size="10">
+                <%for(var i = 0; i < product_selections.products.length; i++) { %>
+                <option value="{'handle':'&lt;%= product_selections.products[i].handle %&gt;','id':'&lt;%= product_selections.products[i].id %&gt;'}">
+                  <%= product_selections.products[i].title %>
+                </option><%} %>
+                <option value="option1">
+                  Option 1
+                </option>
+                <option value="option2">
+                  Option 2
+                </option>
+                <option selected="selected" value="option3">
+                  Option 3
+                </option>
+                <option value="option4">
+                  Option 4
+                </option>
+                <option value="option5">
+                  Option 5
+                </option>
+                <option selected="selected" value="option6">
+                  Option 6
+                </option>
+                <option value="option7">
+                  Option 7
+                </option>
+                <option value="option8">
+                  Option 8
+                </option>
+                <option value="option9">
+                  Option 9
+                </option>
+                <option value="option0">
+                  Option 10
+                </option>
+                <option value="option0">
+                  Option 11
+                </option>
+                <option value="option0">
+                  Option 12
+                </option>
+                <option value="option0">
+                  Option 13
+                </option>
+                <option value="option0">
+                  Option 14
+                </option>
+                <option value="option0">
+                  Option 15
+                </option>
+                <option value="option0">
+                  Option 16
+                </option>
+                <option value="option0">
+                  Option 17
+                </option>
+                <option value="option0">
+                  Option 18
+                </option>
+                <option value="option0">
+                  Option 19
+                </option>
+                <option value="option0">
+                  Option 20
+                </option>
               </select>
             </div>
+          </div>
+        </div>
+        <hr>
+        <div class="form-group col-md-12 bg-primary">
+          <div class="control-group">
+            <div class="controls">
+              <p class="control-label">Step 3: Select Products to Place Offer</p>
             </div>
-            </div>
-            <hr>
-            <div class="form-group col-md-12 bg-primary">
-                          <div class="control-group">
-                <div class="controls">
-              <p class="control-label" for="form-steps">Step 3: Select Products to Place Offer</p>
-              </div>
-              </div>
-            </div>
-            <div class = "panel panel-success">
-            <div class = "panel-body">
+          </div>
+        </div>
+        <div class="panel panel-success">
+          <div class="panel-body">
             <div class="form-group col-md-12 offer-input-groups">
               <div class="control-group">
                 <label class="control-label" for="product_title">Filter by product title</label>
                 <div class="controls">
-                  <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" type="text" style="width: 48%;">
+                  <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" style="width: 48%;" type="text">
                 </div>
               </div>
             </div>
@@ -207,11 +253,13 @@
               <div class="control-group">
                 <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
                 <div class="controls">
-                  <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="48%">
-                    <option value="none">Filter by custom collection</option>
-                    <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                      <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="product_custom_collection" name="product_custom_collection" style="display: none;">
+                    <option value="none">
+                      Filter by custom collection
+                    </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
+                    <option value="<%= collection_selections.custom_collections[i].title %>">
+                      <%= collection_selections.custom_collections[i].title %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
@@ -220,11 +268,13 @@
               <div class="control-group">
                 <label class="control-label" for="product_vendor">Filter by vendor</label>
                 <div class="controls">
-                  <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="48%"> 
-                    <option value="none">Filter by vendor</option>
-                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                      <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="product_vendor" name="product_vendor" style="display: none;">
+                    <option value="none">
+                      Filter by vendor
+                    </option><%for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="<%= product_selections.products[i].vendor %>">
+                      <%= product_selections.products[i].vendor %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
@@ -233,53 +283,95 @@
               <div class="control-group">
                 <label class="control-label" for="product_type">Filter by product type</label>
                 <div class="controls">
-                  <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="48%">
-                    <option value="none">Filter by product type</option>
-                    <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                      <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
-                    <% } %>
+                  <select class="selectpicker" data-width="48%" id="product_type" name="product_type" style="display: none;">
+                    <option value="none">
+                      Filter by product type
+                    </option><%for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="<%= product_selections.products[i].product_type %>">
+                      <%= product_selections.products[i].product_type %>
+                    </option><%} %>
                   </select>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
-                <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="{'handle':'<%= product_selections.products[i].handle %>','id':'<%= product_selections.products[i].id %>'}"><%= product_selections.products[i].title %></option>
-                <% } %>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3" selected="selected">Option 3</option>
-                <option value="option4">Option 4</option>
-                <option value="option5">Option 5</option>
-                <option value="option6" selected="selected">Option 6</option>
-                <option value="option7">Option 7</option>
-                <option value="option8">Option 8</option>
-                <option value="option9">Option 9</option>
-                <option value="option0">Option 10</option>
-                <option value="option0">Option 11</option>
-                <option value="option0">Option 12</option>
-                <option value="option0">Option 13</option>
-                <option value="option0">Option 14</option>
-                <option value="option0">Option 15</option>
-                <option value="option0">Option 16</option>
-                <option value="option0">Option 17</option>
-                <option value="option0">Option 18</option>
-                <option value="option0">Option 19</option>
-                <option value="option0">Option 20</option>
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product-dual-box" size="10">
+                <%for(var i = 0; i < product_selections.products.length; i++) { %>
+                <option value="{'handle':'&lt;%= product_selections.products[i].handle %&gt;','id':'&lt;%= product_selections.products[i].id %&gt;'}">
+                  <%= product_selections.products[i].title %>
+                </option><%} %>
+                <option value="option1">
+                  Option 1
+                </option>
+                <option value="option2">
+                  Option 2
+                </option>
+                <option selected="selected" value="option3">
+                  Option 3
+                </option>
+                <option value="option4">
+                  Option 4
+                </option>
+                <option value="option5">
+                  Option 5
+                </option>
+                <option selected="selected" value="option6">
+                  Option 6
+                </option>
+                <option value="option7">
+                  Option 7
+                </option>
+                <option value="option8">
+                  Option 8
+                </option>
+                <option value="option9">
+                  Option 9
+                </option>
+                <option value="option0">
+                  Option 10
+                </option>
+                <option value="option0">
+                  Option 11
+                </option>
+                <option value="option0">
+                  Option 12
+                </option>
+                <option value="option0">
+                  Option 13
+                </option>
+                <option value="option0">
+                  Option 14
+                </option>
+                <option value="option0">
+                  Option 15
+                </option>
+                <option value="option0">
+                  Option 16
+                </option>
+                <option value="option0">
+                  Option 17
+                </option>
+                <option value="option0">
+                  Option 18
+                </option>
+                <option value="option0">
+                  Option 19
+                </option>
+                <option value="option0">
+                  Option 20
+                </option>
               </select>
             </div>
-            </div>
-            </div>
-            <div class="form-group col-md-12">
-              <div class="control-group confirm-btn">
-                <label class="control-label" for="placeorderbtn"></label>
-                <div class="controls">
-                  <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
-                </div>
-              </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <div class="control-group confirm-btn">
+            <label class="control-label" for="placeorderbtn"></label>
+            <div class="controls">
+              <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
             </div>
           </div>
+        </div>
       </form>
     </div>
   </div>
@@ -323,19 +415,6 @@ label{
     margin-bottom: 0px;
 }
 
-.form-control{
-  display: block;
-  width: 100%; /* THIS */
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555; /* THIS */
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc; /* THIS */
-  border-radius: 4px; /* THIS */
-}
 </style>
 </body>
 </body>
