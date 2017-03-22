@@ -32,12 +32,14 @@
   <script type="text/javascript">
     ShopifyApp.ready(function(){
         $(".dual-box").bootstrapDualListbox({
-            nonselectedlistlabel: 'Non-selected',
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
             infoText: false,
-            selectedlistlabel: 'Selected',
-            preserveselectiononmove: 'moved',
-            moveonselect: true,
-            selectminimalheight: 100
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            selectorMinimalHeight: 100
         });
         /*$("#upsell-dual-box").bootstrapDualListbox({
             nonselectedlistlabel: 'Non-selected',
