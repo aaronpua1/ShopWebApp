@@ -159,7 +159,7 @@
             <div class="form-group col-md-12">
               <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="<%= product_selections.products[i].handle %>:<%= product_selections.products[i].id %>"><%= product_selections.products[i].title %></option>
+                  <option value="{'handle':'<%= product_selections.products[i].handle %>','id':'<%= product_selections.products[i].id %>'}"><%= product_selections.products[i].title %></option>
                 <% } %>
                 <option value="option1">Option 1</option>
                 <option value="option2">Option 2</option>
@@ -251,7 +251,7 @@
             <div class="form-group col-md-12">
               <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="<%= product_selections.products[i].handle %>:<%= product_selections.products[i].id %>"><%= product_selections.products[i].title %></option>
+                  <option value="{'handle':'<%= product_selections.products[i].handle %>','id':'<%= product_selections.products[i].id %>'}"><%= product_selections.products[i].title %></option>
                 <% } %>
                 <option value="option1">Option 1</option>
                 <option value="option2">Option 2</option>
