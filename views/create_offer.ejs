@@ -107,7 +107,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="50%">
+              <select class="selectpicker form-control" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;" data-width="45%">
                 <option value="none">Filter by custom collection</option>
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
@@ -120,7 +120,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_vendor">Filter by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="50%">
+              <select class="selectpicker form-control" id="upsell_vendor" name="upsell_vendor" style="display: none;" data-width="45%">
                 <option value="none">Filter by vendor</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
@@ -133,7 +133,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_product_type">Filter by product type</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="50%">
+              <select class="selectpicker form-control" id="upsell_product_type" name="upsell_product_type" style="display: none;" data-width="45%">
                 <option value="none">Filter by product type</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
@@ -146,7 +146,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_results">Results per page</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_results" name="upsell_results" style="display: none;"> 
+              <select class="selectpicker form-control" id="upsell_results" name="upsell_results" style="display: none;"> 
                 <option value=10>10</option>
                 <option value=25>25</option>
                 <option value=50>50</option>
@@ -195,7 +195,7 @@
           <div class="control-group">
             <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
             <div class="controls">
-              <select class="selectpicker" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="50%">
+              <select class="selectpicker form-control" id="product_custom_collection" name="product_custom_collection" style="display: none;" data-width="45%">
                 <option value="none">Filter by custom collection</option>
                 <% for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
                   <option value=<%= collection_selections.custom_collections[i].title %>><%= collection_selections.custom_collections[i].title %></option>
@@ -208,7 +208,7 @@
           <div class="control-group">
             <label class="control-label" for="product_vendor">Filter by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="product_vendor" name="product_vendor" style="display: none;" data-width="50%"> 
+              <select class="selectpicker form-control" id="product_vendor" name="product_vendor" style="display: none;" data-width="45%"> 
                 <option value="none">Filter by vendor</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
@@ -221,7 +221,7 @@
           <div class="control-group">
             <label class="control-label" for="product_type">Filter by product type</label>
             <div class="controls">
-              <select class="selectpicker" id="product_type" name="product_type" style="display: none;" data-width="50%">
+              <select class="selectpicker form-control" id="product_type" name="product_type" style="display: none;" data-width="45%">
                 <option value="none">Filter by product type</option>
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].product_type %>><%= product_selections.products[i].product_type %></option>
@@ -234,7 +234,7 @@
           <div class="control-group">
             <label class="control-label" for="product_results">Results per page</label>
             <div class="controls">
-              <select class="selectpicker" id="product_results" name="upsell_results" style="display: none;"> 
+              <select class="selectpicker form-control" id="product_results" name="upsell_results" style="display: none;"> 
                 <option value=10>10</option>
                 <option value=25>25</option>
                 <option value=50>50</option>
@@ -285,7 +285,7 @@
     margin-bottom: 3px;
 }
 
-.selectpicker{
+.selectpicker form-control{
     margin-bottom: 3px;
 }
 
