@@ -110,7 +110,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_vendor">Search by vendor</label>
             <div class="controls">
-              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" title="Choose one of the following..."> 
+              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" data-header="Select a condiment" style="display: none;"> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
                 <% } %>
