@@ -9,14 +9,25 @@
 	});
 	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script language="JavaScript" src="https://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js" type="text/javascript">
-      </script>
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="dist/jquery.bootstrap-duallistbox.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">   
+    <link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">    
 	<link rel='stylesheet' href='/stylesheets/foundation.min.css' />
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<title><%= title %></title>
 </head>
 <body>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+        /*$("#product-dual-box").bootstrapDualListbox({
+            // see next for specifications
+        });
+        $("#upsell-dual-box").bootstrapDualListbox({
+            // see next for specifications
+        });*/
+    });
+  </script>
   <div class="container">
     <div class="row">
       <hr>
@@ -115,60 +126,30 @@
             </div>
           </div>
         </div>
-        <div class="container">
-          <br>
-          <div class="row">
-            <div class="upsell-dual-list list-left col-md-5">
-              <div class="well text-right">
-                <div class="row">
-                  <div class="col-md-10">
-                    <div class="input-group">
-                      <span class="input-group-addon glyphicon glyphicon-search"></span> <input class="form-control" name="SearchDualList" placeholder="search" type="text">
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="btn-group">
-                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <li class="list-group-item">bootstrap-duallist <a href="https://github.com/bbilginn/bootstrap-duallist" target="_blank">github</a></li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-              </div>
-            </div>
-            <div class="list-arrows col-md-1 text-center">
-              <button class="btn btn-default btn-sm move-left"><span class="glyphicon glyphicon-chevron-left"></span></button> <button class="btn btn-default btn-sm move-right"><span class="glyphicon glyphicon-chevron-right"></span></button>
-            </div>
-            <div class="upsell-dual-list list-right col-md-5">
-              <div class="well">
-                <div class="row">
-                  <div class="col-md-2">
-                    <div class="btn-group">
-                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="input-group">
-                      <input class="form-control" name="SearchDualList" placeholder="search" type="text"> <span class="input-group-addon glyphicon glyphicon-search"></span>
-                    </div>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <pre class="dual-list">var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();</pre>
+        <form id="demoform" action="#" method="post">
+            <select multiple="multiple" size="10" name="duallistbox_demo1[]">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3" selected="selected">Option 3</option>
+              <option value="option4">Option 4</option>
+              <option value="option5">Option 5</option>
+              <option value="option6" selected="selected">Option 6</option>
+              <option value="option7">Option 7</option>
+              <option value="option8">Option 8</option>
+              <option value="option9">Option 9</option>
+              <option value="option0">Option 10</option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-default btn-block">Submit data</button>
+          </form>
+          <script>
+            var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+            $("#demoform").submit(function() {
+              alert($('[name="duallistbox_demo1[]"]').val());
+              return false;
+            });
+          </script>
         <hr>
         <div class="form-group col-md-12 bg-primary">
           <label class="control-label" for="billinginformation">Step 3: Select Offer Placememt</label>
@@ -230,60 +211,30 @@
             </div>
           </div>
         </div>
-        <div class="container">
-          <br>
-          <div class="row">
-            <div class="dual-list list-left col-md-5">
-              <div class="well text-right">
-                <div class="row">
-                  <div class="col-md-10">
-                    <div class="input-group">
-                      <span class="input-group-addon glyphicon glyphicon-search"></span> <input class="form-control" name="SearchDualList" placeholder="search" type="text">
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="btn-group">
-                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <li class="list-group-item">bootstrap-duallist <a href="https://github.com/bbilginn/bootstrap-duallist" target="_blank">github</a></li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-              </div>
-            </div>
-            <div class="list-arrows col-md-1 text-center">
-              <button class="btn btn-default btn-sm move-left"><span class="glyphicon glyphicon-chevron-left"></span></button> <button class="btn btn-default btn-sm move-right"><span class="glyphicon glyphicon-chevron-right"></span></button>
-            </div>
-            <div class="dual-list list-right col-md-5">
-              <div class="well">
-                <div class="row">
-                  <div class="col-md-2">
-                    <div class="btn-group">
-                      <a class="btn btn-default selector" title="select all"><i class="glyphicon glyphicon-unchecked"></i></a>
-                    </div>
-                  </div>
-                  <div class="col-md-10">
-                    <div class="input-group">
-                      <input class="form-control" name="SearchDualList" placeholder="search" type="text"> <span class="input-group-addon glyphicon glyphicon-search"></span>
-                    </div>
-                  </div>
-                </div>
-                <ul class="list-group">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <pre class="dual-list">var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();</pre>
+        <form id="demoform" action="#" method="post">
+            <select multiple="multiple" size="10" name="duallistbox_demo1[]">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3" selected="selected">Option 3</option>
+              <option value="option4">Option 4</option>
+              <option value="option5">Option 5</option>
+              <option value="option6" selected="selected">Option 6</option>
+              <option value="option7">Option 7</option>
+              <option value="option8">Option 8</option>
+              <option value="option9">Option 9</option>
+              <option value="option0">Option 10</option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-default btn-block">Submit data</button>
+          </form>
+          <script>
+            var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
+            $("#demoform").submit(function() {
+              alert($('[name="duallistbox_demo1[]"]').val());
+              return false;
+            });
+          </script>
         <div class="form-group col-md-12">
           <div class="control-group confirm-btn">
             <label class="control-label" for="placeorderbtn"></label>
@@ -325,64 +276,7 @@ label[for="billinginformation"]{
 label{
     margin-bottom :0px;
 }
-.dual-list .list-group {
-    margin-top: 8px;
-}
-
-.list-left li, .list-right li {
-    cursor: pointer;
-}
-
-.list-arrows {
-    padding-top: 100px;
-}
-
-.list-arrows button {
-    margin-bottom: 20px;
-}
 </style>
-<script>
-$(function () {
-
-    $('body').on('click', '.list-group .list-group-item', function () {
-        $(this).toggleClass('active');
-    });
-    $('.list-arrows button').click(function () {
-        var $button = $(this), actives = '';
-        if ($button.hasClass('move-left')) {
-            actives = $('.list-right ul li.active');
-            actives.clone().appendTo('.list-left ul');
-            actives.remove();
-        } else if ($button.hasClass('move-right')) {
-            actives = $('.list-left ul li.active');
-            actives.clone().appendTo('.list-right ul');
-            actives.remove();
-        }
-    });
-    $('.dual-list .selector').click(function () {
-        var $checkBox = $(this);
-        if (!$checkBox.hasClass('selected')) {
-            $checkBox.addClass('selected').closest('.well').find('ul li:not(.active)').addClass('active');
-            $checkBox.children('i').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
-        } else {
-            $checkBox.removeClass('selected').closest('.well').find('ul li.active').removeClass('active');
-            $checkBox.children('i').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-        }
-    });
-    $('[name="SearchDualList"]').keyup(function (e) {
-        var code = e.keyCode || e.which;
-        if (code == '9') return;
-        if (code == '27') $(this).val(null);
-        var $rows = $(this).closest('.dual-list').find('.list-group li');
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        $rows.show().filter(function () {
-            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-            return !~text.indexOf(val);
-        }).hide();
-    });
-
-});
-</script>
 </body>
 </body>
 </html>
