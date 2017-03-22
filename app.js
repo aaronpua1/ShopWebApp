@@ -295,6 +295,7 @@ app.get('/current-offers', function(req, res) {
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
+// http://bootsnipp.com/snippets/3xv0n
 app.get('/create-offer', function(req, res) {
     var requests = [{
         method: "GET",
