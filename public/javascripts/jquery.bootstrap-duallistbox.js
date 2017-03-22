@@ -364,7 +364,6 @@
         '     <span class="info"></span>' +
         '     <button type="button" class="btn clear1 pull-right"></button>' +
         '   </span>' +
-        '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn moveall">' +
         '       <i></i>' +
@@ -382,7 +381,6 @@
         '     <span class="info"></span>' +
         '     <button type="button" class="btn clear2 pull-right"></button>' +
         '   </span>' +
-        '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn remove">' +
         '       <i></i>' +
