@@ -20,12 +20,20 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        /*$("#product-dual-box").bootstrapDualListbox({
-            // see next for specifications
+        var product = $("#product-dual-box").bootstrapDualListbox({
+            nonselectedlistlabel: 'Non-selected',
+            selectedlistlabel: 'Selected',
+            preserveselectiononmove: 'moved',
+            moveonselect: true,
+            selectminimalheight: 100
         });
-        $("#upsell-dual-box").bootstrapDualListbox({
-            // see next for specifications
-        });*/
+        var upsell = $("#upsell-dual-box").bootstrapDualListbox({
+            nonselectedlistlabel: 'Non-selected',
+            selectedlistlabel: 'Selected',
+            preserveselectiononmove: 'moved',
+            moveonselect: true,
+            selectminimalheight: 100
+        });
     });
   </script>
   <div class="container">
@@ -126,51 +134,33 @@
             </div>
           </div>
         </div>
-        <div class="row">
-    <div class="col-md-5">
-      <pre class="prettyprint lang-js">
-var demo2 = $('.demo2').bootstrapDualListbox({
-  nonSelectedListLabel: 'Non-selected',
-  selectedListLabel: 'Selected',
-  preserveSelectionOnMove: 'moved',
-  moveOnSelect: false,
-  nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
-});</pre>
-    </div>
-    <div class="col-md-7">
-      <select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3" selected="selected">Option 3</option>
-        <option value="option4">Option 4</option>
-        <option value="option5">Option 5</option>
-        <option value="option6" selected="selected">Option 6</option>
-        <option value="option7">Option 7</option>
-        <option value="option8">Option 8</option>
-        <option value="option9">Option 9</option>
-        <option value="option0">Option 10</option>
-        <option value="option0">Option 11</option>
-        <option value="option0">Option 12</option>
-        <option value="option0">Option 13</option>
-        <option value="option0">Option 14</option>
-        <option value="option0">Option 15</option>
-        <option value="option0">Option 16</option>
-        <option value="option0">Option 17</option>
-        <option value="option0">Option 18</option>
-        <option value="option0">Option 19</option>
-        <option value="option0">Option 20</option>
-      </select>
-      <script>
-        var demo2 = $('.demo2').bootstrapDualListbox({
-          nonSelectedListLabel: 'Non-selected',
-          selectedListLabel: 'Selected',
-          preserveSelectionOnMove: 'moved',
-          moveOnSelect: false,
-          nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
-        });
-      </script>
-    </div>
-  </div>
+          <div class="row">
+            <div class="col-md-7">
+              <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3" selected="selected">Option 3</option>
+                <option value="option4">Option 4</option>
+                <option value="option5">Option 5</option>
+                <option value="option6" selected="selected">Option 6</option>
+                <option value="option7">Option 7</option>
+                <option value="option8">Option 8</option>
+                <option value="option9">Option 9</option>
+                <option value="option0">Option 10</option>
+                <option value="option0">Option 11</option>
+                <option value="option0">Option 12</option>
+                <option value="option0">Option 13</option>
+                <option value="option0">Option 14</option>
+                <option value="option0">Option 15</option>
+                <option value="option0">Option 16</option>
+                <option value="option0">Option 17</option>
+                <option value="option0">Option 18</option>
+                <option value="option0">Option 19</option>
+                <option value="option0">Option 20</option>
+              </select>
+            </div>
+          </div>
+        
         <hr>
         <div class="form-group col-md-12 bg-primary">
           <label class="control-label" for="billinginformation">Step 3: Select Offer Placememt</label>
@@ -232,51 +222,32 @@ var demo2 = $('.demo2').bootstrapDualListbox({
             </div>
           </div>
         </div>
-        <div class="row">
-    <div class="col-md-5">
-      <pre class="prettyprint lang-js">
-var demo2 = $('.demo2').bootstrapDualListbox({
-  nonSelectedListLabel: 'Non-selected',
-  selectedListLabel: 'Selected',
-  preserveSelectionOnMove: 'moved',
-  moveOnSelect: false,
-  nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
-});</pre>
-    </div>
-    <div class="col-md-7">
-      <select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3" selected="selected">Option 3</option>
-        <option value="option4">Option 4</option>
-        <option value="option5">Option 5</option>
-        <option value="option6" selected="selected">Option 6</option>
-        <option value="option7">Option 7</option>
-        <option value="option8">Option 8</option>
-        <option value="option9">Option 9</option>
-        <option value="option0">Option 10</option>
-        <option value="option0">Option 11</option>
-        <option value="option0">Option 12</option>
-        <option value="option0">Option 13</option>
-        <option value="option0">Option 14</option>
-        <option value="option0">Option 15</option>
-        <option value="option0">Option 16</option>
-        <option value="option0">Option 17</option>
-        <option value="option0">Option 18</option>
-        <option value="option0">Option 19</option>
-        <option value="option0">Option 20</option>
-      </select>
-      <script>
-        var demo2 = $('.demo2').bootstrapDualListbox({
-          nonSelectedListLabel: 'Non-selected',
-          selectedListLabel: 'Selected',
-          preserveSelectionOnMove: 'moved',
-          moveOnSelect: false,
-          nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
-        });
-      </script>
-    </div>
-  </div>
+          <div class="row">
+            <div class="col-md-7">
+              <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3" selected="selected">Option 3</option>
+                <option value="option4">Option 4</option>
+                <option value="option5">Option 5</option>
+                <option value="option6" selected="selected">Option 6</option>
+                <option value="option7">Option 7</option>
+                <option value="option8">Option 8</option>
+                <option value="option9">Option 9</option>
+                <option value="option0">Option 10</option>
+                <option value="option0">Option 11</option>
+                <option value="option0">Option 12</option>
+                <option value="option0">Option 13</option>
+                <option value="option0">Option 14</option>
+                <option value="option0">Option 15</option>
+                <option value="option0">Option 16</option>
+                <option value="option0">Option 17</option>
+                <option value="option0">Option 18</option>
+                <option value="option0">Option 19</option>
+                <option value="option0">Option 20</option>
+              </select>
+            </div>
+          </div>
         <div class="form-group col-md-12">
           <div class="control-group confirm-btn">
             <label class="control-label" for="placeorderbtn"></label>
