@@ -33,6 +33,10 @@
     ShopifyApp.ready(function(){
         $(".dual-box").bootstrapDualListbox({
             nonselectedlistlabel: 'Non-selected',
+            inforText: false,
+            selectedListLabel: true,
+            nonSelectedListLabel: true,
+            bootstrap2Compatible: true,
             selectedlistlabel: 'Selected',
             preserveselectiononmove: 'moved',
             moveonselect: true,
@@ -96,7 +100,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-5">
               <div class="control-group">
                 <label class="control-label" for="upsell_title">Filter by product title</label>
                 <div class="controls">
@@ -187,7 +191,7 @@
             <div class="form-group col-md-12 bg-primary">
               <label class="control-label" for="billinginformation">Step 3: Select Products to Place Offer</label>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-5">
               <div class="control-group">
                 <label class="control-label" for="product_title">Filter by product title</label>
                 <div class="controls">

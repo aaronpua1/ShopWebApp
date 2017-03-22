@@ -258,6 +258,7 @@ app.get('/', function(req, res) {
 // This is to render the current-offers page that shows all active offers created by store owner 
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
+// https://datatables.net/reference/api/
 app.get('/current-offers', function(req, res) {
     request.get({
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
@@ -296,6 +297,8 @@ app.get('/current-offers', function(req, res) {
 
 // This is to render the create-offer form page to allow users to customize their offers
 // http://bootsnipp.com/snippets/3xv0n
+// https://silviomoreto.github.io/bootstrap-select/
+// http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
 app.get('/create-offer', function(req, res) {
     var requests = [{
         method: "GET",
