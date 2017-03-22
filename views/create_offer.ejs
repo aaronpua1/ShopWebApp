@@ -146,19 +146,6 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-3">
-              <div class="control-group">
-                <label class="control-label" for="upsell_results">Results per page</label>
-                <div class="controls">
-                  <select class="selectpicker" id="upsell_results" name="upsell_results" style="display: none;"> 
-                    <option value=10>10</option>
-                    <option value=25>25</option>
-                    <option value=50>50</option>
-                    <option value=100>100</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <div class="form-group col-md-12">
               <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
@@ -237,20 +224,6 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-3">
-              <div class="control-group">
-                <label class="control-label" for="product_results">Results per page</label>
-                <div class="controls">
-                  <select class="selectpicker" id="product_results" name="upsell_results" style="display: none;"> 
-                    <option value=10>10</option>
-                    <option value=25>25</option>
-                    <option value=50>50</option>
-                    <option value=100>100</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
             <div class="form-group col-md-12">
               <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
@@ -278,7 +251,6 @@
                 <option value="option0">Option 20</option>
               </select>
             </div>
-
             <div class="form-group col-md-12">
               <div class="control-group confirm-btn">
                 <label class="control-label" for="placeorderbtn"></label>
