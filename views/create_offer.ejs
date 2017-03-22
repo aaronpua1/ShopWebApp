@@ -110,7 +110,7 @@
           <div class="control-group">
             <label class="control-label" for="upsell_vendor">Search by vendor</label>
             <div class="controls">
-              <select class="form-control" id="upsell_vendor" name="upsell_vendor" placeholder="Select Vendors" required="" type="text"> 
+              <select class="selectpicker" id="upsell_vendor" name="upsell_vendor" title="Choose one of the following..."> 
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value=<%= product_selections.products[i].vendor %>><%= product_selections.products[i].vendor %></option>
                 <% } %>
