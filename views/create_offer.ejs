@@ -8,8 +8,8 @@
 		shopOrigin: 'https://<%= shop %>.myshopify.com'
 	});
 	</script>
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
     <link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -22,14 +22,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        var product = $("#product-dual-box").bootstrapDualListbox({
-            nonselectedlistlabel: 'Non-selected',
-            selectedlistlabel: 'Selected',
-            preserveselectiononmove: 'moved',
-            moveonselect: true,
-            selectminimalheight: 100
-        });
-        var upsell = $("#upsell-dual-box").bootstrapDualListbox({
+        $(".dual-box").bootstrapDualListbox({
             nonselectedlistlabel: 'Non-selected',
             selectedlistlabel: 'Selected',
             preserveselectiononmove: 'moved',
@@ -138,14 +131,6 @@
         </div>
           <div class="row">
             <div class="col-md-7">
-              <pre class="prettyprint lang-js">
-                var upsell = $("#upsell-dual-box").bootstrapDualListbox({
-                    nonselectedlistlabel: 'Non-selected',
-                    selectedlistlabel: 'Selected',
-                    preserveselectiononmove: 'moved',
-                    moveonselect: true,
-                    selectminimalheight: 100
-                });</pre>
               <select multiple="multiple" size="10" id="upsell-dual-box" name="upsell-dual-box" class="dual-box">
                 <option value="option1">Option 1</option>
                 <option value="option2">Option 2</option>
@@ -234,14 +219,6 @@
         </div>
           <div class="row">
             <div class="col-md-7">
-              <pre class="prettyprint lang-js">
-                var product = $("#product-dual-box").bootstrapDualListbox({
-                    nonselectedlistlabel: 'Non-selected',
-                    selectedlistlabel: 'Selected',
-                    preserveselectiononmove: 'moved',
-                    moveonselect: true,
-                    selectminimalheight: 100
-                });</pre>
               <select multiple="multiple" size="10" id="product-dual-box" name="product-dual-box" class="dual-box">
                 <option value="option1">Option 1</option>
                 <option value="option2">Option 2</option>
