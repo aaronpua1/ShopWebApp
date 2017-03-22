@@ -64,14 +64,14 @@
       <hr>
       <form>
           <div class="form-group col-md-12 bg-primary">
-            <label class="control-label" for="billinginformation">Step 1: Setup Offer</label>
+            <label class="control-label label-primary" for="billinginformation">Step 1: Setup Offer</label>
           </div>
           <div class="shipping-info">
             <div class="form-group col-md-12 offer-input">
               <div class="control-group">
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
-                  <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text" style="width: 48%;">
+                  <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" type="text">
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
               <div class="control-group">
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
-                  <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text" style="width: 48%;">
+                  <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" type="text">
                 </div>
               </div>
             </div>
@@ -87,7 +87,7 @@
               <div class="control-group">
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
-                  <textarea class="form-control" id="offer_title" name="offer_description" required="" type="text" rows="10" cols="65" style="width: 48%;">Briefly describe what your offer means and how it works</textarea>
+                  <textarea class="form-control" id="offer_title" name="offer_description" required="" type="text" rows="10" cols="65">Briefly describe what your offer means and how it works</textarea>
                 </div>
               </div>
             </div>
@@ -103,7 +103,7 @@
               <div class="control-group">
                 <label class="control-label" for="upsell_title">Filter by product title</label>
                 <div class="controls">
-                  <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" type="text" style="width: 48%;">
+                  <input class="form-control" id="upsell_title" name="upsell_title" placeholder="Enter product title" type="text">
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@
               <div class="control-group">
                 <label class="control-label" for="product_title">Filter by product title</label>
                 <div class="controls">
-                  <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" type="text" style="width: 48%;">
+                  <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" type="text">
                 </div>
               </div>
             </div>
@@ -277,6 +277,10 @@ h2.bg-success{
 
 .required-lbl{
     color: red;
+}
+
+.form-control{
+    width: 48%;
 }
 
 label[for="billinginformation"]{
