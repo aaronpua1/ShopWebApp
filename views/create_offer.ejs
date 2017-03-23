@@ -24,6 +24,7 @@
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-*.min.js"></script>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link async href="http://fonts.googleapis.com/css?family=Advent%20Pro" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
 	<title><%= title %></title>
 </head>
 <body>
@@ -39,20 +40,7 @@
             moveOnSelect: true,
             selectorMinimalHeight: 100
         });
-        /*$("#upsell-dual-box").bootstrapDualListbox({
-            nonselectedlistlabel: 'Non-selected',
-            selectedlistlabel: 'Selected',
-            preserveselectiononmove: 'moved',
-            moveonselect: true,
-            selectminimalheight: 100
-        });
-        $("#product-dual-box").bootstrapDualListbox({
-            nonselectedlistlabel: 'Non-selected',
-            selectedlistlabel: 'Selected',
-            preserveselectiononmove: 'moved',
-            moveonselect: true,
-            selectminimalheight: 100
-        });*/
+        
     });
   </script>
   <div class="container">
@@ -376,7 +364,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="placeorderbtn"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
+              <div class="enjoy-css">Submit</div>
             </div>
           </div>
         </div>
@@ -424,7 +412,27 @@ label{
 }
 
 .panel-success{
-    background-color: #fafad2;
+    background-color: #dcdcdc;
+}
+
+.enjoy-css {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 250px;
+  height: 70px;
+  cursor: pointer;
+  margin: 0 auto;
+  border: .5px solid rgb(38, 169, 245);
+  -webkit-border-radius: 40px;
+  border-radius: 35px;
+  font: normal 37px/70px "Domine Font Family", Helvetica, sans-serif;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  letter-spacing: 1px;
+  background: rgb(38, 169, 245);
 }
 </style>
 </body>
