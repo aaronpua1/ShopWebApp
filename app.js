@@ -261,7 +261,7 @@ app.get('/', function(req, res) {
 // https://datatables.net/reference/api/
 app.get('/current-offers', function(req, res) {
     request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
+        url: 'https:/\/\' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
