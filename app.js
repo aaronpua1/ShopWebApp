@@ -276,7 +276,7 @@ app.get('/current-offers', function(req, res) {
         console.log(data);
         
         var metafields = [];
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.metafields.length; i++) {
             var temp = data.metafields[i].value + ";id:" + data.metafields[i].id.toString();
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
@@ -306,13 +306,13 @@ app.get('/create-offer', function(req, res) {
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
-    }/*, {
+    }, {
         method: "GET",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/custom_collections.json?limit=250&fields=id,handle,title',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
-    }*/];
+    }];
     
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
@@ -330,24 +330,24 @@ app.get('/create-offer', function(req, res) {
             return next(err);
         } 
         else {
-            //var result_collections;
-            var result_products = results[0];
+            var result_collections;
+            var result_products;
             
-            /*for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < results.length; i++) {
                 if(results[i].hasOwnProperty('products')){
                     result_products = results[i];
                 }
                 else {
                     result_collections = results[i];
                 }
-            }*/
+            }
             
             console.log(results);
             res.render('create_offer', {
                 title: 'Create Your Offer', 
                 api_key: config.oauth.api_key,
                 shop: req.session.shop,
-                //collection_selections: result_collections,
+                collection_selections: result_collections,
                 product_selections: result_products
             });
         }
