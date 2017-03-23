@@ -360,10 +360,6 @@
         '<div class="bootstrap-duallistbox-container">' +
         ' <div class="box1">' +
         '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear1 pull-right"></button>' +
-        '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn moveall">' +
@@ -378,10 +374,6 @@
         ' </div>' +
         ' <div class="box2">' +
         '   <label></label>' +
-        '   <span class="info-container">' +
-        '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear2 pull-right"></button>' +
-        '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn remove">' +
@@ -408,8 +400,6 @@
         filterClear2: $('.box2 .clear2', this.container),
         label1: $('.box1 > label', this.container),
         label2: $('.box2 > label', this.container),
-        info1: $('.box1 .info', this.container),
-        info2: $('.box2 .info', this.container),
         select1: $('.box1 select', this.container),
         select2: $('.box2 select', this.container),
         moveButton: $('.box1 .move', this.container),
@@ -451,8 +441,6 @@
       this.setShowFilterInputs(this.settings.showFilterInputs);
       this.setNonSelectedFilter(this.settings.nonSelectedFilter);
       this.setSelectedFilter(this.settings.selectedFilter);
-      this.setInfoText(this.settings.infoText);
-      this.setInfoTextFiltered(this.settings.infoTextFiltered);
       this.setInfoTextEmpty(this.settings.infoTextEmpty);
       this.setFilterOnValues(this.settings.filterOnValues);
       this.setSortByInputOrder(this.settings.sortByInputOrder);
@@ -665,27 +653,6 @@
         }
         return this.element;
       }
-    },
-    setInfoText: function(value, refresh) {
-      this.settings.infoText = value;
-      if (refresh) {
-        refreshSelects(this);
-      }
-      return this.element;
-    },
-    setInfoTextFiltered: function(value, refresh) {
-      this.settings.infoTextFiltered = value;
-      if (refresh) {
-        refreshSelects(this);
-      }
-      return this.element;
-    },
-    setInfoTextEmpty: function(value, refresh) {
-      this.settings.infoTextEmpty = value;
-      if (refresh) {
-        refreshSelects(this);
-      }
-      return this.element;
     },
     setFilterOnValues: function(value, refresh) {
       this.settings.filterOnValues = value;
