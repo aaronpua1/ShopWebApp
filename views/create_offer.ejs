@@ -30,7 +30,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        $(".dual-box").bootstrapDualListbox({
+        /*$(".dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -38,9 +38,94 @@
             infoText: false,
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
+            filterOnValues: true,
+            selectorMinimalHeight: 100
+        });*/
+        var upsell-box = $("#upsell-dual-box").bootstrapDualListbox({
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
+            infoText: false,
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterOnValues: true,
             selectorMinimalHeight: 100
         });
         
+        var product-box = $("#product-dual-box").bootstrapDualListbox({
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
+            infoText: false,
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterOnValues: true,
+            selectorMinimalHeight: 100
+        });
+        
+        $( "#btn-upsell-filter" ).click(function( event ) {
+            //"(.*?)title=(.*?)value(.*?),vendor=(.*?),upsell_product_type=(.*?)"
+            var result = "(.*?)";
+            /*if ($("#upsell_custom_collection").val() !== "none") {
+                $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").empty();
+                $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").append(
+                    '<%for(var i = 0; i < product_selections.products.length; i++) { %>' + 
+                        '<option value="id=<%= product_selections.products[i].id %>,handle=<%= product_selections.products[i].handle %>,title=<%= product_selections.products[i].title %>,product_type=<%= product_selections.products[i].product_type %>,vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>'+
+                    '<% } %>'
+                );
+            }*/
+            if ($("#upsell_title").val() !== "") {
+                result += "title=(.*?)" + $("#upsell_title").val() + "(.*?),";
+            }
+            else {
+                result += "title=(.*?),";
+            }
+            if ($("#upsell_vendor").val() !== "none") {
+                result += "vendor=" + $("#upsell_vendor").val() + ",";
+            }
+            else {
+                result += "vendor=(.*?),"
+            }
+            if ($("#upsell_type").val() !== "none") {
+                result += "product_type=" + $("#upsell_type").val();
+            }
+            else {
+                result += "product_type=(.*?)";
+            }
+            upsell-box.setSelectedFilter(result, refresh);
+        });
+
+        $( "#btn-upsell-reset" ).click(function( event ) {
+            product-box.setSelectedFilter("", refresh);
+        });
+        
+        $( "#btn-product-filter" ).click(function( event ) {
+            if ($("#product_title").val() !== "") {
+                result += "title=(.*?)" + $("#product_title").val() + "(.*?),";
+            }
+            else {
+                result += "title=(.*?),";
+            }
+            if ($("#product_vendor").val() !== "none") {
+                result += "vendor=" + $("#product_vendor").val() + ",";
+            }
+            else {
+                result += "vendor=(.*?),"
+            }
+            if ($("#product_type").val() !== "none") {
+                result += "product_type=" + $("#product_type").val();
+            }
+            else {
+                result += "product_type=(.*?)";
+            }
+            product-box.setSelectedFilter(result, refresh);
+        });
+
+        $( "#btn-product-reset" ).click(function( event ) {
+            product-box.setSelectedFilter("", refresh);
+        });
     });
   </script>
   <div class="container">
@@ -138,7 +223,7 @@
               <div class="control-group">
                 <label class="control-label" for="upsell_product_type">Filter by product type</label>
                 <div class="controls">
-                  <select class="selectpicker" data-width="49%" id="upsell_product_type" name="upsell_product_type" style="display: none;">
+                  <select class="selectpicker" data-width="49%" id="upsell_type" name="upsell_type" style="display: none;">
                     <option value="none">
                       Filter by product type
                     </option><%for(var i = 0; i < product_selections.products.length; i++) { %>
@@ -297,7 +382,7 @@
                 <div class="container">
                   <div class="row">
                     <button type="button" id="btn-product-filter" class="btn btn-primary">Filter</button>                    
-                    <button type="button" id="btn-product-filter" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-product-reset" class="btn btn-danger">Reset</button>
                   </div>
                 </div>
               </div>
@@ -364,7 +449,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="placeorderbtn"></label>
             <div class="controls">
-              <div class="enjoy-css">Submit</div>
+              <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
             </div>
           </div>
         </div>
@@ -415,26 +500,7 @@ label{
     background-color: #dcdcdc;
 }
 
-.enjoy-css {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  width: 250px;
-  height: 70px;
-  cursor: pointer;
-  margin: 0 auto;
-  border: .5px solid rgb(38, 169, 245);
-  -webkit-border-radius: 40px;
-  border-radius: 35px;
-  font: normal 37px/70px "Domine Font Family", Helvetica, sans-serif;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  letter-spacing: 1px;
-  background: rgb(38, 169, 245);
-  float:right;
-}
+
 </style>
 </body>
 </body>
