@@ -162,6 +162,16 @@
               </div>
             </div>
             <div class="form-group col-md-12">
+              <div class="control-group">
+                <div class="container">
+                  <div class="row">
+                    <button type="button" id="btn-upsell-filter" class="btn btn-primary">Filter</button>                    
+                    <button type="button" id="btn-upsell-reset" class="btn btn-danger">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell-dual-box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
                 <option value="id=<%= product_selections.products[i].id %>,title=<%= product_selections.products[i].title %>,handle=<%= product_selections.products[i].handle %>,product_type=<%= product_selections.products[i].product_type %>,vendor=<%= product_selections.products[i].vendor %>">
@@ -298,8 +308,8 @@
               <div class="control-group">
                 <div class="container">
                   <div class="row">
-                    <button type="button" id="btnHello" class="btn btn-primary">Filter</button>                    
-                    <button type="button" id="btnReset" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-product-filter" class="btn btn-primary">Filter</button>                    
+                    <button type="button" id="btn-product-filter" class="btn btn-danger">Reset</button>
                   </div>
                 </div>
               </div>
@@ -413,6 +423,9 @@ label{
     margin-bottom: 0px;
 }
 
+.panel-success{
+    background-color: #dcdcdc;
+}
 </style>
 </body>
 </body>
