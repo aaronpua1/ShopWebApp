@@ -94,11 +94,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            $("#upsell-dual-box").bootstrapDualListbox('setSelectedFilter', result, true);
+            $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
 
         $( "#btn-upsell-reset" ).click(function( event ) {
-            $("#upsell-dual-box").bootstrapDualListbox('setSelectedFilter', '', true);
+            $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
         
         $( "#btn-product-filter" ).click(function( event ) {
@@ -120,11 +120,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            $("#product-dual-box").bootstrapDualListbox('setSelectedFilter', result, true);
+            $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
 
         $( "#btn-product-reset" ).click(function( event ) {
-            $("#product-dual-box").bootstrapDualListbox('setSelectedFilter', '', true);
+            $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
     });
   </script>
