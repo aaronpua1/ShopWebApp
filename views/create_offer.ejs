@@ -41,7 +41,19 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        $("#upsell-dual-box").bootstrapDualListbox({
+        var upsell-box = $("#upsell-dual-box").bootstrapDualListbox({
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
+            infoText: false,
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterOnValues: true,
+            selectorMinimalHeight: 100
+        });             
+        
+        var product-box = $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -53,17 +65,8 @@
             selectorMinimalHeight: 100
         });
         
-        $("#product-dual-box").bootstrapDualListbox({
-            nonSelectedListLabel: 'Non-selected',
-            selectedListLabel: 'Selected',
-            moveAllLabel: 'Move all',
-            removeAllLabel: 'Remove all',
-            infoText: false,
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: true,
-            filterOnValues: true,
-            selectorMinimalHeight: 100
-        });
+        upsell-box.bootstrapDualListbox('refresh', true);
+        product-box.bootstrapDualListbox('refresh', true);   
         
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title=(.*?)value(.*?),vendor=(.*?),upsell_product_type=(.*?)"
