@@ -41,7 +41,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        var upsell-box = $("#upsell-dual-box").bootstrapDualListbox({
+        $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -53,7 +53,7 @@
             selectorMinimalHeight: 100
         });
         
-        var product-box = $("#product-dual-box").bootstrapDualListbox({
+        $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -94,11 +94,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            upsell-box.setSelectedFilter(result, refresh);
+            $("#upsell-dual-box").setSelectedFilter(result, refresh);
         });
 
         $( "#btn-upsell-reset" ).click(function( event ) {
-            product-box.setSelectedFilter("", refresh);
+            $("#upsell-dual-box").setSelectedFilter("", refresh);
         });
         
         $( "#btn-product-filter" ).click(function( event ) {
@@ -120,11 +120,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            product-box.setSelectedFilter(result, refresh);
+            $("#product-dual-box").setSelectedFilter(result, refresh);
         });
 
         $( "#btn-product-reset" ).click(function( event ) {
-            product-box.setSelectedFilter("", refresh);
+            $("#product-dual-box").setSelectedFilter("", refresh);
         });
     });
   </script>
