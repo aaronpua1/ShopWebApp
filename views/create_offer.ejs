@@ -41,19 +41,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        var upsell-box = $("#upsell-dual-box").bootstrapDualListbox({
-            nonSelectedListLabel: 'Non-selected',
-            selectedListLabel: 'Selected',
-            moveAllLabel: 'Move all',
-            removeAllLabel: 'Remove all',
-            infoText: false,
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: true,
-            filterOnValues: true,
-            selectorMinimalHeight: 100
-        });             
-        
-        var product-box = $("#product-dual-box").bootstrapDualListbox({
+        $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -65,8 +53,17 @@
             selectorMinimalHeight: 100
         });
         
-        upsell-box.bootstrapDualListbox('refresh', true);
-        product-box.bootstrapDualListbox('refresh', true);   
+        $("#product-dual-box").bootstrapDualListbox({
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
+            infoText: false,
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterOnValues: true,
+            selectorMinimalHeight: 100
+        });  
         
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title=(.*?)value(.*?),vendor=(.*?),upsell_product_type=(.*?)"
@@ -97,11 +94,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            $("#upsell-dual-box").setSelectedFilter(result, true);
+            $("#upsell-dual-box").bootstrapDualListbox('setSelectedFilter', result, true);
         });
 
         $( "#btn-upsell-reset" ).click(function( event ) {
-            $("#upsell-dual-box").setSelectedFilter("", true);
+            $("#upsell-dual-box").bootstrapDualListbox('setSelectedFilter', '', true);
         });
         
         $( "#btn-product-filter" ).click(function( event ) {
@@ -123,11 +120,11 @@
             else {
                 result += "product_type=(.*?)";
             }
-            $("#product-dual-box").setSelectedFilter(result, true);
+            $("#product-dual-box").bootstrapDualListbox('setSelectedFilter', result, true);
         });
 
         $( "#btn-product-reset" ).click(function( event ) {
-            $("#product-dual-box").setSelectedFilter("", true);
+            $("#product-dual-box").bootstrapDualListbox('setSelectedFilter', '', true);
         });
     });
   </script>
