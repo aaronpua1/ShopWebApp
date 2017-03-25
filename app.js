@@ -801,7 +801,7 @@ app.post('/create-offer', function(req, res) {
                     
                     var temp_request = {
                         method: "POST",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id.toString() + '/metafields.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
