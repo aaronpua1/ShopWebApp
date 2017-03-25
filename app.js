@@ -657,7 +657,7 @@ app.post('/create-offer', function(req, res) {
             
             if (metafields.length > 0) {
                 var id = metafields[0].id.toString();
-                var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products;// + ";offer_type:" + req.body.offer_type
+                var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                 var data = {
                     metafield: {
                         id: metafields[0].id,
@@ -691,7 +691,7 @@ app.post('/create-offer', function(req, res) {
                 });
             }
             else {
-                var values1 = "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products;// + ";offer_type:" + req.body.offer_type
+                var values1 = "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                 var data1 = {
                     metafield: {
                         namespace: "suo",
@@ -723,7 +723,7 @@ app.post('/create-offer', function(req, res) {
                     console.log(body1);
                     body = JSON.parse(body1);
                     
-                    var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products;// + ";offer_type:" + req.body.offer_type
+                    var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                     var id = body1.metafield.id.toString();
                     
                     var data2 = {
