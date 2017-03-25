@@ -66,9 +66,10 @@
         });  
         
         $( "#btn-upsell-filter" ).click(function( event ) {
-            //"(.*?)title=(.*?)value(.*?),vendor=(.*?),upsell_product_type=(.*?)"
+            //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
-            /*if ($("#upsell_custom_collection").val() !== "none") {
+            /*
+            if ($("#upsell_custom_collection").val() !== "none") {
                 $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").empty();
                 $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").append(
                     '<%for(var i = 0; i < product_selections.products.length; i++) { %>' + 
@@ -77,22 +78,22 @@
                 );
             }*/
             if ($("#upsell_title").val() !== "") {
-                result += "title=(.*?)" + $("#upsell_title").val() + "(.*?),";
+                result += "title:(.*?)" + $("#upsell_title").val() + "(.*?);";
             }
             else {
-                result += "title=(.*?),";
+                result += "title:(.*?),";
             }
             if ($("#upsell_vendor").val() !== "none") {
-                result += "vendor=" + $("#upsell_vendor").val() + ",";
+                result += "vendor:" + $("#upsell_vendor").val() + ";";
             }
             else {
-                result += "vendor=(.*?),"
+                result += "vendor:(.*?);"
             }
             if ($("#upsell_type").val() !== "none") {
-                result += "product_type=" + $("#upsell_type").val();
+                result += "product_type:" + $("#upsell_type").val();
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type:(.*?)";
             }
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
@@ -103,22 +104,22 @@
         
         $( "#btn-product-filter" ).click(function( event ) {
             if ($("#product_title").val() !== "") {
-                result += "title=(.*?)" + $("#product_title").val() + "(.*?),";
+                result += "title:(.*?)" + $("#product_title").val() + "(.*?);";
             }
             else {
-                result += "title=(.*?),";
+                result += "title:(.*?);";
             }
             if ($("#product_vendor").val() !== "none") {
-                result += "vendor=" + $("#product_vendor").val() + ",";
+                result += "vendor:" + $("#product_vendor").val() + ";";
             }
             else {
-                result += "vendor=(.*?),"
+                result += "vendor:(.*?);"
             }
             if ($("#product_type").val() !== "none") {
-                result += "product_type=" + $("#product_type").val();
+                result += "product_type:" + $("#product_type").val();
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type:(.*?)";
             }
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
@@ -126,6 +127,15 @@
         $( "#btn-product-reset" ).click(function( event ) {
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
+        /*
+        $( "#create-offer" ).click(function( event ) {
+            var name = $('#offer_name').val();
+            var title = $('#offer_title').val();
+            var description = $('#offer_description').val();
+            var upsells = $('#upsell-dual-box').val();
+            var products = $('#product-dual-box').val();
+            //var type = 
+        });*/
     });
   </script>
   <div class="container">
@@ -135,7 +145,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form>
+      <form id="offer-form" method="POST" action="/create-offer">
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
@@ -247,7 +257,7 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell-dual-box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>,title=<%= product_selections.products[i].title %>,handle=<%= product_selections.products[i].handle %>,product_type=<%= product_selections.products[i].product_type %>,vendor=<%= product_selections.products[i].vendor %>">
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
                   <%= product_selections.products[i].title %>
                 </option><% } %>
                 <option value="option1">
@@ -390,7 +400,7 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product-dual-box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>,title=<%= product_selections.products[i].title %>,handle=<%= product_selections.products[i].handle %>,product_type=<%= product_selections.products[i].product_type %>,vendor=<%= product_selections.products[i].vendor %>">
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
                   <%= product_selections.products[i].title %>
                 </option><%} %>
                 <option value="option1">
@@ -447,9 +457,9 @@
         </div>
         <div class="form-group col-md-12">
           <div class="control-group confirm-btn">
-            <label class="control-label" for="placeorderbtn"></label>
+            <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="placeorderbtn" name="placeorderbtn">Create</button>
+              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" form="offer-form" value="Create">Create</button>
             </div>
           </div>
         </div>
