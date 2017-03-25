@@ -621,15 +621,15 @@ app.post('/create-offer', function(req, res) {
             });
         },
         function(metafields, callback) {
-            var upsell-products = "";
+            var upsell_products = "";
             var products = "";
             
             for (var i = 0; i < req.body.upsell_products.length; i++) {
-                upsell-products += req.body.upsell_products[i];
+                upsell_products += req.body.upsell_products[i];
                 if (i == req.body.upsell_products.length - 1) {
                     continue;
                 }
-                upsell-products += ",";
+                upsell_products += ",";
             }
             
             for (var i = 0; i < req.body.products.length; i++) {
@@ -646,7 +646,7 @@ app.post('/create-offer', function(req, res) {
                     metafield: {
                         id: metafields[0].id,
                         value: {
-                            "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell-products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                            "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
                         },
                         value_type: string
                     }
@@ -680,7 +680,7 @@ app.post('/create-offer', function(req, res) {
                         namespace: suo,
                         key: req.body.offer_name,
                         value: {
-                            "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell-products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                            "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
                         },
                         value_type: string
                     }
@@ -712,7 +712,7 @@ app.post('/create-offer', function(req, res) {
                         metafield: {
                             id: body1.metafield.id,
                             value: {
-                                "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell-products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                                "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
                             },
                             value_type: string
                         }
