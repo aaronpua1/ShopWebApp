@@ -644,14 +644,14 @@ app.post('/create-offer', function(req, res) {
                 }
                 products += ",";
             }*/
-            console.log (req.body.upsell_products);
-            console.log (req.body.products);
-            for (var key in req.body.upsell_products) {
+            console.log(req.body.upsell_dual_box);
+            console.log(req.body.product_dual_box);
+            for (var key in req.body.upsell_dual_box) {
                 upsell_products += key;
                 upsell_products += ",";
             }
             upsell_products = upsell_products.replace(/\,$/, '');
-            for (var key in req.body.products) {
+            for (var key in req.body.product_dual_box) {
                 products += key;
                 products += ",";
             }
