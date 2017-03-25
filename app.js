@@ -276,8 +276,13 @@ app.get('/current-offers', function(req, res) {
         console.log(data);
         
         var metafields = [];
-        for (var i = 0; i < data.metafields.length; i++) {
+        /*for (var i = 0; i < data.metafields.length; i++) {
             var temp = data.metafields[i].value + ";id:" + data.metafields[i].id.toString();
+            temp = JSON.parse(JSON.stringify(parse_values(temp)));
+            metafields.push(temp);
+        }*/
+        for (var key in data.metafields) {
+            var temp = key.value + ";id:" + key.id.toString();
             temp = JSON.parse(JSON.stringify(parse_values(temp)));
             metafields.push(temp);
         }
@@ -624,7 +629,7 @@ app.post('/create-offer', function(req, res) {
             var upsell_products = "";
             var products = "";
             
-            for (var i = 0; i < req.body.upsell_products.length; i++) {
+            /*for (var i = 0; i < req.body.upsell_products.length; i++) {
                 upsell_products += req.body.upsell_products[i];
                 if (i == req.body.upsell_products.length - 1) {
                     continue;
@@ -638,7 +643,17 @@ app.post('/create-offer', function(req, res) {
                     continue;
                 }
                 products += ",";
+            }*/
+            for (var key in req.body.upsell_products) {
+                upsell_products += key;
+                upsell_products += ",";
             }
+            upsell_products = upsell_products.replace(/\,$/, '');
+            for (var key in req.body.products) {
+                products += key;
+                products += ",";
+            }
+            products = products.replace(/\,$/, '');
             
             if (metafields.length > 0) {
                 var id = metafields[0].id.toString();
