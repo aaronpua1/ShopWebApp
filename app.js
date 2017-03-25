@@ -646,7 +646,7 @@ app.post('/create-offer', function(req, res) {
                     metafield: {
                         id: metafields[0].id,
                         value: {
-                            "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                            "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                         },
                         value_type: string
                     }
@@ -680,7 +680,7 @@ app.post('/create-offer', function(req, res) {
                         namespace: suo,
                         key: req.body.offer_name,
                         value: {
-                            "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                            "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                         },
                         value_type: string
                     }
@@ -712,7 +712,7 @@ app.post('/create-offer', function(req, res) {
                         metafield: {
                             id: body1.metafield.id,
                             value: {
-                                "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";offer_type:" + req.body.offer_type
+                                "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                             },
                             value_type: string
                         }
