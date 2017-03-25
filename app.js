@@ -756,9 +756,9 @@ app.post('/create-offer', function(req, res) {
         },
         function(callback) {
             var requests = [];
-            var upsell_selections = req.body.upsell-dual-box;
-            var product_selections = req.body.product-dual-box;
-            for (var i = 0; i < product_selections.length; i++) {
+            var upsell_selections = req.body.upsell_dual_box;
+            var product_selections = req.body.product_dual_box;
+            /*for (var i = 0; i < product_selections.length; i++) {
                 var temp_product = JSON.parse(JSON.stringify(parse_values(product_selections[i])));
                 for (var j = 0; j < upsell_selections.length; j++) {
                     var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell_selections[j])));            
@@ -783,8 +783,35 @@ app.post('/create-offer', function(req, res) {
                     }            
                     requests.push(temp_request);
                 }
+            }*/
+            for (var i in product_selections) {
+                var temp_product = JSON.parse(JSON.stringify(parse_values(i)));
+                var count = 1;
+                for (var j in upsell_selections) {
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_values(j)));            
+                    var data = {
+                        metafield: {
+                            namespace: "suop",
+                            key: "su" + count.toString(),
+                            value: temp_upsell.handle,
+                            value_type: "string"
+                        }
+                    }            
+                    req_body = JSON.stringify(data);
+                    
+                    var temp_request = {
+                        method: "POST",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id.toString() + '/metafields.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }            
+                    requests.push(temp_request);
+                    count++;
+                }
             }
-            
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
