@@ -747,12 +747,12 @@ app.post('/create-offer', function(req, res) {
         },
         function(callback) {
             var requests = [];
-            var upsell-selections = req.body.upsell-dual-box;
-            var product-selections = req.body.product-dual-box;
-            for (var i = 0; i < product-selections.length; i++) {
-                var temp_product = JSON.parse(JSON.stringify(parse_values(product-selections[i])));
-                for (var j = 0; j < upsell-selections.length; j++) {
-                    var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell-selections[j])));            
+            var upsell_selections = req.body.upsell-dual-box;
+            var product_selections = req.body.product-dual-box;
+            for (var i = 0; i < product_selections.length; i++) {
+                var temp_product = JSON.parse(JSON.stringify(parse_values(product_selections[i])));
+                for (var j = 0; j < upsell_selections.length; j++) {
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell_selections[j])));            
                     var data = {
                         metafield: {
                             namespace: "suop",
