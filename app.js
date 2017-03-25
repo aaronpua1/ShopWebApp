@@ -644,6 +644,8 @@ app.post('/create-offer', function(req, res) {
                 }
                 products += ",";
             }*/
+            console.log (req.body.upsell_products);
+            console.log (req.body.products);
             for (var key in req.body.upsell_products) {
                 upsell_products += key;
                 upsell_products += ",";
