@@ -816,7 +816,7 @@ app.post('/create-offer', function(req, res) {
             
             async.map(requests, function(obj, callback) {
                 request(obj, function(err, resp, body) {
-                    if (!err && resp.statusCode == 201) {
+                    if (!err) {
                         var body = JSON.parse(body);
                         callback(null, body);
                     }
