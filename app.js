@@ -826,10 +826,11 @@ app.post('/create-offer', function(req, res) {
                 })
             },  
             function(err, results) {
-                if (err) {
+                if(err) { 
                     console.log(err);
-                    return res.json(JSON.parse(err));
-                } 
+                    callback(true); 
+                    return; 
+                }
                 else {
                     console.log(results);
                     results = JSON.parse(results);
