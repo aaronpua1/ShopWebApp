@@ -721,7 +721,7 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }
                     console.log(body1);
-                    body = JSON.parse(body1);
+                    body1 = JSON.parse(body1);
                     
                     var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                     var id = body1.metafield.id.toString();
