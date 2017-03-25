@@ -647,12 +647,12 @@ app.post('/create-offer', function(req, res) {
             console.log(req.body.upsell_dual_box);
             console.log(req.body.product_dual_box);
             for (var key in req.body.upsell_dual_box) {
-                upsell_products += upsell_products[key];
+                upsell_products += req.body.upsell_dual_box[key];
                 upsell_products += ",";
             }
             upsell_products = upsell_products.replace(/\,$/, '');
             for (var key in req.body.product_dual_box) {
-                products += products[key];
+                products += req.body.product_dual_box[key];
                 products += ",";
             }
             products = products.replace(/\,$/, '');
