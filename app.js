@@ -628,7 +628,7 @@ app.post('/create-offer', function(req, res) {
         function(metafields, callback) {
             var upsell_products = "";
             var products = "";
-            /*
+            
             console.log(req.body.upsell_dual_box);
             console.log(req.body.product_dual_box);
             for (var key in req.body.upsell_dual_box) {
@@ -639,7 +639,7 @@ app.post('/create-offer', function(req, res) {
             for (var key in req.body.product_dual_box) {
                 products += req.body.product_dual_box[key];
                 products += ",";
-            }*/
+            }
             products = products.replace(/\,$/, '');
             
             if (metafields.length > 0) {
