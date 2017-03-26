@@ -795,8 +795,8 @@ app.post('/create-offer', function(req, res) {
                     return; 
                 }
                 else {
-                    console.log("POST PRODUCTS METAFIELDS RESPONSE: " + results);
-                    results = JSON.parse(results);
+                    //console.log("POST PRODUCTS METAFIELDS RESPONSE: " + results);
+                    //results = JSON.parse(results);
                     callback(null, 'done');
                 }
             });
