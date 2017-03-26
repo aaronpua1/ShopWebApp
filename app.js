@@ -620,7 +620,7 @@ app.post('/create-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }
-                console.log(body);
+                console.log("GET RESPONSE: " + body);
                 body = JSON.parse(body);
                 callback(null, body.metafields);
             });
@@ -628,22 +628,7 @@ app.post('/create-offer', function(req, res) {
         function(metafields, callback) {
             var upsell_products = "";
             var products = "";
-            
-            /*for (var i = 0; i < req.body.upsell_products.length; i++) {
-                upsell_products += req.body.upsell_products[i];
-                if (i == req.body.upsell_products.length - 1) {
-                    continue;
-                }
-                upsell_products += ",";
-            }
-            
-            for (var i = 0; i < req.body.products.length; i++) {
-                products += req.body.products[i];
-                if (i == req.body.products.length - 1) {
-                    continue;
-                }
-                products += ",";
-            }*/
+            /*
             console.log(req.body.upsell_dual_box);
             console.log(req.body.product_dual_box);
             for (var key in req.body.upsell_dual_box) {
@@ -654,7 +639,7 @@ app.post('/create-offer', function(req, res) {
             for (var key in req.body.product_dual_box) {
                 products += req.body.product_dual_box[key];
                 products += ",";
-            }
+            }*/
             products = products.replace(/\,$/, '');
             
             if (metafields.length > 0) {
@@ -668,8 +653,8 @@ app.post('/create-offer', function(req, res) {
                     }
                 }
                 req_body = JSON.stringify(data);
-                console.log(data);
-                console.log(req_body);
+                //console.log(data);
+                console.log("PUT REQUEST: " + req_body);
                 request({
                     method: "PUT",
                     url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
@@ -685,7 +670,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log(body);
+                    console.log("PUT RESPONSE: " + body);
                     body = JSON.parse(body);
                     callback(null);
                 });
@@ -701,8 +686,8 @@ app.post('/create-offer', function(req, res) {
                     }
                 }
                 req_body = JSON.stringify(data1);
-                console.log(data1);
-                console.log(req_body);
+                //console.log(data1);
+                console.log("POST REQUEST: " + req_body);
                 request({
                     method: "POST",
                     url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
@@ -718,7 +703,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log(body1);
+                    console.log("POST RESPONSE" + body1);
                     body1 = JSON.parse(body1);
                     
                     //var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
@@ -732,8 +717,8 @@ app.post('/create-offer', function(req, res) {
                         }
                     }
                     req_body = JSON.stringify(data2);
-                    console.log(data2);
-                    console.log(req_body);
+                    //console.log(data2);
+                    console.log("PUT REQUEST: " + req_body);
                     request({
                         method: "PUT",
                         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
@@ -749,7 +734,7 @@ app.post('/create-offer', function(req, res) {
                             callback(true); 
                             return; 
                         }
-                        console.log(body2);
+                        console.log("PUT RESPONSE: " + body2);
                         body2 = JSON.parse(body2);
                         callback(null);
                     });
@@ -773,8 +758,9 @@ app.post('/create-offer', function(req, res) {
                             value: temp_upsell.handle,
                             value_type: "string"
                         }
-                    }            
+                    }
                     req_body = JSON.stringify(data);
+                    //console.log("POST REQUEST: "+ req_body);
                     
                     var temp_request = {
                         method: "POST",
@@ -809,7 +795,7 @@ app.post('/create-offer', function(req, res) {
                     return; 
                 }
                 else {
-                    console.log(results);
+                    console.log("POST PRODUCTS METAFIELDS RESPONSE: " + results);
                     results = JSON.parse(results);
                     callback(null, 'done');
                 }
