@@ -888,8 +888,8 @@ function populateStoreMetafield(req, callback) {
             callback(err); 
             return; 
         }    
-        //console.log(result);
-        callback(result);
+        console.log(result);
+        callback(null, result);
     });
 }
 
@@ -970,7 +970,7 @@ function populateProductMetafields(req, callback) {
                     }
                     console.log("PUT RESPONSE: " + body);
                     body = JSON.parse(body);
-                    callback(null);
+                    callback(null , 'done');
                 });
             }
             else {
@@ -1034,7 +1034,7 @@ function populateProductMetafields(req, callback) {
                         }
                         console.log("PUT RESPONSE: " + body2);
                         body2 = JSON.parse(body2);
-                        callback(null);
+                        callback(null, 'done');
                     });
                 });
             }
@@ -1046,8 +1046,8 @@ function populateProductMetafields(req, callback) {
             callback(err); 
             return; 
         }    
-        //console.log(result);
-        callback(result);
+        console.log(result);
+        callback(null, result);
     });
 }
 
