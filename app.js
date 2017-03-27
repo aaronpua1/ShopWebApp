@@ -884,12 +884,12 @@ function populateStoreMetafield(req, callback) {
     },  
     function(err, result) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             callback(err); 
             return; 
         }    
-        console.log(result);
-        callback(null, result);
+        //console.log(result);
+        callback(result.statusCode);
     });
 }
 
@@ -1042,12 +1042,12 @@ function populateProductMetafields(req, callback) {
     ],
     function(err, result) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             callback(err); 
             return; 
         }    
-        console.log(result);
-        callback(null, result);
+        //console.log(result);
+        callback(result.statusCode);
     });
 }
 
