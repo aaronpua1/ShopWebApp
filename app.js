@@ -820,12 +820,225 @@ app.post('/create-offer', function(req, res) {
         }
         res.redirect('/');
     });
-})*/
+})
+*/
 
 app.post('/create-offer', function(req, res) {    
     async.parallel([
-      populateStoreMetafield(req, callback),
-      populateProductMetafields(req, callback)
+        function(callback) {
+            var requests = [];
+            var upsell_selections = req.body.upsell_dual_box;
+            var product_selections = req.body.product_dual_box;
+
+            for (var i in product_selections) {
+                var temp_product = JSON.parse(JSON.stringify(parse_values(product_selections[i])));
+                var count = 1;
+                for (var j in upsell_selections) {
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell_selections[j])));            
+                    var data = {
+                        metafield: {
+                            namespace: "suop",
+                            key: "su" + count.toString(),
+                            value: temp_upsell.handle,
+                            value_type: "string"
+                        }
+                    }
+                    req_body = JSON.stringify(data);
+                    //console.log("POST REQUEST: "+ req_body);
+                    
+                    var temp_request = {
+                        method: "POST",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }
+                    requests.push(temp_request);
+                    count++;
+                }
+            }
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                request(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 201) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log(result);
+                callback();
+            });
+        },
+        function(callback) {
+            async.waterfall([
+                function(callback) {
+                    request.get({
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }, 
+                    function(err,resp,body) {
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log("GET RESPONSE: " + body);
+                        body = JSON.parse(body);
+                        callback(null, body.metafields);
+                    });
+                },
+                function(metafields, callback) {
+                    var upsell_products = "";
+                    var products = "";
+                    
+                    //console.log(req.body.upsell_dual_box);
+                    //console.log(req.body.product_dual_box);
+                    if (Array.isArray(req.body.upsell_dual_box)) {
+                        for (var key in req.body.upsell_dual_box) {
+                            upsell_products += req.body.upsell_dual_box[key];
+                            upsell_products += ",";
+                        }
+                        upsell_products = upsell_products.replace(/\,$/, '');
+                    }
+                    else {
+                        upsell_products = req.body.upsell_dual_box;
+                    }
+                    if (Array.isArray(req.body.product_dual_box)) {
+                        for (var key in req.body.product_dual_box) {
+                            products += req.body.product_dual_box[key];
+                            products += ",";
+                        }
+                        products = products.replace(/\,$/, '');
+                    }
+                    else {
+                        products = req.body.product_dual_box;
+                    }
+                    
+                    if (metafields.length > 0) {
+                        var id = metafields[0].id.toString();
+                        //var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                        var data = {
+                            metafield: {
+                                id: metafields[0].id,
+                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
+                                value_type: "string"
+                            }
+                        }
+                        req_body = JSON.stringify(data);
+                        //console.log(data);
+                        console.log("PUT REQUEST: " + req_body);
+                        request({
+                            method: "PUT",
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token,
+                                'Content-type': 'application/json; charset=utf-8'
+                            },
+                            body: req_body
+                        }, 
+                        function(err, resp, body){
+                            if(err) { 
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log("PUT RESPONSE: " + body);
+                            body = JSON.parse(body);
+                            callback(null , 'done');
+                        });
+                    }
+                    else {
+                        //var values1 = "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                        var data1 = {
+                            metafield: {
+                                namespace: "suo",
+                                key: req.body.offer_name,
+                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
+                                value_type: "string"
+                            }
+                        }
+                        req_body = JSON.stringify(data1);
+                        //console.log(data1);
+                        console.log("POST REQUEST: " + req_body);
+                        request({
+                            method: "POST",
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token,
+                                'Content-type': 'application/json; charset=utf-8'
+                            },
+                            body: req_body
+                        }, 
+                        function(err1, resp1, body1){
+                            if(err1) { 
+                                console.log(err1);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log("POST RESPONSE" + body1);
+                            body1 = JSON.parse(body1);
+                            
+                            //var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                            var id = body1.metafield.id.toString();
+                            
+                            var data2 = {
+                                metafield: {
+                                    id: body1.metafield.id,
+                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
+                                    value_type: "string"
+                                }
+                            }
+                            req_body = JSON.stringify(data2);
+                            //console.log(data2);
+                            console.log("PUT REQUEST: " + req_body);
+                            request({
+                                method: "PUT",
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
+                                headers: {
+                                    'X-Shopify-Access-Token': req.session.access_token,
+                                    'Content-type': 'application/json; charset=utf-8'
+                                },
+                                body: req_body
+                            }, 
+                            function(err2, resp2, body2){
+                                if(err2) { 
+                                    console.log(err2);
+                                    callback(true); 
+                                    return; 
+                                }
+                                console.log("PUT RESPONSE: " + body2);
+                                body2 = JSON.parse(body2);
+                                callback(null, 'done');
+                            });
+                        });
+                    }
+                }
+            ],
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log(result);
+                callback();
+            });
+        }
     ],
     function(err, result) {
         if (err) {
@@ -835,223 +1048,6 @@ app.post('/create-offer', function(req, res) {
         res.redirect('/');
     });
 })
-
-function populateStoreMetafield(req, callback) {
-    var requests = [];
-    var upsell_selections = req.body.upsell_dual_box;
-    var product_selections = req.body.product_dual_box;
-
-    for (var i in product_selections) {
-        var temp_product = JSON.parse(JSON.stringify(parse_values(product_selections[i])));
-        var count = 1;
-        for (var j in upsell_selections) {
-            var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell_selections[j])));            
-            var data = {
-                metafield: {
-                    namespace: "suop",
-                    key: "su" + count.toString(),
-                    value: temp_upsell.handle,
-                    value_type: "string"
-                }
-            }
-            req_body = JSON.stringify(data);
-            //console.log("POST REQUEST: "+ req_body);
-            
-            var temp_request = {
-                method: "POST",
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token,
-                    'Content-type': 'application/json; charset=utf-8'
-                },
-                body: req_body
-            }
-            requests.push(temp_request);
-            count++;
-        }
-    }
-    requests = JSON.parse(JSON.stringify(requests));
-    
-    async.map(requests, function(obj, callback) {
-        request(obj, function(err, resp, body) {
-            if (!err && resp.statusCode == 201) {
-                var body = JSON.parse(body);
-                callback(null, body);
-            }
-            else {
-                callback(err || resp.statusCode);
-            }
-        })
-    },  
-    function(err, result) {
-        if (err) {
-            console.log(err);
-            callback(true); 
-            return; 
-        }    
-        //console.log(result);
-        callback();
-    });
-}
-
-function populateProductMetafields(req, callback) {
-    async.waterfall([
-        function(callback) {
-            request.get({
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token
-                }
-            }, 
-            function(err,resp,body) {
-                if(err) { 
-                    console.log(err);
-                    callback(true); 
-                    return; 
-                }
-                console.log("GET RESPONSE: " + body);
-                body = JSON.parse(body);
-                callback(null, body.metafields);
-            });
-        },
-        function(metafields, callback) {
-            var upsell_products = "";
-            var products = "";
-            
-            //console.log(req.body.upsell_dual_box);
-            //console.log(req.body.product_dual_box);
-            if (Array.isArray(req.body.upsell_dual_box)) {
-                for (var key in req.body.upsell_dual_box) {
-                    upsell_products += req.body.upsell_dual_box[key];
-                    upsell_products += ",";
-                }
-                upsell_products = upsell_products.replace(/\,$/, '');
-            }
-            else {
-                upsell_products = req.body.upsell_dual_box;
-            }
-            if (Array.isArray(req.body.product_dual_box)) {
-                for (var key in req.body.product_dual_box) {
-                    products += req.body.product_dual_box[key];
-                    products += ",";
-                }
-                products = products.replace(/\,$/, '');
-            }
-            else {
-                products = req.body.product_dual_box;
-            }
-            
-            if (metafields.length > 0) {
-                var id = metafields[0].id.toString();
-                //var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
-                var data = {
-                    metafield: {
-                        id: metafields[0].id,
-                        value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
-                        value_type: "string"
-                    }
-                }
-                req_body = JSON.stringify(data);
-                //console.log(data);
-                console.log("PUT REQUEST: " + req_body);
-                request({
-                    method: "PUT",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
-                }, 
-                function(err, resp, body){
-                    if(err) { 
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }
-                    console.log("PUT RESPONSE: " + body);
-                    body = JSON.parse(body);
-                    callback(null , 'done');
-                });
-            }
-            else {
-                //var values1 = "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
-                var data1 = {
-                    metafield: {
-                        namespace: "suo",
-                        key: req.body.offer_name,
-                        value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
-                        value_type: "string"
-                    }
-                }
-                req_body = JSON.stringify(data1);
-                //console.log(data1);
-                console.log("POST REQUEST: " + req_body);
-                request({
-                    method: "POST",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
-                }, 
-                function(err1, resp1, body1){
-                    if(err1) { 
-                        console.log(err1);
-                        callback(true); 
-                        return; 
-                    }
-                    console.log("POST RESPONSE" + body1);
-                    body1 = JSON.parse(body1);
-                    
-                    //var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
-                    var id = body1.metafield.id.toString();
-                    
-                    var data2 = {
-                        metafield: {
-                            id: body1.metafield.id,
-                            value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products,
-                            value_type: "string"
-                        }
-                    }
-                    req_body = JSON.stringify(data2);
-                    //console.log(data2);
-                    console.log("PUT REQUEST: " + req_body);
-                    request({
-                        method: "PUT",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
-                        headers: {
-                            'X-Shopify-Access-Token': req.session.access_token,
-                            'Content-type': 'application/json; charset=utf-8'
-                        },
-                        body: req_body
-                    }, 
-                    function(err2, resp2, body2){
-                        if(err2) { 
-                            console.log(err2);
-                            callback(true); 
-                            return; 
-                        }
-                        console.log("PUT RESPONSE: " + body2);
-                        body2 = JSON.parse(body2);
-                        callback(null, 'done');
-                    });
-                });
-            }
-        }
-    ],
-    function(err, result) {
-        if (err) {
-            console.log(err);
-            callback(true); 
-            return; 
-        }    
-        //console.log(result);
-        callback();
-    });
-}
-
 
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.get('/delete-offer', function(req, res) {
