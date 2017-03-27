@@ -888,7 +888,7 @@ function populateStoreMetafield(req, callback) {
             callback(err); 
             return; 
         }    
-        console.log(result);
+        //console.log(result);
         callback(result);
     });
 }
@@ -1046,7 +1046,7 @@ function populateProductMetafields(req, callback) {
             callback(err); 
             return; 
         }    
-        console.log(result);
+        //console.log(result);
         callback(result);
     });
 }
