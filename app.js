@@ -1407,10 +1407,10 @@ function parse_values(values) {
 
 function parse_products(values) {    
     var result = {products: []};
-    var products = values.split(",");
-    var pairs = values.split("|");
+    var products = values.split(",");   
     
     for (var i = 0; i < products.length; i++) {
+        var pairs = products[i].split("|");
         var temp_product = {};
         for (var j = 0; j < pairs.length; j++) {
             var temp = pairs[j].split("=");
