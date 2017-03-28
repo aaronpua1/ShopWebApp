@@ -54,15 +54,12 @@
                 }
             });
         });
+        
         $(document).on('click', '[id^="edit-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
-
-            $.get('create-offer/id=' + id, function(response) {
-
-            });
+            ShopifyApp.redirect("/create-offer?id" + id);
         });
-        $("[data-toggle=tooltip]").tooltip(); 
     });
   </script>
   <div class="container">
