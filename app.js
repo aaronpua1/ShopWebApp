@@ -1138,6 +1138,7 @@ app.get('/delete-offer', function(req, res) {
                     return; 
                 }    
                 console.log("PRODUCT GET RESPONSE" + JSON.stringify(result));
+                result = JSON.parse(result);
                 callback(null, result);
             });
         },
@@ -1184,7 +1185,7 @@ app.get('/delete-offer', function(req, res) {
                     console.log(err);
                     callback(true); 
                     return; 
-                }    
+                }
                 console.log("DELETE RESPONSE" + JSON.stringify(result));
                 callback(null, 'done');
             });
