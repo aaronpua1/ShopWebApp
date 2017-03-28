@@ -1185,7 +1185,7 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                console.log("DELETE RESPONSE" + result);
+                console.log("DELETE RESPONSE" + JSON.stringify(result));
                 callback(null, 'done');
             });
         }
