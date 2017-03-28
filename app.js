@@ -831,10 +831,10 @@ app.post('/create-offer', function(req, res) {
             var product_selections = req.body.product_dual_box;
 
             for (var i in product_selections) {
-                var temp_product = JSON.parse(JSON.stringify(parse_products(product_selections[i])));
+                var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
                 var count = 1;
                 for (var j in upsell_selections) {
-                    var temp_upsell = JSON.parse(JSON.stringify(parse_products(upsell_selections[j])));            
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));            
                     var data = {
                         metafield: {
                             namespace: "suop",
@@ -1401,6 +1401,17 @@ function parse_values(values) {
     
     for (var i = 0; i < pairs.length; i++) {
         var temp = pairs[i].split(":");
+        result[temp[0]] = temp[1];
+    }
+    return result;
+}
+
+function parse_selections(values) {
+    var result = {};
+    var pairs = values.split("|");
+    
+    for (var i = 0; i < pairs.length; i++) {
+        var temp = pairs[i].split("=");
         result[temp[0]] = temp[1];
     }
     return result;
