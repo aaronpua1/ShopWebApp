@@ -1100,6 +1100,7 @@ app.get('/delete-offer', function(req, res) {
                 
                 var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
                 values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                console.log("PARSE PRODUCTS: " + values);
                 callback(null, values);
             });
         },
