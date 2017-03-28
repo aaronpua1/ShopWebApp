@@ -1138,13 +1138,14 @@ app.get('/delete-offer', function(req, res) {
                     return; 
                 }    
                 console.log("PRODUCT GET RESPONSE" + JSON.stringify(result));
-                result = JSON.parse(result);
+                //result = JSON.parse(result);
                 callback(null, result);
             });
         },
         function(values, callback) {
             var requests = [];
             for (var i in values) {
+                values[i] = JSON.parse(values[i]);
                 for (var j in values[i].metafields) {
                     var temp_request = {
                         method: "DELETE",
