@@ -384,8 +384,8 @@ app.get('/create-offer', function(req, res) {
             store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));                
         }
         
-        console.log(JSON.stringify(result_metafields));
-        
+        //console.log(JSON.stringify(result_metafields));
+        console.log(JSON.stringify(result_values));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
