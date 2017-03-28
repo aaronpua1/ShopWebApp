@@ -1095,8 +1095,9 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }
-                console.log("GET RESPONSE: " + body);
+                console.log("METAFIELD GET RESPONSE: " + body);
                 body = JSON.parse(body);
+                
                 var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
                 values = JSON.parse(JSON.stringify(parse_products(values.products)));
                 callback(null, values);
@@ -1135,7 +1136,7 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                //console.log(result);
+                console.log("PRODUCT GET RESPONSE" + result);
                 callback(null, values, result);
             });
         },
@@ -1183,7 +1184,7 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                //console.log(result);
+                console.log("DELETE RESPONSE" + result);
                 callback(null, 'done');
             });
         }
