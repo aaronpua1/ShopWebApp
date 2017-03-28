@@ -396,7 +396,7 @@ app.get('/create-offer', function(req, res) {
                 store: result_store,
                 store_upsell: store_upsell,
                 store_products: store_products,
-                metafields: result_values.values
+                metafields: result_values
             });
         }
     });

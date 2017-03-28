@@ -65,11 +65,11 @@
             selectorMinimalHeight: 100
         });
         
-        <% if (typeof <%= store %> != 'undefined') { %>
+        <% if(typeof store != "undefined") { %>
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
             $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
           <% } %>
-          <%for(var i = 0; i < store_products.products.length; i++) { %>
+          <% for(var i = 0; i < store_products.products.length; i++) { %>
             $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%= store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
           <% } %>
         <% } %>
@@ -174,7 +174,7 @@
               <div class="control-group">
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
-                  <% if (typeof <%= store %> == 'undefined') { %>
+                  <% if (typeof store == "undefined") { %>
                     <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text">
                   <% } else { %>
                     <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>">
@@ -186,7 +186,7 @@
               <div class="control-group">
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
-                  <% if (typeof <%= store %> == 'undefined') { %>
+                  <% if (typeof store == "undefined") { %>
                     <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text">
                   <% } else { %>
                     <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>">
@@ -198,11 +198,11 @@
               <div class="control-group">
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
-                  <% if (typeof <%= store %> == 'undefined') { %>
+                  <% if (typeof store == "undefined") { %>
                     <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;">Briefly describe what your offer means and how it works</textarea>
                   <% } else { %>
                     <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;"><%= store.offer_description %></textarea>
-                  <% } %>                  
+                  <% } %>
                 </div>
               </div>
             </div>
