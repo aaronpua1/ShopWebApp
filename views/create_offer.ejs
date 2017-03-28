@@ -64,7 +64,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        /*
+        
         <% if(typeof store != "undefined") { %>
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
             $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
@@ -79,7 +79,7 @@
             $("#bootstrap-duallistbox-nonselected-list_product-dual-box option[value='id=<%= metafields[i].products[j].id %>|title=<%= metafields[i].products[j].title %>|handle=<%= metafields[i].products[j].handle %>|product_type=<%= metafields[i].products[j].product_type %>|vendor=<%= metafields[i].products[j].vendor %>']").prop('disabled', true);
           <% } %>
         <% } %>
-        */
+        
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";

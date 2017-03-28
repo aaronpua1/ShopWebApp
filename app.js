@@ -350,55 +350,53 @@ app.get('/create-offer', function(req, res) {
         if (err) {
             return next(err);
         } 
-        else {
-            var result_collections;
-            var result_products;
-            var result_metafields;
-            var result_store;
-            var store_upsell;
-            var store_products;
-            var result_values = {values: []};
-            
-            for (var i = 0; i < results.length; i++) {
-                if (results[i].hasOwnProperty('products')){
-                    result_products = results[i];
-                }
-                else if (results[i].hasOwnProperty('metafields')) {
-                    result_metafields = results[i];
-                }
-                else if (results[i].hasOwnProperty('metafield')) {
-                    result_store = results[i];
-                }
-                else {
-                    result_collections = results[i];
-                }
+        var result_collections;
+        var result_products;
+        var result_metafields;
+        var result_store;
+        var store_upsell;
+        var store_products;
+        var result_values = {values: []};
+        
+        for (var i = 0; i < results.length; i++) {
+            if (results[i].hasOwnProperty('products')){
+                result_products = results[i];
             }
-            
-            for (var i = 0; i < result_metafields.metafields.length; i++) {
-                var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
-                result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+            else if (results[i].hasOwnProperty('metafields')) {
+                result_metafields = results[i];
             }
-            
-            if (result_store) {
-                result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
-                store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
-                store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));                
+            else if (results[i].hasOwnProperty('metafield')) {
+                result_store = results[i];
             }
-            
-            console.log(JSON.stringify(result_metafields));
-            
-            res.render('create_offer', {
-                title: 'Create Your Offer', 
-                api_key: config.oauth.api_key,
-                shop: req.session.shop,
-                collection_selections: result_collections,
-                product_selections: result_products,
-                store: result_store,
-                store_upsell: store_upsell,
-                store_products: store_products,
-                metafields: result_values
-            });
+            else {
+                result_collections = results[i];
+            }
         }
+        
+        for (var i = 0; i < result_metafields.metafields.length; i++) {
+            var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
+            result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+        }
+        
+        if (result_store) {
+            result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
+            store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
+            store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));                
+        }
+        
+        console.log(JSON.stringify(result_metafields));
+        
+        res.render('create_offer', {
+            title: 'Create Your Offer', 
+            api_key: config.oauth.api_key,
+            shop: req.session.shop,
+            collection_selections: result_collections,
+            product_selections: result_products,
+            store: result_store,
+            store_upsell: store_upsell,
+            store_products: store_products,
+            metafields: result_values
+        });        
     });
 })
 /*
