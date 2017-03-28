@@ -325,7 +325,7 @@ app.get('/create-offer', function(req, res) {
         }
     }];
     
-    if (Object.keys(req.query).length !== 0) {
+    if (Object.keys(req.query).length > 0) {
         var temp_request = {
             method: "GET",
             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
