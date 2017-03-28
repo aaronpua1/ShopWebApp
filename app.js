@@ -844,7 +844,7 @@ app.post('/create-offer', function(req, res) {
                         }
                     }
                     req_body = JSON.stringify(data);
-                    //console.log("POST REQUEST: "+ req_body);
+                    console.log("POST REQUEST: "+ req_body);
                     
                     var temp_request = {
                         method: "POST",
