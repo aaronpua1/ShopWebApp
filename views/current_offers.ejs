@@ -58,19 +58,7 @@
         $(document).on('click', '[id^="edit-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
-            $.ajax({
-                type: 'GET',
-                url: '/create-offer',
-                data: "id=" + id,
-                success: function(callback)
-                {
-                  //ShopifyApp.redirect(callback);
-                },
-                error: function(status)
-                {
-
-                }
-            })
+            
         });
     });
   </script>
@@ -117,7 +105,7 @@
                   <td><%= current_offers.metafields[i].upsell_products %></td>
                   <td><%= current_offers.metafields[i].products %></td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
                   </td>
                   <td>
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
