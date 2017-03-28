@@ -58,20 +58,9 @@
             var $button = $(this);
             var id = this.id.split('-').pop();
 
-            $.ajax({
-                type: 'GET',
-                url: '/create-offer',
-                data: "id=" + id,
-                success: function(callback)
-                {
-                    window.location.href = callback.redirect;
-                },
-                error: function(status)
-                {
-                    console.log(status);
-                    ShopifyApp.flashError("Warning: Offer Update Failed");
-                }
-            })
+            $.get('create-offer', function(response) {
+
+            });
         });
         $("[data-toggle=tooltip]").tooltip(); 
     });
