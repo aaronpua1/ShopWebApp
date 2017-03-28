@@ -317,6 +317,7 @@ app.get('/create-offer', function(req, res) {
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
+    }, {
         method: "GET",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value&namespace=suo',
         headers: {
