@@ -839,7 +839,7 @@ app.post('/create-offer', function(req, res) {
                         metafield: {
                             namespace: "suop",
                             key: "su" + count.toString(),
-                            value: temp_upsell.products.handle,
+                            value: temp_upsell.handle,
                             value_type: "string"
                         }
                     }
@@ -848,7 +848,7 @@ app.post('/create-offer', function(req, res) {
                     
                     var temp_request = {
                         method: "POST",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.products.id + '/metafields.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
