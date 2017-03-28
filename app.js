@@ -1100,7 +1100,7 @@ app.get('/delete-offer', function(req, res) {
                 
                 var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
                 values = JSON.parse(JSON.stringify(parse_products(values.products)));
-                console.log("PARSE PRODUCTS: " + values);
+                console.log("PARSE PRODUCTS: " + values.products[0]);
                 callback(null, values);
             });
         },
@@ -1137,7 +1137,7 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                console.log("PRODUCT GET RESPONSE" + result);
+                console.log("PRODUCT GET RESPONSE" + result[0].metafields[0].id);
                 callback(null, values, result);
             });
         },
