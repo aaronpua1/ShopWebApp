@@ -1096,7 +1096,7 @@ app.get('/delete-offer', function(req, res) {
                     return; 
                 }
                 console.log("GET RESPONSE: " + body);
-                //body = JSON.parse(body);
+                body = JSON.parse(body);
                 var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
                 values = JSON.parse(JSON.stringify(parse_products(values.products)));
                 callback(null, values);
