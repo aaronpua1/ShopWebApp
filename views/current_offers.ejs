@@ -58,7 +58,7 @@
         $(document).on('click', '[id^="edit-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
-            ShopifyApp.redirect("/create-offer?id" + id);
+            ShopifyApp.redirect("/create-offer?id=" + id);
         });
     });
   </script>
