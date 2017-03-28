@@ -1100,13 +1100,13 @@ app.get('/delete-offer', function(req, res) {
                 
                 var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
                 values = JSON.parse(JSON.stringify(parse_products(values.products)));
-                console.log("PARSE PRODUCTS: " + values.products[0]);
+                console.log("PARSE PRODUCTS: " + JSON.stringify(values));
                 callback(null, values);
             });
         },
         function(values, callback) { //go thru each product here to get metafield id
             var requests = [];
-            for (var i = 0; i < values.products.length; i++) {
+            for (var i in values.products) {
                 var temp_request = {
                     method: "GET",
                     url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json',
@@ -1137,17 +1137,17 @@ app.get('/delete-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                console.log("PRODUCT GET RESPONSE" + result[0].metafields[0].id);
-                callback(null, values, result);
+                console.log("PRODUCT GET RESPONSE" + JSON.stringify(result));
+                callback(null, result);
             });
         },
-        function(values, metafields, callback) {
+        function(values, callback) {
             var requests = [];
-            for (var i = 0; i < values.products.length; i++) {
-                for (var j = 0; j < metafields[i].metafields.length; j++) {
+            for (var i in values) {
+                for (var j in values[i].metafields) {
                     var temp_request = {
                         method: "DELETE",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields/' + metafields[i].metafields[j].id + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[j].owner_id + '/metafields/' + values[i].metafields[j].id + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
