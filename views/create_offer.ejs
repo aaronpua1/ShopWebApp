@@ -78,7 +78,7 @@
         
         <% for(var i = 0; i < metafields.length; i++) { %>
           <% for(var i = 0; j < metafields[i].products.length; j++) { %>
-            $("#product-dual-box option[value='id=<%= metafields[i].products[j].id %>|title=<%= metafields[i].products[j].title %>|handle=<%= metafields[i].products[j].handle %>|product_type=<%= metafields[i].products[j].product_type %>|vendor=<%= metafields[i].products[j].vendor %>']").prop('disabled', true);
+            $("#bootstrap-duallistbox-nonselected-list_product-dual-box option[value='id=<%= metafields[i].products[j].id %>|title=<%= metafields[i].products[j].title %>|handle=<%= metafields[i].products[j].handle %>|product_type=<%= metafields[i].products[j].product_type %>|vendor=<%= metafields[i].products[j].vendor %>']").attr('disabled', 'disabled');
             $("#product-dual-box").bootstrapDualListbox('refresh', true);
           <% } %>
         <% } %>
