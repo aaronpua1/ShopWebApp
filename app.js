@@ -1193,13 +1193,9 @@ app.get('/delete-offer', function(req, res) {
         }
     ],
     function(err, resp, body){
-        if(err)
-            return next(err);
-        console.log(JSON.parse(body));
-        body = JSON.parse(body);
-        if (body.errs) {
+        if(err) {
             return res.json(404);
-        } 
+        }
         res.json(200);
     });
 })
