@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
 	<script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
@@ -63,7 +63,22 @@
             moveOnSelect: true,
             filterOnValues: true,
             selectorMinimalHeight: 100
-        });  
+        });
+        
+        <% if (typeof <%= store %> != 'undefined') { %>
+          <%for(var i = 0; i < store_upsell.products.length; i++) { %>
+            $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
+          <% } %>
+          <%for(var i = 0; i < store_products.products.length; i++) { %>
+            $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%= store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
+          <% } %>
+        <% } %>
+        
+        <% for(var i = 0; i < metafields.length; i++) { %>
+          <% for(var i = 0; j < metafields.products.length; j++) { %>
+            $("#bootstrap-duallistbox-nonselected-list_product-dual-box option[value='id=<%= metafields[i].products[j].id %>|title=<%= metafields[i].products[j].title %>|handle=<%= metafields[i].products[j].handle %>|product_type=<%= metafields[i].products[j].product_type %>|vendor=<%= metafields[i].products[j].vendor %>']").prop('disabled', true);
+          <% } %>
+        <% } %>
         
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
@@ -135,7 +150,7 @@
             var upsells = $('#upsell-dual-box').val();
             var products = $('#product-dual-box').val();
             //var type = 
-        });*/
+        });*/       
     });
   </script>
   <div class="container">
@@ -159,7 +174,11 @@
               <div class="control-group">
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
-                  <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text">
+                  <% if (typeof <%= store %> == 'undefined') { %>
+                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text">
+                  <% } else { %>
+                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>">
+                  <% } %>
                 </div>
               </div>
             </div>
@@ -167,7 +186,11 @@
               <div class="control-group">
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
-                  <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text">
+                  <% if (typeof <%= store %> == 'undefined') { %>
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text">
+                  <% } else { %>
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>">
+                  <% } %>                  
                 </div>
               </div>
             </div>
@@ -175,7 +198,11 @@
               <div class="control-group">
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
-                  <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;">Briefly describe what your offer means and how it works</textarea>
+                  <% if (typeof <%= store %> == 'undefined') { %>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;">Briefly describe what your offer means and how it works</textarea>
+                  <% } else { %>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;"><%= store.offer_description %></textarea>
+                  <% } %>                  
                 </div>
               </div>
             </div>
@@ -257,69 +284,8 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>">
-                  <%= product_selections.products[i].title %>
-                </option><% } %>
-                <option value="option1">
-                  Option 1
-                </option>
-                <option value="option2">
-                  Option 2
-                </option>
-                <option selected="selected" value="option3">
-                  Option 3
-                </option>
-                <option value="option4">
-                  Option 4
-                </option>
-                <option value="option5">
-                  Option 5
-                </option>
-                <option selected="selected" value="option6">
-                  Option 6
-                </option>
-                <option value="option7">
-                  Option 7
-                </option>
-                <option value="option8">
-                  Option 8
-                </option>
-                <option value="option9">
-                  Option 9
-                </option>
-                <option value="option0">
-                  Option 10
-                </option>
-                <option value="option0">
-                  Option 11
-                </option>
-                <option value="option0">
-                  Option 12
-                </option>
-                <option value="option0">
-                  Option 13
-                </option>
-                <option value="option0">
-                  Option 14
-                </option>
-                <option value="option0">
-                  Option 15
-                </option>
-                <option value="option0">
-                  Option 16
-                </option>
-                <option value="option0">
-                  Option 17
-                </option>
-                <option value="option0">
-                  Option 18
-                </option>
-                <option value="option0">
-                  Option 19
-                </option>
-                <option value="option0">
-                  Option 20
-                </option>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>
+                <% } %>
               </select>
             </div>
           </div>
@@ -400,57 +366,8 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>">
-                  <%= product_selections.products[i].title %>
-                </option><% } %>
-                <option value="option1">
-                  Option 1
-                </option>
-                <option value="option2">
-                  Option 2
-                </option>
-                <option selected="selected" value="option3">
-                  Option 3
-                </option>
-                <option value="option4">
-                  Option 4
-                </option>
-                <option value="option5">
-                  Option 5
-                </option>
-                <option selected="selected" value="option6">
-                  Option 6
-                </option>
-                <option value="option7">
-                  Option 7
-                </option>
-                <option value="option8">
-                  Option 8
-                </option>
-                <option value="option9">
-                  Option 9
-                </option>
-                <option value="option0">
-                  Option 10
-                </option>
-                <option value="option0">
-                  Option 11
-                </option>
-                <option value="option0">
-                  Option 12
-                </option>
-                <option value="option0">
-                  Option 13
-                </option>
-                <option value="option0">
-                  Option 14
-                </option>
-                <option value="option0">Option 15</option>
-                <option value="option0">Option 16</option>
-                <option value="option0">Option 17</option>
-                <option value="option0">Option 18</option>
-                <option value="option0">Option 19</option>
-                <option value="option0">Option 20</option>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>
+                <% } %>
               </select>
             </div>
           </div>

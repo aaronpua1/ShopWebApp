@@ -317,8 +317,22 @@ app.get('/create-offer', function(req, res) {
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value&namespace=suo',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
     }];
     
+    if (Object.keys(req.query).length !== 0) {
+        var temp_request = {
+            method: "GET",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token
+            }
+        }
+    }
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
@@ -337,23 +351,50 @@ app.get('/create-offer', function(req, res) {
         else {
             var result_collections;
             var result_products;
+            var result_metafields;
+            var result_store;
+            var store_upsell;
+            var store_products;
+            var result_values = {values: []};
             
             for (var i = 0; i < results.length; i++) {
-                if(results[i].hasOwnProperty('products')){
+                if (results[i].hasOwnProperty('products')){
                     result_products = results[i];
+                }
+                else if (results[i].hasOwnProperty('metafields')) {
+                    result_metafields = results[i];
+                }
+                else if (results[i].hasOwnProperty('metafield')) {
+                    result_store = results[i];
                 }
                 else {
                     result_collections = results[i];
                 }
             }
             
+            for (var i = 0; i < result_metafields.metafields.length; i++) {
+                var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
+                result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+            }
+            
+            if (result_store) {
+                result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
+                store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
+                store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));                
+            }
+            
             console.log(results);
+            
             res.render('create_offer', {
                 title: 'Create Your Offer', 
                 api_key: config.oauth.api_key,
                 shop: req.session.shop,
                 collection_selections: result_collections,
-                product_selections: result_products
+                product_selections: result_products,
+                store: result_store,
+                store_upsell: store_upsell,
+                store_products: store_products,
+                metafields: result_values.values
             });
         }
     });
@@ -1060,6 +1101,7 @@ app.post('/create-offer', function(req, res) {
                 </option><%} %>
 */
 /*
+GOOD
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.get('/delete-offer', function(req, res) {
     request({
