@@ -1195,7 +1195,7 @@ app.get('/delete-offer', function(req, res) {
     function(err, resp, body){
         if(err)
             return next(err);
-        console.log(body);
+        console.log(JSON.parse(body));
         body = JSON.parse(body);
         if (body.errs) {
             return res.json(404);
