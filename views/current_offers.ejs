@@ -54,7 +54,25 @@
                 }
             });
         });
-        
+        $(document).on('click', '[id^="edit-offer-"]', function() {
+            var $button = $(this);
+            var id = this.id.split('-').pop();
+
+            $.ajax({
+                type: 'GET',
+                url: '/create-offer',
+                data: "id=" + id,
+                success: function(callback)
+                {
+                    ShopifyApp.flashNotice("Offer Updated Successfully");
+                },
+                error: function(status)
+                {
+                    console.log(status);
+                    ShopifyApp.flashError("Warning: Offer Update Failed");
+                }
+            })
+        });
         $("[data-toggle=tooltip]").tooltip(); 
     });
   </script>
