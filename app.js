@@ -333,6 +333,7 @@ app.get('/create-offer', function(req, res) {
                 'X-Shopify-Access-Token': req.session.access_token
             }
         }
+        requests.push(temp_request);
     }
     async.map(requests, function(obj, callback) {
         request(obj, function(err, resp, body) {
