@@ -1145,7 +1145,7 @@ app.get('/delete-offer', function(req, res) {
         function(values, callback) {
             var requests = [];
             for (var i in values) {
-                values[i] = JSON.parse(values[i]);
+                //values[i] = JSON.parse(values[i]);
                 for (var j in values[i].metafields) {
                     var temp_request = {
                         method: "DELETE",
