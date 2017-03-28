@@ -58,7 +58,7 @@
             var $button = $(this);
             var id = this.id.split('-').pop();
 
-            $.get('create-offer', function(response) {
+            $.get('create-offer/id=' + id, function(response) {
 
             });
         });
