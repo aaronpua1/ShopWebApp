@@ -831,10 +831,10 @@ app.post('/create-offer', function(req, res) {
             var product_selections = req.body.product_dual_box;
 
             for (var i in product_selections) {
-                var temp_product = JSON.parse(JSON.stringify(parse_values(product_selections[i])));
+                var temp_product = JSON.parse(JSON.stringify(parse_products(product_selections[i])));
                 var count = 1;
                 for (var j in upsell_selections) {
-                    var temp_upsell = JSON.parse(JSON.stringify(parse_values(upsell_selections[j])));            
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_products(upsell_selections[j])));            
                     var data = {
                         metafield: {
                             namespace: "suop",
