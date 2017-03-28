@@ -1048,7 +1048,18 @@ app.post('/create-offer', function(req, res) {
         res.redirect('/');
     });
 })
-
+/*
+                <%for(var i = 0; i < product_selections.products.length; i++) { %>
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
+                  <%= product_selections.products[i].title %>
+                </option><% } %>
+                
+                <%for(var i = 0; i < product_selections.products.length; i++) { %>
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
+                  <%= product_selections.products[i].title %>
+                </option><%} %>
+*/
+/*
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.get('/delete-offer', function(req, res) {
     request({
@@ -1059,6 +1070,125 @@ app.get('/delete-offer', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         }
     }, function(err, resp, body){
+        if(err)
+            return next(err);
+        console.log(body);
+        body = JSON.parse(body);
+        if (body.errs) {
+            return res.json(404);
+        } 
+        res.json(200);
+    });
+})*/
+app.get('/delete-offer', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("GET RESPONSE: " + body);
+                //body = JSON.parse(body);
+                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                callback(null, values);
+            });
+        },
+        function(values, callback) { //go thru each product here to get metafield id
+            var requests = [];
+            for (var i = 0; i < values.products.length; i++) {
+                var temp_request = {
+                    method: "GET",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    }
+                }
+                requests.push(temp_request);
+            }
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                request(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log(result);
+                callback(null, values, result);
+            });
+        },
+        function(values, metafields, callback) {
+            var requests = [];
+            for (var i = 0; i < values.products.length; i++) {
+                for (var j = 0; j < metafields[i].metafields.length; j++) {
+                    var temp_request = {
+                        method: "DELETE",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields/' + metafields[i].metafields[j].id + '.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        }
+                    }
+                    requests.push(temp_request);
+                }
+            }
+            var temp_request = {
+                method: "DELETE",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                }
+            }
+            requests.push(temp_request);
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                request(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log(result);
+                callback(null, 'done');
+            });
+        }
+    ],
+    function(err, resp, body){
         if(err)
             return next(err);
         console.log(body);
@@ -1265,9 +1395,26 @@ function verifyRequest(req, res, next) {
 function parse_values(values) {
     var result = {};
     var pairs = values.split(";");
+    
     for (var i = 0; i < pairs.length; i++) {
         var temp = pairs[i].split(":");
         result[temp[0]] = temp[1];
+    }
+    return result;
+}
+
+function parse_products(values) {    
+    var result = {products: []};
+    var products = values.split(",");
+    var pairs = values.split("|");
+    
+    for (var i = 0; i < products.length; i++) {
+        var temp_product = {};
+        for (var j = 0; j < pairs.length; j++) {
+            var temp = pairs[j].split("=");
+            temp_product[temp[0]] = temp[1];
+        }
+        result.products.push(temp_product);
     }
     return result;
 }

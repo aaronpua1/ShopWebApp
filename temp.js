@@ -1,3 +1,106 @@
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("GET RESPONSE: " + body);
+                //body = JSON.parse(body);
+                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                callback(null, values);
+            });
+        },
+        function(values, callback) { //go thru each product here to get metafield id
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + + '/metafields.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("GET RESPONSE: " + body);
+                //body = JSON.parse(body);
+                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                callback(null, values);
+            });
+        }
+        function(values, callback) {
+            var requests = [];
+            for (var i = 0; i < values.products.length; i++) {
+                var temp_request = {
+                    method: "DELETE",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields/' + req.query.id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    }
+                }
+                requests.push(temp_request);
+            }
+            
+            var temp_request = {
+                method: "DELETE",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                }
+            }
+            requests.push(temp_request);
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                request(obj, function(err, resp, body) {
+                    if (!err && (resp.statusCode == 201 || resp.statusCode == 200)) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log(result);
+                callback();
+            });
+        }
+    ],
+    function(err, result) {
+        if (err) {
+            console.log(err);
+            callback(true); 
+            return; 
+        }    
+        //console.log(result);
+        callback();
+    });
+        
+
+    
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,22 +181,22 @@
                 );
             }*/
             if ($("#upsell_title").val() !== "") {
-                result += "title=(.*?)" + $("#upsell_title").val() + "(.*?)|";
+                result += "title:(.*?)" + $("#upsell_title").val() + "(.*?);";
             }
             else {
-                result += "title=(.*?)|";
+                result += "title:(.*?),";
             }
             if ($("#upsell_vendor").val() !== "none") {
-                result += "vendor=" + $("#upsell_vendor").val() + "|";
+                result += "vendor:" + $("#upsell_vendor").val() + ";";
             }
             else {
-                result += "vendor=(.*?)|"
+                result += "vendor:(.*?);"
             }
             if ($("#upsell_type").val() !== "none") {
-                result += "product_type=" + $("#upsell_type").val();
+                result += "product_type:" + $("#upsell_type").val();
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type:(.*?)";
             }
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
@@ -104,22 +207,22 @@
         
         $( "#btn-product-filter" ).click(function( event ) {
             if ($("#product_title").val() !== "") {
-                result += "title=(.*?)" + $("#product_title").val() + "(.*?)|";
+                result += "title:(.*?)" + $("#product_title").val() + "(.*?);";
             }
             else {
                 result += "title:(.*?);";
             }
             if ($("#product_vendor").val() !== "none") {
-                result += "vendor=" + $("#product_vendor").val() + "|";
+                result += "vendor:" + $("#product_vendor").val() + ";";
             }
             else {
-                result += "vendor:(.*?)|"
+                result += "vendor:(.*?);"
             }
             if ($("#product_type").val() !== "none") {
-                result += "product_type=" + $("#product_type").val();
+                result += "product_type:" + $("#product_type").val();
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type:(.*?)";
             }
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
@@ -257,7 +360,7 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>">
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
                   <%= product_selections.products[i].title %>
                 </option><% } %>
                 <option value="option1">
@@ -400,9 +503,9 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>">
+                <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
                   <%= product_selections.products[i].title %>
-                </option><% } %>
+                </option><%} %>
                 <option value="option1">
                   Option 1
                 </option>
