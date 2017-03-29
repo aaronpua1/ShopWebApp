@@ -359,8 +359,8 @@
       this.container = $('' +
         '<div class="bootstrap-duallistbox-container">' +
         ' <div class="box1">' +
-        '   <label></label>' +
         '   <input class="filter" type="text">' +
+        '   <label></label>' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn moveall">' +
         '       <i></i>' +
@@ -373,8 +373,8 @@
         '   <select multiple="multiple"></select>' +
         ' </div>' +
         ' <div class="box2">' +
-        '   <label></label>' +
         '   <input class="filter" type="text">' +
+        '   <label></label>' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn remove">' +
         '       <i></i>' +
