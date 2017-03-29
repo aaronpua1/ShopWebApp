@@ -54,7 +54,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-
+        
         $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -66,6 +66,8 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
+        
+        $(".filter").remove();
         
         <% if(typeof store != "undefined") { %>
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
