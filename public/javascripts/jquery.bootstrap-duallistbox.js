@@ -266,7 +266,7 @@
 
     dualListbox.element.find('option').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered1') && !$item.data.is(':disabled')) {
+      if (!$item.data('filtered1') && !$item.data.prop('disabled')) {
         $item.prop('selected', true);
         $item.attr('data-sortindex', dualListbox.sortIndex);
         dualListbox.sortIndex++;
