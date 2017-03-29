@@ -25,7 +25,7 @@
         var table = $('#datatable').dataTable().api();
         table.dataTable({
             "columnDefs": [
-                { "className": "center-columns", "targets": [3, 4, 5] }
+                { "className": "dt-center", "targets": ["Preview Offer", "Edit", "Delete", "Status"] }
             ]
         });
         $(document).on('click', '[id^="delete-offer-"]', function() {
@@ -211,7 +211,7 @@ box-shadow:none !important;
     left: 20px;
 }
 
-td.center-columns {
+td.dt-center {
   text-align: center;
 }
 </style>
