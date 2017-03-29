@@ -21,7 +21,8 @@
 
 .bootstrap-duallistbox-container .box1.filtered .clear1,
 .bootstrap-duallistbox-container .box2.filtered .clear2 {
-  display: inline-block;
+  /*display: inline-block;*/
+  display: none;
 }
 
 .bootstrap-duallistbox-container .move,
@@ -56,12 +57,12 @@
 .bootstrap-duallistbox-container .filter {
   /*display: inline-block;*/
   display: none;
-  width: 100%;
+  /*width: 100%;
   height: 31px;
   margin: 0 0 5px 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  box-sizing: border-box;*/
 }
 
 .bootstrap-duallistbox-container .filter.placeholder {
