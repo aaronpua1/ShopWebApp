@@ -130,13 +130,14 @@
         });
         
         $( "#btn-product-filter" ).click(function( event ) {
+            var result = "(.*?)";
+            
             if ($("#product_title").val() !== "") {
                 result += "title=(.*?)" + $("#product_title").val() + "(.*?).";
             }
             else {
                 result += "title=(.*?).";
             }
-
             if ($("#product_type").val() !== "none") {
                 result += "product_type=" + $("#product_type").val() + ".";
             }
