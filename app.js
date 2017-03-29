@@ -1418,6 +1418,74 @@ app.post('/products', function(req, res) {
     })  
 })
 
+app.get('/delete-products', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("METAFIELD GET RESPONSE: " + body);
+                body = JSON.parse(body);
+                
+                callback(null, body);
+            });
+        },
+        function(values, callback) { //go thru each product here to get metafield id
+            var requests = [];
+            for (var i in values.products) {
+                var temp_request = {
+                    method: "DELETE",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    }
+                }
+                requests.push(temp_request);
+            }
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                request(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                console.log("PRODUCT GET RESPONSE" + JSON.stringify(result));
+                //result = JSON.parse(result);
+                callback(null, 'done');
+            });
+        }
+    ],
+    function(err, resp, body){
+        if(err) {
+            return res.json(404);
+        }
+        res.json(200);
+    });
+})
+
 function verifyRequest(req, res, next) {
     var map = JSON.parse(JSON.stringify(req.query));
     delete map['signature'];
