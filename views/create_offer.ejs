@@ -104,22 +104,22 @@
             }*/
             
             if ($("#upsell_title").val() !== "") {
-                result += "title=(.*?)" + $("#upsell_title").val() + "(.*?)|";
+                result += "title=(.*?)" + $("#upsell_title").val() + "(.*?).";
             }
             else {
-                result += "title=(.*?)|";
+                result += "title=(.*?).";
             }
             if ($("#upsell_type").val() !== "none") {
-                result += "product_type=" + $("#upsell_type").val() + "|";
+                result += "product_type=" + $("#upsell_type").val() + ".";
             }
             else {
-                result += "product_type=(.*?)|";
+                result += "product_type=(.*?).";
             }
             if ($("#upsell_vendor").val() !== "none") {
-                result += "vendor=" + $("#upsell_vendor").val(); 
+                result += "vendor=" + $("#upsell_vendor").val() + "$"; 
             }
             else {
-                result += "vendor=(.*?)";
+                result += "vendor=(.*?)$";
             }
  
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
@@ -131,23 +131,23 @@
         
         $( "#btn-product-filter" ).click(function( event ) {
             if ($("#product_title").val() !== "") {
-                result += "title=(.*?)" + $("#product_title").val() + "(.*?)|";
+                result += "title=(.*?)" + $("#product_title").val() + "(.*?).";
             }
             else {
-                result += "title:(.*?);";
+                result += "title=(.*?).";
             }
 
             if ($("#product_type").val() !== "none") {
-                result += "product_type=" + $("#product_type").val() + "|";
+                result += "product_type=" + $("#product_type").val() + ".";
             }
             else {
-                result += "product_type=(.*?)|";
+                result += "product_type=(.*?).";
             }
             if ($("#product_vendor").val() !== "none") {
-                result += "vendor=" + $("#product_vendor").val();
+                result += "vendor=" + $("#product_vendor").val() + "$";
             }
             else {
-                result += "vendor=(.*?)"
+                result += "vendor=(.*?)$";
             }
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
