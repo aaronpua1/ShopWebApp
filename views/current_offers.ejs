@@ -25,7 +25,7 @@
         var table = $('#datatable').dataTable().api();
         table.dataTable({
             "columnDefs": [
-                { "className": "dt-center", "targets": ["Preview Offer", "Edit", "Delete", "Status"] }
+                { className: "dt-center", "targets": [3, 4, 5, 6] }
             ]
         });
         $(document).on('click', '[id^="delete-offer-"]', function() {
