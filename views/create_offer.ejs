@@ -109,18 +109,19 @@
             else {
                 result += "title=(.*?)|";
             }
-            if ($("#upsell_vendor").val() !== "none") {
-                result += "vendor=" + $("#upsell_vendor").val() + "|";
-            }
-            else {
-                result += "vendor=(.*?)|"
-            }
             if ($("#upsell_type").val() !== "none") {
-                result += "product_type=" + $("#upsell_type").val();
+                result += "product_type=" + $("#upsell_type").val() + "|";
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type=(.*?)|";
             }
+            if ($("#upsell_vendor").val() !== "none") {
+                result += "vendor=" + $("#upsell_vendor").val(); 
+            }
+            else {
+                result += "vendor=(.*?)";
+            }
+ 
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
 
@@ -135,17 +136,18 @@
             else {
                 result += "title:(.*?);";
             }
-            if ($("#product_vendor").val() !== "none") {
-                result += "vendor=" + $("#product_vendor").val() + "|";
-            }
-            else {
-                result += "vendor:(.*?)|"
-            }
+
             if ($("#product_type").val() !== "none") {
-                result += "product_type=" + $("#product_type").val();
+                result += "product_type=" + $("#product_type").val() + "|";
             }
             else {
-                result += "product_type=(.*?)";
+                result += "product_type=(.*?)|";
+            }
+            if ($("#product_vendor").val() !== "none") {
+                result += "vendor=" + $("#product_vendor").val();
+            }
+            else {
+                result += "vendor=(.*?)"
             }
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
