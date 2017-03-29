@@ -1100,7 +1100,7 @@ app.post('/create-offer', function(req, res) {
                   <%= product_selections.products[i].title %>
                 </option><%} %>
 */
-
+/*
 //GOOD
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.get('/delete-offer', function(req, res) {
@@ -1121,8 +1121,8 @@ app.get('/delete-offer', function(req, res) {
         } 
         res.json(200);
     });
-})
-/*
+})*/
+
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
         function(callback) {
@@ -1241,7 +1241,7 @@ app.get('/delete-offer', function(req, res) {
         }
         res.json(200);
     });
-})*/
+})
 
 // This is used to render the create-offer page with selected offer metafield data contained within it so the user can edit it.
 app.get('/update-offer', function(req, res) {
