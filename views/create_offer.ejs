@@ -11,10 +11,12 @@
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-duallistbox.css">
+    <link rel="stylesheet" href="/stylesheets/fm.selectator.jquery.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
     <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
+    <script src="/javascripts/fm.selectator.jquery.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 
@@ -88,15 +90,17 @@
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
-            /*
-            if ($("#upsell_custom_collection").val() !== "none") {
+            
+            /*if ($("#upsell_custom_collection").val() !== "none") {
                 $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").empty();
                 $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").append(
                     '<%for(var i = 0; i < product_selections.products.length; i++) { %>' + 
-                        '<option value="id=<%= product_selections.products[i].id %>,handle=<%= product_selections.products[i].handle %>,title=<%= product_selections.products[i].title %>,product_type=<%= product_selections.products[i].product_type %>,vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>'+
-                    '<% } %>'
+                        '<option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>'+
+                    '<% } %>'                    
                 );
+                $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }*/
+            
             if ($("#upsell_title").val() !== "") {
                 result += "title=(.*?)" + $("#upsell_title").val() + "(.*?)|";
             }
@@ -289,7 +293,7 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>
+                  <option data-left="This is the left section" data-right="This is the right section" data-subtitle="This is the section under the title" value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>
                 <% } %>
               </select>
             </div>
