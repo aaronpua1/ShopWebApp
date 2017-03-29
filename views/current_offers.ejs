@@ -99,16 +99,16 @@
                   <td><%= current_offers.metafields[i].offer_name %></td>
                   <td>Start Date</td>
                   <td>End Date</td>
-                  <td>
+                  <td style="vertical-align: middle;">
                     <p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="prewview-offer-<%= current_offers.metafields[i].id %>" data-target="#preview" data-title="Preview" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-eye-open"></span></button></p>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle;">
                     <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer?id=<%= current_offers.metafields[i].id %>"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle;">
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
-                  <td>
+                  <td style="vertical-align: middle;">
                     <div class="material-switch"><input id="activate-offer-<%= current_offers.metafields[i].id %>" name="activate" type="checkbox" value="<%= current_offers.metafields[i].id %>"/><label for="activate-offer-<%= current_offers.metafields[i].id %>" class="label-success"></label></div>
                   </td>
                 </tr>
