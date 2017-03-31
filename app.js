@@ -1264,19 +1264,47 @@ app.get('/activate-offer', function(req, res) {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
             }, 
-            function(err,resp,body) {
-                if(err) { 
-                    console.log(err);
+            function(err1,resp1,body1) {
+                if(err1) { 
+                    console.log(err1);
                     callback(true); 
                     return; 
                 }
-                console.log("METAFIELD GET RESPONSE: " + body);
-                body = JSON.parse(body);
+                console.log("METAFIELD GET RESPONSE: " + body1);
+                body1 = JSON.parse(body1);                
                 
-                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
-                values = JSON.parse(JSON.stringify(parse_products(values.products)));
-                console.log("PARSE PRODUCTS: " + JSON.stringify(values));
-                callback(null, values);
+                var data = {
+                    metafield: {
+                        id: req.query.id,
+                        value: body.metafield.value.replace('status:undefined', 'status:on'),
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+
+                console.log("PUT REQUEST: " + req_body);
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err2, resp2, body2){
+                    if(err2) { 
+                        console.log(err2);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("PUT RESPONSE: " + body2);
+                    body2 = JSON.parse(body2);
+                    var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                    values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                    console.log("PARSE PRODUCTS: " + JSON.stringify(values));
+                    callback(null, values);
+                });
             });
         },
         function(values, callback) { //go thru each product here to get metafield id
@@ -1387,19 +1415,47 @@ app.get('/deactivate-offer', function(req, res) {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
             }, 
-            function(err,resp,body) {
-                if(err) { 
-                    console.log(err);
+            function(err1,resp1,body1) {
+                if(err1) { 
+                    console.log(err1);
                     callback(true); 
                     return; 
                 }
-                console.log("METAFIELD GET RESPONSE: " + body);
-                body = JSON.parse(body);
+                console.log("METAFIELD GET RESPONSE: " + body1);
+                body1 = JSON.parse(body1);                
                 
-                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
-                values = JSON.parse(JSON.stringify(parse_products(values.products)));
-                console.log("PARSE PRODUCTS: " + JSON.stringify(values));
-                callback(null, values);
+                var data = {
+                    metafield: {
+                        id: req.query.id,
+                        value: body.metafield.value.replace('status:on', 'status:undefined'),
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+
+                console.log("PUT REQUEST: " + req_body);
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err2, resp2, body2){
+                    if(err2) { 
+                        console.log(err2);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("PUT RESPONSE: " + body2);
+                    body2 = JSON.parse(body2);
+                    var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                    values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                    console.log("PARSE PRODUCTS: " + JSON.stringify(values));
+                    callback(null, values);
+                });
             });
         },
         function(values, callback) { //go thru each product here to get metafield id
