@@ -1276,7 +1276,7 @@ app.get('/activate-offer', function(req, res) {
                 var data = {
                     metafield: {
                         id: req.query.id,
-                        value: body.metafield.value.replace('status:undefined', 'status:on'),
+                        value: body1.metafield.value.replace('status:undefined', 'status:on'),
                         value_type: "string"
                     }
                 }
@@ -1300,7 +1300,7 @@ app.get('/activate-offer', function(req, res) {
                     }
                     console.log("PUT RESPONSE: " + body2);
                     body2 = JSON.parse(body2);
-                    var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                    var values = JSON.parse(JSON.stringify(parse_values(body1.metafield.value)));
                     values = JSON.parse(JSON.stringify(parse_products(values.products)));
                     console.log("PARSE PRODUCTS: " + JSON.stringify(values));
                     callback(null, values);
@@ -1427,7 +1427,7 @@ app.get('/deactivate-offer', function(req, res) {
                 var data = {
                     metafield: {
                         id: req.query.id,
-                        value: body.metafield.value.replace('status:on', 'status:undefined'),
+                        value: body1.metafield.value.replace('status:on', 'status:undefined'),
                         value_type: "string"
                     }
                 }
@@ -1451,7 +1451,7 @@ app.get('/deactivate-offer', function(req, res) {
                     }
                     console.log("PUT RESPONSE: " + body2);
                     body2 = JSON.parse(body2);
-                    var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                    var values = JSON.parse(JSON.stringify(parse_values(body1.metafield.value)));
                     values = JSON.parse(JSON.stringify(parse_products(values.products)));
                     console.log("PARSE PRODUCTS: " + JSON.stringify(values));
                     callback(null, values);
