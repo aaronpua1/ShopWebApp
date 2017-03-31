@@ -215,12 +215,11 @@
             <div class="form-group col-md-12">
               <div class="control-group">
                 <div class="form-check">
-                  <% if (typeof store == "undefined" || typeof store.status == "undefined") { %>
+                  <% if (typeof store == "undefined" || store.status == "undefined") { %>
                     <label class="form-check-label" for="activate-offer"><input name="activate_offer" id="activate-offer" class="form-check-input" type="checkbox">Activate Offer?</label>
                   <% } else { %>
                     <label class="form-check-label" for="activate-offer"><input name="activate_offer" id="activate-offer" class="form-check-input" type="checkbox" checked>Activate Offer?</label>
-                  <% } %>
-                  
+                  <% } %>                  
                 </div>
               </div>
             </div>

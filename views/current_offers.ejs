@@ -168,7 +168,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
                   <td>
-                    <% if (typeof current_offers.metafields[i].status == "undefined") { %>
+                    <% if (current_offers.metafields[i].status == "undefined") { %>
                       <label class="switch"><input id="activate-offer-<%= current_offers.metafields[i].id %>" name="activate" type="checkbox" value="<%= current_offers.metafields[i].id %>"/><div class="slider round"></div></label>
                     <% } else { %>
                       <label class="switch"><input id="activate-offer-<%= current_offers.metafields[i].id %>" name="activate" type="checkbox" value="<%= current_offers.metafields[i].id %>" checked /><div class="slider round"></div></label>
