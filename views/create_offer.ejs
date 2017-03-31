@@ -147,6 +147,7 @@
         $( "#btn-product-reset" ).click(function( event ) {
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
+        
         /*
         $( "#create-offer" ).click(function( event ) {
             var name = $('#offer_name').val();
@@ -208,6 +209,18 @@
                   <% } else { %>
                     <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;"><%= store.offer_description %></textarea>
                   <% } %>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <div class="control-group">
+                <div class="form-check">
+                  <% if (typeof store == "undefined" || typeof store.activate_offer == "undefined") { %>
+                    <label class="form-check-label" for="activate-offer"><input name="activate_offer" id="activate-offer" class="form-check-input" type="checkbox">Activate Offer?</label>
+                  <% } else { %>
+                    <label class="form-check-label" for="activate-offer"><input name="activate_offer" id="activate-offer" class="form-check-input" type="checkbox" checked>Activate Offer?</label>
+                  <% } %>
+                  
                 </div>
               </div>
             </div>
