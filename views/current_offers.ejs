@@ -66,7 +66,7 @@
         $(document).on('click', '[id^="activate-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
-            if ($this.checked) {
+            if (this.checked) {
                 ShopifyApp.Modal.confirm({
                     title: "Activate offer?",
                     message: "Do you want to activate this offer?",
