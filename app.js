@@ -241,6 +241,15 @@ app.get('/modal_content', function(req, res) {
     });
 })
 
+// Renders content for a modal
+app.get('/upsell', function(req, res) {
+    res.render('upsell', {
+        title: 'Upsell',
+        api_key: config.oauth.api_key,
+        shop: req.session.shop
+    });
+})
+
 // The home page, checks if we have the access token, if not we are redirected to the install page
 // This check should probably be done on every page, and should be handled by a middleware
 app.get('/', function(req, res) {
