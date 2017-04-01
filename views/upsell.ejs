@@ -56,15 +56,15 @@ ul.rig .product {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
-ul.rig li img {
+ul.rig .product img {
   max-width: 100%;
   height: auto;
   margin: 0 0 10px;
 }
-ul.rig li h3 {
+ul.rig .product h3 {
   margin: 0 0 5px;
 }
-ul.rig li p {
+ul.rig .product p {
   font-size: .9em;
   line-height: 1.5em;
   color: #999;
@@ -78,23 +78,23 @@ ul.rig.columns-3 li {
   width: 30.83%; /* this value + 2.5 should = 33% */
 }
 /* class for 4 columns */
-ul.rig.columns-4 li {
+ul.rig.columns-4 .product {
   width: 15.5%; /* this value + 2.5 should = 25% */
   height: 15.5%;
 }
  
 @media (max-width: 480px) {
-  ul.grid-nav li {
+  ul.grid-nav .product {
     display: block;
     margin: 0 0 5px;
   }
-  ul.grid-nav li a {
+  ul.grid-nav .product a {
     display: block;
   }
   ul.rig {
     margin-left: 0;
   }
-  ul.rig li {
+  ul.rig .product {
     width: 100% !important; /* over-ride all li styles */
     margin: 0 0 20px;
   }
@@ -105,7 +105,7 @@ ul.rig.columns-4 li {
    position: relative;
 }
 
-.cross:before, #cross:after {
+.cross:before, .cross:after {
   content: "";
   position: absolute;
   z-index: -1;
