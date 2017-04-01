@@ -10,24 +10,24 @@
 </head>
 <body>
 <ul class="rig columns-4">
+  <li class="product">
+    <img src="https://s-media-cache-ak0.pinimg.com/564x/29/6d/9f/296d9f07fc7cf809844bfd1579d7f676.jpg" />
+    <h3>Image Title</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+  </li>
+  <li class="cross"></li>
   <li>
     <img src="https://s-media-cache-ak0.pinimg.com/564x/29/6d/9f/296d9f07fc7cf809844bfd1579d7f676.jpg" />
     <h3>Image Title</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
   </li>
-  <div id="cross"></div>
+  <li class="cross"></li>
   <li>
     <img src="https://s-media-cache-ak0.pinimg.com/564x/29/6d/9f/296d9f07fc7cf809844bfd1579d7f676.jpg" />
     <h3>Image Title</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
   </li>
-  <div id="cross"></div>
-  <li>
-    <img src="https://s-media-cache-ak0.pinimg.com/564x/29/6d/9f/296d9f07fc7cf809844bfd1579d7f676.jpg" />
-    <h3>Image Title</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-  </li>
-  <div id="cross"></div>
+  <li class="cross"></li>
   <li>
     <img src="https://s-media-cache-ak0.pinimg.com/564x/29/6d/9f/296d9f07fc7cf809844bfd1579d7f676.jpg" />
     <h3>Image Title</h3>
@@ -42,7 +42,7 @@ ul.rig {
   font-size: 0px;
   margin-left: -2.5%; /* should match li left margin */
 }
-ul.rig li {
+ul.rig .product {
   display: inline-block;
   padding: 10px;
   margin: 0 0 2.5% 2.5%;
@@ -99,27 +99,27 @@ ul.rig.columns-4 li {
     margin: 0 0 20px;
   }
 }
-#cross {
+.cross {
    width: 100px;
    height: 100px;
    position: relative;
 }
 
-#cross:before, #cross:after {
+.cross:before, #cross:after {
   content: "";
   position: absolute;
   z-index: -1;
   background: #d00;
 }
 
-#cross:before {
+.cross:before {
   left: 50%;
   width: 30%;
   margin-left: -15%;
   height: 100%;
 }
 
-#cross:after {
+.cross:after {
   top: 50%;
   height: 30%;
   margin-top: -15%;
