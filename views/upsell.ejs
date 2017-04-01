@@ -9,44 +9,39 @@
   </script>
 </head>
 <body>
-<ul class="rig columns-4">
-  <li class="product">
-    <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
-    <h3>Image Title</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-  </li>
-  <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
-  <li class="product">
-    <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
-    <h3>Image Title</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-  </li>
-  <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
-  <li class="product">
-    <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
-    <h3>Image Title</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-  </li>
-  <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
-  <li class="product">
-    <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
-    <h3>Image Title</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-  </li>
-</ul>
-
+  <form id="info" class="signPanel" method="post" action="/formhandler.cgi">
+    <ul class="rig columns-4">
+      <li class="product">
+        <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
+        <h3>Image Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      </li>
+      <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
+      <li class="product">
+        <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
+        <h3>Image Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      </li>
+      <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
+      <li class="product">
+        <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
+        <h3>Image Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      </li>
+      <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
+      <li class="product">
+        <img src="https://cdn3.iconfinder.com/data/icons/ballicons-free/128/joypad.png" />
+        <h3>Image Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      </li>
+    </ul>
+  </form>
 <style>
 /* http://alijafarian.com/responsive-image-grids-using-css/ */
 ul.rig {
   list-style: none;
   font-size: 0px;
   margin-left: -2.5%; /* should match li left margin */
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 5px #ddd;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
 }
 ul.rig .product {
   display: inline-block;
@@ -119,6 +114,17 @@ ul.rig.columns-4 .product {
     width: 100% !important; /* over-ride all li styles */
     margin: 0 0 20px;
   }
+}
+.signPanel {
+    bottom: 0;
+    color: #000;
+    display: block;
+    font-size: 1em;
+    margin-bottom: 1em;
+    margin-top: 0.125em;
+    position: absolute;
+    text-shadow: 0 1px 1px #000000;
+    background-color:#fff;
 }
 </style>
 </body>
