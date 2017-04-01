@@ -9,6 +9,7 @@
   </script>
 </head>
 <body>
+<div class="w3-panel w3-blue w3-round-xlarge">
   <form id="info" class="signPanel" method="post" action="/formhandler.cgi">
     <ul class="rig columns-4">
       <li class="product">
@@ -36,12 +37,14 @@
       </li>
     </ul>
   </form>
+</div>
 <style>
 /* http://alijafarian.com/responsive-image-grids-using-css/ */
 ul.rig {
   list-style: none;
   font-size: 0px;
   margin-left: -2.5%; /* should match li left margin */
+  border: 1px solid black;
 }
 ul.rig .product {
   display: inline-block;
