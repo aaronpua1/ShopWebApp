@@ -51,7 +51,7 @@ ul.rig {
   font-size: 0px;
   margin-left: -2.5%; /* should match li left margin */  
 }
-ul.rig label {
+ul.rig .product {
   display: inline-block;
   padding: 10px;
   background: #fff;
@@ -155,14 +155,14 @@ ul.rig.columns-4 .product {
     color: white;
 }
 
-.ids:checked + label .product{
+.ids:checked + label {
 -webkit-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
 -moz-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
 box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
-  border-color:transparent;
+
 }
 
-.ids:not(:checked) + label .product{
+.ids:not(:checked) + label {
 -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
 -moz-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
 box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
