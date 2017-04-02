@@ -11,12 +11,12 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        $("#id").click(function() {
-            if($("#id").checked) {
-                $("ul.rig #border").css("border", "solid yellow");
+        $("#checkbox-id").click(function() {
+            if($("#checkbox-id").checked) {
+                $("#border").css("border", "solid yellow");
             }
             else {
-                $("ul.rig #border").css("border", "solid black");
+                $("#border").css("border", "solid black");
             }
         });
     });
@@ -25,8 +25,8 @@
     <form id="info" class="signPanel" method="post" action="/formhandler.cgi">
       <ul class="rig columns-4">
         <li id="border" class="product">
-          <label for="id">
-            <input id="id" class="ids" type="checkbox" name="ids" value="{{ variant.id }}"/>
+          <label for="checkbox-id">
+            <input id="checkbox-id" class="ids" type="checkbox" name="ids" value="{{ variant.id }}"/>
             <img src="https://www.suny.edu/media/suny/content-assets/images/homepage/youtube-icon-50x50.png" />
             <h3>Image Title</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
