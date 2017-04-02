@@ -13,10 +13,10 @@
     ShopifyApp.ready(function(){
         $(".ids").on('click', function() {
             if(this.checked) {
-                $("#product").css("border-color", "rgba(255,162,0,1)");
+                $("#product").css("border", "1px solid #ddd");
             }
             else {
-                $("#product").css("border-color", "transparent");
+                $("#product").css("border", "1px transparent #ddd");
             }
         });
     });
@@ -69,7 +69,7 @@
     display: inline-block;
     padding: 10px;
     background: #fff;
-    border: 1px solid #ddd;
+    border: 1px transparent #ddd;
     font-size: 16px;
     font-size: 1rem;
     vertical-align: top;
@@ -79,7 +79,6 @@
     width: 50%;
     min-width: 150px;
     max-width: 150px;
-    border-color:transparent;
   }
   ul.rig .plus {
     display: inline-block;
