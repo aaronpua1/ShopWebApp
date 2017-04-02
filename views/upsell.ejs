@@ -12,7 +12,7 @@
   <script type="text/javascript">
     ShopifyApp.ready(function(){
         $(".ids").on('click', function() {
-            if(this.checked) {
+            if($this.checked) {
                 $("#product").css("border", "1px solid yellow");
             }
             else {
@@ -167,21 +167,6 @@
       background-color: #008CBA;
       color: white;
   }
-
-  .ids:checked + label {
-  -webkit-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
-  -moz-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
-  box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
-  border-color:transparent;
-  }
-
-  .ids:not(:checked) + label {
-  -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-  -moz-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-  box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-    border-color:transparent;
-  } 
-
   </style>
 </body>
 </html>
