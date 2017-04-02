@@ -13,14 +13,10 @@
     ShopifyApp.ready(function(){
         $(".ids").on('click', function() {
             if(this.checked) {
-                $("#product").css("-webkit-box-shadow", "rgba(255,162,0,1)");
-                $("#product").css("-moz-box-shadow", "rgba(255,162,0,1)");
-                $("#product").css("box-shadow", "rgba(255,162,0,1)");
+                $("#product").css("border-color", "rgba(255,162,0,1)");
             }
             else {
-                $("#product").css("-webkit-box-shadow", "rgba(255, 255, 255, 1)");
-                $("#product").css("-moz-box-shadow", "rgba(255, 255, 255, 1)");
-                $("#product").css("box-shadow", "rgba(255, 255, 255, 1)");
+                $("#product").css("border-color", "rgba(255, 255, 255, 1)");
             }
         });
     });
