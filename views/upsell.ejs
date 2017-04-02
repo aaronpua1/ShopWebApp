@@ -11,8 +11,8 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        $("#id").on('click', function() {
-            if($this.checked) {
+        $("#id").click(function() {
+            if(this.checked) {
                 $("#product").css("border", "1px solid yellow");
             }
             else {
