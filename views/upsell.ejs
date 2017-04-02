@@ -12,12 +12,12 @@
 <div class="upsell-panel">
   <form id="info" class="signPanel" method="post" action="/formhandler.cgi">
     <ul class="rig columns-4">
-      <li class="product upsell clearfix">
+      <label for="ids"><li class="product upsell clearfix">
         <input class="img-check" type="checkbox" name="ids" value="{{ variant.id }}"/>
         <img src="https://www.suny.edu/media/suny/content-assets/images/homepage/youtube-icon-50x50.png" />
         <h3>Image Title</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      </li>
+      </li></label>
       <li class="plus"><img src="https://cdn4.iconfinder.com/data/icons/32x32-free-design-icons/32/Create.png"></li>
       <li class="product upsell clearfix">
         <input class="img-check" type="checkbox" name="ids" value="{{ variant.id }}"/>
@@ -154,44 +154,7 @@ ul.rig.columns-4 .product {
     background-color: #008CBA;
     color: white;
 }
-/* 
-   Upsell Styles (Aaron's code) 
-*/
 
-.upsell { 
-  margin:1em 0; 
-}
-/* Label */
-.upsell .header {
-  margin: 0.5em 0;
-}
-.upsell label {
-  /* Rounded corners */
-  -webkit-border-radius:2px;
-  -moz-border-radius:2px;
-  border-radius:2px;
-  /* To give width and height */
-  float:left;
-  /* Color swatches contain no text so they need to have a width. */
-  min-width:32px; 
-  min-height:32px;
-  /* No extra spacing between them */
-  margin:0;
-  /* The border when the button is not selected */
-  border:#ccc 1px solid;
-  /* Background color */
-  background-color:#ddd;
-  /* Styling text */
-  font-size:13px;
-  text-align:center;
-  line-height:32px;
-  white-space:nowrap;
-  text-transform:uppercase;
-}
-.upsell-element label { padding:0 10px; }
-.color.upsell-element label { padding:0; }
-/* Styling selected swatch */
-/* Slightly raised */
 .upsell input:checked + label {
 -webkit-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
 -moz-box-shadow: 0px 0px 2px 2px rgba(255,162,0,1);
