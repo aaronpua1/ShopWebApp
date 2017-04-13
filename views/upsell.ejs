@@ -21,7 +21,7 @@
               <b>Clássico</b></span> <span class="round-tag">-15%</span>
             </div>
             */
-      $('#btn-id').click(function() {
+      $('#hidden-sm').click(function() {
         if ($('#c1').is(':checked')) {
           $('#c1').prop('checked', false);
           $('.col-item').css('box-shadow', '0px 0px 56px 56px rgba(255,162,0,1)');
@@ -52,7 +52,7 @@
                 </div>
               </div>
               <div class="separator">
-                <p class="btn-add" id="btn-id"><input type="checkbox" id="c1" name="cb"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Add to bundle</a></p>
+                <p class="btn-add"><input type="checkbox" id="c1" name="cb"><i class="fa fa-shopping-cart"></i><a id="btn-id" class="hidden-sm" href="#">Add to bundle</a></p>
               </div>
               <div class="clearfix"></div>
             </div>
