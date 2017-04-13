@@ -96,7 +96,7 @@
             </div>
           </div>
         </div>
-        <div class="nopadding">
+        <div class="col-xs-1 col-sm-1 col-md-1 nopadding">
           <h2>+</h2>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
@@ -125,20 +125,20 @@
   </div>
   <style>
   @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
-  .nopadding 
+  div.nopadding 
   {
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    border: 1px solid #E1E1E1;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 15px;
+    height: 9em;
+    align-items: center
   }
-  @media (min-width: 15px) {
-      .nopadding {
-          float: left;
-      }
-      .nopadding {
-          width: 29.16666667%;
-      }
+  div.nopadding h2 
+  {
+    height: 9em;
+    display: flex;
+    align-items: center;
   }
   .col-item
   {
