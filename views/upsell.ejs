@@ -24,14 +24,14 @@
             */
       $('#btn-id').click(function(event) {
         if ($('#c1').is(':checked')) {
-          $('#c1').prop('checked', true);
+          $('#c1').prop('checked', false);
           $('.col-item').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
           $('.col-item').css('border-color', 'transparent');
           $('.col-item').css('border-radius', '10px');
           $('.col-item').css('background', '#FFF');
         }
         else {
-          $('#c1').prop('checked', false);
+          $('#c1').prop('checked', true);
           $('.col-item').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('.col-item').css('border-color', 'transparent');
           $('.col-item').css('border-radius', '10px');
