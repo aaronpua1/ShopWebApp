@@ -21,16 +21,20 @@
               <b>Clássico</b></span> <span class="round-tag">-15%</span>
             </div>
             */
-      $('#hidden-sm').click(function() {
+      $('#btn-id').click(function() {
         if ($('#c1').is(':checked')) {
           $('#c1').prop('checked', false);
           $('.col-item').css('box-shadow', '0px 0px 56px 56px rgba(255,162,0,1)');
-          $('border-color').css('border-color', 'transparent');
+          $('.col-item').css('border-color', 'transparent');
+          $('.col-item').css('border-radius', '10px');
+          $('.col-item').css('background', '#FFF');
         }
         else {
           $('#c1').prop('checked', true);
           $('.col-item').css('box-shadow', '0px 0px 56px 56px rgba(255, 255, 255, 1)');
-          $('border-color').css('border-color', 'transparent');
+          $('.col-item').css('border-color', 'transparent');
+          $('.col-item').css('border-radius', '10px');
+          $('.col-item').css('background', '#FFF');
         }  
       }
     });
@@ -145,7 +149,7 @@
     display: flex;
     align-items: center;
   }
-  .col-item
+  /*.col-item
   {
     border: 1px solid #E1E1E1;
     border-radius: 10px;
@@ -165,7 +169,7 @@
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;   
     border-bottom:2px solid #52A1D5;        
-  }
+  }*/
   .col-item .photo img
   {
     margin: 0 auto;
