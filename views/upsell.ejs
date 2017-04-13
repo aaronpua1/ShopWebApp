@@ -45,8 +45,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-1 nopadding">
-          <h2>+</h2>
+        <div class="col-xs-1 col-sm-1 col-md-1 nopadding">
+          <h2><span class="glyphicon glyphicon-plus"></span></h2>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
           <div class="col-item">
@@ -126,9 +126,11 @@
   <style>
   @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
   .nopadding {
-    padding: 1px;
-    margin: 1px;
-    width: 3px;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-column-width: 15px;
+    -moz-column-width: 15px;
+    column-width: 15px;
   }
   h2 {
     height: 9em;
