@@ -124,10 +124,10 @@
                 <div class="row">
                   <div class="price col-md-12">
                     <h5>Sample Product really long product name</h5>
-                    <span class="price-text">19.99€</span>
+                    <h5 class="price-text-color">19.99€</h5>
                   </div>
                   <div class="rating hidden-sm col-md-12">
-                    <i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                   </div>
                 </div>
                 <div class="separator">
@@ -148,10 +148,10 @@
                 <div class="row">
                   <div class="price col-md-12">
                     <h5>Sample Product really long product name</h5>
-                    <span class="price-text">19.99€</span>
+                    <h5 class="price-text-color">19.99€</h5>
                   </div>
                   <div class="rating hidden-sm col-md-12">
-                    <i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                   </div>
                 </div>
                 <div class="separator">
@@ -172,10 +172,10 @@
                 <div class="row">
                   <div class="price col-md-12">
                     <h5>Sample Product really long product name</h5>
-                    <span class="price-text">19.99€</span>
+                    <h5 class="price-text-color">19.99€</h5>
                   </div>
                   <div class="rating hidden-sm col-md-12">
-                    <i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                   </div>
                 </div>
                 <div class="separator">
@@ -196,10 +196,10 @@
                 <div class="row">
                   <div class="price col-md-12">
                     <h5>Sample Product</h5>
-                    <span class="price-text">19.99€</span>
+                    <h5 class="price-text-color">19.99€</h5>
                   </div>
                   <div class="rating hidden-sm col-md-12">
-                    <i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="rating-color fa fa-star"></i><i class="fa fa-star"></i>
+                    <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                   </div>
                 </div>
                 <div class="separator">
@@ -236,6 +236,7 @@
     vertical-align: middle;
     float: center;    
   }
+
   /*.nopadding p
   {
     height: 7em;
@@ -361,9 +362,10 @@
   .col-item .price
   {
     /*width: 50%;*/
-    float: left;
+    float: right;
     margin-top: 5px;
   }
+
   .col-item .price h5
   {
     line-height: 20px;
@@ -375,17 +377,11 @@
     white-space: nowrap;
   }
 
-  .price-text
-  {
-    font-size: 17px;
-    color: black;
-    text-align: right;
-    float: center;
-  }
-  .rating-color
+  .price-text-color
   {
     color: #219FD1;
   }
+
   .col-item .info .rating
   {
     color: #777;
@@ -394,7 +390,7 @@
   .col-item .rating
   {
     /*width: 50%;*/
-    float: center;
+    float: left;
     font-size: 15px;
     text-align: center;
     line-height: 52px;
