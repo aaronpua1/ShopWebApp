@@ -210,7 +210,7 @@
             </div>
           </div>
           <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width:20px;">
-            <h4>Total price: $24.98</h4>
+            <h4>Total price: </h4><h4 id="price">$24.98</h4>
             <button class="btn btn-primary upsell-button" id="add-upsell" name="add-upsell" type="submit" form="upsell-form">Add to Cart</button>
           </div>
         </div>
@@ -240,6 +240,10 @@
     align-text: center;
     vertical-align: middle;
     float: center;
+  }
+  .nopadding #price
+  {
+    color: red;
   }
   .nopadding .upsell-button
   { 
