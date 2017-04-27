@@ -94,7 +94,7 @@
         <div class="row upsell-row">
           <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">            
             <div class="col-item" id="item1">
-              <span class="tooltiptext">Tooltip text</span>
+              <span class="tooltiptext">Tooltip text long fucking name here</span>
               <div class="photo"><img alt="a" class="img-responsive" src="http://placehold.it/350x260"></div>
               <div class="info">
                 <div class="row">
@@ -253,12 +253,15 @@
     background-color: black;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
     border-radius: 6px;
- 
-    /* Position the tooltip text - see examples below! */
+    padding: 5px 0;
+    
+    /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
   }
   .col-item:hover .tooltiptext
   {
