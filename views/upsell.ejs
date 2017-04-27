@@ -253,29 +253,28 @@
     background-color: black;
     color: #fff;
     text-align: center;
-    border-radius: 6px;
     padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -60px;
   }
   .col-item:hover .tooltiptext
   {
     visibility: visible;
   }
-  .col-item .tooltiptext::after
-  {
-    content: " ";
+  /*.col-item .tooltiptext::after {
+    content: "";
     position: absolute;
-    bottom: 100%;  /* At the top of the tooltip */
+    top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent black transparent;
-  }
+    border-color: black transparent transparent transparent;
+  }*/
+
   /*.col-item:hover
   { 
     box-shadow: 0px 2px 5px -1px #000;
