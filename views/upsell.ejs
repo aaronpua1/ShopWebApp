@@ -248,14 +248,14 @@
   }
   .col-item .tooltiptext::after
   {
-    content: "";
+    content: " ";
     position: absolute;
-    top: 100%;
+    bottom: 100%;  /* At the top of the tooltip */
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: transparent transparent black transparent;
   }
   .col-item
   {
