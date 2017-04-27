@@ -33,7 +33,7 @@
         }
         else {
           $('#c1').prop('checked', true); 
-          $('#text1').text('Remove from bundle');
+          $('#text1').text('Remove item');
           $('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('#item1').css('border-color', 'transparent');
           $('#item1').css('border-radius', '10px');
@@ -43,6 +43,7 @@
       $('#btn-id2').click(function(event) {
         if ($('#c2').is(':checked')) {
           $('#c2').prop('checked', false);
+          $('#text2').text('Add to bundle');
           $('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
           $('#item2').css('border-color', 'transparent');
           $('#item2').css('border-radius', '10px');
@@ -50,6 +51,7 @@
         }
         else {
           $('#c2').prop('checked', true);
+          $('#text2').text('Remove item');
           $('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('#item2').css('border-color', 'transparent');
           $('#item2').css('border-radius', '10px');
@@ -59,6 +61,7 @@
       $('#btn-id3').click(function(event) {
         if ($('#c3').is(':checked')) {
           $('#c3').prop('checked', false);
+          $('#text3').text('Add to bundle');
           $('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
           $('#item3').css('border-color', 'transparent');
           $('#item3').css('border-radius', '10px');
@@ -66,6 +69,7 @@
         }
         else {
           $('#c3').prop('checked', true);
+          $('#text3').text('Remove item');
           $('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('#item3').css('border-color', 'transparent');
           $('#item3').css('border-radius', '10px');
@@ -75,6 +79,7 @@
       $('#btn-id4').click(function(event) {
         if ($('#c4').is(':checked')) {
           $('#c4').prop('checked', false);
+          $('#text4').text('Add to bundle');
           $('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
           $('#item4').css('border-color', 'transparent');
           $('#item4').css('border-radius', '10px');
@@ -82,6 +87,7 @@
         }
         else {
           $('#c4').prop('checked', true);
+          $('#text4').text('Remove item');
           $('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('#item4').css('border-color', 'transparent');
           $('#item4').css('border-radius', '10px');
@@ -133,7 +139,7 @@
                   </div>
                 </div>
                 <div class="separator">
-                  <p id="btn-id2" class="btn-add"><input type="checkbox" id="c2" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Add to bundle</a></p>
+                  <p id="btn-id2" class="btn-add"><input type="checkbox" id="c2" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a id="text2" class="hidden-sm" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -157,7 +163,7 @@
                   </div>
                 </div>
                 <div class="separator">
-                  <p id="btn-id3" class="btn-add"><input type="checkbox" id="c3" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Add to bundle</a></p>
+                  <p id="btn-id3" class="btn-add"><input type="checkbox" id="c3" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a id="text3" class="hidden-sm" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -181,7 +187,7 @@
                   </div>
                 </div>
                 <div class="separator">
-                  <p id="btn-id4" class="btn-add"><input type="checkbox" id="c4" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Add to bundle</a></p>
+                  <p id="btn-id4" class="btn-add"><input type="checkbox" id="c4" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a id="text4" class="hidden-sm" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
