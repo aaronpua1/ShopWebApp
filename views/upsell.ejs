@@ -22,20 +22,18 @@
               <b>Clássico</b></span> <span class="round-tag">-15%</span>
             </div>
             */
-      $('.btn-add').click(function(event) {
+      $('#btn-id1').click(function(event) {
         if ($('#c1').is(':checked')) {
-          $('#remove-btn-id1').prop('hidden', true);
-          $('#add-btn-id1').prop('hidden', false);
           $('#c1').prop('checked', false);
+          $('#text1').text('Add to bundle');
           $('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
           $('#item1').css('border-color', 'transparent');
           $('#item1').css('border-radius', '10px');
           $('#item1').css('background', '#FFF');
         }
         else {
-          $('#remove-btn-id1').prop('hidden', false);
-          $('#add-btn-id1').prop('hidden', true);
-          $('#c1').prop('checked', true);          
+          $('#c1').prop('checked', true); 
+          $('#text1').text('Remove from bundle');
           $('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255,162,0,1)');
           $('#item1').css('border-color', 'transparent');
           $('#item1').css('border-radius', '10px');
@@ -111,8 +109,7 @@
                   </div>
                 </div>
                 <div class="separator">
-                  <p id="add-btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Add to bundle</a></p>
-                  <p id="remove-btn-id1" class="btn-add" style="display:none"><input type="checkbox" id="c1" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a class="hidden-sm" href="#">Remove from bundle</a></p>                  
+                  <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb" style="display:none"><i class="fa fa-shopping-cart"></i><a id="text1" class="hidden-sm" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
