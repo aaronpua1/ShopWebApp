@@ -127,8 +127,8 @@
                     <h5>Sample Product really long product name</h5>
                     <h5 class="price-text-color">19.99€</h5>
                   </div>
-                  <div class="col-md-12">
-                    <select class="variant form-control">
+                  <div class="variant col-md-12">
+                    <select class="variant-select form-control">
                       <option value="one">One</option>
                       <option value="two">Two</option>
                       <option value="three">Three</option>
@@ -411,14 +411,15 @@
   }
   .col-item .variant
   {
-    width: 75%;
     float: none;
-    font-size: 14px;
-    text-align: center;
-    display: block;
     line-height: 52px;
     margin-top: 1px;
-    height: 20px;
+  }
+  .variant-select
+  {
+    text-align: center;
+    font-size: 14px;
+    text-align: center;
   }
   .col-item .separator
   {
