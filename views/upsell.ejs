@@ -15,7 +15,7 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-      Shopify.queue = [];
+      /*Shopify.queue = [];
       function submitUpsell() {
         if (jQuery("input[name='cb[]']:checked").length < 1) {
           return false; //Needs to change layout: 'Please select at least one variant.'
@@ -28,11 +28,11 @@
             });
           });
         }
-      }
+      }*/
       /*============================================================================
         POST to cart/add.js returns the JSON of the line item associated with the added item
       ==============================================================================*/
-      Shopify.addItem = function(variant_id, quantity, callback) {
+      /*Shopify.addItem = function(variant_id, quantity, callback) {
         var quantity = quantity || 1,
             params = {
           type: 'POST',
@@ -64,7 +64,7 @@
         else {
           document.location.href = '/cart';
         }
-      };
+      };*/
       $('#btn-id1').click(function(event) {
         if ($('#c1').is(':checked')) {
           $('#c1').prop('checked', false);
@@ -260,7 +260,7 @@
             <h2><span class="glyphicon glyphicon-plus"></span></h2>
           </div>
           <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">            
-            <div class="col-item" id="item4">
+            <div class="col-item" id="item4" style="display: none;">
               <span class="tooltiptext">Sample Product really long product name</span>
               <div class="photo"><img alt="a" class="img-responsive" src="http://placehold.it/350x260"></div>
               <div class="info">
