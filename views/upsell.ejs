@@ -15,13 +15,56 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
-        //<link rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css' />
-        //http://bootsnipp.com/snippets/KGmRQ
-        /*            <div class="post-img-content">
-              <img alt="a" class="img-responsive" src="http://placehold.it/350x260"> <span class="post-title"><b>Perfumes</b><br>
-              <b>Clássico</b></span> <span class="round-tag">-15%</span>
-            </div>
-            */
+      Shopify.queue = [];
+      function submitUpsell() {
+        if (jQuery("input[name='cb[]']:checked").length < 1) {
+          return false; //Needs to change layout: 'Please select at least one variant.'
+        }
+        else {
+          jQuery("input[name='cb[]']:checked").each(function() {
+            Shopify.queue.push({
+              variantId: parseInt(jQuery(this).val(), 10),
+              quantity: 1
+            });
+          });
+        }
+      }
+      /*============================================================================
+        POST to cart/add.js returns the JSON of the line item associated with the added item
+      ==============================================================================*/
+      Shopify.addItem = function(variant_id, quantity, callback) {
+        var quantity = quantity || 1,
+            params = {
+          type: 'POST',
+          url: '/cart/add.js',
+          data: 'quantity=' + quantity + '&id=' + variant_id,
+          dataType: 'json',
+          success: function(line_item) {
+            if ((typeof callback) === 'function') {
+              callback(line_item);
+            }
+            else {
+              Shopify.onItemAdded(line_item);
+            }
+          },
+          error: function(XMLHttpRequest, textStatus) {
+            Shopify.onError(XMLHttpRequest, textStatus);
+          }
+        };
+        jQuery.ajax(params);
+      };
+
+      Shopify.moveAlong = function() {
+        // If we still have requests in the queue, let's process the next one.
+        if (Shopify.queue.length) {
+          var request = Shopify.queue.shift();
+          Shopify.addItem(request.variantId, request.quantity, Shopify.moveAlong);
+        }
+        // If the queue is empty, we will redirect to the cart page.
+        else {
+          document.location.href = '/cart';
+        }
+      };
       $('#btn-id1').click(function(event) {
         if ($('#c1').is(':checked')) {
           $('#c1').prop('checked', false);
@@ -115,7 +158,7 @@
   <div class="bootstrap">
     <div class="container upsell-container" style="margin-top:20px;">
       <h3>Frequently bought together</h3>
-      <form id="upsell-form" method="POST" action="/add-upsell">
+      <form id="add-upsell-form" onsubmit="submitUpsell(); return false;">
         <div class="row upsell-row">
           <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">            
             <div class="col-item" id="item1">
@@ -141,7 +184,7 @@
                   <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                 </div>
                 <div class="separator">
-                  <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb1" value="product-handle1" style="display:none"><i id="icon1" class="fa fa-shopping-cart"></i><a id="text1" href="#">Add to bundle</a></p>
+                  <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb[]" value="product-handle1" style="display:none"><i id="icon1" class="fa fa-shopping-cart"></i><a id="text1" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -174,7 +217,7 @@
                   <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                 </div>
                 <div class="separator">
-                  <p id="btn-id2" class="btn-add"><input type="checkbox" id="c2" name="cb2" value="product-handle2" style="display:none"><i id="icon2" class="fa fa-shopping-cart"></i><a id="text2" href="#">Add to bundle</a></p>
+                  <p id="btn-id2" class="btn-add"><input type="checkbox" id="c2" name="cb[]" value="product-handle2" style="display:none"><i id="icon2" class="fa fa-shopping-cart"></i><a id="text2" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -207,7 +250,7 @@
                   <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                 </div>
                 <div class="separator">
-                  <p id="btn-id3" class="btn-add"><input type="checkbox" id="c3" name="cb3" value="product-handle3" style="display:none"><i id="icon3" class="fa fa-shopping-cart"></i><a id="text3" href="#">Add to bundle</a></p>
+                  <p id="btn-id3" class="btn-add"><input type="checkbox" id="c3" name="cb[]" value="product-handle3" style="display:none"><i id="icon3" class="fa fa-shopping-cart"></i><a id="text3" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
@@ -240,7 +283,7 @@
                   <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                 </div>
                 <div class="separator">
-                  <p id="btn-id4" class="btn-add"><input type="checkbox" id="c4" name="cb4" value="product-handle4" style="display:none"><i id="icon4" class="fa fa-shopping-cart"></i><a id="text4" href="#">Add to bundle</a></p>
+                  <p id="btn-id4" class="btn-add"><input type="checkbox" id="c4" name="cb[]" value="product-handle4" style="display:none"><i id="icon4" class="fa fa-shopping-cart"></i><a id="text4" href="#">Add to bundle</a></p>
                 </div>
                 <div class="clearfix"></div>
               </div>
