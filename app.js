@@ -158,7 +158,6 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     console.log(body);
                     body = JSON.parse(body);
                     callback(null, access_token, theme_id);
-                    //callback(null, 'done');
                 });
             },
             function(access_token, theme_id, callback) {
