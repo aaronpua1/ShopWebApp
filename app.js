@@ -909,11 +909,11 @@ app.post('/create-offer', function(req, res) {
             
             for (var i in product_selections) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                console.log("PRODUCT: "+ temp_product);
+                console.log("PRODUCT: "+ temp_product.id);
                 var count = 1;
                 for (var j in upsell_selections) {
                     var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
-                    console.log("UPSELL: "+ temp_upsell);
+                    console.log("UPSELL: "+ temp_upsell.id);
                     if (req.body.activate_offer) {
                         if (req.body.edge_type) {
                             var data = {
