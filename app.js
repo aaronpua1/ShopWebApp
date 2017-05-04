@@ -161,6 +161,37 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     body = JSON.parse(body);
                     callback(null, 'done');
                 });
+            },
+            function(access_token, theme_id, callback) {
+                var data = {
+                    asset: {
+                        key: "Snippets\/contained-bootstrap.min.css",
+                        value: {
+                            " "
+                        }
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.query.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                    headers: {
+                        'X-Shopify-Access-Token': access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, 'done');
+                });
             }
         ],
         function(err, result) {
@@ -890,7 +921,7 @@ app.post('/create-offer', function(req, res) {
                             metafield: {
                                 namespace: "suop",
                                 key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:on",
+                                value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
                                 value_type: "string"
                             }
                         }
@@ -900,7 +931,7 @@ app.post('/create-offer', function(req, res) {
                             metafield: {
                                 namespace: "suop",
                                 key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:off",
+                                value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
                                 value_type: "string"
                             }
                         }
@@ -997,7 +1028,7 @@ app.post('/create-offer', function(req, res) {
                         var data = {
                             metafield: {
                                 id: metafields[0].id,
-                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer,
+                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
                                 value_type: "string"
                             }
                         }
@@ -1030,7 +1061,7 @@ app.post('/create-offer', function(req, res) {
                             metafield: {
                                 namespace: "suo",
                                 key: req.body.offer_name,
-                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer,
+                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
                                 value_type: "string"
                             }
                         }
@@ -1061,7 +1092,7 @@ app.post('/create-offer', function(req, res) {
                             var data2 = {
                                 metafield: {
                                     id: body1.metafield.id,
-                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer,
+                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
                                     value_type: "string"
                                 }
                             }
@@ -1121,8 +1152,11 @@ app.post('/create-offer', function(req, res) {
                   <%= product_selections.products[i].title %>
                 </option><%} %>
 */
-/*
+
 //GOOD
+//https://cdn.shopify.com/s/files/1/1826/5527/products/news-icon-7728.png?v=1490957249
+//https://cdn.shopify.com/s/files/1/1826/5527/products/folder-icon-25160.png?v=1490957265
+//https://cdn.shopify.com/s/files/1/1826/5527/products/grasping-shrimp-net-icons-40948.png?v=1490957279
 // This is used to allow store owners to delete their offers from the store metafields Namespace: suo
 app.get('/delete-offer', function(req, res) {
     request({
@@ -1142,8 +1176,8 @@ app.get('/delete-offer', function(req, res) {
         } 
         res.json(200);
     });
-})*/
-
+})
+/*
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
         function(callback) {
@@ -1263,7 +1297,7 @@ app.get('/delete-offer', function(req, res) {
         res.json(200);
     });
 })
-
+*/
 app.get('/activate-offer', function(req, res) {
     async.waterfall([
         function(callback) {

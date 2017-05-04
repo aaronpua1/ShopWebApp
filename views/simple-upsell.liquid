@@ -1,0 +1,575 @@
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'contained-bootstrap.min.css' | asset_url | stylesheet_tag }}
+  {{ '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' | stylesheet_tag }}
+
+  {% if product.metafields.suop != blank %}
+    {% assign metafields = product.metafields.suop %}
+    {% if (metafields[0] | last) contains "status:on" %}
+      <div id="simple-upsell" class="bootstrap">
+        <div class="container upsell-container" style="margin-top:20px;">
+          {% assign upsell_values = metafields[0] | last | split: ";"%}
+          {% for upsell_value in upsell_values %}
+            {% if upsell_value contains "offer_title:" %}
+              <h3>{{ upsell_value | replace: "offer_title:", ""}}</h3>
+            {% endif %}
+            {% if upsell_value contains "offer_description:" %}
+              <h5>{{ upsell_value | replace: "offer_description:", ""}}</h5>
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          <form id="add-upsell-form" onsubmit="submitUpsell(); return false;">
+            <div class="row upsell-row">
+              {% for (field in metafields) or (i in (1..4)) %}
+                {% assign value = field | last | split: ";" | first | split: ":" | last %}
+                {% assign item = all_products[value] %}
+                {% assign variants = item.variants %}
+                <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
+                  {% if i > metafields | size %}
+                    <div class="col-item" id="item{{ i }}" style="display: none;">
+                  {% else %}
+                    <div class="col-item" id="item{{ i }}">
+                  {% endif %}
+                      <span class="tooltiptext">{{ item.title }}</span>
+                      <div class="photo"><img alt="a" class="img-responsive" src="{{ item.featured_image.src | product_img_url: '350x260', crop: 'center' }}"></div>
+                      <div class="info">
+                        <div class="row">
+                          <div class="price col-md-12">
+                            <h5>{{ item.title }}</h5>
+                            <h5 id="variant-price{{ i }}" class="price-text-color">{{ variants[0].price | money }}</h5>
+                          </div>
+                          <div class="variant col-md-12">
+                          {% if (variants | size) <= 1 %}
+                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}" style="visibility: hidden;">
+                              {% for variant in variants %}
+                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                              {% endfor %}
+                            </select>
+                          {% else %}
+                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}">
+                              {% for variant in variants %}
+                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                              {% endfor %}
+                            </select>
+                          {% endif %}
+                          </div>
+                        </div>
+                        <div class="rating col-md-12" style="visibility: hidden;">
+                          <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
+                        </div>
+                        <div class="separator">
+                          <p id="btn-id{{ i }}" class="btn-add"><input type="checkbox" id="c{{ i }}" name="cb[]" value="{{ variants[0].id }}" style="display:none"><i id="icon{{ i }}" class="fa fa-shopping-cart"></i><a id="text{{ i }}" href="#">Add to bundle</a></p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div> 
+                  {% if i >= metafields | size %}
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px; display: none;">
+                      <h2><span class="glyphicon glyphicon-plus"></span></h2>
+                    </div>
+                  {% else %}
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
+                      <h2><span class="glyphicon glyphicon-plus"></span></h2>
+                    </div>
+                  {% endif %}
+              {% endfor %}
+              <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width: 20px;">
+                <div class="cart-confirmation">
+                  <p style="font-size:17px; color:black; font-weight:bold;">
+                    Total Price: <span id="total-price" style="color:red">$0.00</span>
+                  </p>
+                  <button class="btn btn-primary upsell-button" id="add-upsell" name="add-upsell" type="submit" form="upsell-form">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+  <script type="text/javascript">
+    var values = new Object();
+    {% assign metafields = product.metafields.suop %}
+    {% assign upsell_values = metafields[0] | last | split: ";"%}
+    {% for upsell_value in upsell_values %}
+      {% assign config = upsell_value | split: ":" %}
+      values[{{config[0]}}] = {{config[1]}};
+    {% endfor %}
+    
+    if (values['edge_type'] == "not_rounded")
+      jQuery('.col-item').css('border-radius', '0px');
+    else 
+      jQuery('.col-item').css('border-radius', '10px');
+      
+    Shopify.queue = [];
+    function submitUpsell() {
+      if (jQuery("input[name='cb[]']:checked").length < 1) {
+        alert("Please select at least one variant.");
+        return false; //Needs to change layout: 'Please select at least one variant.'
+      }
+      else {
+        jQuery("input[name='cb[]']:checked").each(function() {
+          Shopify.queue.push({
+            variantId: parseInt(jQuery(this).val(), 10),
+            quantity: 1
+          });
+        });
+        Shopify.moveAlong();
+      }
+    }
+    Shopify.moveAlong = function() {
+      // If we still have requests in the queue, let's process the next one.
+      if (Shopify.queue.length) {
+        var request = Shopify.queue.shift();
+        Shopify.addItem(request.variantId, request.quantity, Shopify.moveAlong);
+      }
+      // If the queue is empty, we will redirect to the cart page.
+      else {
+        document.location.href = '/cart';
+      }
+    };    
+    function calculateTotal(itemPrice, itemStatus) {
+      var currentTotal = Number(jQuery('#total-price').text().replace(/[^0-9-\.]+/g, ""));
+      var item = Number(itemPrice.replace(/[^0-9-\.]+/g, ""));
+      var total = 0;
+      
+      if (itemStatus) {
+        total = currentTotal + item;
+      }
+      else {
+        total = currentTotal - item;
+      }
+      
+      jQuery('#total-price').text(total.toString());
+    }
+    jQuery('#variant1').change(function() {
+      var value = jQuery('#variant1').val().split('-');
+      jQuery('#c1').val(value[0]);
+      jQuery('#variant-price1').text(value[1]);      
+      if (jQuery('#c1').is(':checked')) {
+        calculateTotal(jQuery('#variant-price1').text(), true);
+      }
+    });
+    jQuery('#variant2').change(function() {
+      var value = jQuery('#variant2').val().split('-');
+      jQuery('#c2').val(value[0]);
+      jQuery('#variant-price2').text(value[1]);      
+      if (jQuery('#c2').is(':checked')) {
+        calculateTotal(jQuery('#variant-price2').text(), true);
+      }
+    });
+    jQuery('#variant3').change(function() {
+      var value = jQuery('#variant3').val().split('-');
+      jQuery('#c3').val(value[0]);
+      jQuery('#variant-price3').text(value[1]);      
+      if (jQuery('#c3').is(':checked')) {
+        calculateTotal(jQuery('#variant-price3').text(), true);
+      }
+    });
+    jQuery('#variant4').change(function() {
+      var value = jQuery('#variant4').val().split('-');
+      jQuery('#c4').val(value[0]);
+      jQuery('#variant-price4').text(value[1]);      
+      if (jQuery('#c4').is(':checked')) {
+        calculateTotal(jQuery('#variant-price4').text(), true);
+      }
+    });
+    jQuery('#btn-id1').click(function(event) {
+      if (jQuery('#c1').is(':checked')) {
+        jQuery('#c1').prop('checked', false);
+        jQuery('#text1').text('Add to bundle');
+        jQuery('#icon1').attr('class', 'fa fa-shopping-cart');
+        jQuery('#icon1').css('color', 'black');
+        jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
+        jQuery('#item1').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item1').css('border-radius', '0px');
+        else 
+          jQuery('#item1').css('border-radius', '10px');
+        jQuery('#item1').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price1').text(), false);
+      }
+      else {
+        jQuery('#c1').prop('checked', true); 
+        jQuery('#text1').text('Remove item');
+        jQuery('#icon1').attr('class', 'fa fa-times');
+        jQuery('#icon1').css('color', 'red');
+        jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
+        jQuery('#item1').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item1').css('border-radius', '0px');
+        else 
+          jQuery('#item1').css('border-radius', '10px');
+        jQuery('#item1').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price1').text(), true);
+      }  
+    });
+    jQuery('#btn-id2').click(function(event) {
+      if (jQuery('#c2').is(':checked')) {
+        jQuery('#c2').prop('checked', false);
+        jQuery('#text2').text('Add to bundle');
+        jQuery('#icon2').attr('class', 'fa fa-shopping-cart');
+        jQuery('#icon2').css('color', 'black');
+        jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
+        jQuery('#item2').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item2').css('border-radius', '0px');
+        else 
+          jQuery('#item2').css('border-radius', '10px');
+        jQuery('#item2').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price2').text(), false);
+      }
+      else {
+        jQuery('#c2').prop('checked', true);
+        jQuery('#text2').text('Remove item');
+        jQuery('#icon2').attr('class', 'fa fa-times');
+        jQuery('#icon2').css('color', 'red');
+        jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
+        jQuery('#item2').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item2').css('border-radius', '0px');
+        else 
+          jQuery('#item2').css('border-radius', '10px');
+        jQuery('#item2').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price2').text(), true);
+      }  
+    });
+    jQuery('#btn-id3').click(function(event) {
+      if (jQuery('#c3').is(':checked')) {
+        jQuery('#c3').prop('checked', false);
+        jQuery('#text3').text('Add to bundle');
+        jQuery('#icon3').attr('class', 'fa fa-shopping-cart');
+        jQuery('#icon3').css('color', 'black');
+        jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
+        jQuery('#item3').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item3').css('border-radius', '0px');
+        else 
+          jQuery('#item3').css('border-radius', '10px');
+        jQuery('#item3').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price3').text(), false);
+      }
+      else {
+        jQuery('#c3').prop('checked', true);
+        jQuery('#text3').text('Remove item');
+        jQuery('#icon3').attr('class', 'fa fa-times');
+        jQuery('#icon3').css('color', 'red');
+        jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
+        jQuery('#item3').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item3').css('border-radius', '0px');
+        else 
+          jQuery('#item3').css('border-radius', '10px');
+        jQuery('#item3').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price3').text(), true);
+      }  
+    });
+    jQuery('#btn-id4').click(function(event) {
+      if (jQuery('#c4').is(':checked')) {
+        jQuery('#c4').prop('checked', false);
+        jQuery('#text4').text('Add to bundle');
+        jQuery('#icon4').attr('class', 'fa fa-shopping-cart');
+        jQuery('#icon4').css('color', 'black');
+        jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
+        jQuery('#item4').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item4').css('border-radius', '0px');
+        else 
+          jQuery('#item4').css('border-radius', '10px');
+        jQuery('#item4').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price4').text(), false);
+      }
+      else {
+        jQuery('#c4').prop('checked', true);
+        jQuery('#text4').text('Remove item');
+        jQuery('#icon4').attr('class', 'fa fa-times');
+        jQuery('#icon4').css('color', 'red');
+        jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
+        jQuery('#item4').css('border-color', 'transparent');
+        if (values['edge_type'] == "not_rounded")
+          jQuery('#item4').css('border-radius', '0px');
+        else 
+          jQuery('#item4').css('border-radius', '10px');
+        jQuery('#item4').css('background', '#FFF');
+        calculateTotal(jQuery('#variant-price4').text(), true);
+      }  
+    });
+  </script>
+  <style>
+  @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+  .nopadding 
+  {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .nopadding h2 
+  {
+    height: 8em;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    float: center;    
+  }
+  .nopadding .cart-confirmation 
+  { 
+    display: inline-block;
+    align-items: center;
+    vertical-align: middle;
+    float: center;
+    margin-top: 6em;
+  }
+  .upsell-container
+  {
+    float: left;  
+    /*background-color: yellow;*/
+  }
+  .upsell-row
+  {
+    border: 3px solid black;
+    /*background-color: transparent;*/
+    width: 85%;
+  }
+  .upsell-product
+  {
+    width: 100%;
+    display: inline-table;
+    float: center;
+  }
+  .col-item
+  {
+    position: relative;
+    width: 175px;
+    height: 270px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    min-width: 175px;
+    min-height: 270px;    
+    max-width: 175px;    
+    max-height: 270px;
+    border-radius: 10px;
+    background: #FFF;
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
+    border-color: transparent;
+  }
+  .col-item .tooltiptext
+  {
+    visibility: hidden;
+    width: auto;
+    max-width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  .col-item:hover .tooltiptext
+  {
+    visibility: visible;
+    opacity: 1;
+  }
+  .col-item .tooltiptext:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+  .col-item .photo img
+  {
+    margin: 0 auto;
+    width: 100%;
+    padding: 1px;
+    border-radius: 10px 10px 0 0 ;
+  }
+  .col-item .info
+  {
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+    margin-top: 1px;
+  }
+
+  .col-item .price
+  {
+    float: none;    
+  }
+  .col-item .price h5
+  {
+    margin: 3px;
+    text-align: left;
+    line-height: 20px;
+    width: auto;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .price-text-color
+  {
+    color: #219FD1;
+  }
+  .col-item .info .rating
+  {
+    color: #777;
+  }
+  .col-item .rating
+  {
+    float: none;
+    font-size: 15px;
+    text-align: center;
+    line-height: 20px;
+    margin-bottom: 10px;
+    height: 10px;
+  }
+  .col-item .variant
+  {
+    float: none;
+    font-size: 14px;
+    text-align: center;
+    line-height: 25px;
+    margin: 1px;
+    height: 30px;
+  }
+  .col-item .variant .variant-select
+  {
+    width: 70%;
+  }
+  .col-item .separator
+  {
+    border-top: 1px solid #E1E1E1;
+  }
+  .clear-left
+  {
+    clear: left;
+  }
+  .col-item .separator p
+  {
+    line-height: 20px;
+    margin: 5px;
+    text-align: center;
+    float: none;
+    padding-right: 15px;
+  }
+  .col-item .separator p i
+  {
+    margin-right: 5px;
+    float: none;
+  }
+  .col-item .btn-add
+  {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    float: none;
+  }
+  .col-item .btn-details
+  {
+    width: 50%;
+    float: left;
+    padding-left: 10px;
+  }
+  .controls
+  {
+    margin-top: 20px;
+  }
+  [data-slide="prev"]
+  {
+    margin-right: 10px;
+  }
+
+  /*
+  Hover the image
+  */
+  .post-img-content
+  {
+    height: 196px;
+    position: relative;
+  }
+  .post-img-content img
+  {
+    position: absolute;
+    padding: 1px;
+    border-radius: 10px 10px 0 0 ;
+  }
+  .post-title{
+    display: table-cell;
+    vertical-align: bottom;
+    z-index: 2;
+    position: relative;
+  }
+  .post-title b{
+    background-color: rgba(51, 51, 51, 0.58);
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 2px;
+    color: #FFF;
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .post-title b:first-child{
+    font-size: 14px;
+  }
+  .round-tag{
+    width: 60px;
+    height: 60px;
+    border-radius: 50% 50% 50% 0;
+    border: 4px solid #FFF;
+    background: #37A12B;
+    position: absolute;
+    bottom: 0px;
+    padding: 15px 6px;
+    font-size: 17px;
+    color: #FFF;
+    font-weight: bold;
+  }
+  /*
+  ***********STYLING WITHOUT DROPDOWN VARIANT SELECT BOX************
+    .col-item .price
+  {
+    float: none;
+    margin: 5px;
+  }
+  .col-item .price h5
+  {
+    text-align: left;
+    line-height: 20px;
+    margin: 5px;
+    width: auto;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .price-text-color
+  {
+    color: #219FD1;
+  }
+  .col-item .info .rating
+  {
+    color: #777;
+  }
+  .col-item .rating
+  {
+    float: none;
+    font-size: 15px;
+    text-align: center;
+    line-height: 52px;
+    margin-bottom: 1px;
+    height: 40px;
+  } */
+  </style>
