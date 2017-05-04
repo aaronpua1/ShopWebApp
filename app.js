@@ -904,8 +904,21 @@ app.post('/create-offer', function(req, res) {
     async.parallel([
         function(callback) {
             var requests = [];
-            var upsell_selections = req.query.upsell_dual_box;
-            var product_selections = req.query.product_dual_box;
+            var upsell_selections = [];
+            var product_selections = [];
+            
+            if (Array.isArray(req.body.upsell_dual_box)) {
+                upsell_selections = req.body.upsell_dual_box.slice(0);
+            }
+            else {
+                upsell_selections.push(req.body.upsell_dual_box);
+            }
+            if (Array.isArray(req.body.product_dual_box)) {
+                product_selections = req.body.product_dual_box.slice(0);
+            }
+            else {
+                product_selections.push(req.body.product_dual_box);
+            }
             
             for (var i in product_selections) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
@@ -1023,25 +1036,25 @@ app.post('/create-offer', function(req, res) {
                     
                     //console.log(req.body.upsell_dual_box);
                     //console.log(req.body.product_dual_box);
-                    if (Array.isArray(req.query.upsell_dual_box)) {
-                        for (var key in req.query.upsell_dual_box) {
-                            upsell_products += req.query.upsell_dual_box[key];
+                    if (Array.isArray(req.body.upsell_dual_box)) {
+                        for (var key in req.body.upsell_dual_box) {
+                            upsell_products += req.body.upsell_dual_box[key];
                             upsell_products += ",";
                         }
                         upsell_products = upsell_products.replace(/\,$/, '');
                     }
                     else {
-                        upsell_products = req.query.upsell_dual_box;
+                        upsell_products = req.body.upsell_dual_box;
                     }
-                    if (Array.isArray(req.query.product_dual_box)) {
-                        for (var key in req.query.product_dual_box) {
-                            products += req.query.product_dual_box[key];
+                    if (Array.isArray(req.body.product_dual_box)) {
+                        for (var key in req.body.product_dual_box) {
+                            products += req.body.product_dual_box[key];
                             products += ",";
                         }
                         products = products.replace(/\,$/, '');
                     }
                     else {
-                        products = req.query.product_dual_box;
+                        products = req.body.product_dual_box;
                     }
                     
                     if (metafields.length > 0) {
