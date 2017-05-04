@@ -913,48 +913,48 @@ app.post('/create-offer', function(req, res) {
                 for (var j in upsell_selections) {
                     var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
                     if (req.body.activate_offer) {
-                      if (req.body.edge_type) {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                value_type: "string"
+                        if (req.body.edge_type) {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su" + count.toString(),
+                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
-                      }
-                      else {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                value_type: "string"
+                        else {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su" + count.toString(),
+                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
-                      }
                     }
                     else {
-                      if (req.body.edge_type) {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                value_type: "string"
+                        if (req.body.edge_type) {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su" + count.toString(),
+                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
-                      }
-                      else {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su" + count.toString(),
-                                value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                value_type: "string"
+                        else {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su" + count.toString(),
+                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
-                      }
                     }
                     req_body = JSON.stringify(data);
                     console.log("POST REQUEST: "+ req_body);
