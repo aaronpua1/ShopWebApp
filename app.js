@@ -107,7 +107,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             function(access_token, callback) {
                 var theme_id;
                 request.get({
-                    url: 'https://' + req.query.shop + '.myshopify.com/admin/themes.json?fields=name,id,role',
+                    url: 'https://' + req.query.shop + '/admin/themes.json?fields=name,id,role',
                     headers: {
                         'X-Shopify-Access-Token': access_token
                     }
@@ -142,7 +142,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 
                 request({
                     method: "PUT",
-                    url: 'https://' + req.query.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                    url: 'https://' + req.query.shop + '/admin/themes/' + theme_id + '/assets.json',
                     headers: {
                         'X-Shopify-Access-Token': access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -171,7 +171,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 
                 request({
                     method: "PUT",
-                    url: 'https://' + req.query.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                    url: 'https://' + req.query.shop + '/admin/themes/' + theme_id + '/assets.json',
                     headers: {
                         'X-Shopify-Access-Token': access_token,
                         'Content-type': 'application/json; charset=utf-8'
