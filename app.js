@@ -907,10 +907,12 @@ app.post('/create-offer', function(req, res) {
             var upsell_selections = req.body.upsell_dual_box;
             var product_selections = req.body.product_dual_box;
 
-            for (var i in product_selections) {
+            //for (var i in product_selections) {
+            for (var i = 0; i < product_selections.length; i++) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
                 var count = 1;
-                for (var j in upsell_selections) {
+                //for (var j in upsell_selections) {
+                for (var j = 0; j < upsell_selections.length; j++) {
                     var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
                     if (req.body.activate_offer) {
                         if (req.body.edge_type) {
