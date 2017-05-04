@@ -43,7 +43,7 @@ app.get('/shopify_auth', function(req, res) {
 
 // After the users clicks 'Install' on the Shopify website, they are redirected here
 // Shopify provides the app the is authorization_code, which is exchanged for an access token
-app.get('/access_token', verifyRequest, function(req, res) {
+/*app.get('/access_token', verifyRequest, function(req, res) {
     if (req.query.shop) {
         var params = { 
             client_id: config.oauth.api_key,
@@ -69,8 +69,8 @@ app.get('/access_token', verifyRequest, function(req, res) {
             res.redirect('/');
         })
     }
-})
-/*
+})*/
+
 app.get('/access_token', verifyRequest, function(req, res) {
     if (req.query.shop) {
         async.waterfall([
@@ -135,8 +135,8 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 var data = {
                     asset: {
                         key: "Snippets\/simple-upsell.liquid",
-                        value: {
-                            " "
+                        src: {
+                            "https://www.dropbox.com/s/tmhfkp2b94tupfy/simple-upsell.liquid?dl=0"
                         }
                     }
                 }
@@ -165,9 +165,9 @@ app.get('/access_token', verifyRequest, function(req, res) {
             function(access_token, theme_id, callback) {
                 var data = {
                     asset: {
-                        key: "Snippets\/contained-bootstrap.min.css",
-                        value: {
-                            " "
+                        key: "Assets\/contained-bootstrap.min.css",
+                        src: {
+                            "https://www.dropbox.com/s/9xlkw3edoydnnhf/contained-bootstrap.min.css?dl=0"
                         }
                     }
                 }
@@ -202,7 +202,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             res.redirect('/');
         });
     }
-})*/
+})
 
 //                  <td><%= current_offers.metafields[i].value.start_date %></td>
 //                  <td><%= current_offers.metafields[i].value.end_date %></td>
