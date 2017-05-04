@@ -134,7 +134,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             function(access_token, theme_id, callback) {
                 var data = {
                     asset: {
-                        key: "Snippets\/simple-upsell.liquid",
+                        key: "snippets\/simple-upsell.liquid",
                         src: "dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid?dl=0"                 
                     }
                 }
@@ -163,7 +163,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             function(access_token, theme_id, callback) {
                 var data = {
                     asset: {
-                        key: "Assets\/contained-bootstrap.min.css",
+                        key: "assets\/contained-bootstrap.min.css",
                         src: "dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css?dl=0"
                     }
                 }
