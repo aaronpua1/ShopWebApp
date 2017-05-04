@@ -904,16 +904,16 @@ app.post('/create-offer', function(req, res) {
     async.parallel([
         function(callback) {
             var requests = [];
-            //var upsell_selections = req.body.upsell_dual_box;
-            //var product_selections = req.body.product_dual_box;
-
-            //for (var i in product_selections) {
-            for (var i = 0; i < req.body.product_dual_box.length; i++) {
-                var temp_product = JSON.parse(JSON.stringify(parse_selections(req.body.product_dual_box[i])));
+            var upsell_selections = req.body.upsell_dual_box;
+            var product_selections = req.body.product_dual_box;
+            
+            for (var i in product_selections) {
+                var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
+                console.log("PRODUCT: "+ temp_product);
                 var count = 1;
-                //for (var j in upsell_selections) {
-                for (var j = 0; j < req.body.upsell_dual_box.length; j++) {
-                    var temp_upsell = JSON.parse(JSON.stringify(parse_selections(req.body.upsell_dual_box[j])));
+                for (var j in upsell_selections) {
+                    var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
+                    console.log("UPSELL: "+ temp_upsell);
                     if (req.body.activate_offer) {
                         if (req.body.edge_type) {
                             var data = {
