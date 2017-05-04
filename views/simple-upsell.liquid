@@ -5,13 +5,12 @@
 
   {% if product.metafields.suop != blank %}
     {% assign metafields = product.metafields.suop %}
-    {% assign status = metafields[0] | last %}
-    {% assign size = metafields | size %}
-    {% assign sizeMinus = size | minus: 1 %}
+    {% assign status = metafields.su1 %}
+    {% assign size = 4 %}
     {% if status contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
         <div class="container upsell-container" style="margin-top:20px;">
-          {% assign upsell_values = metafields[0] | last | split: ";"%}
+          {% assign upsell_values = metafields.su1 | split: ";"%}
           {% for upsell_value in upsell_values %}
             {% if upsell_value contains "offer_title:" %}
               <h3>{{ upsell_value | replace: "offer_title:", ""}}</h3>
@@ -23,95 +22,53 @@
           {% endfor %}
           <form id="add-upsell-form" onsubmit="submitUpsell(); return false;">
             <div class="row upsell-row">
-              {% for i in (0..4) %}
-                {% if i < size %}
-                  {% assign value = metafields[i] | last | split: ";" | first | split: ":" | last %}
-                  {% assign item = all_products[value] %}
-                  {% assign variants = item.variants %}
-                  {% assign variantSize = item.variants | size %}
-                  <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                    <div class="col-item" id="item{{ i }}">
-                      <span class="tooltiptext">{{ item.title }}</span>
-                      <div class="photo"><img alt="a" class="img-responsive" src="{{ item.featured_image.src | product_img_url: '350x260', crop: 'center' }}"></div>
-                      <div class="info">
-                        <div class="row">
-                          <div class="price col-md-12">
-                            <h5>{{ item.title }}</h5>
-                            <h5 id="variant-price{{ i }}" class="price-text-color">{{ variants[0].price | money }}</h5>
-                          </div>
-                          <div class="variant col-md-12">
-                          {% if variantSize <= 1 %}
-                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}" style="visibility: hidden;">
-                              {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% else %}
-                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}">
-                              {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% endif %}
-                          </div>
+              {% for field in metafields %}
+                {% assign value = field | last | split: ";" | first | split: ":" | last %}
+                {% assign item = all_products[value] %}
+                {% assign variants = item.variants %}
+                {% assign variantSize = item.variants | size %}
+                <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
+                  <div class="col-item" id="item{{ forloop.index }}">
+                    <span class="tooltiptext">{{ item.title }}</span>
+                    <div class="photo"><img alt="a" class="img-responsive" src="{{ item.featured_image.src | product_img_url: '350x260', crop: 'center' }}"></div>
+                    <div class="info">
+                      <div class="row">
+                        <div class="price col-md-12">
+                          <h5>{{ item.title }}</h5>
+                          <h5 id="variant-price{{ forloop.index }}" class="price-text-color">{{ variants[0].price | money }}</h5>
                         </div>
-                        <div class="rating col-md-12" style="visibility: hidden;">
-                          <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
+                        <div class="variant col-md-12">
+                        {% if variantSize <= 1 %}
+                          <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}" style="visibility: hidden;">
+                            {% for variant in variants %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% endfor %}
+                          </select>
+                        {% else %}
+                          <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}">
+                            {% for variant in variants %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% endfor %}
+                          </select>
+                        {% endif %}
                         </div>
-                        <div class="separator">
-                          <p id="btn-id{{ i }}" class="btn-add"><input type="checkbox" id="c{{ i }}" name="cb[]" value="{{ variants[0].id }}" style="display:none"><i id="icon{{ i }}" class="fa fa-shopping-cart"></i><a id="text{{ i }}" href="#">Add to bundle</a></p>
-                        </div>
-                        <div class="clearfix"></div>
                       </div>
+                      <div class="rating col-md-12" style="visibility: hidden;">
+                        <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
+                      </div>
+                      <div class="separator">
+                        <p id="btn-id{{ forloop.index }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index }}" name="cb[]" value="{{ variants[0].id }}" style="display:none"><i id="icon{{ forloop.index }}" class="fa fa-shopping-cart"></i><a id="text{{ forloop.index }}" href="#">Add to bundle</a></p>
+                      </div>
+                      <div class="clearfix"></div>
                     </div>
-                  </div> 
-                  {% if i == sizeMinus %}
+                  </div>
+                </div> 
+                {% if forloop.last %}
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px; display: none;">
                       <h2><span class="glyphicon glyphicon-plus"></span></h2>
                     </div>
-                  {% else %}
-                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
-                      <h2><span class="glyphicon glyphicon-plus"></span></h2>
-                    </div>
-                  {% endif %}
                 {% else %}
-                  <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                    <div class="col-item" id="item{{ i }}" style="display: none;">
-                      <span class="tooltiptext">{{ item.title }}</span>
-                      <div class="photo"><img alt="a" class="img-responsive" src="{{ item.featured_image.src | product_img_url: '350x260', crop: 'center' }}"></div>
-                      <div class="info">
-                        <div class="row">
-                          <div class="price col-md-12">
-                            <h5>{{ item.title }}</h5>
-                            <h5 id="variant-price{{ i }}" class="price-text-color">{{ variants[0].price | money }}</h5>
-                          </div>
-                          <div class="variant col-md-12">
-                          {% if variantSize <= 1 %}
-                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}" style="visibility: hidden;">
-                              {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% else %}
-                            <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}">
-                              {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% endif %}
-                          </div>
-                        </div>
-                        <div class="rating col-md-12" style="visibility: hidden;">
-                          <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
-                        </div>
-                        <div class="separator">
-                          <p id="btn-id{{ i }}" class="btn-add"><input type="checkbox" id="c{{ i }}" name="cb[]" value="{{ variants[0].id }}" style="display:none"><i id="icon{{ i }}" class="fa fa-shopping-cart"></i><a id="text{{ i }}" href="#">Add to bundle</a></p>
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px; display: none;">
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
                     <h2><span class="glyphicon glyphicon-plus"></span></h2>
                   </div>
                 {% endif %}
