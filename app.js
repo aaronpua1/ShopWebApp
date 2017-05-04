@@ -135,7 +135,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 var data = {
                     asset: {
                         key: "snippets\/simple-upsell.liquid",
-                        src: "dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid?dl=0"                 
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"                 
                     }
                 }
                 req_body = JSON.stringify(data);
@@ -164,7 +164,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 var data = {
                     asset: {
                         key: "assets\/contained-bootstrap.min.css",
-                        src: "dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css?dl=0"
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
                     }
                 }
                 req_body = JSON.stringify(data);
