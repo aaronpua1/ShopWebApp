@@ -135,7 +135,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 var data = {
                     asset: {
                         key: "snippets\/simple-upsell.liquid",
-                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"                 
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
                     }
                 }
                 req_body = JSON.stringify(data);
@@ -157,9 +157,10 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     }
                     console.log(body);
                     body = JSON.parse(body);
-                    callback(null, access_token, theme_id);
+                    //callback(null, access_token, theme_id);
+                    callback(null, 'done');
                 });
-            },
+            }/*,
             function(access_token, theme_id, callback) {
                 var data = {
                     asset: {
@@ -188,7 +189,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     body = JSON.parse(body);
                     callback(null, 'done');
                 });
-            }
+            }*/
         ],
         function(err, result) {
             if (err) {
