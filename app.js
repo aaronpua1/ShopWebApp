@@ -157,10 +157,10 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     }
                     console.log(body);
                     body = JSON.parse(body);
-                    //callback(null, access_token, theme_id);
-                    callback(null, 'done');
+                    callback(null, access_token, theme_id);
+                    //callback(null, 'done');
                 });
-            }/*,
+            },
             function(access_token, theme_id, callback) {
                 var data = {
                     asset: {
@@ -189,7 +189,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     body = JSON.parse(body);
                     callback(null, 'done');
                 });
-            }*/
+            }
         ],
         function(err, result) {
             if (err) {

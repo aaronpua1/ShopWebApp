@@ -20,7 +20,7 @@
           {% endfor %}
           <form id="add-upsell-form" onsubmit="submitUpsell(); return false;">
             <div class="row upsell-row">
-              {% for (field in metafields) or (i in (1..4)) %}
+              {% for field in metafields or i in (1..4) %}
                 {% assign value = field | last | split: ";" | first | split: ":" | last %}
                 {% assign item = all_products[value] %}
                 {% assign variants = item.variants %}
