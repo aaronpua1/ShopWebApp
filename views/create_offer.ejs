@@ -74,7 +74,7 @@
         <% for(var i = 0; i < metafields.values.length; i++) { %>
           <% for(var j = 0; j < metafields.values[i].products.length; j++) { %>
             if ($("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%= metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").is(':not(:selected)')) {
-              $("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%= metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").attr('disabled', 'diabled');
+              $("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%= metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").attr('disabled', 'disabled');
               $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           <% } %>
