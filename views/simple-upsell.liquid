@@ -7,6 +7,7 @@
     {% assign metafields = product.metafields.suop %}
     {% assign status = metafields[0] | last %}
     {% assign size = metafields | size %}
+    {% assign sizeMinus = size | minus: 1 %}
     {% if status contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
         <div class="container upsell-container" style="margin-top:20px;">
@@ -27,6 +28,7 @@
                   {% assign value = metafields[i] | last | split: ";" | first | split: ":" | last %}
                   {% assign item = all_products[value] %}
                   {% assign variants = item.variants %}
+                  {% assign variantSize = item.variants | size %}
                   <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
                     <div class="col-item" id="item{{ i }}">
                       <span class="tooltiptext">{{ item.title }}</span>
@@ -38,7 +40,7 @@
                             <h5 id="variant-price{{ i }}" class="price-text-color">{{ variants[0].price | money }}</h5>
                           </div>
                           <div class="variant col-md-12">
-                          {% if (variants | size) <= 1 %}
+                          {% if variantSize <= 1 %}
                             <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}" style="visibility: hidden;">
                               {% for variant in variants %}
                                 <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
@@ -63,7 +65,7 @@
                       </div>
                     </div>
                   </div> 
-                  {% if i == size - 1 %}
+                  {% if i == sizeMinus %}
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px; display: none;">
                       <h2><span class="glyphicon glyphicon-plus"></span></h2>
                     </div>
@@ -84,7 +86,7 @@
                             <h5 id="variant-price{{ i }}" class="price-text-color">{{ variants[0].price | money }}</h5>
                           </div>
                           <div class="variant col-md-12">
-                          {% if (variants | size) <= 1 %}
+                          {% if variantSize <= 1 %}
                             <select id="variant{{ i }}" class="variant-select" name="variant{{ i }}" style="visibility: hidden;">
                               {% for variant in variants %}
                                 <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
