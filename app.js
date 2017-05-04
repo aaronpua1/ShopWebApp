@@ -904,8 +904,8 @@ app.post('/create-offer', function(req, res) {
     async.parallel([
         function(callback) {
             var requests = [];
-            var upsell_selections = req.query.upsell_dual_box;
-            var product_selections = req.query.product_dual_box;
+            var upsell_selections = req.body.upsell_dual_box;
+            var product_selections = req.body.product_dual_box;
             
             for (var i in product_selections) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
