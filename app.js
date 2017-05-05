@@ -991,7 +991,7 @@ app.post('/create-offer', function(req, res) {
     }
     var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
     var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-    //var remaining = findDifferences(parsed_product_selections, previous_product_selections).slice(0);
+    var upsell_remaining = findDifferences(parsed_upsell_selections, previous_upsell_selections).slice(0);
     console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
     console.log("product selections:" + JSON.stringify(parsed_product_selections));
     console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
@@ -1193,64 +1193,68 @@ app.post('/create-offer', function(req, res) {
                             for (var j in upsell_selections) {
                                 var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
                                 console.log("UPSELL: "+ temp_upsell.id);
-                                if (req.body.activate_offer) {
-                                    if (req.body.edge_type) {
-                                        var data = {
-                                            metafield: {
-                                                namespace: "suop",
-                                                key: "su" + count.toString(),
-                                                value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                value_type: "string"
+                                for (var k in upsell_remaining) {
+                                    if (temp_upsell.handle != upsell_remaining[k].handle) {
+                                        if (req.body.activate_offer) {
+                                            if (req.body.edge_type) {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                    else {
-                                        var data = {
-                                            metafield: {
-                                                namespace: "suop",
-                                                key: "su" + count.toString(),
-                                                value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                value_type: "string"
+                                        else {
+                                            if (req.body.edge_type) {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
                                             }
                                         }
+                                        req_body = JSON.stringify(data);
+                                        console.log("POST REQUEST: "+ req_body);
+                                        
+                                        var temp_request = {
+                                            method: "POST",
+                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                                            headers: {
+                                                'X-Shopify-Access-Token': req.session.access_token,
+                                                'Content-type': 'application/json; charset=utf-8'
+                                            },
+                                            body: req_body
+                                        }
+                                        requests.push(temp_request);
+                                        count++;
                                     }
                                 }
-                                else {
-                                    if (req.body.edge_type) {
-                                        var data = {
-                                            metafield: {
-                                                namespace: "suop",
-                                                key: "su" + count.toString(),
-                                                value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                value_type: "string"
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        var data = {
-                                            metafield: {
-                                                namespace: "suop",
-                                                key: "su" + count.toString(),
-                                                value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                value_type: "string"
-                                            }
-                                        }
-                                    }
-                                }
-                                req_body = JSON.stringify(data);
-                                console.log("POST REQUEST: "+ req_body);
-                                
-                                var temp_request = {
-                                    method: "POST",
-                                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                                    headers: {
-                                        'X-Shopify-Access-Token': req.session.access_token,
-                                        'Content-type': 'application/json; charset=utf-8'
-                                    },
-                                    body: req_body
-                                }
-                                requests.push(temp_request);
-                                count++;
                             }
                         }
                         requests = JSON.parse(JSON.stringify(requests));
