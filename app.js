@@ -991,7 +991,7 @@ app.post('/create-offer', function(req, res) {
     }
     var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
     var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-    var remaining = findDifferences(parsed_product_selections, previous_product_selections);
+    var remaining = findDifferences(parsed_product_selections, previous_product_selections).slice(0);
     console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
     console.log("product selections:" + JSON.stringify(parsed_product_selections));
     console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
@@ -1000,6 +1000,7 @@ app.post('/create-offer', function(req, res) {
     console.log("product configs:" + req.body.product_configs);
     console.log("upsell diff:" + JSON.stringify(upsell_differences));
     console.log("product diff:" + JSON.stringify(product_differences));
+    console.log("remaining diff:" + JSON.stringify(remaining));
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
@@ -1072,11 +1073,11 @@ app.post('/create-offer', function(req, res) {
                                     return; 
                                 }    
                                 console.log("GET PRODUCT DELETE RESPONSE: " + result[0]);
-                                callback(null);
+                                callback(null, 'done');
                             });
                         }
                         else {
-                            callback(null);
+                            callback(null, 'done');
                         }
                     }
                 ],
@@ -1129,7 +1130,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            console.log("GET UPSELL RESPONSE: " + result[0]);
+                            console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
                             callback(null, result.metafields);
                         });
                     },
@@ -1170,7 +1171,7 @@ app.post('/create-offer', function(req, res) {
                                     callback(true); 
                                     return; 
                                 }    
-                                console.log("GET UPSELL DELETE RESPONSE: " + result[0]);
+                                console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
                                 callback(null);
                             });
                         }
@@ -1267,8 +1268,8 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            console.log("GET UPSELL POST RESPONSE: " + result[0]);
-                            callback();
+                            console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
+                            callback(null, 'done');
                         });
                     }                
                 ],
@@ -1278,7 +1279,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("SECOND DELETE RESPONSE: " + result[0]);
+                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
@@ -1372,7 +1373,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("SECOND SKIP DELETE RESPONSE: " + result[0]);
+                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
@@ -1536,7 +1537,7 @@ app.post('/create-offer', function(req, res) {
         }
     ],
     function(err, result) {
-        console.log("FINAL RESPONSE: " + result[0]);
+        console.log("FINAL RESPONSE: " + JSON.stringify(result));
         if (err) {
             console.log(err);
             return res.json(500);
