@@ -169,7 +169,13 @@
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
-
+        <% if (typeof store == "undefined") { %>
+          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
+          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
+        <% } else { %>
+          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%- JSON.stringify(store_upsell.products) %>>
+          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%- JSON.stringify(store_products.products) %>>
+        <% } %>        
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
