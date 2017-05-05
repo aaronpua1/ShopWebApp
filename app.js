@@ -985,6 +985,8 @@ app.post('/create-offer', function(req, res) {
     var upsell_differences = findDifferences(previous_upsell_selections, upsell_selections);
     var product_differences = findDifferences(previous_product_selections, product_selections);
     var remaining = findDifferences(product_selections, previous_product_selections);
+    console.log("upsell selections:" + upsell_selections[0].id);
+    console.log("product selections:" + product_selections[0].id);
     console.log("upsell parse configs:" + previous_upsell_selections[0].id);
     console.log("product parse configs:" + previous_product_selections[0].id);
     console.log("upsell configs:" + req.body.upsell_configs);
