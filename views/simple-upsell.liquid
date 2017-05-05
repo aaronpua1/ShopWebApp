@@ -2,13 +2,12 @@
   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   {{ 'contained-bootstrap.min.css' | asset_url | stylesheet_tag }}
   {{ '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' | stylesheet_tag }}
-
   {% if product.metafields.suop != blank %}
     {% assign metafields = product.metafields.suop %}
-    {% assign status = metafields.su1 %}
-    {% assign size = 4 %}
-    {% if status contains "status:on" %}
+  {% assign configs = metafields.su1 %}    
+    {% if configs contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
+        <input type="hidden" id="configs" name="configs" value="{{ configs }}" />
         <div class="container upsell-container" style="margin-top:20px;">
           {% assign upsell_values = metafields.su1 | split: ";"%}
           {% for upsell_value in upsell_values %}
@@ -28,9 +27,9 @@
                 {% assign variants = item.variants %}
                 {% assign variantSize = item.variants | size %}
                 <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                  <div class="col-item" id="item{{ forloop.index }}">
+                  <div class="col-item" id="item{{ forloop.index }}" value="{{  }}">
                     <span class="tooltiptext">{{ item.title }}</span>
-                    <div class="photo"><img alt="a" class="img-responsive" src="{{ item.featured_image.src | product_img_url: '350x260', crop: 'center' }}"></div>
+                    <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></div>
                     <div class="info">
                       <div class="row">
                         <div class="price col-md-12">
@@ -39,7 +38,7 @@
                         </div>
                         <div class="variant col-md-12">
                         {% if variantSize <= 1 %}
-                          <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}" style="visibility: hidden;">
+                          <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}" >
                             {% for variant in variants %}
                               <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
                             {% endfor %}
@@ -53,11 +52,11 @@
                         {% endif %}
                         </div>
                       </div>
-                      <div class="rating col-md-12" style="visibility: hidden;">
+                      <div class="rating col-md-12">
                         <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
                       </div>
                       <div class="separator">
-                        <p id="btn-id{{ forloop.index }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index }}" name="cb[]" value="{{ variants[0].id }}" style="display:none"><i id="icon{{ forloop.index }}" class="fa fa-shopping-cart"></i><a id="text{{ forloop.index }}" href="#">Add to bundle</a></p>
+                        <p id="btn-id{{ forloop.index }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon{{ forloop.index }}" class="fa fa-shopping-cart" style="color:black;"></i><a id="text{{ forloop.index }}" href="#">Add to bundle</a></p>
                       </div>
                       <div class="clearfix"></div>
                     </div>
@@ -78,7 +77,7 @@
                   <p style="font-size:17px; color:black; font-weight:bold;">
                     Total Price: <span id="total-price" style="color:red">$0.00</span>
                   </p>
-                  <button class="btn btn-primary upsell-button" id="add-upsell" name="add-upsell" type="submit" form="upsell-form">Add to Cart</button>
+                  <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">Add to Cart</button>
                 </div>
               </div>
             </div>
@@ -88,19 +87,34 @@
     {% endif %}
   {% endif %}
   <script type="text/javascript">
-    var values = new Object();
-    {% assign metafields = product.metafields.suop %}
-    {% assign upsell_values = metafields[0] | last | split: ";"%}
-    {% for upsell_value in upsell_values %}
-      {% assign config = upsell_value | split: ":" %}
-      values[{{config[0]}}] = {{config[1]}};
-    {% endfor %}
-    
-    if (values['edge_type'] == "not_rounded")
+    var values = jQuery('#configs').val();
+  values = parseValues(values);    
+    if (values['edge_type'] == "not_rounded") {
       jQuery('.col-item').css('border-radius', '0px');
-    else 
+      jQuery('.upsell-image').css('border-radius', '0px');
+      jQuery('.photo').css('border-radius', '0px');
+    }
+    else {
       jQuery('.col-item').css('border-radius', '10px');
-      
+      jQuery('.upsell-image').css('border-radius', '10px 10px 0 0');
+      jQuery('.photo').css('border-radius', '10px 10px 0 0');
+    }
+    
+    if (values['border_color'] != "0,0,0,0")
+      jQuery('.col-item').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
+    else 
+      jQuery('.col-item').css('border-color', 'rgba(0, 0, 0, 0)');
+  
+    if (values['background_color'] != "255,255,255")
+      jQuery('.col-item').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+    else 
+      jQuery('.col-item').css('background-color', 'rgba(255, 255, 255, 1)');      
+    
+    if (values['button_color'] == "not_rounded")
+      jQuery('#add-upsell').css('background-color', 'rgba(' + values['button_color'] + ', 1)');
+    else 
+      jQuery('#add-upsell').css('background-color', 'rgba(60, 105, 211, 1)');   
+    
     Shopify.queue = [];
     function submitUpsell() {
       if (jQuery("input[name='cb[]']:checked").length < 1) {
@@ -129,8 +143,8 @@
       }
     };    
     function calculateTotal(itemPrice, itemStatus) {
-      var currentTotal = Number(jQuery('#total-price').text().replace(/[^0-9-\.]+/g, ""));
-      var item = Number(itemPrice.replace(/[^0-9-\.]+/g, ""));
+      var currentTotal = Number(jQuery('#total-price').text().replace(/[^0-9-\.]+/g, "")).toFixed(2);;
+      var item = Number(itemPrice.replace(/[^0-9-\.]+/g, "")).toFixed(2);;
       var total = 0;
       
       if (itemStatus) {
@@ -140,7 +154,17 @@
         total = currentTotal - item;
       }
       
-      jQuery('#total-price').text(total.toString());
+      jQuery('#total-price').text('$' + total.toFixed(2).replace(/(\d)(?=(\d{3})+$)/g, "$1,").toString());
+    }
+    function parseValues(values) {
+      var result = {};
+      var pairs = values.split(";");
+
+      for (var i = 0; i < pairs.length; i++) {
+          var temp = pairs[i].split(":");
+          result[temp[0]] = temp[1];
+      }
+      return result;
     }
     jQuery('#variant1').change(function() {
       var value = jQuery('#variant1').val().split('-');
@@ -181,12 +205,18 @@
         jQuery('#icon1').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon1').css('color', 'black');
         jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        jQuery('#item1').css('border-color', 'transparent');
+        if (values['border_color'] != "0,0,0,0")
+          jQuery('#item1').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
+        else
+          jQuery('#item1').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item1').css('border-radius', '0px');
         else 
           jQuery('#item1').css('border-radius', '10px');
-        jQuery('#item1').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item1').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price1').text(), false);
       }
       else {
@@ -194,13 +224,19 @@
         jQuery('#text1').text('Remove item');
         jQuery('#icon1').attr('class', 'fa fa-times');
         jQuery('#icon1').css('color', 'red');
-        jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
-        jQuery('#item1').css('border-color', 'transparent');
+        if (values['border_highlight_color'] != "255,162,0")
+          jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
+        else 
+          jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#item1').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item1').css('border-radius', '0px');
         else 
           jQuery('#item1').css('border-radius', '10px');
-        jQuery('#item1').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item1').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price1').text(), true);
       }  
     });
@@ -211,12 +247,18 @@
         jQuery('#icon2').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon2').css('color', 'black');
         jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        jQuery('#item2').css('border-color', 'transparent');
+        if (values['border_color'] != "0,0,0,0")
+          jQuery('#item2').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
+        else
+          jQuery('#item2').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item2').css('border-radius', '0px');
         else 
           jQuery('#item2').css('border-radius', '10px');
-        jQuery('#item2').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item2').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price2').text(), false);
       }
       else {
@@ -224,13 +266,19 @@
         jQuery('#text2').text('Remove item');
         jQuery('#icon2').attr('class', 'fa fa-times');
         jQuery('#icon2').css('color', 'red');
-        jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
-        jQuery('#item2').css('border-color', 'transparent');
+        if (values['border_highlight_color'] != "255,162,0")
+          jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
+        else 
+          jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#item2').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item2').css('border-radius', '0px');
         else 
           jQuery('#item2').css('border-radius', '10px');
-        jQuery('#item2').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item2').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price2').text(), true);
       }  
     });
@@ -241,26 +289,38 @@
         jQuery('#icon3').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon3').css('color', 'black');
         jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        jQuery('#item3').css('border-color', 'transparent');
+        if (values['border_color'] != "0,0,0,0")
+          jQuery('#item3').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
+        else
+          jQuery('#item3').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item3').css('border-radius', '0px');
         else 
           jQuery('#item3').css('border-radius', '10px');
-        jQuery('#item3').css('background', '#FFF');
-        calculateTotal(jQuery('#variant-price3').text(), false);
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item3').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
+        calculateTotal(jQuery('#variant-price1').text(), false);
       }
       else {
         jQuery('#c3').prop('checked', true);
         jQuery('#text3').text('Remove item');
         jQuery('#icon3').attr('class', 'fa fa-times');
         jQuery('#icon3').css('color', 'red');
-        jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
-        jQuery('#item3').css('border-color', 'transparent');
+        if (values['border_highlight_color'] != "255,162,0")
+          jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
+        else 
+          jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#item3').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item3').css('border-radius', '0px');
         else 
           jQuery('#item3').css('border-radius', '10px');
-        jQuery('#item3').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item3').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price3').text(), true);
       }  
     });
@@ -271,12 +331,18 @@
         jQuery('#icon4').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon4').css('color', 'black');
         jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        jQuery('#item4').css('border-color', 'transparent');
+        if (values['border_color'] != "0,0,0,0")
+          jQuery('#item4').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
+        else
+          jQuery('#item4').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item4').css('border-radius', '0px');
         else 
           jQuery('#item4').css('border-radius', '10px');
-        jQuery('#item4').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item4').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price4').text(), false);
       }
       else {
@@ -284,13 +350,19 @@
         jQuery('#text4').text('Remove item');
         jQuery('#icon4').attr('class', 'fa fa-times');
         jQuery('#icon4').css('color', 'red');
-        jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_color'] + ', 1)');
-        jQuery('#item4').css('border-color', 'transparent');
+        if (values['border_highlight_color'] != "255,162,0")
+          jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
+        else 
+          jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#item4').css('border-color', 'transparent');        
         if (values['edge_type'] == "not_rounded")
           jQuery('#item4').css('border-radius', '0px');
         else 
           jQuery('#item4').css('border-radius', '10px');
-        jQuery('#item4').css('background', '#FFF');
+        if (values['background_color'] != "255,255,255")
+          jQuery('#item4').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
+        else 
+          jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price4').text(), true);
       }  
     });
@@ -318,13 +390,17 @@
     float: center;
     margin-top: 6em;
   }
+  #add-upsell 
+  {
+    color: #FFF;
+  }
   .upsell-container
   {
     float: left;  
   }
   .upsell-row
   {
-    border: 3px solid black;
+    /*border: 3px solid black;*/
     /*background-color: transparent;*/
     width: 85%;
   }
@@ -346,11 +422,12 @@
     max-width: 175px;    
     max-height: 270px;
     border-radius: 10px;
-    background: #FFF;
+    background: #f2f2f2;
     -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
     -moz-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-    border-color: transparent;
+    /*border-color: transparent;*/
+    border: 1px solid black;
   }
   .col-item .tooltiptext
   {
@@ -361,7 +438,7 @@
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px 5px;
     
     /* Position the tooltip */
     position: absolute;
@@ -390,9 +467,17 @@
   .col-item .photo img
   {
     margin: 0 auto;
-    width: 100%;
-    padding: 1px;
-    border-radius: 10px 10px 0 0 ;
+    width: 75%;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    background-color: #FFF;
+    background-repeat: no-repeat;
+  }
+  .col-item .photo
+  {
+    margin: 0 auto;
+    border-radius: 10px 10px 0 0;
+    background-color: #FFF;
   }
   .col-item .info
   {
@@ -407,9 +492,10 @@
   }
   .col-item .price h5
   {
-    margin: 3px;
+    margin-top: 2px;
+    margin-bottom: 8px;
     text-align: left;
-    line-height: 20px;
+    line-height: 10px;
     width: auto;
     max-width: 170px;
     overflow: hidden;
@@ -427,28 +513,30 @@
   .col-item .rating
   {
     float: none;
-    font-size: 15px;
+    font-size: 14px;
     text-align: center;
-    line-height: 20px;
+    line-height: 25px;
     margin-bottom: 10px;
-    height: 10px;
+    margin-top: 5px;
+    height: 15px;
   }
   .col-item .variant
   {
     float: none;
     font-size: 14px;
     text-align: center;
-    line-height: 25px;
+    line-height: 10px;
     margin: 1px;
     height: 30px;
   }
   .col-item .variant .variant-select
   {
     width: 70%;
+    height: 35px;
   }
   .col-item .separator
   {
-    border-top: 1px solid #E1E1E1;
+    border-top: 1px solid #d9d9d9;
   }
   .clear-left
   {
@@ -457,7 +545,7 @@
   .col-item .separator p
   {
     line-height: 20px;
-    margin: 5px;
+    margin: 3px;
     text-align: center;
     float: none;
     padding-right: 15px;
