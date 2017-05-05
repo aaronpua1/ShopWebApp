@@ -991,9 +991,9 @@ app.post('/create-offer', function(req, res) {
     }
     var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
     var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-    var remaining = findDifferences(product_selections, previous_product_selections);
-    console.log("upsell selections:" + JSON.stringify(upsell_selections));
-    console.log("product selections:" + JSON.stringify(product_selections));
+    var remaining = findDifferences(parsed_product_selections, previous_product_selections);
+    console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
+    console.log("product selections:" + JSON.stringify(parsed_product_selections));
     console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
     console.log("product parse configs:" + JSON.stringify(previous_product_selections));
     console.log("upsell configs:" + req.body.upsell_configs);
@@ -2267,9 +2267,9 @@ function findDifferences(arr1, arr2) {
     for (var i = 0; i < arr1.length; i++) {
         var contains = false;
         for (var j = 0; j < arr2.length; j++) {
-            if (arr1[i] === arr2[j]) {
+            if (arr1[i].id === arr2[j].id) {
                 contains = true;
-                break;
+                //break;
             }
         }
         if (!contains) {
