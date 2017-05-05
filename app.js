@@ -1036,45 +1036,49 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            console.log("GET PRODUCT RESPONSE: " + result[0]);
-                            callback(null, result.metafields);
+                            console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
+                            callback(null, result);
                         });
                     },
-                    function(metafields, callback) {
+                    function(product, callback) {
                         var requests = [];
-                        if (metafields.length > 0) {
-                            for (var i in metafields) {
-                                var temp_request = {
-                                    method: "DELETE",
-                                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + metafields[i].owner_id + '/metafields/' + metafields[i].id + '.json',
-                                    headers: {
-                                        'X-Shopify-Access-Token': req.session.access_token
+                        if (product.length > 0) {
+                            for (var i in product) {
+                                if (product[i].metafields.length > 0) {
+                                    for (var j in product[i].metafields) {
+                                        var temp_request = {
+                                            method: "DELETE",
+                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
+                                            headers: {
+                                                'X-Shopify-Access-Token': req.session.access_token
+                                            }
+                                        }
+                                        requests.push(temp_request);
                                     }
+                                    requests = JSON.parse(JSON.stringify(requests));
+                                    
+                                    async.map(requests, function(obj, callback) {
+                                        request(obj, function(err, resp, body) {
+                                            if (!err && resp.statusCode == 200) {
+                                                var body = JSON.parse(body);
+                                                callback(null, body);
+                                            }
+                                            else {
+                                                callback(err || resp.statusCode);
+                                            }
+                                        })
+                                    },  
+                                    function(err, result) {
+                                        if (err) {
+                                            console.log(err);
+                                            callback(true); 
+                                            return; 
+                                        }    
+                                        console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
+                                        callback(null, 'done');
+                                    });
                                 }
-                                requests.push(temp_request);
                             }
-                            requests = JSON.parse(JSON.stringify(requests));
-                            
-                            async.map(requests, function(obj, callback) {
-                                request(obj, function(err, resp, body) {
-                                    if (!err && resp.statusCode == 200) {
-                                        var body = JSON.parse(body);
-                                        callback(null, body);
-                                    }
-                                    else {
-                                        callback(err || resp.statusCode);
-                                    }
-                                })
-                            },  
-                            function(err, result) {
-                                if (err) {
-                                    console.log(err);
-                                    callback(true); 
-                                    return; 
-                                }    
-                                console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
-                                callback(null, 'done');
-                            });
                         }
                         else {
                             callback(null, 'done');
