@@ -985,12 +985,12 @@ app.post('/create-offer', function(req, res) {
     var upsell_differences = findDifferences(previous_upsell_selections, upsell_selections);
     var product_differences = findDifferences(previous_product_selections, product_selections);
     var remaining = findDifferences(product_selections, previous_product_selections);
-    console.log("upsell parse configs:" + previous_upsell_selections[0]);
-    console.log("product parse configs:" + previous_product_selections[0]);
+    console.log("upsell parse configs:" + previous_upsell_selections[0].id);
+    console.log("product parse configs:" + previous_product_selections[0].id);
     console.log("upsell configs:" + req.body.upsell_configs);
     console.log("product configs:" + req.body.product_configs);
-    console.log("upsell diff:" + upsell_differences[0]);
-    console.log("product diff:" + product_differences[0]);
+    console.log("upsell diff:" + upsell_differences[0].handle);
+    console.log("product diff:" + product_differences[0].id);
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
