@@ -991,7 +991,7 @@ app.post('/create-offer', function(req, res) {
     }
     var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
     var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-    var remaining = findDifferences(parsed_product_selections, previous_product_selections).slice(0);
+    //var remaining = findDifferences(parsed_product_selections, previous_product_selections).slice(0);
     console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
     console.log("product selections:" + JSON.stringify(parsed_product_selections));
     console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
@@ -1000,7 +1000,7 @@ app.post('/create-offer', function(req, res) {
     console.log("product configs:" + req.body.product_configs);
     console.log("upsell diff:" + JSON.stringify(upsell_differences));
     console.log("product diff:" + JSON.stringify(product_differences));
-    console.log("remaining diff:" + JSON.stringify(remaining));
+    //console.log("remaining diff:" + JSON.stringify(remaining));
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
@@ -1101,10 +1101,10 @@ app.post('/create-offer', function(req, res) {
                 async.waterfall([
                     function(callback) {
                         var requests = [];
-                        for (var i in remaining) {
+                        for (var i in parsed_product_selections) {
                             var temp_request = {
                                 method: "GET",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + remaining[i].id + '/metafields.json?namespace=suop',
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + parsed_product_selections[i].id + '/metafields.json?namespace=suop',
                                 headers: {
                                     'X-Shopify-Access-Token': req.session.access_token
                                 }
