@@ -985,10 +985,12 @@ app.post('/create-offer', function(req, res) {
     var upsell_differences = findDifferences(previous_upsell_selections, upsell_selections);
     var product_differences = findDifferences(previous_product_selections, product_selections);
     var remaining = findDifferences(product_selections, previous_product_selections);
-    console.log("upsell parse configs:" + previous_upsell_selections[0].id);
-    console.log("product parse configs:" + previous_product_selections[0].id);
+    console.log("upsell parse configs:" + previous_upsell_selections[0]);
+    console.log("product parse configs:" + previous_product_selections[0]);
     console.log("upsell configs:" + req.body.upsell_configs);
     console.log("product configs:" + req.body.product_configs);
+    console.log("upsell diff:" + upsell_differences[0]);
+    console.log("product diff:" + product_differences[0]);
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
@@ -1024,7 +1026,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            //console.log(result);
+                            console.log("GET PRODUCT RESPONSE: " + result[0]);
                             callback(null, result.metafields);
                         });
                     },
@@ -1060,7 +1062,7 @@ app.post('/create-offer', function(req, res) {
                                     callback(true); 
                                     return; 
                                 }    
-                                //console.log(result);
+                                console.log("GET PRODUCT DELETE RESPONSE: " + result[0]);
                                 callback(null);
                             });
                         }
@@ -1075,14 +1077,15 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    //console.log(result);
+                    console.log("FIRST DELETE RESPONSE: " + result[0]);
                     callback();
                 });
             }
             else {
+                console.log("FIRST SKIP");
                 callback();
             }
-        },            
+        },
         function(callback) {
             if (upsell_differences.length > 0) {
                 async.waterfall([
@@ -1117,7 +1120,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            //console.log(result);
+                            console.log("GET UPSELL RESPONSE: " + result[0]);
                             callback(null, result.metafields);
                         });
                     },
@@ -1158,7 +1161,7 @@ app.post('/create-offer', function(req, res) {
                                     callback(true); 
                                     return; 
                                 }    
-                                //console.log(result);
+                                console.log("GET UPSELL DELETE RESPONSE: " + result[0]);
                                 callback(null);
                             });
                         }
@@ -1255,7 +1258,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            //console.log(result);
+                            console.log("GET UPSELL POST RESPONSE: " + result[0]);
                             callback();
                         });
                     }                
@@ -1266,11 +1269,12 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    //console.log(result);
+                    console.log("SECOND DELETE RESPONSE: " + result[0]);
                     callback();
                 });
             }
             else {
+                console.log("SECOND SKIP");
                 var requests = [];
                 
                 for (var i in product_selections) {
@@ -1359,7 +1363,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    //console.log(result);
+                    console.log("SECOND SKIP DELETE RESPONSE: " + result[0]);
                     callback();
                 });
             }
@@ -1523,6 +1527,7 @@ app.post('/create-offer', function(req, res) {
         }
     ],
     function(err, result) {
+        console.log("FINAL RESPONSE: " + result[0]);
         if (err) {
             console.log(err);
             return res.json(500);
