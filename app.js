@@ -2254,21 +2254,17 @@ function verifyRequest(req, res, next) {
 }
 
 function findDifferences(arr1, arr2) {
-    difference = [];
-    
-    for (i in arr1) {
-        var inSet = false;
-        for (j in arr2) {
-            if (arr1[i].id == arr2[j].id) {
-                inSet = true;
+    //difference = [];
+
+    for (i in arr2) {
+        for (j in arr1) {
+            if (arr1[j].id === arr2[i].id) {
+                arr1[j].splice(j, 1);
                 break;
             }
         }
-        if (!inSet) {
-            difference.push({'id':arr1[i].id, 'handle':arr1[i].handle});
-        } 
     }
-    return difference;
+    return arr1;
 }
 function parse_values(values) {
     var result = {};
