@@ -1000,7 +1000,7 @@ app.post('/create-offer', function(req, res) {
     console.log("product configs:" + req.body.product_configs);
     console.log("upsell diff:" + JSON.stringify(upsell_differences));
     console.log("product diff:" + JSON.stringify(product_differences));
-    //console.log("remaining diff:" + JSON.stringify(remaining));
+
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
