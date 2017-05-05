@@ -1131,7 +1131,7 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
-                            callback(null, result.metafields);
+                            callback(null, result[0].metafields);
                         });
                     },
                     function(metafields, callback) {
