@@ -981,14 +981,21 @@ app.post('/create-offer', function(req, res) {
     else {
         product_selections.push(req.body.product_dual_box);
     }
-    
-    var upsell_differences = findDifferences(previous_upsell_selections, upsell_selections);
-    var product_differences = findDifferences(previous_product_selections, product_selections);
+    var parsed_upsell_selections = [];
+    var parsed_product_selections = [];
+    for (var i in upsell_selections) {
+        parsed_upsell_selections.push(JSON.parse(JSON.stringify(parse_selections(upsell_selections[i])))); 
+    }
+    for (var i in product_selections) {
+        parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
+    }
+    var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
+    var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
     var remaining = findDifferences(product_selections, previous_product_selections);
     console.log("upsell selections:" + JSON.stringify(upsell_selections));
     console.log("product selections:" + JSON.stringify(product_selections));
-    console.log("upsell parse configs:" + previous_upsell_selections[0].id);
-    console.log("product parse configs:" + previous_product_selections[0].id);
+    console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
+    console.log("product parse configs:" + JSON.stringify(previous_product_selections));
     console.log("upsell configs:" + req.body.upsell_configs);
     console.log("product configs:" + req.body.product_configs);
     console.log("upsell diff:" + JSON.stringify(upsell_differences));
@@ -2256,9 +2263,21 @@ function verifyRequest(req, res, next) {
 }
 
 function findDifferences(arr1, arr2) {
-    //difference = [];
-
-    for (i in arr2) {
+    difference = [];
+    for (var i = 0; i < arr1.length; i++) {
+        var contains = false;
+        for (var j = 0; j < arr2.length; j++) {
+            if (arr1[i] === arr2[j]) {
+                contains = true;
+                break;
+            }
+        }
+        if (!contains) {
+            difference.push({'id':arr1[i].id, 'handle':arr1[i].handle});
+        }
+    }
+    return difference;
+    /*for (i in arr2) {
         for (j in arr1) {
             if (arr1[j].id === arr2[i].id) {
                 arr1[j].splice(j, 1);
@@ -2266,7 +2285,7 @@ function findDifferences(arr1, arr2) {
             }
         }
     }
-    return arr1;
+    return arr1;*/
 }
 function parse_values(values) {
     var result = {};
