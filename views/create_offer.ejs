@@ -217,21 +217,45 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code 255,255,0" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0)" required="" style="width: 49%;" type="text" value="0,0,0">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code 255,255,0" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
                 </div>
               </div>
-            </div>
+           </div>
+           <div class="form-group col-md-12 offer-input-groups">
+              <div class="control-group">
+                <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
+                <div class="controls">
+                  <% if (typeof store == "undefined") { %>
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="255,162,0">
+                  <% } else { %>
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                  <% } %>
+                </div>
+              </div>
+           </div>
+           <div class="form-group col-md-12 offer-input-groups">
+              <div class="control-group">
+                <label class="control-label" for="background_color">Upsell Background Color</label>
+                <div class="controls">
+                  <% if (typeof store == "undefined") { %>
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="255,255,255">
+                  <% } else { %>
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
+                  <% } %>
+                </div>
+              </div>
+           </div>
            <div class="form-group col-md-12 offer-input-groups">
               <div class="control-group">
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code 255,255,0" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="60,105,211">
                   <% } else { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code 255,255,0" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
                 </div>
               </div>
