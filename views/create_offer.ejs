@@ -61,8 +61,8 @@
         $(".filter").hide();
         
         <% if(typeof store != "undefined") { %>
-          $("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
-          $("#product_configs").val(JSON.stringify(<%= store_products.products %>));
+          //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
+          //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
             $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
           <% } %>
@@ -169,8 +169,7 @@
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
-        <input type="hidden" id="upsell_configs" name="upsell_configs" value="" />
-        <input type="hidden" id="product_configs" name="product_configs" value="" />
+
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
