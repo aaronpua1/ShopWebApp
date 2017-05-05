@@ -1021,7 +1021,7 @@ app.post('/create-offer', function(req, res) {
                         
                         async.map(requests, function(obj, callback) {
                             request(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 201) {
+                                if (!err && resp.statusCode == 200) {
                                     var body = JSON.parse(body);
                                     callback(null, body);
                                 }
@@ -1072,7 +1072,7 @@ app.post('/create-offer', function(req, res) {
                                     callback(true); 
                                     return; 
                                 }    
-                                console.log("GET PRODUCT DELETE RESPONSE: " + result[0]);
+                                console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
                                 callback(null, 'done');
                             });
                         }
@@ -1087,7 +1087,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("FIRST DELETE RESPONSE: " + result[0]);
+                    console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
@@ -1115,7 +1115,7 @@ app.post('/create-offer', function(req, res) {
                         
                         async.map(requests, function(obj, callback) {
                             request(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 201) {
+                                if (!err && resp.statusCode == 200) {
                                     var body = JSON.parse(body);
                                     callback(null, body);
                                 }
