@@ -395,7 +395,9 @@ app.get('/create-offer', function(req, res) {
         var result_metafields;
         var result_store;
         var store_upsell;
+        //var string_upsell;
         var store_products;
+        //var string_products;
         var result_values = {values: []};
         
         for (var i = 0; i < results.length; i++) {

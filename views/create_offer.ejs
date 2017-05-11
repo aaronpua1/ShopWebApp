@@ -118,12 +118,12 @@
             var upsells = "";
             
             <% for(var i = 0; i < store_products.products.length; i++) { %>
-                products += 'id=' + '<%= store_products.products[i].id %>' + '|title=' + '<%= store_products.products[i].title %>' + ',|';
+                products += 'id=' + <%= store_products.products[i].id %> + '|title=' + <%= store_products.products[i].title %> + ',|';
                 //products.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_products.products[i].title %>'});
             <% } %>
             
             <% for(var i = 0; i < store_upsell.products.length; i++) { %>
-                upsells += 'id=' + '<%= store_upsell.products[i].id %>' + '|title=' + '<%= store_upsell.products[i].title %>' + ',|';
+                upsells += 'id=' + <%= store_upsell.products[i].id %> + '|title=' + <%= store_upsell.products[i].title %> + ',|';
                 //upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
             <% } %>
             //products.replace(/\,$/, '');
