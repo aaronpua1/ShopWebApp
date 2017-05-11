@@ -987,6 +987,7 @@ app.post('/create-offer', function(req, res) {
     }
     
     if (!isEmptyObject(previous_upsell_selections) && !isEmptyObject(previous_product_selections)) {
+        console.log("TEST:" + JSON.stringify(previous_upsell_selections));
         var parsed_upsell_selections = [];
         var parsed_product_selections = [];
         for (var i in upsell_selections) {
