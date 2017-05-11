@@ -424,8 +424,8 @@ app.get('/create-offer', function(req, res) {
             result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
             store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
             store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));  
-            string_upsell = parse_configs(store_upsell.products);
-            string_products = parse_configs(store_products.products);
+            string_upsell = stringify_configs(store_upsell.products);
+            string_products = stringify_configs(store_products.products);
         }
         
         //console.log(JSON.stringify(result_metafields));
@@ -978,9 +978,9 @@ app.post('/create-offer', function(req, res) {
     var product_selections = [];
     console.log("TEST: FUCKKKK!" + req.body.product_configs);
     console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
-    var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
-    var previous_product_selections = JSON.parse(req.body.product_configs);
-    console.log("TEST:" + JSON.stringify(previous_upsell_selections));
+    var previous_upsell_selections = req.body.upsell_configs;
+    var previous_product_selections = req.body.product_configs;
+    
     if (Array.isArray(req.body.upsell_dual_box)) {
         upsell_selections = req.body.upsell_dual_box.slice(0);
     }
@@ -994,8 +994,9 @@ app.post('/create-offer', function(req, res) {
         product_selections.push(req.body.product_dual_box);
     }
     
-    if (!isEmptyObject(previous_upsell_selections) && !isEmptyObject(previous_product_selections)) {
-        
+    if (previous_upsell_selections != "" && previous_product_selections != "") {
+        previous_upsell_selections = JSON.parse(JSON.stringify(parse_products(previous_upsell_selections)));
+        previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
         var parsed_upsell_selections = [];
         var parsed_product_selections = [];
         for (var i in upsell_selections) {
@@ -2330,7 +2331,7 @@ function parse_values(values) {
     return result;
 }
 
-function parse_configs(values) {
+function stringify_configs(values) {
     var result = "";
     
     for (var i = 0; i < values.length; i++) {
