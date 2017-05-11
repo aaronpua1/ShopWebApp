@@ -246,9 +246,9 @@
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;" maxlength="230">Briefly describe what your offer means and how it works</textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"></textarea>
                   <% } else { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
                   <% } %>
                 </div>
               </div>
