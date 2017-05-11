@@ -195,7 +195,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
-            res.redirect('/current-offers');
+            res.redirect('/');
         });
     }
 })
@@ -276,7 +276,7 @@ app.get('/upsell', function(req, res) {
         shop: req.session.shop
     });
 })
-
+/*
 // The home page, checks if we have the access token, if not we are redirected to the install page
 // This check should probably be done on every page, and should be handled by a middleware
 app.get('/', function(req, res) {
@@ -289,13 +289,13 @@ app.get('/', function(req, res) {
     } else {
         res.redirect('/install');
     }
-})
+})*/
 
 // This is to render the current-offers page that shows all active offers created by store owner 
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
 // https://datatables.net/reference/api/
-app.get('/current-offers', function(req, res) {
+app.get('/', function(req, res) {
      if (req.session.access_token) {
         request.get({
             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
