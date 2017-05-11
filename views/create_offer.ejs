@@ -399,7 +399,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10" style="top: 30px;">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
@@ -429,7 +429,7 @@
               <div class="control-group">
                 <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
                 <div class="controls">
-                  <select class="selectpicker" data-width="49%" id="product_custom_collection" name="product_custom_collection" style="display: none;" required="required">
+                  <select class="selectpicker" data-width="49%" id="product_custom_collection" name="product_custom_collection" style="display: none;" required="">
                     <option value="none">
                       Filter by custom collection
                     </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
@@ -481,7 +481,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10" required="required" style="width: 100px;">
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10" required="">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
