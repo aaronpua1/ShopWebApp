@@ -56,7 +56,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        
+        $("#upsell-dual-box").attr('required');
         $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -68,9 +68,9 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        
+        $("#product-dual-box").attr('required');
         $(".filter").hide();
-        var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
+        /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
         var isRequiredField = dualListBox.attr('required');
 
         function initDualListBox() {
@@ -89,7 +89,7 @@
 
         if (isRequiredField)
             initDualListBox();
-            
+            */
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
