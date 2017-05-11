@@ -26,7 +26,7 @@
         ShopifyApp.Bar.initialize({
           buttons: {
             primary: {
-                label: "Current Offers", 
+                label: "Cancel", 
                 href: '/'
             }
           },
@@ -161,6 +161,27 @@
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
         
+        $("#upsell-dual-box").on('change', function(){
+            var size = $("#upsell-dual-box").find(":selected").size();
+            if(size > 3){
+                $("#upsell-dual-box").find(":selected").each(function(ind, sel){            
+                    if(ind > 2)
+                        $(this).prop("selected", false)
+                })
+                alert('You can only choose 3!');
+                $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+            }
+        })  
+        /*$("#product-dual-box").on('change', function(){
+            var size = $("#product-dual-box").find(":selected").size();
+            if(size > 3){
+                $("#product-dual-box").find(":selected").each(function(ind, sel){            
+                    if(ind > 2)
+                        $(this).prop("selected", false)
+                })
+                $("#product-dual-box").bootstrapDualListbox('refresh', true);
+            }
+        })*/
         /*
         $( "#create-offer" ).click(function( event ) {
             var name = $('#offer_name').val();
@@ -201,9 +222,9 @@
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>">
+                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27">
                   <% } %>
                 </div>
               </div>
@@ -213,9 +234,9 @@
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>">
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>" maxlength="27">
                   <% } %>
                 </div>
               </div>
@@ -225,9 +246,9 @@
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;">Briefly describe what your offer means and how it works</textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;" maxlength="230">Briefly describe what your offer means and how it works</textarea>
                   <% } else { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;"><%= store.offer_description %></textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
                   <% } %>
                 </div>
               </div>
@@ -408,7 +429,7 @@
               <div class="control-group">
                 <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
                 <div class="controls">
-                  <select class="selectpicker" data-width="49%" id="product_custom_collection" name="product_custom_collection" style="display: none;">
+                  <select class="selectpicker" data-width="49%" id="product_custom_collection" name="product_custom_collection" style="display: none;" required="">
                     <option value="none">
                       Filter by custom collection
                     </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
@@ -460,7 +481,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10" required="">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
