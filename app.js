@@ -195,7 +195,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
-            res.redirect('/');
+            res.redirect('/create-offer');
         });
     }
 })
@@ -296,44 +296,48 @@ app.get('/', function(req, res) {
 // http://bootsnipp.com/snippets/BDDND
 // https://datatables.net/reference/api/
 app.get('/current-offers', function(req, res) {
-    request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token
-        }
-    }, 
-    function(err, resp, body){
-        if(err) {
-            console.log(err);
-            return res.json(JSON.parse(err));
-        }
-        
-        var data = JSON.parse(body);
-        console.log(data);
-        
-        var metafields = [];
-        /*for (var i = 0; i < data.metafields.length; i++) {
-            var temp = data.metafields[i].value + ";id:" + data.metafields[i].id.toString();
-            temp = JSON.parse(JSON.stringify(parse_values(temp)));
-            metafields.push(temp);
-        }*/
-        for (var key in data.metafields) {
-            var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
-            temp = JSON.parse(JSON.stringify(parse_values(temp)));
-            metafields.push(temp);
-        }
+     if (req.session.access_token) {
+        request.get({
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token
+            }
+        }, 
+        function(err, resp, body){
+            if(err) {
+                console.log(err);
+                return res.json(JSON.parse(err));
+            }
+            
+            var data = JSON.parse(body);
+            console.log(data);
+            
+            var metafields = [];
+            /*for (var i = 0; i < data.metafields.length; i++) {
+                var temp = data.metafields[i].value + ";id:" + data.metafields[i].id.toString();
+                temp = JSON.parse(JSON.stringify(parse_values(temp)));
+                metafields.push(temp);
+            }*/
+            for (var key in data.metafields) {
+                var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
+                temp = JSON.parse(JSON.stringify(parse_values(temp)));
+                metafields.push(temp);
+            }
 
-        var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
-        values = JSON.parse(JSON.stringify(values));
-        console.log(values);
-        
-        res.render('current_offers', {
-            title: 'Current Offers', 
-            api_key: config.oauth.api_key,
-            shop: req.session.shop,
-            current_offers: values
-        });
-    })
+            var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
+            values = JSON.parse(JSON.stringify(values));
+            console.log(values);
+            
+            res.render('current_offers', {
+                title: 'Current Offers', 
+                api_key: config.oauth.api_key,
+                shop: req.session.shop,
+                current_offers: values
+            });
+        })
+    } else {
+        res.redirect('/install');
+    }
 })
 
 // This is to render the create-offer form page to allow users to customize their offers
