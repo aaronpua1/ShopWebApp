@@ -191,7 +191,24 @@
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
         })  
-
+        <% if (typeof store != "undefined") { %>
+            parseConfigs();
+        <% } %> 
+        
+        function parseConfigs() {
+            var products = [];
+            var upsells = [];
+            
+            <% for(var i = 0; i < store_products.products.length; i++) { %>
+                products.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_products.products[i].title %>'});                
+            <% } %>
+            
+            <% for(var i = 0; i < store_upsell.products.length; i++) { %>
+                upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
+            <% } %>
+            $("#product_configs").val(JSON.stringify(products));
+            $("#upsell_configs").val(JSON.stringify(upsells));
+        }
         /*
         $( "#create-offer" ).click(function( event ) {
             var name = $('#offer_name').val();
@@ -211,13 +228,8 @@
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
-        <% if (typeof store == "undefined") { %>
-          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%- JSON.stringify({}) %>>
-          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%- JSON.stringify({}) %>>
-        <% } else { %>
-          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="<%- JSON.stringify(store_upsell.products) %>">
-          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="<%- JSON.stringify(store_products.products) %>">
-        <% } %>        
+        <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%- JSON.stringify({}) %>>
+        <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%- JSON.stringify({}) %>>    
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
