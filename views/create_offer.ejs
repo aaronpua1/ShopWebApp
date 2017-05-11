@@ -70,7 +70,26 @@
         });
         
         $(".filter").hide();
-        
+        //var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
+        var isRequiredField = $("#upsell-dual-box").attr('required');
+
+        function initDualListBox() {
+            var instance = $("#upsell-dual-box").data('plugin_bootstrapDualListbox');
+            var nonSelectedList = instance.elements.select1;
+            var isDualListBoxValidated = !(instance.selectedElements > 0);
+
+            nonSelectedList.prop('required', isDualListBoxValidated);
+            instance.elements.originalSelect.prop('required', false);
+        }
+
+        $("#upsell-dual-box").change(function () {
+            if (isRequiredField)
+                initDualListBox();
+        });
+
+        if (isRequiredField)
+            initDualListBox();
+            
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
@@ -544,9 +563,6 @@ label{
     background-color: #dcdcdc;
 }
 
-select {
-    top: 30px;
-}
 select option:disabled {
     color: rgba(0,0,0, 0.3);
     text-decoration: line-through;
