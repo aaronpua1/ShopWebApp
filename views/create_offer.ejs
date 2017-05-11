@@ -91,6 +91,7 @@
             initDualListBox();
             */
         <% if(typeof store != "undefined") { %>
+          parseConfigs();
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
@@ -110,14 +111,7 @@
               $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           <% } %>
-        <% } %>
-        
-        <% if (typeof store == "undefined") { %>
-            $("#product_configs").val(JSON.stringify({}));
-            $("#upsell_configs").val(JSON.stringify({}));
-        <% } else { %>
-            parseConfigs();
-        <% } %> 
+        <% } %>        
         
         function parseConfigs() {
             var products = "";
@@ -137,6 +131,7 @@
             $("#product_configs").val(products);
             $("#upsell_configs").val(upsells);
         }
+        
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
@@ -236,8 +231,8 @@
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
-        <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs">
-        <input class="form-control" type="hidden" id="product_configs" name="product_configs">      
+        <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%- JSON.stringify({}) %>>
+        <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%- JSON.stringify({}) %>>   
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
