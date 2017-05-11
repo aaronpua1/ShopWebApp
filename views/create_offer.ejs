@@ -70,11 +70,11 @@
         });
         
         $(".filter").hide();
-        //var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
-        var isRequiredField = $("#upsell-dual-box").attr('required');
+        var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
+        var isRequiredField = dualListBox.attr('required');
 
         function initDualListBox() {
-            var instance = $("#upsell-dual-box").data('plugin_bootstrapDualListbox');
+            var instance = dualListBox.data('plugin_bootstrapDualListbox');
             var nonSelectedList = instance.elements.select1;
             var isDualListBoxValidated = !(instance.selectedElements > 0);
 
