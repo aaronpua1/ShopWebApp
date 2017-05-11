@@ -986,7 +986,7 @@ app.post('/create-offer', function(req, res) {
         product_selections.push(req.body.product_dual_box);
     }
     
-    if (!isEmptyObject(req.body.upsell_configs) && !isEmptyObject(req.body.product_configs)) {
+    if (!isEmptyObject(previous_upsell_selections) && !isEmptyObject(previous_product_selections)) {
         var parsed_upsell_selections = [];
         var parsed_product_selections = [];
         for (var i in upsell_selections) {
