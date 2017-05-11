@@ -970,6 +970,8 @@ app.post('/create-offer', function(req, res) {
 app.post('/create-offer', function(req, res) {
     var upsell_selections = [];
     var product_selections = [];
+    var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
+    var previous_product_selections = JSON.parse(req.body.product_configs);
     
     if (Array.isArray(req.body.upsell_dual_box)) {
         upsell_selections = req.body.upsell_dual_box.slice(0);
@@ -984,9 +986,7 @@ app.post('/create-offer', function(req, res) {
         product_selections.push(req.body.product_dual_box);
     }
     
-    if (req.body.upsell_configs != "" && req.body.product_configs != "") {
-        var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
-        var previous_product_selections = JSON.parse(req.body.product_configs);
+    if (!isEmptyObject(req.body.upsell_configs) && !isEmptyObject(req.body.product_configs)) {
         var parsed_upsell_selections = [];
         var parsed_product_selections = [];
         for (var i in upsell_selections) {
@@ -2346,6 +2346,16 @@ function parse_products(values) {
         result.products.push(temp_product);
     }
     return result;
+}
+
+// This should work both there and elsewhere.
+function isEmptyObject(obj) {
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          return false;
+        }
+    }
+    return true;
 }
 
 // catch 404 and forward to err handler
