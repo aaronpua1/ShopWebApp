@@ -972,7 +972,7 @@ app.post('/create-offer', function(req, res) {
     var product_selections = [];
     var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
     var previous_product_selections = JSON.parse(req.body.product_configs);
-    
+    console.log("TEST:" + JSON.stringify(previous_upsell_selections));
     if (Array.isArray(req.body.upsell_dual_box)) {
         upsell_selections = req.body.upsell_dual_box.slice(0);
     }
@@ -987,7 +987,7 @@ app.post('/create-offer', function(req, res) {
     }
     
     if (!isEmptyObject(previous_upsell_selections) && !isEmptyObject(previous_product_selections)) {
-        console.log("TEST:" + JSON.stringify(previous_upsell_selections));
+        
         var parsed_upsell_selections = [];
         var parsed_product_selections = [];
         for (var i in upsell_selections) {
