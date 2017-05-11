@@ -211,8 +211,8 @@
                 upsells += 'id=' + '<%= store_upsell.products[i].id %>' + '|title=' + '<%= store_upsell.products[i].title %>' + ',';
                 //upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
             <% } %>
-            products.replace(/\,$/, '');
-            upsells.replace(/\,$/, '');
+            //products.replace(/\,$/, '');
+            //upsells.replace(/\,$/, '');
             $("#product_configs").val(products);
             $("#upsell_configs").val(upsells);
         }
