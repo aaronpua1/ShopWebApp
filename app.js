@@ -195,7 +195,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
-            res.redirect('/create-offer');
+            res.redirect('/current-offers');
         });
     }
 })
