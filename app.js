@@ -970,8 +970,6 @@ app.post('/create-offer', function(req, res) {
 app.post('/create-offer', function(req, res) {
     var upsell_selections = [];
     var product_selections = [];
-    var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
-    var previous_product_selections = JSON.parse(req.body.product_configs);
     
     if (Array.isArray(req.body.upsell_dual_box)) {
         upsell_selections = req.body.upsell_dual_box.slice(0);
@@ -985,26 +983,34 @@ app.post('/create-offer', function(req, res) {
     else {
         product_selections.push(req.body.product_dual_box);
     }
-    var parsed_upsell_selections = [];
-    var parsed_product_selections = [];
-    for (var i in upsell_selections) {
-        parsed_upsell_selections.push(JSON.parse(JSON.stringify(parse_selections(upsell_selections[i])))); 
+    
+    if (req.body.upsell_configs != "" && req.body.product_configs != "") {
+        var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
+        var previous_product_selections = JSON.parse(req.body.product_configs);
+        var parsed_upsell_selections = [];
+        var parsed_product_selections = [];
+        for (var i in upsell_selections) {
+            parsed_upsell_selections.push(JSON.parse(JSON.stringify(parse_selections(upsell_selections[i])))); 
+        }
+        for (var i in product_selections) {
+            parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
+        }
+        var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
+        var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
+        var upsell_remaining = findDifferences(parsed_upsell_selections, previous_upsell_selections).slice(0);
+        console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
+        console.log("product selections:" + JSON.stringify(parsed_product_selections));
+        console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
+        console.log("product parse configs:" + JSON.stringify(previous_product_selections));
+        console.log("upsell configs:" + req.body.upsell_configs);
+        console.log("product configs:" + req.body.product_configs);
+        console.log("upsell diff:" + JSON.stringify(upsell_differences));
+        console.log("product diff:" + JSON.stringify(product_differences));
     }
-    for (var i in product_selections) {
-        parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
+    else {
+        var upsell_differences = [];
+        var product_differences = [];
     }
-    var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
-    var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-    var upsell_remaining = findDifferences(parsed_upsell_selections, previous_upsell_selections).slice(0);
-    console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
-    console.log("product selections:" + JSON.stringify(parsed_product_selections));
-    console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
-    console.log("product parse configs:" + JSON.stringify(previous_product_selections));
-    console.log("upsell configs:" + req.body.upsell_configs);
-    console.log("product configs:" + req.body.product_configs);
-    console.log("upsell diff:" + JSON.stringify(upsell_differences));
-    console.log("product diff:" + JSON.stringify(product_differences));
-
     async.parallel([
         function(callback) {
             if (product_differences.length > 0) {
