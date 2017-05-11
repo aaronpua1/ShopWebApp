@@ -23,6 +23,17 @@
 <body>
   <script type="text/javascript">
     ShopifyApp.ready(function(){
+        ShopifyApp.Bar.initialize({
+          buttons: {
+            primary: {
+                label: "Current Offers", 
+                href: '/current-offers'
+            }
+          },
+          title: '<%= title %>',
+          icon: '/images/logo.png'
+        });
+        ShopifyApp.Bar.loadingOff();
         /*$(".dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
