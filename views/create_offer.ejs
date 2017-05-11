@@ -56,7 +56,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        $("#upsell-dual-box").attr('required');
+
         $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -68,7 +68,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        $("#product-dual-box").attr('required');
+
         $(".filter").hide();
         /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
         var isRequiredField = dualListBox.attr('required');
@@ -348,7 +348,7 @@
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
-              <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell</p>
+              <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell (Must select one)</p>
             </div>
           </div>
         </div>
@@ -418,7 +418,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10" required="">
                 <%for(var i = 0; i < product_selections.products.length; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
@@ -430,7 +430,7 @@
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
-              <p class="control-label" for="form-steps">Step 3: Select Products to Place Offer</p>
+              <p class="control-label" for="form-steps">Step 3: Select Product(s) to Place Offer (Must select one)</p>
             </div>
           </div>
         </div>
