@@ -395,9 +395,9 @@ app.get('/create-offer', function(req, res) {
         var result_metafields;
         var result_store;
         var store_upsell;
-        //var string_upsell;
+        var string_upsell;
         var store_products;
-        //var string_products;
+        var string_products;
         var result_values = {values: []};
         
         for (var i = 0; i < results.length; i++) {
@@ -423,7 +423,9 @@ app.get('/create-offer', function(req, res) {
         if (result_store) {
             result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
             store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
-            store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));                
+            store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));  
+            string_upsell = parse_configs(store_upsell.products);
+            string_products = parse_configs(store_products.products);
         }
         
         //console.log(JSON.stringify(result_metafields));
@@ -437,6 +439,8 @@ app.get('/create-offer', function(req, res) {
             store: result_store,
             store_upsell: store_upsell,
             store_products: store_products,
+            upsell_config: string_upsell,
+            product_config: string_products,
             metafields: result_values
         });
     });
@@ -2323,6 +2327,16 @@ function parse_values(values) {
         var temp = pairs[i].split(":");
         result[temp[0]] = temp[1];
     }
+    return result;
+}
+
+function parse_configs(values) {
+    var result = "";
+    
+    for (var i = 0; i < values.length; i++) {
+        result += 'id=' + values.id + '|title=' + values.title + ',';
+    }
+    result.replace(/\,$/, '');
     return result;
 }
 

@@ -91,7 +91,6 @@
             initDualListBox();
             */
         <% if(typeof store != "undefined") { %>
-          parseConfigs();
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
@@ -111,26 +110,7 @@
               $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           <% } %>
-        <% } %>        
-        
-        function parseConfigs() {
-            var products = "";
-            var upsells = "";
-            
-            <% for(var i = 0; i < store_products.products.length; i++) { %>
-                products += 'id=' + <%= store_products.products[i].id %> + '|title=' + <%= store_products.products[i].title %> + ',|';
-                //products.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_products.products[i].title %>'});
-            <% } %>
-            
-            <% for(var i = 0; i < store_upsell.products.length; i++) { %>
-                upsells += 'id=' + <%= store_upsell.products[i].id %> + '|title=' + <%= store_upsell.products[i].title %> + ',|';
-                //upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
-            <% } %>
-            //products.replace(/\,$/, '');
-            //upsells.replace(/\,$/, '');
-            $("#product_configs").val(products);
-            $("#upsell_configs").val(upsells);
-        }
+        <% } %>
         
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
@@ -231,8 +211,13 @@
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
-        <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%- JSON.stringify({}) %>>
-        <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%- JSON.stringify({}) %>>   
+        <% if (typeof store == "undefined") { %>
+          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
+          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
+        <% } else { %>
+          <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%= upsell_config %>>
+          <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%= product_config %>>
+        <% } %>        
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
             <div class="controls">
