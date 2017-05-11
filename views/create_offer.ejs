@@ -196,18 +196,22 @@
         <% } %> 
         
         function parseConfigs() {
-            var products = [];
-            var upsells = [];
+            var products = "";
+            var upsells = "";
             
             <% for(var i = 0; i < store_products.products.length; i++) { %>
-                products.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_products.products[i].title %>'});                
+                products += 'id=' + <%= store_products.products[i].id %> + '|title=' + <%= store_products.products[i].title %> + ','
+                //products.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_products.products[i].title %>'});                
             <% } %>
             
             <% for(var i = 0; i < store_upsell.products.length; i++) { %>
-                upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
+                upsells += 'id=' + <%= store_upsell.products[i].id %> + '|title=' + <%= store_upsell.products[i].title %> + ','
+                //upsells.push({'id': '<%= store_upsell.products[i].id %>', 'title': '<%= store_upsell.products[i].title %>'});
             <% } %>
-            $("#product_configs").val(JSON.stringify(products));
-            $("#upsell_configs").val(JSON.stringify(upsells));
+            products.replace(/\,$/, '');
+            upsells.replace(/\,$/, '');
+            $("#product_configs").val(products);
+            $("#upsell_configs").val(upsells);
         }
         /*
         $( "#create-offer" ).click(function( event ) {
