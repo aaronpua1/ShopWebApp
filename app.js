@@ -970,6 +970,7 @@ app.post('/create-offer', function(req, res) {
 app.post('/create-offer', function(req, res) {
     var upsell_selections = [];
     var product_selections = [];
+    console.log("TEST: FUCKKKK!" + req.body.product_configs);
     console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
     var previous_upsell_selections = JSON.parse(req.body.upsell_configs);
     var previous_product_selections = JSON.parse(req.body.product_configs);
