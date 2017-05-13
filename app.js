@@ -12,7 +12,7 @@ var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
-var limiter = new RateLimiter(1, 100); // at most 1 request every 100 ms
+var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
     limiter.removeTokens(1, function() {
