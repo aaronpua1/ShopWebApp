@@ -1324,6 +1324,8 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
+                    res.redirect('/');
+                    res.end();
                     callback();
                 });
             }
@@ -1418,6 +1420,8 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                    res.redirect('/');
+                    res.end();
                     callback();
                 });
             }
@@ -1589,7 +1593,6 @@ app.post('/create-offer', function(req, res) {
             return res.json(500);
         }
         res.redirect('/');
-        res.end();
     });
 })
 /*
