@@ -1106,7 +1106,6 @@ app.post('/create-offer', function(req, res) {
                                             callback(true); 
                                             return; 
                                         }
-                                        
                                         console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
                                         callback(null, 'done');
                                     });
@@ -1125,7 +1124,6 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
-                    res.write(" ");
                     callback();
                 });
             }
@@ -1169,7 +1167,6 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
-                            res.write(" ");
                             callback(null, result);
                         });
                     },
@@ -1213,7 +1210,6 @@ app.post('/create-offer', function(req, res) {
                                             return; 
                                         }    
                                         console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
-                                        res.write(" ");
                                         callback(null);
                                     });
                                 }
@@ -1317,7 +1313,6 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
-                            res.write(" ");
                             callback(null, 'done');
                         });
                     }                
@@ -1423,7 +1418,6 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
-                    res.write(" ");
                     callback();
                 });
             }
@@ -1504,6 +1498,7 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }
                             console.log("PUT RESPONSE: " + body);
+                            res.end("done");
                             body = JSON.parse(body);
                             callback(null , 'done');
                         });
@@ -1536,7 +1531,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            console.log("POST RESPONSE" + body1);
+                            console.log("POST RESPONSE" + body1);                            
                             body1 = JSON.parse(body1);
                             
                             //var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
@@ -1569,6 +1564,7 @@ app.post('/create-offer', function(req, res) {
                                 }
                                 console.log("PUT RESPONSE: " + body2);
                                 body2 = JSON.parse(body2);
+                                res.end("done");
                                 callback(null, 'done');
                             });
                         });
