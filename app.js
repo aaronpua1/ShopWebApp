@@ -1188,8 +1188,7 @@ app.post('/create-offer', function(req, res) {
                     console.log(err);
                     callback(true); 
                     return; 
-                }
-                res.redirect('/');
+                }                
                 //console.log(result);
                 callback(null, 'done');
             });
@@ -1284,12 +1283,12 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
-                    callback();
+                    callback(null, 'done');
                 });
             }
             else {
                 console.log("FIRST SKIP");
-                callback();
+                callback(null, 'done');
             }
         },
         function(callback) {
@@ -1484,7 +1483,7 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
-                    callback();
+                    callback(null, 'done');
                 });
             }
             else {
@@ -1578,7 +1577,7 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
-                    callback();
+                    callback(null, 'done');
                 });
             }
         }        
@@ -1587,8 +1586,10 @@ app.post('/create-offer', function(req, res) {
         console.log("FINAL RESPONSE: " + JSON.stringify(result));
         if (err) {
             console.log(err);
+            callback(true);
             return res.json(500);
         }
+        callback(null, 'done');
         res.redirect('/');
     });
 })
@@ -2424,6 +2425,7 @@ app.use(function(err, req, res, next) {
     });
 });
 var server_ip_address = '127.0.0.1';
+//server.timeout = 1000;
 /*app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), server_ip_address, function() {
   console.log('Express server listening on port ' + server.address().port);
