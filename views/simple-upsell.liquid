@@ -5,7 +5,7 @@
 
   {% if product.metafields.suop != blank %}
     {% assign metafields = product.metafields.suop %}
-  {% assign configs = metafields.su1 %}
+	{% assign configs = metafields.su1 %}    
     {% if configs contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
         <input type="hidden" id="configs" name="configs" value="{{ configs }}" />
@@ -36,17 +36,17 @@
                       </div>
                       <div class="variant col-md-12">
                         {% if variantSize <= 1 %}
-                        <select id="variant1" class="variant-select" name="variant1" >
-                          {% for variant in variants %}
-                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                          {% endfor %}
-                        </select>
+                          <select id="variant1" class="variant-select" name="variant1" style="visibility: hidden;">
+                            {% for variant in variants %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% endfor %}
+                          </select>
                         {% else %}
-                        <select id="variant1" class="variant-select" name="variant1">
-                          {% for variant in variants %}
-                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                          {% endfor %}
-                        </select>
+                          <select id="variant1" class="variant-select" name="variant1">
+                            {% for variant in variants %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% endfor %}
+                          </select>
                         {% endif %}
                       </div>
                     </div>
@@ -83,7 +83,7 @@
                           {% if variantSize <= 1 %}
                             <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}" >
                               {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                              	<option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
                               {% endfor %}
                             </select>
                           {% else %}
@@ -123,11 +123,12 @@
   {% endif %}
   <script type="text/javascript">
     var values = jQuery('#configs').val();
-    values = parseValues(values);    
+	values = parseValues(values);    
     if (values['edge_type'] == "not_rounded") {
       jQuery('.col-item').css('border-radius', '0px');
       jQuery('.upsell-image').css('border-radius', '0px');
       jQuery('.photo').css('border-radius', '0px');
+      jQuery('#add-upsell').css('border-radius', '0px');
     }
     else {
       jQuery('.col-item').css('border-radius', '10px');
@@ -145,7 +146,7 @@
     else 
       jQuery('.col-item').css('background-color', 'rgba(255, 255, 255, 1)');      
     
-    if (values['button_color'] == "not_rounded")
+    if (values['button_color'] != "60,105,211")
       jQuery('#add-upsell').css('background-color', 'rgba(' + values['button_color'] + ', 1)');
     else 
       jQuery('#add-upsell').css('background-color', 'rgba(60, 105, 211, 1)');   
@@ -176,21 +177,26 @@
       else {
         document.location.href = '/cart';
       }
-    };    
+    };
+    
+    Number.prototype.format = function(n, x) {
+        var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+        return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+    };
+    
     function calculateTotal(itemPrice, itemStatus) {
-      var currentTotal = Number(jQuery('#total-price').text().replace(/[^0-9-\.]+/g, "")).toFixed(2);;
-      var item = Number(itemPrice.replace(/[^0-9-\.]+/g, "")).toFixed(2);;
+      var currentTotal = Number(jQuery('#total-price').text().replace(/[^0-9-\.]+/g, ""));
+      var item = Number(itemPrice.replace(/[^0-9-\.]+/g, ""));
       var total = 0;
       
-      if (itemStatus) {
-        total = currentTotal + item;
-      }
-      else {
+      if (itemStatus)
+      	total = currentTotal + item;
+      else
         total = currentTotal - item;
-      }
-      
-      jQuery('#total-price').text('$' + total.toFixed(2).replace(/(\d)(?=(\d{3})+$)/g, "$1,").toString());
+
+      jQuery('#total-price').text('$' + Number(total).format(2).toString());
     }
+    
     function parseValues(values) {
       var result = {};
       var pairs = values.split(";");
@@ -253,6 +259,7 @@
         else 
           jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price1').text(), false);
+        event.preventDefault();
       }
       else {
         jQuery('#c1').prop('checked', true); 
@@ -273,6 +280,7 @@
         else 
           jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price1').text(), true);
+        event.preventDefault();
       }  
     });
     jQuery('#btn-id2').click(function(event) {
@@ -295,6 +303,7 @@
         else 
           jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price2').text(), false);
+        event.preventDefault();
       }
       else {
         jQuery('#c2').prop('checked', true);
@@ -315,6 +324,7 @@
         else 
           jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price2').text(), true);
+        event.preventDefault();
       }  
     });
     jQuery('#btn-id3').click(function(event) {
@@ -336,7 +346,8 @@
           jQuery('#item3').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
         else 
           jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
-        calculateTotal(jQuery('#variant-price1').text(), false);
+        calculateTotal(jQuery('#variant-price3').text(), false);
+        event.preventDefault();
       }
       else {
         jQuery('#c3').prop('checked', true);
@@ -357,6 +368,7 @@
         else 
           jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price3').text(), true);
+        event.preventDefault();
       }  
     });
     jQuery('#btn-id4').click(function(event) {
@@ -379,6 +391,7 @@
         else 
           jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price4').text(), false);
+        event.preventDefault();
       }
       else {
         jQuery('#c4').prop('checked', true);
@@ -399,11 +412,12 @@
         else 
           jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
         calculateTotal(jQuery('#variant-price4').text(), true);
+        event.preventDefault();
       }  
     });
   </script>
   <style>
-  @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+  @import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
   .nopadding 
   {
     padding: 0 !important;
@@ -502,21 +516,32 @@
   .col-item .photo img
   {
     margin: 0 auto;
-    width: 75%;
-    padding: 10px;
-    border-radius: 10px 10px 0 0;
-    background-color: #FFF;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 129px;
+    vertical-align: top;
+    /*padding: 10px;*/
+    /*border-radius: 10px 10px 0 0;*/
+
     background-repeat: no-repeat;
   }
-  .col-item .photo
+  /*.col-item .photo
   {
+    /*min-width: 170px;
+    min-height: 125px;    
+    /*max-width: 170px;   
+    max-height: 125px;
     margin: 0 auto;
     border-radius: 10px 10px 0 0;
     background-color: #FFF;
-  }
+  }*/
   .col-item .info
   {
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 5px;
     border-radius: 0 0 5px 5px;
     margin-top: 1px;
   }
@@ -527,15 +552,16 @@
   }
   .col-item .price h5
   {
-    margin-top: 2px;
-    margin-bottom: 8px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     text-align: left;
-    line-height: 10px;
+    line-height: 0;
     width: auto;
     max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 12px;
   }
   .price-text-color
   {
@@ -550,25 +576,44 @@
     float: none;
     font-size: 14px;
     text-align: center;
-    line-height: 25px;
-    margin-bottom: 10px;
+    line-height: 0;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     margin-top: 5px;
-    height: 15px;
+    height: 14px;
   }
-  .col-item .variant
+  .col-item .row
   {
+    margin-bottom: 10px;
+  }
+  .variant
+  {
+    display: table;
     float: none;
-    font-size: 14px;
     text-align: center;
-    line-height: 10px;
+    line-height: 0;
     margin: 1px;
-    height: 30px;
+
+    padding-bottom: 0;
   }
-  .col-item .variant .variant-select
+  .variant .variant-select 
   {
-    width: 70%;
-    height: 35px;
+    display: table-cell;
+    border: 1px solid black;
+    -webkit-appearance: menulist-button; 
+    -moz-appearance: none;             /* Removes Default Firefox style*/
+    background: url('dropdown_arrow.png') no-repeat;          /*Adds background-image*/
+    background-position: 82px 7px;           /*Position of the background-image*/
+    width: 70%;            /*Width of select dropdown to give space for arrow image*/
+    height: 5px;
+    text-indent: 0.01px;          /* Removes default arrow from firefox*/
+    text-overflow: "";   
+    max-height: 5px; 
+    font-size: 12px;
+    line-height: 0;
+    background-color: white;
   }
+
   .col-item .separator
   {
     border-top: 1px solid #d9d9d9;
@@ -579,7 +624,7 @@
   }
   .col-item .separator p
   {
-    line-height: 20px;
+    line-height: 0;
     margin: 3px;
     text-align: center;
     float: none;
@@ -596,6 +641,7 @@
     text-align: center;
     align-items: center;
     float: none;
+    font-size: 14px;
   }
   .col-item .btn-details
   {
