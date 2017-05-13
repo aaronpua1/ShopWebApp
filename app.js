@@ -1425,7 +1425,7 @@ app.post('/create-offer', function(req, res) {
         function(callback) {
             async.waterfall([
                 function(callback) {
-                    throttledRequest.get({
+                    request.get({
                         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token
@@ -1482,7 +1482,7 @@ app.post('/create-offer', function(req, res) {
                         req_body = JSON.stringify(data);
                         //console.log(data);
                         console.log("PUT REQUEST: " + req_body);
-                        throttledRequest({
+                        request({
                             method: "PUT",
                             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
                             headers: {
@@ -1515,7 +1515,7 @@ app.post('/create-offer', function(req, res) {
                         req_body = JSON.stringify(data1);
                         //console.log(data1);
                         console.log("POST REQUEST: " + req_body);
-                        throttledRequest({
+                        request({
                             method: "POST",
                             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
                             headers: {
@@ -1546,7 +1546,7 @@ app.post('/create-offer', function(req, res) {
                             req_body = JSON.stringify(data2);
                             //console.log(data2);
                             console.log("PUT REQUEST: " + req_body);
-                            throttledRequest({
+                            request({
                                 method: "PUT",
                                 url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
                                 headers: {
