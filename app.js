@@ -16,7 +16,7 @@ var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
-var limiter = new RateLimiter(2, 20000); // at most 2 request every 1000 ms
+var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
     limiter.removeTokens(1, function() {
@@ -94,7 +94,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 }
                 var req_body = querystring.stringify(params);
                 console.log(req_body)
-                request({
+                throttledRequest({
                     url: 'https://' + req.query.shop + '/admin/oauth/access_token', 
                     method: "POST",
                     headers: {
