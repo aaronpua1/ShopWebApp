@@ -8,8 +8,8 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var limit = require('simple-rate-limiter');
 var request = limit(require("request")).to(10).per(1000);
-var config = require('./settings')
-var session = require('express-session')
+var config = require('./settings');
+var session = require('express-session');
 var app = express();
 var async = require("async");
 
