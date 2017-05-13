@@ -6,19 +6,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var crypto = require('crypto');
 var bodyParser = require('body-parser');
-var request = require('request');
-var RateLimiter = require('limiter').RateLimiter;
+//var request = require('request');
+//var RateLimiter = require('limiter').RateLimiter;
+var limit = require('simple-rate-limiter');
+var request = limit(require('request')).to(2).per(1000);
 var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
-var limiter = new RateLimiter(1, 1000); // at most 2 request every 1000 ms
+/*var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
     limiter.removeTokens(1, function() {
         request.apply(this, requestArgs);
     });
-};
+};*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
