@@ -1498,9 +1498,9 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }
                             console.log("PUT RESPONSE: " + body);
-                            res.end("done");
+                            
                             body = JSON.parse(body);
-                            callback(null , 'done');
+                            callback(null, 'done');
                         });
                     }
                     else {
@@ -1564,7 +1564,7 @@ app.post('/create-offer', function(req, res) {
                                 }
                                 console.log("PUT RESPONSE: " + body2);
                                 body2 = JSON.parse(body2);
-                                res.end("done");
+                                
                                 callback(null, 'done');
                             });
                         });
@@ -1578,7 +1578,7 @@ app.post('/create-offer', function(req, res) {
                     return; 
                 }    
                 //console.log(result);
-                callback();
+                callback(null, 'done');
             });
         }
     ],
