@@ -15,7 +15,7 @@ var async = require('async');
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
-    limiter.removeTokens(1, function() {
+    limiter.removeTokens(2, function() {
         request.apply(this, requestArgs);
     });
 };
