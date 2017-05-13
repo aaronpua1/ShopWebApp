@@ -1035,6 +1035,400 @@ app.post('/create-offer', function(req, res) {
     }
     async.parallel([
         function(callback) {
+            if (product_differences.length > 0) {
+                async.waterfall([
+                    function(callback) {
+                        var requests = [];
+                        for (var i in product_differences) {
+                            var temp_request = {
+                                method: "GET",
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product_differences[i].id + '/metafields.json?namespace=suop',
+                                headers: {
+                                    'X-Shopify-Access-Token': req.session.access_token
+                                }
+                            }
+                            requests.push(temp_request);
+                        }
+                        requests = JSON.parse(JSON.stringify(requests));
+                        
+                        async.map(requests, function(obj, callback) {
+                            throttledRequest(obj, function(err, resp, body) {
+                                if (!err && resp.statusCode == 200) {
+                                    var body = JSON.parse(body);
+                                    callback(null, body);
+                                }
+                                else {
+                                    callback(err || resp.statusCode);
+                                }
+                            })
+                        },  
+                        function(err, result) {
+                            if (err) {
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }    
+                            console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
+                            res.send(200);
+                            callback(null, result);
+                        });
+                    },
+                    function(product, callback) {
+                        var requests = [];
+                        if (product.length > 0) {
+                            for (var i in product) {
+                                if (product[i].metafields.length > 0) {
+                                    for (var j in product[i].metafields) {
+                                        var temp_request = {
+                                            method: "DELETE",
+                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
+                                            headers: {
+                                                'X-Shopify-Access-Token': req.session.access_token
+                                            }
+                                        }
+                                        requests.push(temp_request);
+                                    }
+                                    requests = JSON.parse(JSON.stringify(requests));
+                                    
+                                    async.map(requests, function(obj, callback) {
+                                        throttledRequest(obj, function(err, resp, body) {
+                                            if (!err && resp.statusCode == 200) {
+                                                var body = JSON.parse(body);
+                                                callback(null, body);
+                                            }
+                                            else {
+                                                callback(err || resp.statusCode);
+                                            }
+                                        })
+                                    },  
+                                    function(err, result) {
+                                        if (err) {
+                                            console.log(err);
+                                            callback(true); 
+                                            return; 
+                                        }
+                                        console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
+                                        res.send(200);
+                                        callback(null, 'done');
+                                    });
+                                }
+                            }
+                        }
+                        else {
+                            callback(null, 'done');
+                        }
+                    }
+                ],
+                function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }    
+                    console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
+                    callback();
+                });
+            }
+            else {
+                console.log("FIRST SKIP");
+                callback();
+            }
+        },
+        function(callback) {
+            if (upsell_differences.length > 0) {
+                async.waterfall([
+                    function(callback) {
+                        var requests = [];
+                        for (var i in parsed_product_selections) {
+                            var temp_request = {
+                                method: "GET",
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + parsed_product_selections[i].id + '/metafields.json?namespace=suop',
+                                headers: {
+                                    'X-Shopify-Access-Token': req.session.access_token
+                                }
+                            }
+                            requests.push(temp_request);
+                        }
+                        requests = JSON.parse(JSON.stringify(requests));
+                        
+                        async.map(requests, function(obj, callback) {
+                            throttledRequest(obj, function(err, resp, body) {
+                                if (!err && resp.statusCode == 200) {
+                                    var body = JSON.parse(body);
+                                    callback(null, body);
+                                }
+                                else {
+                                    callback(err || resp.statusCode);
+                                }
+                            })
+                        },  
+                        function(err, result) {
+                            if (err) {
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }    
+                            console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
+                            res.send(200);
+                            callback(null, result);
+                        });
+                    },
+                    function(product, callback) {
+                        var requests = [];
+                        if (product.length > 0) {
+                            for (var i in product) {
+                                if (product[i].metafields.length > 0) {
+                                    for (var j in product[i].metafields) {
+                                        var temp = JSON.parse(JSON.stringify(parse_values(product[i].metafields[j].value)));
+                                        for (var k in upsell_differences) {
+                                            if (upsell_differences[k].handle == temp.handle) {
+                                                var temp_request = {
+                                                    method: "DELETE",
+                                                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
+                                                    headers: {
+                                                        'X-Shopify-Access-Token': req.session.access_token
+                                                    }
+                                                }
+                                                requests.push(temp_request);
+                                            }
+                                        }
+                                    }
+                                    requests = JSON.parse(JSON.stringify(requests));
+                                    
+                                    async.map(requests, function(obj, callback) {
+                                        throttledRequest(obj, function(err, resp, body) {
+                                            if (!err && resp.statusCode == 200) {
+                                                var body = JSON.parse(body);
+                                                callback(null, body);
+                                            }
+                                            else {
+                                                callback(err || resp.statusCode);
+                                            }
+                                        })
+                                    },  
+                                    function(err, result) {
+                                        if (err) {
+                                            console.log(err);
+                                            callback(true); 
+                                            return; 
+                                        }    
+                                        console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
+                                        res.send(200);
+                                        callback(null);
+                                    });
+                                }
+                            }
+                        }
+                        else {
+                            callback(null);
+                        }
+                    },
+                    function(callback) {
+                        var requests = [];
+                        
+                        for (var i in product_selections) {
+                            var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
+                            console.log("PRODUCT: "+ temp_product.id);
+                            var count = 1;
+                            for (var j in upsell_selections) {
+                                var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
+                                console.log("UPSELL: "+ temp_upsell.id);
+                                for (var k in upsell_remaining) {
+                                    if (temp_upsell.handle != upsell_remaining[k].handle) {
+                                        if (req.body.activate_offer) {
+                                            if (req.body.edge_type) {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            if (req.body.edge_type) {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                            else {
+                                                var data = {
+                                                    metafield: {
+                                                        namespace: "suop",
+                                                        key: "su" + count.toString(),
+                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                                        value_type: "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        req_body = JSON.stringify(data);
+                                        console.log("POST REQUEST: "+ req_body);
+                                        
+                                        var temp_request = {
+                                            method: "POST",
+                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                                            headers: {
+                                                'X-Shopify-Access-Token': req.session.access_token,
+                                                'Content-type': 'application/json; charset=utf-8'
+                                            },
+                                            body: req_body
+                                        }
+                                        requests.push(temp_request);
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        requests = JSON.parse(JSON.stringify(requests));
+                        
+                        async.map(requests, function(obj, callback) {
+                            throttledRequest(obj, function(err, resp, body) {
+                                if (!err && resp.statusCode == 201) {
+                                    var body = JSON.parse(body);
+                                    callback(null, body);
+                                }
+                                else {
+                                    callback(err || resp.statusCode);
+                                }
+                            })
+                        },  
+                        function(err, result) {
+                            if (err) {
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }    
+                            console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
+                            res.send(201);
+                            callback(null, 'done');
+                        });
+                    }                
+                ],
+                function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }    
+                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
+                    callback();
+                });
+            }
+            else {
+                console.log("SECOND SKIP");
+                var requests = [];
+                
+                for (var i in product_selections) {
+                    var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
+                    console.log("PRODUCT: "+ temp_product.id);
+                    var count = 1;
+                    for (var j in upsell_selections) {
+                        var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
+                        console.log("UPSELL: "+ temp_upsell.id);
+                        if (req.body.activate_offer) {
+                            if (req.body.edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su" + count.toString(),
+                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su" + count.toString(),
+                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (req.body.edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su" + count.toString(),
+                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su" + count.toString(),
+                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                        req_body = JSON.stringify(data);
+                        console.log("POST REQUEST: "+ req_body);
+                        
+                        var temp_request = {
+                            method: "POST",
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token,
+                                'Content-type': 'application/json; charset=utf-8'
+                            },
+                            body: req_body
+                        }
+                        requests.push(temp_request);
+                        count++;
+                    }
+                }
+                requests = JSON.parse(JSON.stringify(requests));
+                
+                async.map(requests, function(obj, callback) {
+                    throttledRequest(obj, function(err, resp, body) {
+                        if (!err && resp.statusCode == 201) {
+                            var body = JSON.parse(body);
+                            callback(null, body);
+                        }
+                        else {
+                            callback(err || resp.statusCode);
+                        }
+                    })
+                },  
+                function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }    
+                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                    res.send(201);
+                    callback();
+                });
+            }
+        },
+        function(callback) {
             async.waterfall([
                 function(callback) {
                     request.get({
@@ -1188,408 +1582,19 @@ app.post('/create-offer', function(req, res) {
                     console.log(err);
                     callback(true); 
                     return; 
-                }                
+                }
+                res.send(200);
                 //console.log(result);
                 callback(null, 'done');
             });
-        },
-        function(callback) {
-            if (product_differences.length > 0) {
-                async.waterfall([
-                    function(callback) {
-                        var requests = [];
-                        for (var i in product_differences) {
-                            var temp_request = {
-                                method: "GET",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product_differences[i].id + '/metafields.json?namespace=suop',
-                                headers: {
-                                    'X-Shopify-Access-Token': req.session.access_token
-                                }
-                            }
-                            requests.push(temp_request);
-                        }
-                        requests = JSON.parse(JSON.stringify(requests));
-                        
-                        async.map(requests, function(obj, callback) {
-                            throttledRequest(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 200) {
-                                    var body = JSON.parse(body);
-                                    callback(null, body);
-                                }
-                                else {
-                                    callback(err || resp.statusCode);
-                                }
-                            })
-                        },  
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }    
-                            console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
-                            callback(null, result);
-                        });
-                    },
-                    function(product, callback) {
-                        var requests = [];
-                        if (product.length > 0) {
-                            for (var i in product) {
-                                if (product[i].metafields.length > 0) {
-                                    for (var j in product[i].metafields) {
-                                        var temp_request = {
-                                            method: "DELETE",
-                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
-                                            headers: {
-                                                'X-Shopify-Access-Token': req.session.access_token
-                                            }
-                                        }
-                                        requests.push(temp_request);
-                                    }
-                                    requests = JSON.parse(JSON.stringify(requests));
-                                    
-                                    async.map(requests, function(obj, callback) {
-                                        throttledRequest(obj, function(err, resp, body) {
-                                            if (!err && resp.statusCode == 200) {
-                                                var body = JSON.parse(body);
-                                                callback(null, body);
-                                            }
-                                            else {
-                                                callback(err || resp.statusCode);
-                                            }
-                                        })
-                                    },  
-                                    function(err, result) {
-                                        if (err) {
-                                            console.log(err);
-                                            callback(true); 
-                                            return; 
-                                        }
-                                        console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
-                                        callback(null, 'done');
-                                    });
-                                }
-                            }
-                        }
-                        else {
-                            callback(null, 'done');
-                        }
-                    }
-                ],
-                function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }    
-                    console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
-                    callback(null, 'done');
-                });
-            }
-            else {
-                console.log("FIRST SKIP");
-                callback(null, 'done');
-            }
-        },
-        function(callback) {
-            if (upsell_differences.length > 0) {
-                async.waterfall([
-                    function(callback) {
-                        var requests = [];
-                        for (var i in parsed_product_selections) {
-                            var temp_request = {
-                                method: "GET",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + parsed_product_selections[i].id + '/metafields.json?namespace=suop',
-                                headers: {
-                                    'X-Shopify-Access-Token': req.session.access_token
-                                }
-                            }
-                            requests.push(temp_request);
-                        }
-                        requests = JSON.parse(JSON.stringify(requests));
-                        
-                        async.map(requests, function(obj, callback) {
-                            throttledRequest(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 200) {
-                                    var body = JSON.parse(body);
-                                    callback(null, body);
-                                }
-                                else {
-                                    callback(err || resp.statusCode);
-                                }
-                            })
-                        },  
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }    
-                            console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
-                            callback(null, result);
-                        });
-                    },
-                    function(product, callback) {
-                        var requests = [];
-                        if (product.length > 0) {
-                            for (var i in product) {
-                                if (product[i].metafields.length > 0) {
-                                    for (var j in product[i].metafields) {
-                                        var temp = JSON.parse(JSON.stringify(parse_values(product[i].metafields[j].value)));
-                                        for (var k in upsell_differences) {
-                                            if (upsell_differences[k].handle == temp.handle) {
-                                                var temp_request = {
-                                                    method: "DELETE",
-                                                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
-                                                    headers: {
-                                                        'X-Shopify-Access-Token': req.session.access_token
-                                                    }
-                                                }
-                                                requests.push(temp_request);
-                                            }
-                                        }
-                                    }
-                                    requests = JSON.parse(JSON.stringify(requests));
-                                    
-                                    async.map(requests, function(obj, callback) {
-                                        throttledRequest(obj, function(err, resp, body) {
-                                            if (!err && resp.statusCode == 200) {
-                                                var body = JSON.parse(body);
-                                                callback(null, body);
-                                            }
-                                            else {
-                                                callback(err || resp.statusCode);
-                                            }
-                                        })
-                                    },  
-                                    function(err, result) {
-                                        if (err) {
-                                            console.log(err);
-                                            callback(true); 
-                                            return; 
-                                        }    
-                                        console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
-                                        callback(null);
-                                    });
-                                }
-                            }
-                        }
-                        else {
-                            callback(null);
-                        }
-                    },
-                    function(callback) {
-                        var requests = [];
-                        
-                        for (var i in product_selections) {
-                            var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                            console.log("PRODUCT: "+ temp_product.id);
-                            var count = 1;
-                            for (var j in upsell_selections) {
-                                var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
-                                console.log("UPSELL: "+ temp_upsell.id);
-                                for (var k in upsell_remaining) {
-                                    if (temp_upsell.handle != upsell_remaining[k].handle) {
-                                        if (req.body.activate_offer) {
-                                            if (req.body.edge_type) {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            if (req.body.edge_type) {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        req_body = JSON.stringify(data);
-                                        console.log("POST REQUEST: "+ req_body);
-                                        
-                                        var temp_request = {
-                                            method: "POST",
-                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                                            headers: {
-                                                'X-Shopify-Access-Token': req.session.access_token,
-                                                'Content-type': 'application/json; charset=utf-8'
-                                            },
-                                            body: req_body
-                                        }
-                                        requests.push(temp_request);
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        requests = JSON.parse(JSON.stringify(requests));
-                        
-                        async.map(requests, function(obj, callback) {
-                            throttledRequest(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 201) {
-                                    var body = JSON.parse(body);
-                                    callback(null, body);
-                                }
-                                else {
-                                    callback(err || resp.statusCode);
-                                }
-                            })
-                        },  
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }    
-                            console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
-                            callback(null, 'done');
-                        });
-                    }                
-                ],
-                function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }    
-                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
-                    callback(null, 'done');
-                });
-            }
-            else {
-                console.log("SECOND SKIP");
-                var requests = [];
-                
-                for (var i in product_selections) {
-                    var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                    console.log("PRODUCT: "+ temp_product.id);
-                    var count = 1;
-                    for (var j in upsell_selections) {
-                        var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
-                        console.log("UPSELL: "+ temp_upsell.id);
-                        if (req.body.activate_offer) {
-                            if (req.body.edge_type) {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                            else {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if (req.body.edge_type) {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                            else {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                        }
-                        req_body = JSON.stringify(data);
-                        console.log("POST REQUEST: "+ req_body);
-                        
-                        var temp_request = {
-                            method: "POST",
-                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                            headers: {
-                                'X-Shopify-Access-Token': req.session.access_token,
-                                'Content-type': 'application/json; charset=utf-8'
-                            },
-                            body: req_body
-                        }
-                        requests.push(temp_request);
-                        count++;
-                    }
-                }
-                requests = JSON.parse(JSON.stringify(requests));
-                
-                async.map(requests, function(obj, callback) {
-                    throttledRequest(obj, function(err, resp, body) {
-                        if (!err && resp.statusCode == 201) {
-                            var body = JSON.parse(body);
-                            callback(null, body);
-                        }
-                        else {
-                            callback(err || resp.statusCode);
-                        }
-                    })
-                },  
-                function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }    
-                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
-                    callback(null, 'done');
-                });
-            }
-        }        
+        }
     ],
     function(err, result) {
         console.log("FINAL RESPONSE: " + JSON.stringify(result));
         if (err) {
             console.log(err);
-            callback(true);
             return res.json(500);
         }
-        callback(null, 'done');
         res.redirect('/');
     });
 })
@@ -2425,7 +2430,6 @@ app.use(function(err, req, res, next) {
     });
 });
 var server_ip_address = '127.0.0.1';
-//server.timeout = 1000;
 /*app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), server_ip_address, function() {
   console.log('Express server listening on port ' + server.address().port);
