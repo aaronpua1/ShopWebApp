@@ -1069,7 +1069,6 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
-                            res.send(200);
                             callback(null, result);
                         });
                     },
@@ -1108,7 +1107,6 @@ app.post('/create-offer', function(req, res) {
                                             return; 
                                         }
                                         console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
-                                        res.send(200);
                                         callback(null, 'done');
                                     });
                                 }
@@ -1169,7 +1167,6 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
-                            res.send(200);
                             callback(null, result);
                         });
                     },
@@ -1213,7 +1210,6 @@ app.post('/create-offer', function(req, res) {
                                             return; 
                                         }    
                                         console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
-                                        res.send(200);
                                         callback(null);
                                     });
                                 }
@@ -1317,7 +1313,6 @@ app.post('/create-offer', function(req, res) {
                                 return; 
                             }    
                             console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
-                            res.send(201);
                             callback(null, 'done');
                         });
                     }                
@@ -1423,7 +1418,6 @@ app.post('/create-offer', function(req, res) {
                         return; 
                     }    
                     console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
-                    res.send(201);
                     callback();
                 });
             }
@@ -1582,8 +1576,7 @@ app.post('/create-offer', function(req, res) {
                     console.log(err);
                     callback(true); 
                     return; 
-                }
-                res.send(200);
+                }    
                 //console.log(result);
                 callback(null, 'done');
             });
@@ -1596,6 +1589,7 @@ app.post('/create-offer', function(req, res) {
             return res.json(500);
         }
         res.redirect('/');
+        res.end();
     });
 })
 /*
