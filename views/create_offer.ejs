@@ -261,7 +261,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" method="POST" action="/create-offer" onsubmit="return formCheck">
+      <form id="offer-form" method="POST" action="/create-offer" onsubmit="return formCheck()">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
