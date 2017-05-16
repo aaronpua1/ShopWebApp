@@ -280,9 +280,9 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="255,162,0">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$" style="width: 49%;" type="text" value="255,162,0">
                   <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
                 </div>
               </div>
