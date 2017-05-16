@@ -229,6 +229,7 @@
         });
         
         function validate(e) {            
+            e.preventDefault();
             var validated = true;            
             var tags = ["border_color", "border_highlight_color", "background_color", "button_color"];
             
@@ -252,7 +253,7 @@
                 return true;
             }
             else {
-                e.preventDefault();
+                
                 return false;
             }            
         } 
