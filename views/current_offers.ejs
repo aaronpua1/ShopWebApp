@@ -10,7 +10,6 @@
       </script>
       <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
       <link href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript">
     ShopifyApp.init({
@@ -48,6 +47,7 @@
         });*/
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);
+            ShopifyApp.Bar.loadingOn();
             var id = this.id.split('-').pop();
             ShopifyApp.Modal.confirm({
                 title: "Delete offer?",
@@ -66,11 +66,13 @@
                         {
                             table.row( $button.parents('tr') ).remove().draw();
                             ShopifyApp.flashNotice("Offer Deleted Successfully");
+                            ShopifyApp.Bar.loadingOff();
                         },
                         error: function(status)
                         {
                             console.log(status);
                             ShopifyApp.flashError("Warning: Offer Deletion Failed");
+                            ShopifyApp.Bar.loadingOff();
                         }
                     })
                 }
@@ -135,13 +137,6 @@
                 });
             }
         });
-        $('.delete').on('click', function() {
-          var id = $(this).attr('id');
-          $this.button('loading');
-            setTimeout(function() {
-               $this.button('reset');
-           }, 35000);
-        });
     });
   </script>
   <div class="container">
@@ -181,7 +176,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer?id=<%= current_offers.metafields[i].id %>"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete glyphicon glyphicon-trash" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
                   </td>
                   <td>
                     <% if (current_offers.metafields[i].status == "undefined") { %>
@@ -198,8 +193,6 @@
     </div>
   </div>
 <style>
-<button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create">Create Offer</button>
-
 .pagination>li {
 display: inline;
 padding:0px !important;
