@@ -228,10 +228,11 @@
                 {input.removeClass("valid").addClass("invalid");}
         });
         function formCheck(form) {            
-            var validated = true;
+            var validated = true;            
+            var tags = ['#border_color','#border_highlight_color','#background_color','#button_color'];
             
-            for (var name in form) {
-                var element = $('#' + {name});
+            for (tag in tags) {
+                var element = $(tag);
                 var valid = element.hasClass("valid");
                 var error_element=$("span", element.parent());
                 
@@ -243,6 +244,7 @@
                     error_element.removeClass("error_show").addClass("error");
                 }
             }
+
             
             if (!validated) {
                 return false;
