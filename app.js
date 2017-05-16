@@ -8,14 +8,12 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var request = require('request');
 var RateLimiter = require('limiter').RateLimiter;
-//var limit = require('simple-rate-limiter');
-//var request = limit(require('request')).to(2).per(1000);
-//var request = require('request');
-//limit(request).to(2).per(1000);
+var delayed_response = require('http-delayed-response'); 
 var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
+var delayed = new DelayedResponse(req, res);
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
@@ -1133,6 +1131,7 @@ app.post('/create-offer', function(req, res) {
             }
         },
         function(callback) {
+            delayed.start(1000, 10000);
             if (upsell_differences.length > 0) {
                 async.waterfall([
                     function(callback) {
@@ -1323,9 +1322,9 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
+                    delayed.end(null);
                     res.redirect('/');
-                    res.end();
+                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
@@ -1419,9 +1418,9 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                    delayed.end(null);
                     res.redirect('/');
-                    res.end();
+                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
