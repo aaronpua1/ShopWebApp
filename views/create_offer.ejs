@@ -227,12 +227,13 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        /*function formCheck() {            
+        
+        function validate() {            
             var validated = true;            
-            var tags = ['#border_color','#border_highlight_color','#background_color','#button_color'];
+            var tags = ['border_color','border_highlight_color','background_color','button_color'];
             
             for (var i = 0; i < tags.length; i++) {
-                var element = $(tags[i]);
+                var element = document.getElementsByName(tags[i]);
                 var valid = element.hasClass("valid");
                 var error_element=$("span", element.parent());
                 
@@ -251,8 +252,8 @@
             }
             
             return true;
-        }  */
-        function formCheck() {            
+        }  
+        /*function formCheck() {            
             var validated = true;            
             var tags = [$('#border_color'),$('#border_highlight_color'),$('#background_color'),$('#button_color')];
             
@@ -277,7 +278,7 @@
             else {
                 return true;
             }
-        }  
+        }  */
         //onsubmit="return formCheck();"
     });
   </script>
@@ -288,7 +289,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" onsubmit="return formCheck()" method="POST" action="/create-offer">
+      <form id="offer-form" onsubmit="return validate()" method="POST" action="/create-offer">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
@@ -590,7 +591,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" value="Create">Create</button>
+              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" form="offer-form" value="Create">Create</button>
             </div>
           </div>
         </div>
