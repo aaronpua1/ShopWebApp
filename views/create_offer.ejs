@@ -268,9 +268,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" value="0,0,0,0">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" value="0,0,0,0">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" value="<%= store.border_color %>">
                   <% } %>
                 </div>
               </div>
