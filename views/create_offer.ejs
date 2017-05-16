@@ -259,7 +259,7 @@
             for (var i = 0; i < tags.length; i++) {
                 var element = tags[i];
                 var valid = element.hasClass("valid");
-                var error_element=$("span", element.parent());
+                var error_element = $("span", element.parent());
                 
                 if (!valid) {
                     validated = false;
@@ -590,7 +590,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" form="offer-form" value="Create">Create</button>
+              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" value="Create">Create</button>
             </div>
           </div>
         </div>
