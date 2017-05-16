@@ -189,7 +189,7 @@
                 alert('You can only choose 3!');
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
-        })  
+        });
         $('#border_color').on('input', function() {
             var input=$(this);
             var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
@@ -269,8 +269,8 @@
           $this.button('loading');
             setTimeout(function() {
                $this.button('reset');
-           }, 35000);
-           ShopifyApp.Bar.loadingOff();
+               ShopifyApp.Bar.loadingOff();
+           }, 35000);           
         });
     });
   </script>
