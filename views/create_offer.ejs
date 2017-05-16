@@ -271,6 +271,7 @@
                   <% } else { %>
                     <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -283,6 +284,7 @@
                   <% } else { %>
                     <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>" maxlength="27">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -295,6 +297,7 @@
                   <% } else { %>
                     <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -307,6 +310,7 @@
                   <% } else { %>
                     <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" style="width: 49%;" type="text" required="required" pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" value="<%= store.border_color %>">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
            </div>
@@ -332,6 +336,7 @@
                   <% } else { %>
                     <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
            </div>
@@ -344,6 +349,7 @@
                   <% } else { %>
                     <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -355,6 +361,7 @@
                   <% } else { %>
                     <label class="form-check-label custom-control custom-checkbox" for="edge_type"><input name="edge_type" id="checkbox-primary" class="form-check-input custom-control-input" type="checkbox" value="rounded" checked><span class="custom-control-indicator"></span><span class="custom-control-description">Upsell Rounded Edges?</span></label>
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -366,6 +373,7 @@
                   <% } else { %>
                     <label class="form-check-label custom-control custom-checkbox" for="activate-offer"><input name="activate_offer" id="checkbox-primary" class="form-check-input custom-control-input" type="checkbox" checked ><span class="custom-control-indicator"></span><span class="custom-control-description">Activate Offer Upon Creation?</span></label>
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -626,6 +634,15 @@ input.invalid, textarea.invalid{
 
 input.valid, textarea.valid{
   border: 2px solid green;
+}
+.error{
+  display: none;
+  margin-left: 10px;
+}		
+
+.error_show{
+  color: red;
+  margin-left: 10px;
 }
 </style>
 </body>
