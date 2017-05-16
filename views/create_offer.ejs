@@ -247,11 +247,13 @@
             }
 
             
-            if (!validated) {
-                return false;
+            if (validated) {
+                $("#offer-form").submit();
+                return true;
             }
-            
-            return true;
+            else {
+                return false;
+            }            
         } 
         /*function formCheck() {            
             var validated = true;            
@@ -289,7 +291,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" onsubmit="return validate();" method="POST" action="/create-offer">
+      <form id="offer-form" onsubmit="validate(); return false;" method="POST" action="/create-offer">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
