@@ -7,31 +7,6 @@
     apiKey: '<%= api_key %>',
     shopOrigin: 'https://<%= shop %>.myshopify.com'
   });
-  function validate() {            
-    var validated = true;            
-    var tags = ['border_color','border_highlight_color','background_color','button_color'];
-    
-    for (var i = 0; i < tags.length; i++) {
-        var element = document.getElementsByName(tags[i]);
-        var valid = element.hasClass("valid");
-        var error_element=$("span", element.parent());
-        
-        if (!valid) {
-            validated = false;
-            error_element.removeClass("error").addClass("error_show"); 
-        }
-        else {
-            error_element.removeClass("error_show").addClass("error");
-        }
-    }
-
-    
-    if (!validated) {
-        return false;
-    }
-    
-    return true;
-  } 
   </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -290,7 +265,34 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" onsubmit="return validate()" method="POST" action="/create-offer">
+      <form id="offer-form" onsubmit="return validate();" method="POST" action="/create-offer">
+        <script>
+          function validate() {            
+            var validated = true;            
+            var tags = ['border_color','border_highlight_color','background_color','button_color'];
+            
+            for (var i = 0; i < tags.length; i++) {
+                var element = document.getElementsByName(tags[i]);
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+
+            
+            if (!validated) {
+                return false;
+            }
+            
+            return true;
+          } 
+        </script>
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
