@@ -386,7 +386,7 @@ app.get('/create-offer', function(req, res) {
         requests.push(temp_request);
     }
     async.map(requests, function(obj, callback) {
-        throttledRequest(obj, function(err, resp, body) {
+        request(obj, function(err, resp, body) {
             if (!err && resp.statusCode == 200) {
                 var body = JSON.parse(body);
                 callback(null, body);
