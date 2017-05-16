@@ -34,17 +34,31 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        /*$(".dual-box").bootstrapDualListbox({
-            nonSelectedListLabel: 'Non-selected',
-            selectedListLabel: 'Selected',
-            moveAllLabel: 'Move all',
-            removeAllLabel: 'Remove all',
-            infoText: false,
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: true,
-            filterOnValues: true,
-            selectorMinimalHeight: 100
-        });*/
+        function formCheck() {            
+            var validated = true;            
+            var tags = ['#border_color','#border_highlight_color','#background_color','#button_color'];
+            
+            for (var i = 0; i < tags.length; i++) {
+                var element = $(tags[i]);
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+
+            
+            if (!validated) {
+                return false;
+            }
+            
+            return true;
+        }
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -227,31 +241,6 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        function formCheck() {            
-            var validated = true;            
-            var tags = ['#border_color','#border_highlight_color','#background_color','#button_color'];
-            
-            for (var i = 0; i < tags.length; i++) {
-                var element = $(tags[i]);
-                var valid = element.hasClass("valid");
-                var error_element=$("span", element.parent());
-                
-                if (!valid) {
-                    validated = false;
-                    error_element.removeClass("error").addClass("error_show"); 
-                }
-                else {
-                    error_element.removeClass("error_show").addClass("error");
-                }
-            }
-
-            
-            if (!validated) {
-                return false;
-            }
-            
-            return true;
-        }  
     });
   </script>
   <div class="container">
@@ -335,9 +324,9 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
