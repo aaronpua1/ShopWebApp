@@ -228,7 +228,31 @@
                 {input.removeClass("valid").addClass("invalid");}
         });
         
- 
+           function validate() {            
+            var validated = true;            
+            var tags = ['border_color','border_highlight_color','background_color','button_color'];
+            
+            for (var i = 0; i < tags.length; i++) {
+                var element = document.getElementsByName(tags[i]);
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+
+            
+            if (!validated) {
+                return false;
+            }
+            
+            return true;
+          } 
         /*function formCheck() {            
             var validated = true;            
             var tags = [$('#border_color'),$('#border_highlight_color'),$('#background_color'),$('#button_color')];
@@ -266,33 +290,6 @@
       </div>
       <hr>
       <form id="offer-form" onsubmit="return validate();" method="POST" action="/create-offer">
-        <script>
-          function validate() {            
-            var validated = true;            
-            var tags = ['border_color','border_highlight_color','background_color','button_color'];
-            
-            for (var i = 0; i < tags.length; i++) {
-                var element = document.getElementsByName(tags[i]);
-                var valid = element.hasClass("valid");
-                var error_element=$("span", element.parent());
-                
-                if (!valid) {
-                    validated = false;
-                    error_element.removeClass("error").addClass("error_show"); 
-                }
-                else {
-                    error_element.removeClass("error_show").addClass("error");
-                }
-            }
-
-            
-            if (!validated) {
-                return false;
-            }
-            
-            return true;
-          } 
-        </script>
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
@@ -353,9 +350,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" required="" value="">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" required="" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
