@@ -200,6 +200,15 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
+        $('#border_highlight_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
         $('#background_color').on('input', function() {
             var input=$(this);
             var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
@@ -310,6 +319,7 @@
                   <% } else { %>
                     <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
            </div>
