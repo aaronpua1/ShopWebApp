@@ -228,7 +228,7 @@
                 {input.removeClass("valid").addClass("invalid");}
         });
         
-        function validate() {            
+        function validate(e) {            
             var validated = true;            
             var tags = ["border_color", "border_highlight_color", "background_color", "button_color"];
             
@@ -252,6 +252,7 @@
                 return true;
             }
             else {
+                e.preventDefault();
                 return false;
             }            
         } 
@@ -291,7 +292,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" onsubmit="validate(); return false;" method="POST" action="/create-offer">
+      <form onsubmit="return validate()" id="offer-form" method="POST" action="/create-offer">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
