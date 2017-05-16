@@ -227,15 +227,29 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        /*
-        $( "#create-offer" ).click(function( event ) {
-            var name = $('#offer_name').val();
-            var title = $('#offer_title').val();
-            var description = $('#offer_description').val();
-            var upsells = $('#upsell-dual-box').val();
-            var products = $('#product-dual-box').val();
-            //var type = 
-        });*/       
+        function formCheck(form) {            
+            var validated = true;
+            
+            for (var name in form) {
+                var element = $('#' + name);
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+            
+            if (!validated) {
+                return false;
+            }
+            
+            return true;
+        }  
     });
   </script>
   <div class="container">
@@ -245,7 +259,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" method="POST" action="/create-offer">
+      <form id="offer-form" method="POST" action="/create-offer" onsubmit="return formCheck(this)">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
@@ -306,9 +320,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" style="width: 49%;" type="text" required="required" pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" value="0,0,0,0">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" required="" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" style="width: 49%;" type="text" required="required" pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" required="" value="<%= store.border_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -319,9 +333,9 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$" style="width: 49%;" type="text" value="255,162,0">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required pattern="((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -332,9 +346,9 @@
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="255,255,255">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -345,9 +359,9 @@
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="60,105,211">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -638,7 +652,7 @@ input.valid, textarea.valid{
 .error{
   display: none;
   margin-left: 10px;
-}		
+}
 
 .error_show{
   color: red;
