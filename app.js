@@ -1498,7 +1498,6 @@ app.post('/create-offer', function(req, res) {
                             console.log("PUT RESPONSE: " + body);
                             
                             body = JSON.parse(body);
-                            res.redirect('/');
                             callback(null, 'done');
                         });
                     }
@@ -1563,7 +1562,6 @@ app.post('/create-offer', function(req, res) {
                                 }
                                 console.log("PUT RESPONSE: " + body2);
                                 body2 = JSON.parse(body2);
-                                res.redirect('/');
                                 callback(null, 'done');
                             });
                         });
