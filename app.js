@@ -13,7 +13,7 @@ var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
-var delayed = new DelayedResponse(req, res);
+//var delayed = new DelayedResponse(req, res);
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
@@ -1131,7 +1131,6 @@ app.post('/create-offer', function(req, res) {
             }
         },
         function(callback) {
-            delayed.start(1000, 10000);
             if (upsell_differences.length > 0) {
                 async.waterfall([
                     function(callback) {
@@ -1322,8 +1321,6 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    delayed.end(null);
-                    res.redirect('/');
                     console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
@@ -1418,8 +1415,6 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    delayed.end(null);
-                    res.redirect('/');
                     console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
@@ -1503,6 +1498,7 @@ app.post('/create-offer', function(req, res) {
                             console.log("PUT RESPONSE: " + body);
                             
                             body = JSON.parse(body);
+                            res.redirect('/');
                             callback(null, 'done');
                         });
                     }
@@ -1567,7 +1563,7 @@ app.post('/create-offer', function(req, res) {
                                 }
                                 console.log("PUT RESPONSE: " + body2);
                                 body2 = JSON.parse(body2);
-                                
+                                res.redirect('/');
                                 callback(null, 'done');
                             });
                         });
