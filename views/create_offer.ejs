@@ -8,7 +8,7 @@
     shopOrigin: 'https://<%= shop %>.myshopify.com'
   });
   </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.1.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
@@ -338,7 +338,7 @@
                   <% } else { %>
                     <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
-                  <span class="error">This field is required</span>
+                  <span class="error">This field input is invalid (Example: 0,0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -351,7 +351,7 @@
                   <% } else { %>
                     <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
-                  <span class="error">This field is required</span>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -364,7 +364,7 @@
                   <% } else { %>
                     <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
-                  <span class="error">This field is required</span>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -377,7 +377,7 @@
                   <% } else { %>
                     <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
-                  <span class="error">This field is required</span>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
             </div>
@@ -389,7 +389,6 @@
                   <% } else { %>
                     <label class="form-check-label custom-control custom-checkbox" for="edge_type"><input name="edge_type" id="checkbox-primary" class="form-check-input custom-control-input" type="checkbox" value="rounded" checked><span class="custom-control-indicator"></span><span class="custom-control-description">Upsell Rounded Edges?</span></label>
                   <% } %>
-                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -401,7 +400,6 @@
                   <% } else { %>
                     <label class="form-check-label custom-control custom-checkbox" for="activate-offer"><input name="activate_offer" id="checkbox-primary" class="form-check-input custom-control-input" type="checkbox" checked ><span class="custom-control-indicator"></span><span class="custom-control-description">Activate Offer Upon Creation?</span></label>
                   <% } %>
-                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
