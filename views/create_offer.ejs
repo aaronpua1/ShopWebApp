@@ -233,7 +233,7 @@
             var tags = ["border_color", "border_highlight_color", "background_color", "button_color"];
             
             for (var i = 0; i < tags.length; i++) {
-                var element = document.getElementsByName(tags[i]);
+                var element = $("#" + tags[i]);
                 var valid = element.hasClass("valid");
                 var error_element=$("span", element.parent());
                 
@@ -259,10 +259,10 @@
             if (!validate()) {
                 return false;
             }
-            else {
-                $(this).off("submit");
-                this.submit();
-            }
+
+            $(this).off("submit");
+            this.submit();
+            
         });
     });
   </script>
