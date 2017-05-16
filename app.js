@@ -1666,7 +1666,7 @@ app.get('/delete-offer', function(req, res) {
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
-                request(obj, function(err, resp, body) {
+                throttledRequest(obj, function(err, resp, body) {
                     if (!err && resp.statusCode == 200) {
                         var body = JSON.parse(body);
                         callback(null, body);
@@ -1716,7 +1716,7 @@ app.get('/delete-offer', function(req, res) {
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
-                request(obj, function(err, resp, body) {
+                throttledRequest(obj, function(err, resp, body) {
                     if (!err && resp.statusCode == 200) {
                         var body = JSON.parse(body);
                         callback(null, body);
@@ -1814,7 +1814,7 @@ app.get('/activate-offer', function(req, res) {
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
-                request(obj, function(err, resp, body) {
+                throttledRequest(obj, function(err, resp, body) {
                     if (!err && resp.statusCode == 200) {
                         var body = JSON.parse(body);
                         callback(null, body);
@@ -1867,7 +1867,7 @@ app.get('/activate-offer', function(req, res) {
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
-                request(obj, function(err, resp, body) {
+                throttledRequest(obj, function(err, resp, body) {
                     if (!err && resp.statusCode == 201) {
                         var body = JSON.parse(body);
                         callback(null, body);
