@@ -228,7 +228,7 @@
                 {input.removeClass("valid").addClass("invalid");}
         });
         
-           function validate() {            
+        function validate() {            
             var validated = true;            
             var tags = ['border_color','border_highlight_color','background_color','button_color'];
             
@@ -252,7 +252,15 @@
             }
             
             return true;
-          } 
+        }
+        $('#create-offer').click(function() {
+            if (validate()) {
+                $('#offer-form').submit();
+            }
+            else {
+                return false;
+            }
+        });
         /*function formCheck() {            
             var validated = true;            
             var tags = [$('#border_color'),$('#border_highlight_color'),$('#background_color'),$('#button_color')];
@@ -289,7 +297,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form id="offer-form" onsubmit="return validate();" method="POST" action="/create-offer">
+      <form id="offer-form" method="POST" action="/create-offer">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
@@ -350,9 +358,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -591,7 +599,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" form="offer-form" value="Create">Create</button>
+              <button class="btn btn-primary" id="create-offer" name="create-offer" value="Create">Create</button>
             </div>
           </div>
         </div>
