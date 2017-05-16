@@ -240,7 +240,7 @@
             for (var i = 0; i < tags.length; i++) {
                 var element = document.getElementsByName(tags[i]);
                 var valid = element.hasClass("valid");
-                var error_element=$("span", element.parent());
+                var error_element = $("span", element.parent());
                 
                 if (!valid) {
                     validated = false;
@@ -294,7 +294,7 @@
         <p class="h1">Create Your Offer</p>
       </div>
       <hr>
-      <form onclick="return validate()" id="offer-form" method="POST" action="/create-offer">
+      <form onclick="return validate();" id="offer-form" method="POST" action="/create-offer">
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
