@@ -56,6 +56,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
+
         $("#product-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -67,20 +68,25 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
+
         $(".filter").hide();
         /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
         var isRequiredField = dualListBox.attr('required');
+
         function initDualListBox() {
             var instance = dualListBox.data('plugin_bootstrapDualListbox');
             var nonSelectedList = instance.elements.select1;
             var isDualListBoxValidated = !(instance.selectedElements > 0);
+
             nonSelectedList.prop('required', isDualListBoxValidated);
             instance.elements.originalSelect.prop('required', false);
         }
+
         dualListBox.change(function () {
             if (isRequiredField)
                 initDualListBox();
         });
+
         if (isRequiredField)
             initDualListBox();
             */
@@ -88,10 +94,10 @@
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
-            $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
+            $('#upsell-dual-box option[value="id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>"]').prop('selected', true);
           <% } %>
           <% for(var i = 0; i < store_products.products.length; i++) { %>
-            $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%= store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
+            $('#product-dual-box option[value="id=<%= store_products.products[i].id %>|title=<%= store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>"]').prop('selected', true);
           <% } %>
           $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
           $("#product-dual-box").bootstrapDualListbox('refresh', true);
@@ -141,6 +147,7 @@
  
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
+
         $( "#btn-upsell-reset" ).click(function( event ) {
             $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
@@ -168,6 +175,7 @@
             }
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
+
         $( "#btn-product-reset" ).click(function( event ) {
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
@@ -182,16 +190,89 @@
                 alert('You can only choose 3!');
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
-        })  
-        /*
-        $( "#create-offer" ).click(function( event ) {
-            var name = $('#offer_name').val();
-            var title = $('#offer_title').val();
-            var description = $('#offer_description').val();
-            var upsells = $('#upsell-dual-box').val();
-            var products = $('#product-dual-box').val();
-            //var type = 
-        });*/       
+        });
+        $('#border_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        $('#border_highlight_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        $('#background_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        $('#button_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        
+        function validate() {            
+            var validated = true;            
+            var tags = ["border_color", "border_highlight_color", "background_color", "button_color"];
+            
+            for (var i = 0; i < tags.length; i++) {
+                var element = $("#" + tags[i]);
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+            
+            if (!validated) {
+                return false;
+            }
+            else {                
+                return true;
+            }            
+        }
+        $("#offer-form").on("submit", function(event) {
+            event.preventDefault();
+
+            if (!validate()) {
+                return false;
+            }
+
+            $(this).off("submit");
+            this.submit();
+            
+        });
+        $('#create-offer').on('click', function() {
+          ShopifyApp.Bar.loadingOn();
+          var $this = $(this);
+          $this.button('loading');
+            setTimeout(function() {
+               $this.button('reset');
+               ShopifyApp.Bar.loadingOff();
+           }, 35000);           
+        });
     });
   </script>
   <div class="container">
@@ -227,6 +308,7 @@
                   <% } else { %>
                     <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -239,6 +321,7 @@
                   <% } else { %>
                     <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>" maxlength="27">
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -251,6 +334,7 @@
                   <% } else { %>
                     <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
                   <% } %>
+                  <span class="error">This field is required</span>
                 </div>
               </div>
             </div>
@@ -259,10 +343,11 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" value="0,0,0,0">
+                    <input class="form-control invalid" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Default: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control valid" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
+                  <span class="error">This field input is invalid (Example: 0,0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -271,10 +356,11 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="255,162,0">
+                    <input class="form-control invalid" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Default: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control valid" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -283,10 +369,11 @@
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="255,255,255">
+                    <input class="form-control invalid" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Default: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
+                    <input class="form-control valid" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
            </div>
@@ -295,10 +382,11 @@
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="60,105,211">
+                    <input class="form-control invalid" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="">
                   <% } else { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Default: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
+                    <input class="form-control valid" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
+                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
               </div>
             </div>
@@ -494,7 +582,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <button class="btn btn-primary" id="create-offer" name="create-offer" type="submit" form="offer-form" value="Create">Create</button>
+              <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create">Create Offer</button>
             </div>
           </div>
         </div>
@@ -505,40 +593,51 @@
 .form-group .selectpicker{
     margin-bottom: 3px;
 }
+
 .offer-input-groups .form-control{
     margin-bottom: 3px;
 }
+
 h2.bg-success{
     padding: 15px;
 }
+
 .required-lbl{
     color: red;
 }
+
 p[for="form-steps"]{
     display: inline;
     float: left;
     margin:0px 45px 0px 0px;
 }
+
 .card-expiry{
     padding-left: 0px;
 }
+
 .confirm-btn{
     float:right;
 }
+
 .bg-primary{
     padding: 10px;
     margin-bottom: 15px;
 }
+
 label{
     margin-bottom: 0px;
 }
+
 .panel-success{
     background-color: #dcdcdc;
 }
+
 select option:disabled {
     color: rgba(0,0,0, 0.3);
     text-decoration: line-through;
 }
+
 select option {
     font-size: 15pt;
     height: 40px;
@@ -552,14 +651,33 @@ select option {
     /*background-size: contain;*/
     background-size: 35px;
 }
+
 option:nth-child(even) {
     background-color: rgba(142,198,255, 0.3);
 }
+
 option:nth-child(odd) {
     background-color: rgba(220,221,228, 0.3);
 }
+
 input[type=checkbox] {
     margin-right: 5px;
+}
+input.invalid, textarea.invalid{
+  border: 2px solid red;
+}
+
+input.valid, textarea.valid{
+  border: 2px solid green;
+}
+.error{
+  display: none;
+  margin-left: 10px;
+}
+
+.error_show{
+  color: red;
+  margin-left: 10px;
 }
 </style>
 </body>
