@@ -227,7 +227,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        function formCheck() {            
+        /*function formCheck() {            
             var validated = true;            
             var tags = ['#border_color','#border_highlight_color','#background_color','#button_color'];
             
@@ -251,6 +251,32 @@
             }
             
             return true;
+        }  */
+        function formCheck() {            
+            var validated = true;            
+            var tags = [$('#border_color'),$('#border_highlight_color'),$('#background_color'),$('#button_color')];
+            
+            for (var i = 0; i < tags.length; i++) {
+                var element = tags[i];
+                var valid = element.hasClass("valid");
+                var error_element=$("span", element.parent());
+                
+                if (!valid) {
+                    validated = false;
+                    error_element.removeClass("error").addClass("error_show"); 
+                }
+                else {
+                    error_element.removeClass("error_show").addClass("error");
+                }
+            }
+
+            
+            if (!validated) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }  
         //onsubmit="return formCheck();"
     });
