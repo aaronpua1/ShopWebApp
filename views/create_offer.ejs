@@ -231,7 +231,7 @@
             var validated = true;
             
             for (var name in form) {
-                var element = $('#' + name);
+                var element = $('#' + {name});
                 var valid = element.hasClass("valid");
                 var error_element=$("span", element.parent());
                 
