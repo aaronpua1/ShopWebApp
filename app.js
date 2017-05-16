@@ -1589,17 +1589,6 @@ app.post('/create-offer', function(req, res) {
     });
 })
 /*
-  <%for(var i = 0; i < product_selections.products.length; i++) { %>
-  <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
-    <%= product_selections.products[i].title %>
-  </option><% } %>
-  
-  <%for(var i = 0; i < product_selections.products.length; i++) { %>
-  <option value="id:<%= product_selections.products[i].id %>;title:<%= product_selections.products[i].title %>;handle:<%= product_selections.products[i].handle %>;product_type:<%= product_selections.products[i].product_type %>;vendor:<%= product_selections.products[i].vendor %>">
-    <%= product_selections.products[i].title %>
-  </option><%} %>
-*/
-/*
 //GOOD
 //https://cdn.shopify.com/s/files/1/1826/5527/products/news-icon-7728.png?v=1490957249
 //https://cdn.shopify.com/s/files/1/1826/5527/products/folder-icon-25160.png?v=1490957265
