@@ -94,10 +94,10 @@
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
-            $('#upsell-dual-box option[value="id=<%= store_upsell.products[i].id %>|title=<%= store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>"]').prop('selected', true);
+            $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%- store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
           <% } %>
           <% for(var i = 0; i < store_products.products.length; i++) { %>
-            $('#product-dual-box option[value="id=<%= store_products.products[i].id %>|title=<%= store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>"]').prop('selected', true);
+            $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%- store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
           <% } %>
           $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
           $("#product-dual-box").bootstrapDualListbox('refresh', true);
@@ -105,8 +105,8 @@
         
         <% for(var i = 0; i < metafields.values.length; i++) { %>
           <% for(var j = 0; j < metafields.values[i].products.length; j++) { %>
-            if ($("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%= metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").is(':not(:selected)')) {
-              $("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%= metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").attr('disabled', 'disabled');
+            if ($("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%- metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").is(':not(:selected)')) {
+              $("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%- metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").attr('disabled', 'disabled');
               $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           <% } %>
