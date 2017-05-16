@@ -264,6 +264,13 @@
             this.submit();
             
         });
+        $('#create-offer').on('click', function() {
+          var $this = $(this);
+          $this.button('loading');
+            setTimeout(function() {
+               $this.button('reset');
+           }, 35000);
+        });
     });
   </script>
   <div class="container">
@@ -573,7 +580,7 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
-              <input class="btn btn-primary" id="create-offer" name="create-offer" type="submit" value="Create">
+              <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create">Create Offer</button>
             </div>
           </div>
         </div>
