@@ -191,7 +191,33 @@
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
         })  
-        $('#offer-form').validate({debug:true});
+        $('#border_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        $('#background_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
+        $('#button_color').on('input', function() {
+            var input=$(this);
+            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var is_valid = re.test(input.val());
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
         /*
         $( "#create-offer" ).click(function( event ) {
             var name = $('#offer_name').val();
@@ -583,6 +609,13 @@ option:nth-child(odd) {
 
 input[type=checkbox] {
     margin-right: 5px;
+}
+input.invalid, textarea.invalid{
+  border: 2px solid red;
+}
+
+input.valid, textarea.valid{
+  border: 2px solid green;
 }
 </style>
 </body>
