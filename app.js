@@ -1620,7 +1620,7 @@ app.get('/activate-offer', function(req, res) {
             var requests = [];
             for (var i in values) {
                 if (values[i].metafields.length > 0) {
-                    var temp = values[i].metafields[0].value.replace('status:undefined', 'status:on');
+                    var temp = values[i].metafields[0].value.replace('status:off', 'status:on');
                     var data = {
                         metafield: {
                             id: values[i].metafields[0].id,
@@ -1771,11 +1771,11 @@ app.get('/deactivate-offer', function(req, res) {
             for (var i in values) {
                 //values[i] = JSON.parse(values[i]);
                 if (values[i].metafields.length > 0) {
-                    var temp = values[i].metafields[0].value.replace('status:on', 'status:undefined');
+                    var temp = values[i].metafields[0].value.replace('status:on', 'status:off');
                     var data = {
                         metafield: {
                             id: values[i].metafields[0].id,
-                            value: "handle:" + temp.handle + ";status:off",
+                            value: temp,
                             value_type: "string"
                         }
                     }
