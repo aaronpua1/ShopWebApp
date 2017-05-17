@@ -1136,7 +1136,7 @@ app.post('/create-offer', function(req, res) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
-                                    key: "su",
+                                    key: "su1",
                                     value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
                                     value_type: "string"
                                 }
@@ -1146,7 +1146,7 @@ app.post('/create-offer', function(req, res) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
-                                    key: "su",
+                                    key: "su1",
                                     value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
                                     value_type: "string"
                                 }
@@ -1158,7 +1158,7 @@ app.post('/create-offer', function(req, res) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
-                                    key: "su",
+                                    key: "su1",
                                     value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
                                     value_type: "string"
                                 }
@@ -1168,7 +1168,7 @@ app.post('/create-offer', function(req, res) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
-                                    key: "su",
+                                    key: "su1",
                                     value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
                                     value_type: "string"
                                 }
