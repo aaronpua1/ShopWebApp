@@ -988,7 +988,6 @@ app.post('/create-offer', function(req, res) {
     var product_selections = [];
     console.log("TEST: FUCKKKK!" + req.body.product_configs);
     console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
-    var previous_upsell_selections = req.body.upsell_configs;
     var previous_product_selections = req.body.product_configs;
     
     if (Array.isArray(req.body.upsell_dual_box)) {
@@ -1006,14 +1005,9 @@ app.post('/create-offer', function(req, res) {
     
     var upsells = stringify_products(upsell_selections);
     
-    if (previous_upsell_selections != "" && previous_product_selections != "") {
-        previous_upsell_selections = JSON.parse(JSON.stringify(parse_products(previous_upsell_selections)));
+    if (previous_product_selections != "") {
         previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
-        var parsed_upsell_selections = [];
         var parsed_product_selections = [];
-        for (var i in upsell_selections) {
-            parsed_upsell_selections.push(JSON.parse(JSON.stringify(parse_selections(upsell_selections[i])))); 
-        }
         for (var i in product_selections) {
             parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
         }
@@ -1207,7 +1201,7 @@ app.post('/create-offer', function(req, res) {
             },  
             function(err, result) {
                 if (err) {
-                    console.log(err);
+                    console.log("SUOP Error: " + err);
                     callback(true); 
                     return; 
                 }    
@@ -1363,7 +1357,7 @@ app.post('/create-offer', function(req, res) {
             ],
             function(err, result) {
                 if (err) {
-                    console.log(err);
+                    console.log("STORE META ERROR: " + err);
                     callback(true); 
                     return; 
                 }    
