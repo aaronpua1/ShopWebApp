@@ -1004,6 +1004,8 @@ app.post('/create-offer', function(req, res) {
         product_selections.push(req.body.product_dual_box);
     }
     
+    var upsells = stringify_products(upsell_selections);
+    
     if (previous_upsell_selections != "" && previous_product_selections != "") {
         previous_upsell_selections = JSON.parse(JSON.stringify(parse_products(previous_upsell_selections)));
         previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
@@ -1015,20 +1017,16 @@ app.post('/create-offer', function(req, res) {
         for (var i in product_selections) {
             parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
         }
-        var upsell_differences = findDifferences(previous_upsell_selections, parsed_upsell_selections).slice(0);
         var product_differences = findDifferences(previous_product_selections, parsed_product_selections).slice(0);
-        var upsell_remaining = findDifferences(parsed_upsell_selections, previous_upsell_selections).slice(0);
         console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
         console.log("product selections:" + JSON.stringify(parsed_product_selections));
         console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
         console.log("product parse configs:" + JSON.stringify(previous_product_selections));
         console.log("upsell configs:" + req.body.upsell_configs);
         console.log("product configs:" + req.body.product_configs);
-        console.log("upsell diff:" + JSON.stringify(upsell_differences));
         console.log("product diff:" + JSON.stringify(product_differences));
     }
     else {
-        var upsell_differences = [];
         var product_differences = [];
     }
     async.parallel([
@@ -1074,41 +1072,40 @@ app.post('/create-offer', function(req, res) {
                         var requests = [];
                         if (product.length > 0) {
                             for (var i in product) {
-                                if (product[i].metafields.length > 0) {
-                                    for (var j in product[i].metafields) {
-                                        var temp_request = {
-                                            method: "DELETE",
-                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
-                                            headers: {
-                                                'X-Shopify-Access-Token': req.session.access_token
-                                            }
+                                if (product[i].metafields.length > 0) { 
+                                    var temp_request = {
+                                        method: "DELETE",
+                                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[0].owner_id + '/metafields/' + product[i].metafields[0].id + '.json',
+                                        headers: {
+                                            'X-Shopify-Access-Token': req.session.access_token
                                         }
-                                        requests.push(temp_request);
                                     }
-                                    requests = JSON.parse(JSON.stringify(requests));
-                                    
-                                    async.map(requests, function(obj, callback) {
-                                        throttledRequest(obj, function(err, resp, body) {
-                                            if (!err && resp.statusCode == 200) {
-                                                var body = JSON.parse(body);
-                                                callback(null, body);
-                                            }
-                                            else {
-                                                callback(err || resp.statusCode);
-                                            }
-                                        })
-                                    },  
-                                    function(err, result) {
-                                        if (err) {
-                                            console.log(err);
-                                            callback(true); 
-                                            return; 
-                                        }
-                                        console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
-                                        callback(null, 'done');
-                                    });
+                                    requests.push(temp_request);
                                 }
                             }
+                                    
+                            requests = JSON.parse(JSON.stringify(requests));
+                            
+                            async.map(requests, function(obj, callback) {
+                                throttledRequest(obj, function(err, resp, body) {
+                                    if (!err && resp.statusCode == 200) {
+                                        var body = JSON.parse(body);
+                                        callback(null, body);
+                                    }
+                                    else {
+                                        callback(err || resp.statusCode);
+                                    }
+                                })
+                            },  
+                            function(err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    callback(true); 
+                                    return; 
+                                }
+                                console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
+                                callback(null, 'done');
+                            });                            
                         }
                         else {
                             callback(null, 'done');
@@ -1130,295 +1127,93 @@ app.post('/create-offer', function(req, res) {
                 callback();
             }
         },
-        function(callback) {
-            if (upsell_differences.length > 0) {
-                async.waterfall([
-                    function(callback) {
-                        var requests = [];
-                        for (var i in parsed_product_selections) {
-                            var temp_request = {
-                                method: "GET",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + parsed_product_selections[i].id + '/metafields.json?namespace=suop',
-                                headers: {
-                                    'X-Shopify-Access-Token': req.session.access_token
-                                }
-                            }
-                            requests.push(temp_request);
-                        }
-                        requests = JSON.parse(JSON.stringify(requests));
-                        
-                        async.map(requests, function(obj, callback) {
-                            throttledRequest(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 200) {
-                                    var body = JSON.parse(body);
-                                    callback(null, body);
-                                }
-                                else {
-                                    callback(err || resp.statusCode);
-                                }
-                            })
-                        },  
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }    
-                            console.log("GET UPSELL RESPONSE: " + JSON.stringify(result));
-                            callback(null, result);
-                        });
-                    },
-                    function(product, callback) {
-                        var requests = [];
-                        if (product.length > 0) {
-                            for (var i in product) {
-                                if (product[i].metafields.length > 0) {
-                                    for (var j in product[i].metafields) {
-                                        var temp = JSON.parse(JSON.stringify(parse_values(product[i].metafields[j].value)));
-                                        for (var k in upsell_differences) {
-                                            if (upsell_differences[k].handle == temp.handle) {
-                                                var temp_request = {
-                                                    method: "DELETE",
-                                                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product[i].metafields[j].owner_id + '/metafields/' + product[i].metafields[j].id + '.json',
-                                                    headers: {
-                                                        'X-Shopify-Access-Token': req.session.access_token
-                                                    }
-                                                }
-                                                requests.push(temp_request);
-                                            }
-                                        }
-                                    }
-                                    requests = JSON.parse(JSON.stringify(requests));
-                                    
-                                    async.map(requests, function(obj, callback) {
-                                        throttledRequest(obj, function(err, resp, body) {
-                                            if (!err && resp.statusCode == 200) {
-                                                var body = JSON.parse(body);
-                                                callback(null, body);
-                                            }
-                                            else {
-                                                callback(err || resp.statusCode);
-                                            }
-                                        })
-                                    },  
-                                    function(err, result) {
-                                        if (err) {
-                                            console.log(err);
-                                            callback(true); 
-                                            return; 
-                                        }    
-                                        console.log("GET UPSELL DELETE RESPONSE: " + JSON.stringify(result));
-                                        callback(null);
-                                    });
-                                }
-                            }
-                        }
-                        else {
-                            callback(null);
-                        }
-                    },
-                    function(callback) {
-                        var requests = [];
-                        
-                        for (var i in product_selections) {
-                            var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                            console.log("PRODUCT: "+ temp_product.id);
-                            var count = 1;
-                            for (var j in upsell_selections) {
-                                var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
-                                console.log("UPSELL: "+ temp_upsell.id);
-                                for (var k in upsell_remaining) {
-                                    if (temp_upsell.handle != upsell_remaining[k].handle) {
-                                        if (req.body.activate_offer) {
-                                            if (req.body.edge_type) {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else {
-                                            if (req.body.edge_type) {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                            else {
-                                                var data = {
-                                                    metafield: {
-                                                        namespace: "suop",
-                                                        key: "su" + count.toString(),
-                                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                                        value_type: "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        req_body = JSON.stringify(data);
-                                        console.log("POST REQUEST: "+ req_body);
-                                        
-                                        var temp_request = {
-                                            method: "POST",
-                                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                                            headers: {
-                                                'X-Shopify-Access-Token': req.session.access_token,
-                                                'Content-type': 'application/json; charset=utf-8'
-                                            },
-                                            body: req_body
-                                        }
-                                        requests.push(temp_request);
-                                        count++;
-                                    }
-                                }
-                            }
-                        }
-                        requests = JSON.parse(JSON.stringify(requests));
-                        
-                        async.map(requests, function(obj, callback) {
-                            throttledRequest(obj, function(err, resp, body) {
-                                if (!err && resp.statusCode == 201) {
-                                    var body = JSON.parse(body);
-                                    callback(null, body);
-                                }
-                                else {
-                                    callback(err || resp.statusCode);
-                                }
-                            })
-                        },  
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }    
-                            console.log("GET UPSELL POST RESPONSE: " + JSON.stringify(result));
-                            callback(null, 'done');
-                        });
-                    }                
-                ],
-                function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }    
-                    console.log("SECOND DELETE RESPONSE: " + JSON.stringify(result));
-                    callback();
-                });
-            }
-            else {
-                console.log("SECOND SKIP");
-                var requests = [];
+        function(callback) {   
+            var requests = [];
+            
+            for (var i in product_selections) {
+                var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
+                console.log("PRODUCT: "+ temp_product.id);
                 
-                for (var i in product_selections) {
-                    var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                    console.log("PRODUCT: "+ temp_product.id);
-                    var count = 1;
-                    for (var j in upsell_selections) {
-                        var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
-                        console.log("UPSELL: "+ temp_upsell.id);
-                        if (req.body.activate_offer) {
-                            if (req.body.edge_type) {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                            else {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                        value_type: "string"
-                                    }
-                                }
+                if (req.body.activate_offer) {
+                    if (req.body.edge_type) {
+                        var data = {
+                            metafield: {
+                                namespace: "suop",
+                                key: "su",
+                                value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                value_type: "string"
                             }
                         }
-                        else {
-                            if (req.body.edge_type) {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                        value_type: "string"
-                                    }
-                                }
-                            }
-                            else {
-                                var data = {
-                                    metafield: {
-                                        namespace: "suop",
-                                        key: "su" + count.toString(),
-                                        value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                        value_type: "string"
-                                    }
-                                }
+                    }
+                    else {
+                        var data = {
+                            metafield: {
+                                namespace: "suop",
+                                key: "su",
+                                value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                value_type: "string"
                             }
                         }
-                        req_body = JSON.stringify(data);
-                        console.log("POST REQUEST: "+ req_body);
-                        
-                        var temp_request = {
-                            method: "POST",
-                            url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                            headers: {
-                                'X-Shopify-Access-Token': req.session.access_token,
-                                'Content-type': 'application/json; charset=utf-8'
-                            },
-                            body: req_body
-                        }
-                        requests.push(temp_request);
-                        count++;
                     }
                 }
-                requests = JSON.parse(JSON.stringify(requests));
+                else {
+                    if (req.body.edge_type) {
+                        var data = {
+                            metafield: {
+                                namespace: "suop",
+                                key: "su",
+                                value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                value_type: "string"
+                            }
+                        }
+                    }
+                    else {
+                        var data = {
+                            metafield: {
+                                namespace: "suop",
+                                key: "su",
+                                value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                value_type: "string"
+                            }
+                        }
+                    }
+                }
+                req_body = JSON.stringify(data);
+                console.log("POST REQUEST: "+ req_body);
                 
-                async.map(requests, function(obj, callback) {
-                    throttledRequest(obj, function(err, resp, body) {
-                        if (!err && resp.statusCode == 201) {
-                            var body = JSON.parse(body);
-                            callback(null, body);
-                        }
-                        else {
-                            callback(err || resp.statusCode);
-                        }
-                    })
-                },  
-                function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }    
-                    console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
-                    callback();
-                });
+                var temp_request = {
+                    method: "POST",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }
+                requests.push(temp_request);                    
             }
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 201) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                callback();
+            });            
         },
         function(callback) {
             async.waterfall([
@@ -1444,8 +1239,6 @@ app.post('/create-offer', function(req, res) {
                     var upsell_products = "";
                     var products = "";
                     
-                    //console.log(req.body.upsell_dual_box);
-                    //console.log(req.body.product_dual_box);
                     if (Array.isArray(req.body.upsell_dual_box)) {
                         for (var key in req.body.upsell_dual_box) {
                             upsell_products += req.body.upsell_dual_box[key];
@@ -1680,10 +1473,10 @@ app.get('/delete-offer', function(req, res) {
             var requests = [];
             for (var i in values) {
                 //values[i] = JSON.parse(values[i]);
-                for (var j in values[i].metafields) {
+                if (values[i].metafields.length > 0) {
                     var temp_request = {
                         method: "DELETE",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[j].owner_id + '/metafields/' + values[i].metafields[j].id + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[0].owner_id + '/metafields/' + values[i].metafields[0].id + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
@@ -1824,16 +1617,15 @@ app.get('/activate-offer', function(req, res) {
                 callback(null, result);
             });
         },
-        function(values, callback) {
+        function(values, callback) { //HERE
             var requests = [];
             for (var i in values) {
-                //values[i] = JSON.parse(values[i]);
-                for (var j in values[i].metafields) {
-                    var temp = JSON.parse(JSON.stringify(parse_values(values[i].metafields[j].value)));
+                if (values[i].metafields.length > 0) {
+                    var temp = values[i].metafields[0].value.replace('status:undefined', 'status:on');
                     var data = {
                         metafield: {
-                            id: values[i].metafields[j].id,
-                            value: "handle:" + temp.handle + ";status:on",
+                            id: values[i].metafields[0].id,
+                            value: temp,
                             value_type: "string"
                         }
                     }
@@ -1842,7 +1634,7 @@ app.get('/activate-offer', function(req, res) {
                     
                     var temp_request = {
                         method: "PUT",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[j].owner_id + '/metafields/' + values[i].metafields[j].id + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[0].owner_id + '/metafields/' + values[i].metafields[0].id + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
@@ -1979,11 +1771,11 @@ app.get('/deactivate-offer', function(req, res) {
             var requests = [];
             for (var i in values) {
                 //values[i] = JSON.parse(values[i]);
-                for (var j in values[i].metafields) {
-                    var temp = JSON.parse(JSON.stringify(parse_values(values[i].metafields[j].value)));
+                if (values[i].metafields.length > 0) {
+                    var temp = values[i].metafields[0].value.replace('status:on', 'status:undefined');
                     var data = {
                         metafield: {
-                            id: values[i].metafields[j].id,
+                            id: values[i].metafields[0].id,
                             value: "handle:" + temp.handle + ";status:off",
                             value_type: "string"
                         }
@@ -1993,7 +1785,7 @@ app.get('/deactivate-offer', function(req, res) {
                     
                     var temp_request = {
                         method: "PUT",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[j].owner_id + '/metafields/' + values[i].metafields[j].id + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values[i].metafields[0].owner_id + '/metafields/' + values[i].metafields[0].id + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token,
                             'Content-type': 'application/json; charset=utf-8'
@@ -2340,7 +2132,17 @@ function stringify_configs(values) {
     result.replace(/\,$/, '');
     return result;
 }
-
+function stringify_products(values) {    
+    var result = "";   
+    
+    for (var i = 0; i < values.length; i++) {
+        result += JSON.parse(JSON.stringify(parse_selections(values[i]))).handle;
+        if (i < (values.length - 1)) {
+            result += "|";
+        }
+    }
+    return result;
+}
 function parse_selections(values) {
     var result = {};
     var pairs = values.split("|");
