@@ -1122,69 +1122,74 @@ app.post('/create-offer', function(req, res) {
             }
         },
         function(callback) {   
+
             var requests = [];
             
             for (var i in product_selections) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
                 console.log("PRODUCT: "+ temp_product.id);
-                
-                if (req.body.activate_offer) {
-                    if (req.body.edge_type) {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su",
-                                value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                value_type: "string"
+ 
+                if (upsell != "") {                    
+                    console.log("UPSELL HANDLES: " + upsell);
+                    if (req.body.activate_offer) {
+                        if (req.body.edge_type) {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su",
+                                    value: "handle:" + upsell + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value_type: "string"
+                                }
+                            }
+                        }
+                        else {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su",
+                                    value: "handle:" + upsell + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
                     }
                     else {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su",
-                                value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                value_type: "string"
+                        if (req.body.edge_type) {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su",
+                                    value: "handle:" + upsell + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value_type: "string"
+                                }
+                            }
+                        }
+                        else {
+                            var data = {
+                                metafield: {
+                                    namespace: "suop",
+                                    key: "su",
+                                    value: "handle:" + upsell + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value_type: "string"
+                                }
                             }
                         }
                     }
-                }
-                else {
-                    if (req.body.edge_type) {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su",
-                                value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                value_type: "string"
-                            }
-                        }
+                    req_body = JSON.stringify(data);
+                    console.log("POST REQUEST: "+ req_body);
+                    
+                    var temp_request = {
+                        method: "POST",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
                     }
-                    else {
-                        var data = {
-                            metafield: {
-                                namespace: "suop",
-                                key: "su",
-                                value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                value_type: "string"
-                            }
-                        }
-                    }
+                    requests.push(temp_request);
+
                 }
-                req_body = JSON.stringify(data);
-                console.log("POST REQUEST: "+ req_body);
-                
-                var temp_request = {
-                    method: "POST",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
-                }
-                requests.push(temp_request);                    
             }
             requests = JSON.parse(JSON.stringify(requests));
             
@@ -1201,13 +1206,13 @@ app.post('/create-offer', function(req, res) {
             },  
             function(err, result) {
                 if (err) {
-                    console.log("SUOP Error: " + err);
+                    console.log(err);
                     callback(true); 
                     return; 
                 }    
                 console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
                 callback();
-            });            
+            });
         },
         function(callback) {
             async.waterfall([
