@@ -1129,15 +1129,15 @@ app.post('/create-offer', function(req, res) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
                 console.log("PRODUCT: "+ temp_product.id);
  
-                if (upsell != "") {                    
-                    console.log("UPSELL HANDLES: " + upsell);
+                if (upsells != "") {                    
+                    console.log("UPSELL HANDLES: " + upsells);
                     if (req.body.activate_offer) {
                         if (req.body.edge_type) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su",
-                                    value: "handle:" + upsell + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
                                     value_type: "string"
                                 }
                             }
@@ -1147,7 +1147,7 @@ app.post('/create-offer', function(req, res) {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su",
-                                    value: "handle:" + upsell + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
                                     value_type: "string"
                                 }
                             }
@@ -1159,7 +1159,7 @@ app.post('/create-offer', function(req, res) {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su",
-                                    value: "handle:" + upsell + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
                                     value_type: "string"
                                 }
                             }
@@ -1169,7 +1169,7 @@ app.post('/create-offer', function(req, res) {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su",
-                                    value: "handle:" + upsell + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
                                     value_type: "string"
                                 }
                             }
