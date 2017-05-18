@@ -1020,7 +1020,7 @@ app.post('/create-offer', function(req, res) {
         console.log("BETWEEN POS AND SOB: " + JSON.stringify(parsed_product_selections));
         console.log("selections: " + parsed_product_selections[0].id);
         console.log("previous: " + previous_product_selections.products[0].id);
-        var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections).slice(0);
+        var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections);
         
         console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
         console.log("product selections:" + JSON.stringify(parsed_product_selections));
@@ -2101,6 +2101,8 @@ function findDifferences(arr1, arr2) {
     for (var i = 0; i < arr1.length; i++) {
         var contains = false;
         for (var j = 0; j < arr2.length; j++) {
+            console.log(arr1[i].id);
+            console.log(arr2[j].id);
             if (arr1[i].id == arr2[j].id) {
                 contains = true;
                 break;
