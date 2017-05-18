@@ -989,8 +989,8 @@ app.post('/create-offer', function(req, res) {
 app.post('/create-offer', function(req, res) {
     var upsell_selections = [];
     var product_selections = [];
-    console.log("TEST: FUCKKKK!" + req.body.product_configs);
-    console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
+    //console.log("TEST: FUCKKKK!" + req.body.product_configs);
+    //console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
     var previous_product_selections = req.body.product_configs;
     
     if (Array.isArray(req.body.upsell_dual_box)) {
@@ -1009,18 +1009,18 @@ app.post('/create-offer', function(req, res) {
     var upsells = stringify_products(upsell_selections);
     
     if (previous_product_selections != "") {
-        console.log("POS: " + JSON.stringify(previous_product_selections));
+        //console.log("POS: " + JSON.stringify(previous_product_selections));
         previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
-        console.log("POS: " + JSON.stringify(previous_product_selections));
+        //console.log("POS: " + JSON.stringify(previous_product_selections));
         var parsed_product_selections = [];
         
         for (var i in product_selections) {
             //console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]));
             parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
         }
-        console.log("BETWEEN POS AND SOB: " + JSON.stringify(parsed_product_selections));
-        console.log("selections: " + parsed_product_selections[0].id);
-        console.log("previous: " + previous_product_selections.products[0].id);
+        //console.log("BETWEEN POS AND SOB: " + JSON.stringify(parsed_product_selections));
+        //console.log("selections: " + parsed_product_selections[0].id);
+        //console.log("previous: " + previous_product_selections.products[0].id);
         var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections);
         
         //console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
@@ -1069,7 +1069,7 @@ app.post('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }    
-                            console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
+                            //console.log("GET PRODUCT RESPONSE: " + JSON.stringify(result));
                             callback(null, result);
                         });
                     },
@@ -1108,7 +1108,7 @@ app.post('/create-offer', function(req, res) {
                                     callback(true); 
                                     return; 
                                 }
-                                console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
+                                //console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
                                 callback(null, 'done');
                             });                            
                         }
@@ -1123,7 +1123,7 @@ app.post('/create-offer', function(req, res) {
                         callback(true); 
                         return; 
                     }    
-                    console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
+                    //console.log("FIRST DELETE RESPONSE: " + JSON.stringify(result));
                     callback();
                 });
             }
@@ -1138,7 +1138,7 @@ app.post('/create-offer', function(req, res) {
             
             for (var i in product_selections) {
                 var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
-                console.log("PRODUCT: "+ temp_product.id);
+                //console.log("PRODUCT: "+ temp_product.id);
  
                 if (upsells != "") {                    
                     console.log("UPSELL HANDLES: " + upsells);
@@ -1187,7 +1187,7 @@ app.post('/create-offer', function(req, res) {
                         }
                     }
                     req_body = JSON.stringify(data);
-                    console.log("POST REQUEST: "+ req_body);
+                    //console.log("POST REQUEST: "+ req_body);
                     
                     var temp_request = {
                         method: "POST",
@@ -1221,7 +1221,7 @@ app.post('/create-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                //console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
                 callback();
             });
         },
