@@ -1022,13 +1022,13 @@ app.post('/create-offer', function(req, res) {
         console.log("previous: " + previous_product_selections.products[0].id);
         var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections);
         
-        console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
-        console.log("product selections:" + JSON.stringify(parsed_product_selections));
-        console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
-        console.log("product parse configs:" + JSON.stringify(previous_product_selections));
-        console.log("upsell configs:" + req.body.upsell_configs);
-        console.log("product configs:" + req.body.product_configs);
-        console.log("product diff:" + JSON.stringify(product_differences));
+        //console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
+        //console.log("product selections:" + JSON.stringify(parsed_product_selections));
+        //console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
+        //console.log("product parse configs:" + JSON.stringify(previous_product_selections));
+        //console.log("upsell configs:" + req.body.upsell_configs);
+        //console.log("product configs:" + req.body.product_configs);
+        //console.log("product diff:" + JSON.stringify(product_differences));
     }
     else {
         var product_differences = [];
