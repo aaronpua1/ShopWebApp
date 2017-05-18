@@ -435,7 +435,10 @@ app.get('/create-offer', function(req, res) {
             store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
             store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));  
             string_upsell = stringify_configs(store_upsell.products);
+
             string_products = stringify_configs(store_products.products);
+            console.log("UPSELL STRING: " + string_upsell);
+            console.log("PRODUCT STRING: " + string_products);
         }
         
         //console.log(JSON.stringify(result_metafields));
