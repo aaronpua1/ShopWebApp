@@ -1012,11 +1012,12 @@ app.post('/create-offer', function(req, res) {
         previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
         console.log("POS: " + JSON.stringify(previous_product_selections));
         var parsed_product_selections = [];
-        console.log("BETWEEN POS AND SOB");
+        
         for (var i in product_selections) {
-            console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]));
+            //console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]));
             parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
         }
+        console.log("BETWEEN POS AND SOB: " + JSON.stringify(parsed_product_selections));
         console.log("SOB");
         var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections).slice(0);
         
