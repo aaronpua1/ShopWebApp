@@ -196,11 +196,11 @@
             }
         });
         $('#offer_name').on('input', function() {
-            var input=$(this).val().toLowerCase();
+            var input = $(this);
             var is_valid = true;
             
             for (var i = 0; i < keys.length; i++) {
-                if (input === keys[i].toLowerCase()) {
+                if (input.val().toLowerCase(); === keys[i].toLowerCase()) {
                     is_valid = false;
                 }
             }
@@ -336,7 +336,7 @@
                   <% } else { %>
                     <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
                   <% } %>
-                  <span class="error">This field is required</span>
+                  <span class="error">This offer name is already being used</span>
                 </div>
               </div>
             </div>
