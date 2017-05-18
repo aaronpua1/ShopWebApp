@@ -2126,7 +2126,7 @@ function stringify_configs(values) {
     var result = "";
     
     for (var i = 0; i < values.length; i++) {
-        result += 'id=' + values.id + '|title=' + values.title + ',';
+        result += 'id=' + values.id + '|handle=' + values.handle + ',';
     }
     result.replace(/\,$/, '');
     return result;
