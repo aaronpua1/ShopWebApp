@@ -1228,6 +1228,7 @@ app.post('/create-offer', function(req, res) {
         function(callback) {
             async.waterfall([
                 function(callback) {
+                    console.log("KEY: " + req.query.key);
                     if (req.query.key != "" && req.query.key != req.body.offer_name) {
                         request.get({
                             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.query.key,
