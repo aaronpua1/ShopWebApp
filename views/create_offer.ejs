@@ -280,9 +280,11 @@
         }
         $("#offer-form").on("submit", function(event) {
             event.preventDefault();
-
+            $('#create-offer').button('loading');
             if (!validate()) {
                 $('body, html').animate({scrollTop:$('form').offset().top}, 'slow');
+                $('#create-offer').button('reset');
+                ShopifyApp.Bar.loadingOff();
                 return false;
             }
 
@@ -290,7 +292,7 @@
             this.submit();
             
         });
-        $('#create-offer').on('click', function() {
+        /*$('#create-offer').on('click', function() {
           ShopifyApp.Bar.loadingOn();
           var $this = $(this);
           $this.button('loading');
@@ -298,7 +300,7 @@
                $this.button('reset');
                ShopifyApp.Bar.loadingOff();
            }, 35000);           
-        });
+        });*/
     });
   </script>
   <div class="container">
