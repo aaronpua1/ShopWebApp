@@ -91,6 +91,9 @@
         if (isRequiredField)
             initDualListBox();
             */
+        var keys = $('#keys').val();
+        keys = parseKeys(keys);
+        
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
@@ -192,6 +195,21 @@
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
         });
+        $('#offer_name').on('input', function() {
+            var input=$(this).val().toLowerCase();
+            var is_valid = true;
+            
+            for (var i = 0; i < keys.length; i++) {
+                if (input === keys[i].toLowerCase()) {
+                    is_valid = false;
+                }
+            }
+            
+            if(is_valid)
+                {input.removeClass("invalid").addClass("valid");}
+            else
+                {input.removeClass("valid").addClass("invalid");}
+        });
         $('#border_color').on('input', function() {
             var input=$(this);
             var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
@@ -231,7 +249,7 @@
         
         function validate() {            
             var validated = true;            
-            var tags = ["border_color", "border_highlight_color", "background_color", "button_color"];
+            var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
             
             for (var i = 0; i < tags.length; i++) {
                 var element = $("#" + tags[i]);
@@ -253,6 +271,11 @@
             else {                
                 return true;
             }            
+        }
+        function parseKeys(values) {
+            var result = values.split("|");
+            
+            return result;
         }
         $("#offer-form").on("submit", function(event) {
             event.preventDefault();
@@ -288,10 +311,12 @@
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
           <input class="form-control" type="hidden" id="key" name="key" value="">
+          <input class="form-control" type="hidden" id="keys" name="keys" value="<%= keys %>">
         <% } else { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%= upsell_config %>>
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value=<%= product_config %>>
-          <input class="form-control"  id="key" name="key" value="<%= keys[0] %>">
+          <input class="form-control" type="hidden" id="key" name="key" value="<%= store.offer_name %>">
+          <input class="form-control" type="hidden" id="keys" name="keys" value="<%= keys %>">
         <% } %>        
         <div class="form-group col-md-12 bg-primary h4">
           <div class="control-group">
@@ -307,9 +332,9 @@
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" maxlength="27">
+                    <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
+                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
