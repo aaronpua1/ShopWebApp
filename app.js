@@ -1228,8 +1228,7 @@ app.post('/create-offer', function(req, res) {
         },
         function(callback) {
             async.waterfall([
-                function(callback) {
-                    console.log("fasdsdfadsasdfsdfdsafdsafsdafasdfasdfsadfdsafsadfdsafadKEY: " + req.body.key);
+                function(callback) {                    
                     if (req.body.key != "" && req.body.key != req.body.offer_name) {
                         request.get({
                             url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.key,
@@ -1292,7 +1291,7 @@ app.post('/create-offer', function(req, res) {
                         products = req.body.product_dual_box;
                     }
                     
-                    if (metafields.length > 0) {
+                    if (req.body.key != "" && metafields.length > 0) {
                         var id = metafields[0].id.toString();
                         //var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                         var data = {
