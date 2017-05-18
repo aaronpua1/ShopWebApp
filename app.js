@@ -370,7 +370,7 @@ app.get('/create-offer', function(req, res) {
         }
     }, {
         method: "GET",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value&namespace=suo',
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
@@ -410,6 +410,7 @@ app.get('/create-offer', function(req, res) {
         var store_products;
         var string_products;
         var result_values = {values: []};
+        var result_keys = [];
         
         for (var i = 0; i < results.length; i++) {
             if (results[i].hasOwnProperty('products')){
@@ -429,6 +430,7 @@ app.get('/create-offer', function(req, res) {
         for (var i = 0; i < result_metafields.metafields.length; i++) {
             var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
             result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+            result_keys.push(result_metafields.metafields[i].key);
         }
         
         if (result_store) {
@@ -455,6 +457,7 @@ app.get('/create-offer', function(req, res) {
             upsell_config: string_upsell,
             product_config: string_products,
             metafields: result_values,
+            keys: result_keys,
             key: req.query.key
         });
     });
