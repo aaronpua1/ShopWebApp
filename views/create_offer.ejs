@@ -247,7 +247,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        
+
         function validate() {            
             var validated = true;            
             var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
@@ -265,7 +265,24 @@
                     error_element.removeClass("error_show").addClass("error");
                 }
             }
-            
+            if (jQuery("#upsell-dual-box option:selected").length == 0) {
+                validated = false;
+                error_element = $("span", jQuery("#upsell-dual-box").parent());
+                error_element.removeClass("error").addClass("error_show"); 
+            }
+            else {
+                error_element = $("span", jQuery("#upsell-dual-box").parent());
+                error_element.removeClass("error_show").addClass("error");
+            }
+            if (jQuery('#product-dual-box option:selected').length == 0) {
+                validated = false;
+                error_element = $("span", jQuery("#product-dual-box").parent());
+                error_element.removeClass("error").addClass("error_show"); 
+            }
+            else {
+                error_element = $("span", jQuery("#product-dual-box").parent());
+                error_element.removeClass("error_show").addClass("error");
+            }
             if (!validated) {
                 return false;
             }
@@ -525,6 +542,7 @@
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
               </select>
+              <span class="error">Must select one</span>
             </div>
           </div>
         </div>
@@ -607,6 +625,7 @@
                   <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                 <% } %>
               </select>
+              <span class="error">Must select one</span>
             </div>
           </div>
         </div>
@@ -711,6 +730,7 @@ input.valid, textarea.valid{
   color: red;
   margin-left: 10px;
 }
+
 </style>
 </body>
 </body>
