@@ -2100,9 +2100,9 @@ function findDifferences(arr1, arr2) {
     for (var i = 0; i < arr1.length; i++) {
         var contains = false;
         for (var j = 0; j < arr2.length; j++) {
-            if (arr1[i].id === arr2[j].id) {
+            if (arr1[i].id == arr2[j].id) {
                 contains = true;
-                //break;
+                break;
             }
         }
         if (!contains) {
