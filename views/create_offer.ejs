@@ -265,19 +265,19 @@
                     error_element.removeClass("error_show").addClass("error");
                 }
             }
-            if (jQuery("#upsell-dual-box option:selected").length == 0) {
+            if ($("#upsell-dual-box option:selected").length == 0) {
                 validated = false;                
-                jQuery("#error-upsell").removeClass("error").addClass("error_show"); 
+                $("#error-upsell").removeClass("error").addClass("error_show"); 
             }
             else {                
-                jQuery("#error-upsell").removeClass("error_show").addClass("error");
+                $("#error-upsell").removeClass("error_show").addClass("error");
             }
-            if (jQuery('#product-dual-box option:selected').length == 0) {
+            if ($('#product-dual-box option:selected').length == 0) {
                 validated = false;                
-                jQuery("#error-product").removeClass("error").addClass("error_show"); 
+                $("#error-product").removeClass("error").addClass("error_show"); 
             }
             else {                
-                jQuery("#error-product").removeClass("error_show").addClass("error");
+                $("#error-product").removeClass("error_show").addClass("error");
             }
             if (!validated) {
                 return false;
@@ -296,6 +296,7 @@
             $('#create-offer').button('loading');
             if (!validate()) {
                 $('body, html').animate({scrollTop:$('form').offset().top}, 'slow');
+                $('#error-top').removeClass("error").addClass("error_show");
                 $('#create-offer').button('reset');
                 ShopifyApp.Bar.loadingOff();
                 return false;
@@ -321,6 +322,7 @@
       <hr>
       <div class="bg-primary">
         <p class="h1">Create Your Offer</p>
+        <span id="error-top" class="error">There's an error on the page</span>
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
