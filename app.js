@@ -1013,7 +1013,7 @@ app.post('/create-offer', function(req, res) {
         var parsed_product_selections = [];
         console.log("BETWEEN POS AND SOB");
         for (var i in product_selections) {
-            console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]);
+            console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]));
             parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
         }
         console.log("SOB");
