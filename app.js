@@ -453,7 +453,8 @@ app.get('/create-offer', function(req, res) {
             store_products: store_products,
             upsell_config: string_upsell,
             product_config: string_products,
-            metafields: result_values
+            metafields: result_values,
+            key: req.query.key
         });
     });
 })
@@ -1227,22 +1228,42 @@ app.post('/create-offer', function(req, res) {
         function(callback) {
             async.waterfall([
                 function(callback) {
-                    request.get({
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
-                        headers: {
-                            'X-Shopify-Access-Token': req.session.access_token
-                        }
-                    }, 
-                    function(err,resp,body) {
-                        if(err) { 
-                            console.log(err);
-                            callback(true); 
-                            return; 
-                        }
-                        console.log("GET RESPONSE: " + body);
-                        body = JSON.parse(body);
-                        callback(null, body.metafields);
-                    });
+                    if (req.query.key != "" && req.query.key != req.body.offer_name) {
+                        request.get({
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.query.key,
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token
+                            }
+                        }, 
+                        function(err,resp,body) {
+                            if(err) { 
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log("GET RESPONSE: " + body);
+                            body = JSON.parse(body);
+                            callback(null, body.metafields);
+                        });
+                    }
+                    else {
+                        request.get({
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token
+                            }
+                        }, 
+                        function(err,resp,body) {
+                            if(err) { 
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log("GET RESPONSE: " + body);
+                            body = JSON.parse(body);
+                            callback(null, body.metafields);
+                        });
+                    }
                 },
                 function(metafields, callback) {
                     var upsell_products = "";
