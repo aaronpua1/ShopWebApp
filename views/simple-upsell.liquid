@@ -1,7 +1,6 @@
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   {{ 'contained-bootstrap.min.css' | asset_url | stylesheet_tag }}
-  {{ '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' | stylesheet_tag }}
 
   {% if product.metafields.suop != blank %}
     {% assign metafields = product.metafields.suop %}
@@ -9,16 +8,20 @@
     {% if configs contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
         <input type="hidden" id="configs" name="configs" value="{{ configs }}" />
-        <div class="container upsell-container" style="margin-top:20px;">
-          {% assign upsell_values = metafields.su1 | split: ";"%}
+        <div class="container upsell-container padded-row" style="margin-top:20px;">
+          {% assign upsell_values = metafields.su1 | split: ";" %}          
           {% for upsell_value in upsell_values %}
+            {% if upsell_value contains "handle:" %}
+              {% assign items = upsell_value | replace: "handle:", "" %} 
+          	  {% assign items = items | split: "|" %} 
+            {% endif %}
             {% if upsell_value contains "offer_title:" %}
               <h3>{{ upsell_value | replace: "offer_title:", ""}}</h3>
             {% endif %}
             {% if upsell_value contains "offer_description:" %}
               <h5>{{ upsell_value | replace: "offer_description:", ""}}</h5>
               {% break %}
-            {% endif %}
+            {% endif %}          
           {% endfor %}
           <form id="add-upsell-form" onsubmit="submitUpsell(); return false;">
             <div class="row upsell-row">
@@ -30,29 +33,29 @@
                   <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ product | img_url: 'medium' }}"></div>
                   <div class="info">
                     <div class="row">
-                      <div class="price col-md-12">
+                      <div class="title col-md-12">
                         <h5>{{ product.title }}</h5>
-                        <h5 id="variant-price1" class="price-text-color">{{ variants[0].price | money }}</h5>
+                      </div>
+                      <div class="price col-md-12">
+                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}</span>
                       </div>
                       <div class="variant col-md-12">
                         {% if variantSize <= 1 %}
-                          <select id="variant1" class="variant-select" name="variant1" style="visibility: hidden;">
-                            {% for variant in variants %}
-                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                            {% endfor %}
-                          </select>
+                        <select id="variant1" class="variant-select" name="variant1" style="visibility: hidden;">
+                          {% for variant in variants %}
+                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                          {% endfor %}
+                        </select>
                         {% else %}
-                          <select id="variant1" class="variant-select" name="variant1">
-                            {% for variant in variants %}
-                              <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                            {% endfor %}
-                          </select>
+                        <select id="variant1" class="variant-select" name="variant1">
+                          {% for variant in variants %}
+                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                          {% endfor %}
+                        </select>
                         {% endif %}
                       </div>
                     </div>
-                    <div class="rating col-md-12">
-                      <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
-                    </div>
+
                     <div class="separator">
                       <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon1" class="fa fa-shopping-cart" style="color:black;"></i><a id="text1" href="#">Add to bundle</a></p>
                     </div>
@@ -60,51 +63,52 @@
                   </div>
                 </div>
               </div> 
-              {% for field in metafields %}
-                {% assign value = field | last | split: ";" | first | split: ":" | last %}
-                {% assign item = all_products[value] %}
+              {% for handle in items %}              	
+                {% assign item = all_products[handle] %}
                 {% assign variants = item.variants %}
                 {% assign variantSize = item.variants | size %}
-              	{% if item.title != product.title %}
-                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
-                    <h2><span class="glyphicon glyphicon-plus"></span></h2>
-                  </div>
-                  <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                    <div class="col-item" id="item{{ forloop.index | plus: 1 }}" value="{{  }}">
-                      <span class="tooltiptext">{{ item.title }}</span>
-                      <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></div>
-                      <div class="info">
-                        <div class="row">
-                          <div class="price col-md-12">
-                            <h5>{{ item.title }}</h5>
-                            <h5 id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}</h5>
+              	{% if item.id != product.id and item != blank %}
+              	  {% if item.available %}
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
+                      <h2><span class="glyphicon glyphicon-plus"></span></h2>
+                    </div>
+                    <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
+                      <div class="col-item" id="item{{ forloop.index | plus: 1 }}" value="{{  }}">
+                        <span class="tooltiptext">{{ item.title }}</span>
+                        <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></div>
+                        <div class="info">
+                          <div class="row">
+                            <div class="title col-md-12">
+                              <h5>{{ item.title }}</h5>                              
+                            </div>
+                            <div class="price col-md-12">                              
+                              <span id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}</span>
+                            </div>
+                            <div class="variant col-md-12">
+                            {% if variantSize <= 1 %}
+                              <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}" style="visibility: hidden;">
+                                {% for variant in variants %}
+                                  <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                                {% endfor %}
+                              </select>
+                            {% else %}
+                              <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}">
+                                {% for variant in variants %}
+                                  <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                                {% endfor %}
+                              </select>
+                            {% endif %}
+                            </div>
                           </div>
-                          <div class="variant col-md-12">
-                          {% if variantSize <= 1 %}
-                            <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}" >
-                              {% for variant in variants %}
-                              	<option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% else %}
-                            <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}">
-                              {% for variant in variants %}
-                                <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
-                              {% endfor %}
-                            </select>
-                          {% endif %}
+
+                          <div class="separator">
+                            <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-shopping-cart" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Add to bundle</a></p>
                           </div>
+                          <div class="clearfix"></div>
                         </div>
-                        <div class="rating col-md-12">
-                          <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star"></i><i class="fa fa-star"></i>
-                        </div>
-                        <div class="separator">
-                          <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-shopping-cart" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Add to bundle</a></p>
-                        </div>
-                        <div class="clearfix"></div>
                       </div>
                     </div>
-                  </div>
+              	  {% endif %}
               	{% endif %}
               {% endfor %}
               <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width: 20px;">
@@ -123,7 +127,9 @@
   {% endif %}
   <script type="text/javascript">
     var values = jQuery('#configs').val();
-	values = parseValues(values);    
+	values = parseValues(values);
+    //var handles = parseHandles(values['handle']);
+    
     if (values['edge_type'] == "not_rounded") {
       jQuery('.col-item').css('border-radius', '0px');
       jQuery('.upsell-image').css('border-radius', '0px');
@@ -207,36 +213,57 @@
       }
       return result;
     }
-    jQuery('#variant1').change(function() {
-      var value = jQuery('#variant1').val().split('-');
-      jQuery('#c1').val(value[0]);
-      jQuery('#variant-price1').text(value[1]);      
+    /*function parseHandles(values) {
+      var result = values.split("|");
+      
+      return result;
+    }*/
+    jQuery("#variant1").on('focus', function () {
+      jQuery(this).data('val', jQuery(this).val());
+    }).change(function() {
+      var previous = jQuery(this).data('val').split('-');
+      var current = jQuery('#variant1').val().split('-');
+      jQuery('#c1').val(current[0]);
+      jQuery('#variant-price1').text(current[1]);      
       if (jQuery('#c1').is(':checked')) {
-        calculateTotal(jQuery('#variant-price1').text(), true);
+        calculateTotal(previous[1], false);
+        calculateTotal(current[1], true);
       }
     });
-    jQuery('#variant2').change(function() {
-      var value = jQuery('#variant2').val().split('-');
-      jQuery('#c2').val(value[0]);
-      jQuery('#variant-price2').text(value[1]);      
+    jQuery("#variant2").on('focus', function () {
+      jQuery(this).data('val', jQuery(this).val());
+    }).change(function() {
+      var previous = jQuery(this).data('val').split('-');
+      var current = jQuery('#variant2').val().split('-');
+      jQuery('#c2').val(current[0]);
+      jQuery('#variant-price2').text(current[1]);      
       if (jQuery('#c2').is(':checked')) {
-        calculateTotal(jQuery('#variant-price2').text(), true);
+        calculateTotal(previous[1], false);
+        calculateTotal(current[1], true);
       }
     });
-    jQuery('#variant3').change(function() {
-      var value = jQuery('#variant3').val().split('-');
-      jQuery('#c3').val(value[0]);
-      jQuery('#variant-price3').text(value[1]);      
+    jQuery("#variant3").on('focus', function () {
+      jQuery(this).data('val', jQuery(this).val());
+    }).change(function() {
+      var previous = jQuery(this).data('val').split('-');
+      var current = jQuery('#variant3').val().split('-');
+      jQuery('#c3').val(current[0]);
+      jQuery('#variant-price3').text(current[1]);      
       if (jQuery('#c3').is(':checked')) {
-        calculateTotal(jQuery('#variant-price3').text(), true);
+        calculateTotal(previous[1], false);
+        calculateTotal(current[1], true);
       }
     });
-    jQuery('#variant4').change(function() {
-      var value = jQuery('#variant4').val().split('-');
-      jQuery('#c4').val(value[0]);
-      jQuery('#variant-price4').text(value[1]);      
+    jQuery("#variant4").on('focus', function () {
+      jQuery(this).data('val', jQuery(this).val());
+    }).change(function() {
+      var previous = jQuery(this).data('val').split('-');
+      var current = jQuery('#variant4').val().split('-');
+      jQuery('#c4').val(current[0]);
+      jQuery('#variant-price4').text(current[1]);      
       if (jQuery('#c4').is(':checked')) {
-        calculateTotal(jQuery('#variant-price4').text(), true);
+        calculateTotal(previous[1], false);
+        calculateTotal(current[1], true);
       }
     });
     jQuery('#btn-id1').click(function(event) {
@@ -425,7 +452,7 @@
   }
   .nopadding h2 
   {
-    height: 8em;
+    height: 9em;
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
@@ -467,9 +494,9 @@
     margin-top: 10px;
     margin-bottom: 10px;
     min-width: 175px;
-    min-height: 270px;    
+    min-height: 315px;    
     max-width: 175px;    
-    max-height: 270px;
+    max-height: 315px;
     border-radius: 10px;
     background: #f2f2f2;
     -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
@@ -516,52 +543,69 @@
   .col-item .photo img
   {
     margin: 0 auto;
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    max-height: 129px;
+    width: auto;
+    min-width:auto;
+    max-width:100%;
+    min-height:175px;
+    max-height:175px;
     vertical-align: top;
     /*padding: 10px;*/
     /*border-radius: 10px 10px 0 0;*/
 
     background-repeat: no-repeat;
   }
-  /*.col-item .photo
+  .col-item .photo
   {
-    /*min-width: 170px;
-    min-height: 125px;    
-    /*max-width: 170px;   
-    max-height: 125px;
+    min-width: 100%;    
+    max-width: 100%;
+    min-height: 175px;
+    max-height: 175px;
     margin: 0 auto;
     border-radius: 10px 10px 0 0;
     background-color: #FFF;
-  }*/
+  }
   .col-item .info
   {
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 10px;
-    padding-top: 5px;
     border-radius: 0 0 5px 5px;
+    margin-top: 2px;
+  }
+  .col-item .title
+  {
+    float: none;
+  }
+  .col-item .title h5
+  {
+    display: inline-block;
     margin-top: 1px;
-  }
-
-  .col-item .price
-  {
-    float: none;    
-  }
-  .col-item .price h5
-  {
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
+    height: auto;
+    max-height: 24px;
     text-align: left;
-    line-height: 0;
-    width: auto;
+    line-height: normal;
+    width: 100%;
     max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 14px;
+  }
+  .col-item .price
+  {
+    float: none;    
+  }
+  .col-item .price span
+  {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: auto;
+    max-height: 20px;
+    text-align: left;
+    line-height: normal;
+    width: 100%;
+    max-width: 170px;
+    font-size: 14px;
   }
   .price-text-color
   {
@@ -576,25 +620,19 @@
     float: none;
     font-size: 14px;
     text-align: center;
-    line-height: 0;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    height: 14px;
-  }
-  .col-item .row
-  {
+    line-height: 25px;
     margin-bottom: 10px;
+    margin-top: 5px;
+    height: 13px;
   }
-  .variant
+  .col-item .variant
   {
     display: table;
     float: none;
     text-align: center;
     line-height: 0;
-    margin: 1px;
-
-    padding-bottom: 0;
+    margin-top: 5px;
+    margin-bottom: 0;
   }
   .variant .variant-select 
   {
@@ -605,15 +643,14 @@
     background: url('dropdown_arrow.png') no-repeat;          /*Adds background-image*/
     background-position: 82px 7px;           /*Position of the background-image*/
     width: 70%;            /*Width of select dropdown to give space for arrow image*/
-    height: 5px;
+    height: 45px;
     text-indent: 0.01px;          /* Removes default arrow from firefox*/
     text-overflow: "";   
-    max-height: 5px; 
+    max-height: 45px; 
     font-size: 12px;
     line-height: 0;
     background-color: white;
   }
-
   .col-item .separator
   {
     border-top: 1px solid #d9d9d9;
@@ -622,9 +659,13 @@
   {
     clear: left;
   }
+  .col-item .row {
+    margin-top: 1px;
+    margin-bottom: 5px; 
+  }
   .col-item .separator p
-  {
-    line-height: 0;
+  {    
+    line-height: 20px;
     margin: 3px;
     text-align: center;
     float: none;
@@ -641,7 +682,6 @@
     text-align: center;
     align-items: center;
     float: none;
-    font-size: 14px;
   }
   .col-item .btn-details
   {
