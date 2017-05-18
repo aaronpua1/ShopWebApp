@@ -330,6 +330,7 @@ app.get('/', function(req, res) {
             }*/
             for (var key in data.metafields) {
                 var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
+                console.log("METAFIELDS: " + JSON.stringify(temp));
                 temp = JSON.parse(JSON.stringify(parse_values(temp)));
                 metafields.push(temp);
             }
