@@ -2134,9 +2134,12 @@ function stringify_configs(values) {
     var result = "";
     
     for (var i = 0; i < values.length; i++) {
-        result += 'id=' + values[i].id + '|handle=' + values[i].handle + ',';
+        result += 'id=' + values[i].id + '|handle=' + values[i].handle;
+        if (i < (values.length - 1)) {
+            result += ",";
+        }
     }
-    result.replace(/\,$/, '');
+    //result.replace(/\,$/, '');
     return result;
 }
 function stringify_products(values) {    
