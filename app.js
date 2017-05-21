@@ -49,6 +49,7 @@ app.get('/shopify_auth', function(req, res) {
         });
     }
 })*/
+
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
