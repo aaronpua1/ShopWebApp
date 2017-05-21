@@ -40,15 +40,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
-    if (req.query.shop) {
-        req.session.shop = req.query.shop;
+    //if (req.query.shop) {
+        //req.session.shop = req.query.shop;
         res.render('embedded_app_redirect', {
-            shop: req.query.shop,
+            shop: req.session.shop,
             api_key: config.oauth.api_key,
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    }
+    //}
 })
 
 // After the users clicks 'Install' on the Shopify website, they are redirected here
@@ -344,15 +344,9 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        if (req.query.shop) {
-            req.session.shop = req.query.shop;
-            res.render('embedded_app_redirect', {
-                shop: req.query.shop,
-                api_key: config.oauth.api_key,
-                scope: config.oauth.scope,
-                redirect_uri: config.oauth.redirect_uri
-            });
-        }
+        //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
+        req.session.shop = req.query.shop.replace(".shopify.com", "");
+        res.redirect('/shopify_auth');
     }
 })
 
