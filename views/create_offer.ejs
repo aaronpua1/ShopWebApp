@@ -390,7 +390,7 @@
         </div>
         <div class="panel panel-success">
           <div class="panel-body">
-            <div class="form-group col-md-12 offer-input-groups">
+            <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
@@ -403,7 +403,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12 offer-input-groups">
+            <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
@@ -416,7 +416,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12 offer-input-groups">
+            <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
@@ -429,7 +429,7 @@
                 </div>
               </div>
             </div>
-           <div class="form-group col-md-12 offer-input-groups">
+           <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="border_color">Upsell Border Color (For borderless use: "transparent")</label>
                 <div class="controls">
@@ -438,7 +438,7 @@
                 </div>
               </div>
            </div>
-           <div class="form-group col-md-12 offer-input-groups">
+           <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
@@ -447,7 +447,7 @@
                 </div>
               </div>
            </div>
-           <div class="form-group col-md-12 offer-input-groups">
+           <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
@@ -456,7 +456,7 @@
                 </div>
               </div>
            </div>
-           <div class="form-group col-md-12 offer-input-groups">
+           <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
@@ -490,7 +490,7 @@
           </div>
         </div>
         <hr>
-        <div class="form-group col-md-12 bg-primary h4">
+        <div class="form-group col-md-12 bg-primary h4 required">
           <div class="control-group">
             <div class="controls">
               <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell (Must select one)</p>
@@ -573,7 +573,7 @@
           </div>
         </div>
         <hr>
-        <div class="form-group col-md-12 bg-primary h4">
+        <div class="form-group col-md-12 bg-primary h4 required">
           <div class="control-group">
             <div class="controls">
               <p class="control-label" for="form-steps">Step 3: Select Product(s) to Place Offer (Must select one)</p>
@@ -756,7 +756,7 @@ input.valid, textarea.valid{
   color: red;
   margin-left: 10px;
 }
-.control-label:after { 
+.form-group.required .control-label:after { 
    content:"*";
    color:red;
 }
