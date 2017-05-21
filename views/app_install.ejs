@@ -3,15 +3,8 @@
   <head>
   	<link rel='stylesheet' href='/stylesheets/foundation.min.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script language="JavaScript" src="https://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
     <title><%= title %></title>
   </head>
-  <body>
-    <script>
-      /*$( document ).ready(function() {
-        $('#shop').val();
-      });*/
-    </script>
     <h1>Install the test app!</h1>
     <form action="/shopify_auth" method="GET">
 		  <div class="row">
@@ -19,7 +12,7 @@
 		      <div class="row collapse">
 		        <label>Input Label</label>
 		        <div class="small-6 columns">
-		          <input id="shop" type="text" placeholder="shopname" name="shop" value="<%= shop %>"/>
+		          <input type="text" placeholder="shopname" name="shop" />
 		        </div>
 		        <div class="small-6 columns">
 		          <span class="postfix">.myshopify.com</span>

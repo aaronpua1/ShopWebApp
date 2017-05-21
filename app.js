@@ -52,13 +52,12 @@ app.get('/shopify_auth', function(req, res) {
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
-        res.render('embedded_app_redirect', {
-            shop: req.session.shop,
-            api_key: config.oauth.api_key,
-            scope: config.oauth.scope,
-            redirect_uri: config.oauth.redirect_uri
-        });
-    }
+    res.render('embedded_app_redirect', {
+        shop: req.session.shop,
+        api_key: config.oauth.api_key,
+        scope: config.oauth.scope,
+        redirect_uri: config.oauth.redirect_uri
+    });
 })
 
 // After the users clicks 'Install' on the Shopify website, they are redirected here
@@ -277,8 +276,7 @@ app.get('/test-metafields', function(req, res) {
 // Renders the install/login form
 app.get('/install', function(req, res) {
     res.render('app_install', {
-        title: 'Shopify Embedded App',
-        shop: req.query.shop
+        title: 'Shopify Embedded App'
     });
 })
 
