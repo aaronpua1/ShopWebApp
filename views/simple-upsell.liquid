@@ -145,35 +145,28 @@
   {% endif %}
   <script type="text/javascript">
     var values = jQuery('#configs').val();
-	values = parseValues(values);
+    values = parseValues(values);
     //var handles = parseHandles(values['handle']);
     
-    if (values['edge_type'] == "not_rounded") {
+    if (values['upsell_edge_type'] == "not_rounded") {
       jQuery('.col-item').css('border-radius', '0px');
       jQuery('.upsell-image').css('border-radius', '0px');
       jQuery('.photo').css('border-radius', '0px');
-      jQuery('#add-upsell').css('border-radius', '0px');
+      //jQuery('#add-upsell').css('border-radius', '0px');
     }
     else {
       jQuery('.col-item').css('border-radius', '10px');
       jQuery('.upsell-image').css('border-radius', '10px 10px 0 0');
       jQuery('.photo').css('border-radius', '10px 10px 0 0');
     }
+    if (values['button_edge_type'] == "not_rounded") {
+      jQuery('#add-upsell').css('border-radius', '0px');
+    }
     
-    if (values['border_color'] != "0,0,0,0")
-      jQuery('.col-item').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
-    else 
-      jQuery('.col-item').css('border-color', 'rgba(0, 0, 0, 0)');
-  
-    if (values['background_color'] != "255,255,255")
-      jQuery('.col-item').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-    else 
-      jQuery('.col-item').css('background-color', 'rgba(255, 255, 255, 1)');      
-    
-    if (values['button_color'] != "60,105,211")
-      jQuery('#add-upsell').css('background-color', 'rgba(' + values['button_color'] + ', 1)');
-    else 
-      jQuery('#add-upsell').css('background-color', 'rgba(60, 105, 211, 1)');   
+    jQuery('.col-item').css('border-color', values['border_color']); 
+    jQuery('.col-item').css('background-color', values['background_color']);
+    jQuery('#add-upsell').css('background-color', values['button_color']);
+ 
     
     Shopify.queue = [];
     function submitUpsell() {
@@ -315,18 +308,12 @@
         jQuery('#icon1').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon1').css('color', 'black');
         jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        if (values['border_color'] != "0,0,0,0")
-          jQuery('#item1').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
-        else
-          jQuery('#item1').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        jQuery('#item1').css('border-color', values['border_color']);        
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item1').css('border-radius', '0px');
         else 
           jQuery('#item1').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item1').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item1').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price1').text(), false);
         event.preventDefault();
       }
@@ -334,20 +321,14 @@
         jQuery('#c1').prop('checked', true); 
         jQuery('#text1').text('Remove item');
         jQuery('#icon1').attr('class', 'fa fa-times');
-        jQuery('#icon1').css('color', 'red');
-        if (values['border_highlight_color'] != "255,162,0")
-          jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
-        else 
-          jQuery('#item1').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#icon1').css('color', 'red');        
+        jQuery('#item1').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
         jQuery('#item1').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item1').css('border-radius', '0px');
         else 
           jQuery('#item1').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item1').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item1').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item1').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price1').text(), true);
         event.preventDefault();
       }  
@@ -359,39 +340,27 @@
         jQuery('#icon2').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon2').css('color', 'black');
         jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        if (values['border_color'] != "0,0,0,0")
-          jQuery('#item2').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
-        else
-          jQuery('#item2').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        jQuery('#item2').css('border-color', values['border_color']);        
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item2').css('border-radius', '0px');
         else 
           jQuery('#item2').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item2').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item2').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price2').text(), false);
         event.preventDefault();
       }
       else {
-        jQuery('#c2').prop('checked', true);
+        jQuery('#c2').prop('checked', true); 
         jQuery('#text2').text('Remove item');
         jQuery('#icon2').attr('class', 'fa fa-times');
-        jQuery('#icon2').css('color', 'red');
-        if (values['border_highlight_color'] != "255,162,0")
-          jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
-        else 
-          jQuery('#item2').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#icon2').css('color', 'red');        
+        jQuery('#item2').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
         jQuery('#item2').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item2').css('border-radius', '0px');
         else 
           jQuery('#item2').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item2').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item2').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item2').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price2').text(), true);
         event.preventDefault();
       }  
@@ -403,39 +372,27 @@
         jQuery('#icon3').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon3').css('color', 'black');
         jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        if (values['border_color'] != "0,0,0,0")
-          jQuery('#item3').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
-        else
-          jQuery('#item3').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        jQuery('#item3').css('border-color', values['border_color']);        
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item3').css('border-radius', '0px');
         else 
           jQuery('#item3').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item3').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item3').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price3').text(), false);
         event.preventDefault();
       }
       else {
-        jQuery('#c3').prop('checked', true);
+        jQuery('#c3').prop('checked', true); 
         jQuery('#text3').text('Remove item');
         jQuery('#icon3').attr('class', 'fa fa-times');
-        jQuery('#icon3').css('color', 'red');
-        if (values['border_highlight_color'] != "255,162,0")
-          jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
-        else 
-          jQuery('#item3').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#icon3').css('color', 'red');        
+        jQuery('#item3').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
         jQuery('#item3').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item3').css('border-radius', '0px');
         else 
           jQuery('#item3').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item3').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item3').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item3').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price3').text(), true);
         event.preventDefault();
       }  
@@ -447,39 +404,27 @@
         jQuery('#icon4').attr('class', 'fa fa-shopping-cart');
         jQuery('#icon4').css('color', 'black');
         jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 255, 255, 1)');
-        if (values['border_color'] != "0,0,0,0")
-          jQuery('#item4').css('border-color', 'rgba(' + values['border_color'] + ', 1)');
-        else
-          jQuery('#item4').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        jQuery('#item4').css('border-color', values['border_color']);        
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item4').css('border-radius', '0px');
         else 
           jQuery('#item4').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item4').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item4').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price4').text(), false);
         event.preventDefault();
       }
       else {
-        jQuery('#c4').prop('checked', true);
+        jQuery('#c4').prop('checked', true); 
         jQuery('#text4').text('Remove item');
         jQuery('#icon4').attr('class', 'fa fa-times');
-        jQuery('#icon4').css('color', 'red');
-        if (values['border_highlight_color'] != "255,162,0")
-          jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(' + values['border_highlight_color'] + ', 1)');
-        else 
-          jQuery('#item4').css('box-shadow', '0px 0px 2px 2px rgba(255, 162, 0, 1)');
+        jQuery('#icon4').css('color', 'red');        
+        jQuery('#item4').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
         jQuery('#item4').css('border-color', 'transparent');        
-        if (values['edge_type'] == "not_rounded")
+        if (values['upsell_edge_type'] == "not_rounded")
           jQuery('#item4').css('border-radius', '0px');
         else 
           jQuery('#item4').css('border-radius', '10px');
-        if (values['background_color'] != "255,255,255")
-          jQuery('#item4').css('background-color', 'rgba(' + values['background_color'] + ', 1)');
-        else 
-          jQuery('#item4').css('background-color', 'rgba(255, 255, 255, 1)');
+        jQuery('#item4').css('background-color', values['background_color']);
         calculateTotal(jQuery('#variant-price4').text(), true);
         event.preventDefault();
       }  

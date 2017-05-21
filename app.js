@@ -739,12 +739,12 @@ app.post('/create-offer', function(req, res) {
                     var temp_upsell = JSON.parse(JSON.stringify(parse_selections(upsell_selections[j])));
                     console.log("UPSELL: "+ temp_upsell.id);
                     if (req.body.activate_offer) {
-                        if (req.body.edge_type) {
+                        if (req.body.upsell_edge_type) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su" + count.toString(),
-                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded",
                                     value_type: "string"
                                 }
                             }
@@ -754,19 +754,19 @@ app.post('/create-offer', function(req, res) {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su" + count.toString(),
-                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value: "handle:" + temp_upsell.handle + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded",
                                     value_type: "string"
                                 }
                             }
                         }
                     }
                     else {
-                        if (req.body.edge_type) {
+                        if (req.body.upsell_edge_type) {
                             var data = {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su" + count.toString(),
-                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
+                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded",
                                     value_type: "string"
                                 }
                             }
@@ -776,7 +776,7 @@ app.post('/create-offer', function(req, res) {
                                 metafield: {
                                     namespace: "suop",
                                     key: "su" + count.toString(),
-                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
+                                    value: "handle:" + temp_upsell.handle + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded",
                                     value_type: "string"
                                 }
                             }
@@ -874,7 +874,7 @@ app.post('/create-offer', function(req, res) {
                         var data = {
                             metafield: {
                                 id: metafields[0].id,
-                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type,
                                 value_type: "string"
                             }
                         }
@@ -907,7 +907,7 @@ app.post('/create-offer', function(req, res) {
                             metafield: {
                                 namespace: "suo",
                                 key: req.body.offer_name,
-                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type,
                                 value_type: "string"
                             }
                         }
@@ -938,7 +938,7 @@ app.post('/create-offer', function(req, res) {
                             var data2 = {
                                 metafield: {
                                     id: body1.metafield.id,
-                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type,
                                     value_type: "string"
                                 }
                             }
@@ -1146,45 +1146,93 @@ app.post('/create-offer', function(req, res) {
                 if (upsells != "") {                    
                     console.log("UPSELL HANDLES: " + upsells);
                     if (req.body.activate_offer) {
-                        if (req.body.edge_type) {
-                            var data = {
-                                metafield: {
-                                    namespace: "suop",
-                                    key: "su1",
-                                    value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                    value_type: "string"
+                        if (req.body.upsell_edge_type) {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
                                 }
                             }
                         }
                         else {
-                            var data = {
-                                metafield: {
-                                    namespace: "suop",
-                                    key: "su1",
-                                    value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                    value_type: "string"
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
                                 }
                             }
                         }
                     }
                     else {
-                        if (req.body.edge_type) {
-                            var data = {
-                                metafield: {
-                                    namespace: "suop",
-                                    key: "su1",
-                                    value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:rounded",
-                                    value_type: "string"
+                        if (req.body.upsell_edge_type) {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
                                 }
                             }
                         }
                         else {
-                            var data = {
-                                metafield: {
-                                    namespace: "suop",
-                                    key: "su1",
-                                    value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:not_rounded",
-                                    value_type: "string"
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
                                 }
                             }
                         }
@@ -1299,7 +1347,7 @@ app.post('/create-offer', function(req, res) {
                         var data = {
                             metafield: {
                                 id: metafields[0].id,
-                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type,
                                 value_type: "string"
                             }
                         }
@@ -1333,7 +1381,7 @@ app.post('/create-offer', function(req, res) {
                             metafield: {
                                 namespace: "suo",
                                 key: req.body.offer_name,
-                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                value: "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type,
                                 value_type: "string"
                             }
                         }
@@ -1364,7 +1412,7 @@ app.post('/create-offer', function(req, res) {
                             var data2 = {
                                 metafield: {
                                     id: body1.metafield.id,
-                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";edge_type:" + req.body.edge_type,
+                                    value: "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type,
                                     value_type: "string"
                                 }
                             }
