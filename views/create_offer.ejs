@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link async href="http://fonts.googleapis.com/css?family=Advent%20Pro" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
   <title><%= title %></title>
 </head>
 <body>
@@ -351,9 +352,9 @@
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" maxlength="27">
+                    <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
+                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
                   <% } %>
                   <span class="error">This offer name is already being used</span>
                 </div>
