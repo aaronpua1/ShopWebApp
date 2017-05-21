@@ -442,7 +442,6 @@ app.get('/create-offer', function(req, res) {
             console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
         }
         
-        //console.log(JSON.stringify(result_metafields));
         console.log(JSON.stringify(result_values));
         res.render('create_offer', {
             title: 'Create Your Offer', 
