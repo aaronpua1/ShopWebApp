@@ -8,9 +8,9 @@
   </head>
   <body>
     <script>
-      $( document ).ready(function() {
-        $('#shop').val(<%= shop %>);
-      });
+      /*$( document ).ready(function() {
+        $('#shop').val();
+      });*/
     </script>
     <h1>Install the test app!</h1>
     <form action="/shopify_auth" method="GET">
@@ -19,7 +19,7 @@
 		      <div class="row collapse">
 		        <label>Input Label</label>
 		        <div class="small-6 columns">
-		          <input id="shop" type="text" placeholder="shopname" name="shop"/>
+		          <input id="shop" type="text" placeholder="shopname" name="shop" value="<%= shop %>"/>
 		        </div>
 		        <div class="small-6 columns">
 		          <span class="postfix">.myshopify.com</span>
