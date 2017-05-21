@@ -352,9 +352,9 @@
                 <label class="control-label" for="offer_name">Offer Name</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only" style="width: 49%;" type="text" maxlength="27">
+                    <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" disabled>
+                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" readonly="readonly">
                   <% } %>
                   <span class="error">This offer name is already being used</span>
                 </div>
