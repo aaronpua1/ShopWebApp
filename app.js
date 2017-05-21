@@ -344,7 +344,7 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.body));
+        console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
         res.redirect('/install');
     }
 })
