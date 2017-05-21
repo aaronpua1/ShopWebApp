@@ -301,7 +301,6 @@ app.get('/', function(req, res) {
         res.redirect('/install');
     }
 })*/
-
 // This is to render the current-offers page that shows all active offers created by store owner 
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
