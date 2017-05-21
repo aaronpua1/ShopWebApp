@@ -248,9 +248,9 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        /*$('#border_color').on('input', function() {
+        $('#border_color').on('input', function() {
             var input=$(this);
-            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
+            var re = /^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(transparent)$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
@@ -259,7 +259,7 @@
         });
         $('#border_highlight_color').on('input', function() {
             var input=$(this);
-            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
@@ -268,7 +268,7 @@
         });
         $('#background_color').on('input', function() {
             var input=$(this);
-            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
@@ -277,14 +277,14 @@
         });
         $('#button_color').on('input', function() {
             var input=$(this);
-            var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){3}$/;
+            var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-*/
+
         function validate() {            
             var validated = true;            
             //var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
@@ -399,7 +399,7 @@
                   <% } else { %>
                     <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" readonly="readonly">
                   <% } %>
-                  <span class="error">This offer name is already being used</span>
+                  <span class="error">This offer name is already being used.</span>
                 </div>
               </div>
             </div>
@@ -431,14 +431,10 @@
             </div>
            <div class="form-group col-md-12 offer-input-groups">
               <div class="control-group">
-                <label class="control-label" for="border_color">Upsell Border Color</label>
+                <label class="control-label" for="border_color">Upsell Border Color (For borderless use: "transparent")</label>
                 <div class="controls">
-                  <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
-                  <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
-                  <% } %>
-                  <span class="error">This field input is invalid (Example: 0,0,0,0)</span>
+                  <input class="form-control" id="border_color" name="border_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
+                  <span class="error">This field input is invalid. Please enter hex color value.</span>
                 </div>
               </div>
            </div>
@@ -446,12 +442,8 @@
               <div class="control-group">
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
-                  <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
-                  <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
-                  <% } %>
-                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
+                  <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
+                  <span class="error">This field input is invalid. Please enter hex color value.</span>
                 </div>
               </div>
            </div>
@@ -459,12 +451,8 @@
               <div class="control-group">
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
-                  <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
-                  <% } else { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
-                  <% } %>
-                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
+                  <input class="form-control" id="background_color" name="background_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
+                  <span class="error">This field input is invalid. Please enter hex color value.</span>
                 </div>
               </div>
            </div>
@@ -472,12 +460,8 @@
               <div class="control-group">
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
-                  <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
-                  <% } else { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
-                  <% } %>
-                  <span class="error">This field input is invalid (Example: 0,0,0)</span>
+                  <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
+                  <span class="error">This field input is invalid. Please enter hex color value.</span>
                 </div>
               </div>
             </div>
@@ -772,7 +756,10 @@ input.valid, textarea.valid{
   color: red;
   margin-left: 10px;
 }
-
+.form-group.required .control-label:after { 
+   content:"*";
+   color:red;
+}
 </style>
 </body>
 </body>
