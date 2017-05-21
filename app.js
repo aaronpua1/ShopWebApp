@@ -268,7 +268,7 @@ app.get('/test-metafields', function(req, res) {
 app.get('/install', function(req, res) {
     res.render('app_install', {
         title: 'Shopify Embedded App',
-        shop: 'hello'
+        shop: req.query.shop
     });
 })
 
@@ -344,7 +344,7 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
+        //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
         res.redirect('/install');
     }
 })
