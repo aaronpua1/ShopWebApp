@@ -267,7 +267,8 @@ app.get('/test-metafields', function(req, res) {
 // Renders the install/login form
 app.get('/install', function(req, res) {
     res.render('app_install', {
-        title: 'Shopify Embedded App'
+        title: 'Shopify Embedded App',
+        shop: 'hello'
     });
 })
 
@@ -343,7 +344,7 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        console.log(JSON.stringify(req));
+
         res.redirect('/install');
     }
 })
