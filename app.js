@@ -345,7 +345,7 @@ app.get('/', function(req, res) {
         })
     } else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
-        req.session.shop = req.query.shop.replace(".shopify.com", "");
+        req.session.shop = req.query.shop.replace(".myshopify.com", "");
         res.redirect('/shopify_auth');
     }
 })
