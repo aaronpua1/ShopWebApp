@@ -268,7 +268,7 @@ app.get('/test-metafields', function(req, res) {
 app.get('/install', function(req, res) {
     res.render('app_install', {
         title: 'Shopify Embedded App',
-        shop: req.session.shop
+        shop: req.query.shop
     });
 })
 
