@@ -343,9 +343,17 @@ app.get('/', function(req, res) {
                 current_offers: values
             });
         })
-    } else {
-        //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
-        res.redirect('/install');
+    } 
+    else {
+        if (req.query.shop) {
+            req.session.shop = req.query.shop;
+            res.render('embedded_app_redirect', {
+                shop: req.query.shop,
+                api_key: config.oauth.api_key,
+                scope: config.oauth.scope,
+                redirect_uri: config.oauth.redirect_uri
+            });
+        }
     }
 })
 
