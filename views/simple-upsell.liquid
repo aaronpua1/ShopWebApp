@@ -37,19 +37,28 @@
                         <h5>{{ product.title }}</h5>
                       </div>
                       <div class="price col-md-12">
-                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}</span>
+                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}   </span>
+                        {% if product.compare_at_price > variants[0].price %}
+                          <s id="compare-price1" class="sale-price">
+                            {{ product.compare_at_price_max | money }}
+                          </s>
+                        {% endif %} 
                       </div>
                       <div class="variant col-md-12">
                         {% if variantSize <= 1 %}
                         <select id="variant1" class="variant-select" name="variant1" style="visibility: hidden;">
                           {% for variant in variants %}
-                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% if variant.available %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}-{{ product.compare_at_price_max | money }}">{{ variant.title }}</option>
+                            {% endif %}
                           {% endfor %}
                         </select>
                         {% else %}
                         <select id="variant1" class="variant-select" name="variant1">
                           {% for variant in variants %}
-                          <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                            {% if variant.available %}
+                              <option value="{{ variant.id }}-{{ variant.price | money }}-{{ product.compare_at_price_max | money }}">{{ variant.title }}</option>
+                            {% endif %}
                           {% endfor %}
                         </select>
                         {% endif %}
@@ -82,19 +91,28 @@
                               <h5>{{ item.title }}</h5>                              
                             </div>
                             <div class="price col-md-12">                              
-                              <span id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}</span>
+                              <span id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}  </span>                                                      
+                                {% if item.compare_at_price > variants[0].price %}
+                                  <s id="compare-price{{ forloop.index | plus: 1 }}" class="sale-price">
+                                    {{ item.compare_at_price_max | money }}
+                                  </s>
+                                {% endif %} 
                             </div>
                             <div class="variant col-md-12">
                             {% if variantSize <= 1 %}
                               <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}" style="visibility: hidden;">
                                 {% for variant in variants %}
-                                  <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                                  {% if variant.available %}
+                                    <option value="{{ variant.id }}-{{ variant.price | money }}-{{ item.compare_at_price_max | money }}">{{ variant.title }}</option>
+                                  {% endif %}
                                 {% endfor %}
                               </select>
                             {% else %}
                               <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}">
                                 {% for variant in variants %}
-                                  <option value="{{ variant.id }}-{{ variant.price | money }}">{{ variant.title }}</option>
+                                  {% if variant.available %}
+                                    <option value="{{ variant.id }}-{{ variant.price | money }}-{{ item.compare_at_price_max | money }}">{{ variant.title }}</option>
+                                  {% endif %}
                                 {% endfor %}
                               </select>
                             {% endif %}
@@ -116,7 +134,7 @@
                   <p style="font-size:17px; color:black; font-weight:bold;">
                     Total Price: <span id="total-price" style="color:red">$0.00</span>
                   </p>
-                  <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">Add to Cart</button>
+                  <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">ADD TO CART</button>
                 </div>
               </div>
             </div>
@@ -224,7 +242,13 @@
       var previous = jQuery(this).data('val').split('-');
       var current = jQuery('#variant1').val().split('-');
       jQuery('#c1').val(current[0]);
-      jQuery('#variant-price1').text(current[1]);      
+      jQuery('#variant-price1').text(current[1]);
+      if (current[2] > current[1]) {
+        jQuery('#compare-price1').text(current[2]);
+      }
+      else {
+        jQuery('#compare-price1').text("");
+      }
       if (jQuery('#c1').is(':checked')) {
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
@@ -236,7 +260,13 @@
       var previous = jQuery(this).data('val').split('-');
       var current = jQuery('#variant2').val().split('-');
       jQuery('#c2').val(current[0]);
-      jQuery('#variant-price2').text(current[1]);      
+      jQuery('#variant-price2').text(current[1]);
+      if (current[2] > current[1]) {
+        jQuery('#compare-price2').text(current[2]);
+      }
+      else {
+        jQuery('#compare-price2').text("");
+      }
       if (jQuery('#c2').is(':checked')) {
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
@@ -248,7 +278,13 @@
       var previous = jQuery(this).data('val').split('-');
       var current = jQuery('#variant3').val().split('-');
       jQuery('#c3').val(current[0]);
-      jQuery('#variant-price3').text(current[1]);      
+      jQuery('#variant-price3').text(current[1]);   
+      if (current[2] > current[1]) {
+        jQuery('#compare-price3').text(current[2]);
+      }
+      else {
+        jQuery('#compare-price3').text("");
+      }
       if (jQuery('#c3').is(':checked')) {
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
@@ -260,7 +296,13 @@
       var previous = jQuery(this).data('val').split('-');
       var current = jQuery('#variant4').val().split('-');
       jQuery('#c4').val(current[0]);
-      jQuery('#variant-price4').text(current[1]);      
+      jQuery('#variant-price4').text(current[1]);  
+      if (current[2] > current[1]) {
+        jQuery('#compare-price4').text(current[2]);
+      }
+      else {
+        jQuery('#compare-price4').text("");
+      }
       if (jQuery('#c4').is(':checked')) {
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
@@ -569,11 +611,14 @@
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 0 0 5px 5px;
-    margin-top: 2px;
+    margin-top: 5px;
   }
   .col-item .title
   {
     float: none;
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
   }
   .col-item .title h5
   {
@@ -593,10 +638,16 @@
   }
   .col-item .price
   {
-    float: none;    
+    margin-top: 5px;
+    margin-bottom: 10px;
+    float: none; 
+    height: 20px;
+    min-height: 20px;
+    max-height: 20px;
   }
   .col-item .price span
   {
+	padding-top: 1px;
     margin-top: 1px;
     margin-bottom: 1px;
     height: auto;
@@ -609,7 +660,10 @@
   }
   .price-text-color
   {
-    color: #219FD1;
+    color: red;
+  }
+  .sale-price {
+  	color: grey;
   }
   .col-item .info .rating
   {
@@ -647,7 +701,7 @@
     text-indent: 0.01px;          /* Removes default arrow from firefox*/
     text-overflow: "";   
     max-height: 45px; 
-    font-size: 12px;
+    font-size: 14px;
     line-height: 0;
     background-color: white;
   }

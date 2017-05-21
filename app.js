@@ -1230,43 +1230,23 @@ app.post('/create-offer', function(req, res) {
         },
         function(callback) {
             async.waterfall([
-                function(callback) {                    
-                    if (req.body.key != "" && req.body.key != req.body.offer_name) {
-                        request.get({
-                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.key,
-                            headers: {
-                                'X-Shopify-Access-Token': req.session.access_token
-                            }
-                        }, 
-                        function(err,resp,body) {
-                            if(err) { 
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }
-                            console.log("GET RESPONSE: " + body);
-                            body = JSON.parse(body);
-                            callback(null, body.metafields);
-                        });
-                    }
-                    else {
-                        request.get({
-                            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
-                            headers: {
-                                'X-Shopify-Access-Token': req.session.access_token
-                            }
-                        }, 
-                        function(err,resp,body) {
-                            if(err) { 
-                                console.log(err);
-                                callback(true); 
-                                return; 
-                            }
-                            console.log("GET RESPONSE: " + body);
-                            body = JSON.parse(body);
-                            callback(null, body.metafields);
-                        });
-                    }
+                function(callback) {
+                    request.get({
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }, 
+                    function(err,resp,body) {
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log("GET RESPONSE: " + body);
+                        body = JSON.parse(body);
+                        callback(null, body.metafields);
+                    });                    
                 },
                 function(metafields, callback) {
                     var upsell_products = "";
@@ -1293,7 +1273,7 @@ app.post('/create-offer', function(req, res) {
                         products = req.body.product_dual_box;
                     }
                     
-                    if (req.body.key != "" && metafields.length > 0) {
+                    if (metafields.length > 0) {
                         var id = metafields[0].id.toString();
                         //var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
                         var data = {
