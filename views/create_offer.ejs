@@ -70,7 +70,23 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-
+        $("#border_color").colorpicker({
+            color: "transparent",
+            format: "hex"
+        });
+        $("#border_highlight_color").colorpicker({
+            color: "#ffaa00",
+            format: "hex"
+        });
+        $("#background_color").colorpicker({
+            color: "#ffffff",
+            format: "hex"
+        });
+        $("#button_color").colorpicker({
+            color: "#0057ff",
+            format: "hex"
+        });
+        
         $(".filter").hide();
         /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
         var isRequiredField = dualListBox.attr('required');
@@ -212,7 +228,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-        $('#border_color').on('input', function() {
+        /*$('#border_color').on('input', function() {
             var input=$(this);
             var re = /((^|\,)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$/;
             var is_valid = re.test(input.val());
@@ -248,11 +264,11 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
-
+*/
         function validate() {            
             var validated = true;            
-            var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
-            
+            //var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
+            /*
             for (var i = 0; i < tags.length; i++) {
                 var element = $("#" + tags[i]);
                 var valid = element.hasClass("valid");
@@ -265,6 +281,13 @@
                 else {
                     error_element.removeClass("error_show").addClass("error");
                 }
+            }*/
+            if (!$("#offer_name").hasClass("valid")) {
+                validated = false;                
+                $("#offer_name").removeClass("error").addClass("error_show"); 
+            }
+            else {                
+                $("#offer_name").removeClass("error_show").addClass("error");
             }
             if ($("#upsell-dual-box option:selected").length == 0) {
                 validated = false;                
@@ -391,9 +414,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control valid" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0,0)</span>
                 </div>
@@ -404,9 +427,9 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control valid" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
@@ -417,9 +440,9 @@
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control valid" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
@@ -430,9 +453,9 @@
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control invalid" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control valid" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
