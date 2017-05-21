@@ -343,7 +343,8 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        res.redirect('/shopify_auth');
+        console.log(JSON.stringify(req));
+        res.redirect('/install');
     }
 })
 
