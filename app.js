@@ -344,7 +344,7 @@ app.get('/', function(req, res) {
             });
         })
     } else {
-        res.redirect('/install');
+        res.redirect('/shopify_auth');
     }
 })
 
