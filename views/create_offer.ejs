@@ -70,22 +70,42 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });
-        $("#border_color").colorpicker({
-            color: "transparent",
-            format: "hex"
-        });
-        $("#border_highlight_color").colorpicker({
-            color: "#ffaa00",
-            format: "hex"
-        });
-        $("#background_color").colorpicker({
-            color: "#ffffff",
-            format: "hex"
-        });
-        $("#button_color").colorpicker({
-            color: "#0057ff",
-            format: "hex"
-        });
+        
+        <% if(typeof store != "undefined") { %>
+          $("#border_color").colorpicker({
+              color: "<%= store.border_color %>",
+              format: "hex"
+          });
+          $("#border_highlight_color").colorpicker({
+              color: "<%= store.border_highlight_color %>",
+              format: "hex"
+          });
+          $("#background_color").colorpicker({
+              color: "<%= store.background_color %>",
+              format: "hex"
+          });
+          $("#button_color").colorpicker({
+              color: "<%= store.button_color %>",
+              format: "hex"
+          });
+        <% } else { %>        
+          $("#border_color").colorpicker({
+              color: "transparent",
+              format: "hex"
+          });
+          $("#border_highlight_color").colorpicker({
+              color: "#ffaa00",
+              format: "hex"
+          });
+          $("#background_color").colorpicker({
+              color: "#ffffff",
+              format: "hex"
+          });
+          $("#button_color").colorpicker({
+              color: "#0057ff",
+              format: "hex"
+          });
+        <% } %>
         
         $(".filter").hide();
         /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
@@ -414,9 +434,9 @@
                 <label class="control-label" for="border_color">Upsell Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code (Example: 0,0,0,0)" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
+                    <input class="form-control" id="border_color" name="border_color" placeholder="Enter rgba color code" required="" style="width: 49%;" type="text" value="<%= store.border_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0,0)</span>
                 </div>
@@ -427,9 +447,9 @@
                 <label class="control-label" for="border_highlight_color">Upsell Highlight Border Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter rgba color code (Example: 255,162,0)" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
+                    <input class="form-control" id="border_highlight_color" name="border_highlight_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.border_highlight_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
@@ -440,9 +460,9 @@
                 <label class="control-label" for="background_color">Upsell Background Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter rgba color code (Example: 255,255,255)" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
+                    <input class="form-control" id="background_color" name="background_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.background_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
@@ -453,9 +473,9 @@
                 <label class="control-label" for="button_color">Cart Button Color</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
                   <% } else { %>
-                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter rgba color code (Example: 60,105,211)" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
+                    <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text" value="<%= store.button_color %>">
                   <% } %>
                   <span class="error">This field input is invalid (Example: 0,0,0)</span>
                 </div>
