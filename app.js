@@ -36,19 +36,29 @@ app.use(session({secret: 'keyboard cat'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Shopify Authentication
-
+/*// This function initializes the Shopify OAuth Process
+// The template in views/embedded_app_redirect.ejs is rendered 
+app.get('/shopify_auth', function(req, res) {
+    if (req.query.shop) {
+        req.session.shop = req.query.shop;
+        res.render('embedded_app_redirect', {
+            shop: req.query.shop,
+            api_key: config.oauth.api_key,
+            scope: config.oauth.scope,
+            redirect_uri: config.oauth.redirect_uri
+        });
+    }
+})*/
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
-    //if (req.query.shop) {
-        //req.session.shop = req.query.shop;
         res.render('embedded_app_redirect', {
             shop: req.session.shop,
             api_key: config.oauth.api_key,
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    //}
+    }
 })
 
 // After the users clicks 'Install' on the Shopify website, they are redirected here
