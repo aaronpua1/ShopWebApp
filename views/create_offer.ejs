@@ -56,8 +56,7 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 100,
-            nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
+            selectorMinimalHeight: 100
         });
 
         $("#product-dual-box").bootstrapDualListbox({
@@ -69,8 +68,7 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 100,
-            nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
+            selectorMinimalHeight: 100
         });
         
         <% if(typeof store != "undefined") { %>
@@ -364,6 +362,20 @@
                ShopifyApp.Bar.loadingOff();
            }, 35000);           
         });*/
+        var product_list = [];
+        <% if (product_selections.products.length > 250) { %>
+          <% for(var i = 0; i < product_selections.products.length; i++) { %>
+            product_list.push('<option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>');
+          <% } %>
+          $(window).load(function() {
+            for (var i = 0; i < product_list.length; i++) {
+              $('#upsell-dual-box').append(product_list[i]);
+              $('#product-dual-box').append(product_list[i]);
+            }
+            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+            $("#product-dual-box").bootstrapDualListbox('refresh', true);
+          });
+        <% } %>
     });
   </script>
   <div class="container">
@@ -530,10 +542,10 @@
                   <select class="selectpicker" data-width="49%" id="upsell_vendor" name="upsell_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><%for(var i = 0; i < vendors.length; i++) { %>
+                    </option><% for(var i = 0; i < vendors.length; i++) { %>
                     <option value="<%= vendors[i] %>">
                       <%= vendors[i] %>
-                    </option><%} %>
+                    </option><% } %>
                   </select>
                 </div>
               </div>
@@ -545,10 +557,10 @@
                   <select class="selectpicker" data-width="49%" id="upsell_type" name="upsell_type" style="display: none;">
                     <option value="none">
                       Filter by product type
-                    </option><%for(var i = 0; i < product_type.length; i++) { %>
+                    </option><% for(var i = 0; i < product_type.length; i++) { %>
                     <option value="<%= product_type[i] %>">
                       <%= product_type[i] %>
-                    </option><%} %>
+                    </option><% } %>
                   </select>
                 </div>
               </div>
@@ -565,8 +577,10 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
-                <% for(var i = 0; i < 500; i++) { %>
-                  <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
+                <% if (product_selections.products.length < 251) { %>
+                  <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
+                  <% } %>
                 <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
@@ -601,7 +615,7 @@
                     </option><%for(var i = 0; i < vendors.length; i++) { %>
                     <option value="<%= vendors[i] %>">
                       <%= vendors[i] %>
-                    </option><%} %>
+                    </option><% } %>
                   </select>
                 </div>
               </div>
@@ -616,7 +630,7 @@
                     </option><%for(var i = 0; i < product_type.length; i++) { %>
                     <option value="<%= product_type[i] %>">
                       <%= product_type[i] %>
-                    </option><%} %>
+                    </option><% } %>
                   </select>
                 </div>
               </div>
@@ -633,8 +647,10 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                <% for(var i = 0; i < 500; i++) { %>
-                  <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
+                <% if (product_selections.products.length < 251) { %>
+                  <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
+                  <% } %>
                 <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
