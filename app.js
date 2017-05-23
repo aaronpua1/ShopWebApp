@@ -626,7 +626,8 @@ app.get('/create-offer', function(req, res) {
                                 return; 
                             }
                             console.log("GET PRODUCT RESULTS: " + JSON.stringify(results[0]));
-                            //result_products = {'products':[]};
+                            result_products = {};
+                            //result_products['products'] = 
                             for (var i = 0; i < results.length; i++) {
                                 if (i == 0) {
                                     result_products['products'] = results[i].products;
