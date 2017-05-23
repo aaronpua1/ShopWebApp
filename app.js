@@ -535,10 +535,11 @@ app.get('/create-offer', function(req, res) {
                 }
             }];
             if (pages > 0){
-                for (var i = 1; i <= pages; i++) {
+                for (var i = 0; i < pages; i++) {
+                    var count = i + 1;
                     var temp_request = {
                         method: "GET",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + i + '&fields=id,title,vendor,product_type,handle,variants,image',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,variants,image',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token
                         }
@@ -605,6 +606,7 @@ app.get('/create-offer', function(req, res) {
                         unique_types.push(result_products.products[i].product_type);
                     }
                 }
+                console.log("SAD");
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
                     result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
@@ -623,7 +625,7 @@ app.get('/create-offer', function(req, res) {
                     console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
                     console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
                 }
-                
+                console.log("WTF");
                 callback(null, 'done');
                 //console.log(JSON.stringify(result_metafields));
                 //console.log(JSON.stringify(result_values));
