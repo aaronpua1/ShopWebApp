@@ -536,7 +536,8 @@ app.get('/create-offer', function(req, res) {
             },              
             function(err, results) {
                 if (err) {
-                    return next(err);
+                    console.log("METAFIELDS ERROR" + err);
+                    return next(err);                    
                 } 
                 
                 for (var i = 0; i < results.length; i++) {
@@ -556,7 +557,7 @@ app.get('/create-offer', function(req, res) {
                         string_keys += "|"
                     }
                 }
-                
+                console.log("RESULT STORE: " + JSON.stringify(result_store));
                 if (result_store) {
                     result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
                     store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
@@ -619,7 +620,8 @@ app.get('/create-offer', function(req, res) {
                         },  
                         function(err, results) {
                             if (err) {
-                                console.log(err);
+                                console.log("PRODUCT ERROR: " + err);
+                                //console.log(err);
                                 callback(true); 
                                 return; 
                             }
@@ -631,9 +633,11 @@ app.get('/create-offer', function(req, res) {
                                     result_products['products'] = results[i].products;
                                 }
                                 else {
-                                    result_products['products'].push.apply(result_products['products'], results[i].products);                                
+                                    //result_products['products'].push.apply(result_products['products'], results[i].products);  
+                                    result_products['products'] = result_products['products'].concat(results[i].products);                                     
                                 }                                
                             }
+                        
                             for (var i in result_products.products) {
                                 if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                                     unique_vendors.push(result_products.products[i].vendor);
@@ -661,7 +665,7 @@ app.get('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            result_products = body;
+                            result_products = JSON.parse(body);
                             for (var i in result_products.products) {
                                 if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                                     unique_vendors.push(result_products.products[i].vendor);
@@ -709,6 +713,7 @@ app.get('/create-offer', function(req, res) {
         });
     });
 })
+
 /*
 app.post('/create-offer', function(req, res) {
     async.waterfall([
