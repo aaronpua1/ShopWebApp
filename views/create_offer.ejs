@@ -386,7 +386,7 @@
 
         //<% } %>
         //var product = "<%- JSON.stringify(product_selections.products[0].handle) %>";
-        $('#key').val("<%- JSON.stringify(product_selections.products[0].handle) %>");
+        //$('#key').val("<%- JSON.stringify(product_selections.products[0].handle) %>");
     });
   </script>
   <div class="container">
@@ -658,11 +658,11 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                <% if (product_selections.products.length < 251) { %>
-                  <% for(var i = 0; i < product_selections.products.length; i++) { %>
+
+                  <% for(var i = 0; i < 1; i++) { %>
                     <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                   <% } %>
-                <% } %>
+
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
