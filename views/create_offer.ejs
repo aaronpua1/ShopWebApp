@@ -369,7 +369,8 @@
             //product_list.push(product.id);            
             //product_list.push('<option value="id=<%- product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%- product_selections.products[i].handle %>|product_type=<%- product_selections.products[i].product_type %>|vendor=<%- product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>');
           //<% } %>
-          $('.h1').text(product_list_selections.products[0].handle);
+          var product = <%- product_list_selections.products[0].handle %>;
+          $('.h1').text(product);
           /*$(window).load(function() {
             /*for (var i = 0; i < product_list.length; i++) {
               $('#upsell-dual-box').append(product_list[i]);
