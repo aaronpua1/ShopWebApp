@@ -493,7 +493,8 @@ app.get('/create-offer', function(req, res) {
 // https://silviomoreto.github.io/bootstrap-select/
 // http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
 app.get('/create-offer', function(req, res) {
-    var result_products = {products: []};
+    //var result_products = {products: []};
+    var result_products;
     var result_metafields;
     var result_store;
     var store_upsell;
@@ -583,7 +584,9 @@ app.get('/create-offer', function(req, res) {
                 
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
-                        result_products['products'].push.apply(result_products['products'], results[i].products);
+                        //result_products['products'].push.apply(result_products['products'], results[i].products);
+                        //result_products.push(results[i]);
+                        result_products = results[i];
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
@@ -593,14 +596,14 @@ app.get('/create-offer', function(req, res) {
                     }
                 }
                 
-                for (var i in result_products.products) {
+                /*for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
                     }
                     if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
                         unique_types.push(result_products.products[i].product_type);
                     }
-                }
+                }*/
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
                     result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
