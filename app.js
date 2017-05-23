@@ -533,7 +533,7 @@ app.get('/create-offer', function(req, res) {
                     }
                 });
             },              
-            function(err, result) {
+            function(err, results) {
                 if (err) {
                     console.log(err);
                     callback(true); 
