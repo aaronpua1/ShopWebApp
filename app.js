@@ -634,10 +634,11 @@ app.get('/create-offer', function(req, res) {
     ],
     function(err, result) {
         if (err) {
-            console.log("RESULT: " + JSON.stringify(result));
+            //console.log("RESULT: " + JSON.stringify(result));
             callback(true); 
             return; 
         }    
+        console.log("RESULT: " + JSON.stringify(result));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
