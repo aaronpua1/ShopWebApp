@@ -502,6 +502,8 @@ app.get('/create-offer', function(req, res) {
     var string_products;
     var result_values = {values: []};
     var string_keys = "";
+    var unique_vendors = [];
+    var unique_types = [];
     
     async.waterfall([
         function(callback) {
@@ -590,8 +592,6 @@ app.get('/create-offer', function(req, res) {
                         result_store = results[i];
                     }
                 }
-                var unique_vendors = [];
-                var unique_types = [];
                 
                 for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
