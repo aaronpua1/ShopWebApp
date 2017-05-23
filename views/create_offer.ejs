@@ -362,16 +362,6 @@
                ShopifyApp.Bar.loadingOff();
            }, 35000);           
         });*/
-        /*$(window).load(function(), {
-          <% if (product_selections.products.length >= 251) { %>
-            <% for(var i = 0; i < product_selections.products.length; i++) { %>
-              $("#upsell-dual-box").append('<option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>');
-              $("#product-dual-box").append('<option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>');
-            <% } %>
-            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-            $("#product-dual-box").bootstrapDualListbox('refresh', true);
-          <% } %>
-        });*/
     });
   </script>
   <div class="container">
@@ -572,10 +562,12 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">                
-                <% for(var i = 0; i < 1; i++) { %>
-                  <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
-                <% } %>
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
+
+                  <% for(var i = 0; i < 1; i++) { %>
+                    <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
+                  <% } %>
+
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -641,9 +633,9 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                <% for(var i = 0; i < 1; i++) { %>
-                  <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
-                <% } %>
+                  <% for(var i = 0; i < 1; i++) { %>
+                    <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
+                  <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
