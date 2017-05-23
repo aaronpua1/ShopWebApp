@@ -144,6 +144,9 @@
     {% endif %}
   {% endif %}
   <script type="text/javascript">
+    jQuery(window).bind("pageshow", function() {
+        jQuery('input:checkbox').prop('checked', false);
+    });
     var values = jQuery('#configs').val();
     values = parseValues(values);
     //var handles = parseHandles(values['handle']);
