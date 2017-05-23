@@ -634,7 +634,7 @@ app.get('/create-offer', function(req, res) {
     ],
     function(err, result) {
         if (err) {
-            console.log(err);
+            console.log("RESULT: " + JSON.stringify(result));
             callback(true); 
             return; 
         }    
