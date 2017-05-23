@@ -603,14 +603,14 @@ app.get('/create-offer', function(req, res) {
                     }
                 }
                 console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
-                /*for (var i in result_products.products) {
+                for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
                     }
                     if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
                         unique_types.push(result_products.products[i].product_type);
                     }
-                }*/
+                }
                 console.log("SAD");
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
