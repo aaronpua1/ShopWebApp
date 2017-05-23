@@ -129,7 +129,10 @@
             initDualListBox();
             */
         var keys = $('#keys').val();
-        keys = parseKeys(keys);
+        if (keys != "") {
+            keys = parseKeys(keys);
+        }
+        
         
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
