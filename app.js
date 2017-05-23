@@ -691,9 +691,10 @@ app.get('/create-offer', function(req, res) {
     ],
     function(err, result) {
         if (err) {
-            return next(err);
-        } 
-        console.log(JSON.stringify(result_values));
+            console.log(err);
+            return res.json(500);
+        }
+        //console.log(JSON.stringify(result_values));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
@@ -711,9 +712,8 @@ app.get('/create-offer', function(req, res) {
             vendors: unique_vendors,
             product_type: unique_types
         });
-    });
+    })
 })
-
 /*
 app.post('/create-offer', function(req, res) {
     async.waterfall([
