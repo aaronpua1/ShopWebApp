@@ -518,7 +518,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12" style="display: hidden;">
+            <div class="form-group col-md-12">
               <div class="control-group">
                 <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
                 <div class="controls">
@@ -540,9 +540,9 @@
                   <select class="selectpicker" data-width="49%" id="upsell_vendor" name="upsell_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><%for(var i = 0; i < vendors.length; i++) { %>
-                    <option value="<%= vendors[i] %>">
-                      <%= vendors[i] %>
+                    </option><%for(var i = 0; i < vendors.unique_vendors.length; i++) { %>
+                    <option value="<%= vendors.unique_vendors[i] %>">
+                      <%= vendors.unique_vendors[i] %>
                     </option><%} %>
                   </select>
                 </div>
@@ -555,9 +555,9 @@
                   <select class="selectpicker" data-width="49%" id="upsell_type" name="upsell_type" style="display: none;">
                     <option value="none">
                       Filter by product type
-                    </option><%for(var i = 0; i < product_type.length; i++) { %>
-                    <option value="<%= product_type[i] %>">
-                      <%= product_type[i] %>
+                    </option><%for(var i = 0; i < product_type.unique_types.length; i++) { %>
+                    <option value="<%= product_type.unique_types[i] %>">
+                      <%= product_type.unique_types[i] %>
                     </option><%} %>
                   </select>
                 </div>
@@ -601,7 +601,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12" style="display: hidden;>
+            <div class="form-group col-md-12">
               <div class="control-group">
                 <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
                 <div class="controls">
