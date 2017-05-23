@@ -365,7 +365,7 @@
         var product_list = [];
         <% if (product_selections.products.length > 250) { %>
           <% for(var i = 0; i < product_selections.products.length; i++) { %>
-            product_list.push('<option value="id=<%- product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%- product_selections.products[i].handle %>|product_type=<%- product_selections.products[i].product_type %>|vendor=<%- product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>');
+            product_list.push(JSON.parse('<option value="id=<%- product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%- product_selections.products[i].handle %>|product_type=<%- product_selections.products[i].product_type %>|vendor=<%- product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>'));
           <% } %>
           /*$(window).load(function() {
             /*for (var i = 0; i < product_list.length; i++) {
