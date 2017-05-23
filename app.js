@@ -626,9 +626,9 @@ app.get('/create-offer', function(req, res) {
                                 return; 
                             }
                             
-                            result_products['products'] = [];
+                            //result_products = {'products':[]};
                             for (var i in results) {
-                                result_products.products.push.apply(result_products.products, results[i].products);
+                                result_products['products'].push.apply(result_products.products, results[i].products);
                             }
                             for (var i in result_products.products) {
                                 if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
