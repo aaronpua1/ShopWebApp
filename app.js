@@ -505,7 +505,6 @@ app.get('/create-offer', function(req, res) {
     var string_keys = "";
     var unique_vendors = [];
     var unique_types = [];
-    var result_collections;
     
     async.waterfall([
         function(callback) {
@@ -529,12 +528,6 @@ app.get('/create-offer', function(req, res) {
         function(products, callback) {
             var pages = Number(products.count) / 250;
             var requests = [{
-                method: "GET",
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/custom_collections.json?limit=250&fields=id,handle,title',
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token
-                }
-            }, {
                 method: "GET",
                 url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
                 headers: {
@@ -600,11 +593,8 @@ app.get('/create-offer', function(req, res) {
                     else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
                     }
-                    else if (results[i].hasOwnProperty('metafield')) {
-                        result_store = results[i];
-                    }
                     else {
-                        result_collections = results[i];
+                        result_store = results[i];
                     }
                 }
                 
@@ -635,6 +625,22 @@ app.get('/create-offer', function(req, res) {
                     console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
                     console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
                 }
+                res.render('create_offer', {
+                    title: 'Create Your Offer', 
+                    api_key: config.oauth.api_key,
+                    shop: req.session.shop,
+                    product_selections: result_products,
+                    store: result_store,
+                    store_upsell: store_upsell,
+                    store_products: store_products,
+                    upsell_config: string_upsell,
+                    product_config: string_products,
+                    metafields: result_values,
+                    keys: string_keys,
+                    key: req.query.key,
+                    vendors: unique_vendors,
+                    product_type: unique_types
+                });
                 console.log("WTF");
                 callback(null, 'done');
                 //console.log(JSON.stringify(result_metafields));
@@ -649,23 +655,7 @@ app.get('/create-offer', function(req, res) {
             return; 
         }    
         console.log("RESULT: " + JSON.stringify(result));
-        res.render('create_offer', {
-            title: 'Create Your Offer', 
-            api_key: config.oauth.api_key,
-            shop: req.session.shop,
-            collection_selections: result_collections,
-            product_selections: result_products,
-            store: result_store,
-            store_upsell: store_upsell,
-            store_products: store_products,
-            upsell_config: string_upsell,
-            product_config: string_products,
-            metafields: result_values,
-            keys: string_keys,
-            key: req.query.key,
-            vendors: unique_vendors,
-            product_type: unique_types
-        });
+
     });
 })
 /*
