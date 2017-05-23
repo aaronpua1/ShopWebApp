@@ -589,6 +589,8 @@ app.get('/create-offer', function(req, res) {
                     if (results[i].hasOwnProperty('products')){
                         //result_products['products'].push.apply(result_products['products'], results[i].products);
                         //result_products.push(results[i]);
+                        console.log("RESULTS: " + JSON.stringify(results[i].products));
+                        result_products.products = result_products.products.concat(results[i].products);
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
