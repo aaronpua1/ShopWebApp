@@ -544,11 +544,11 @@ app.get('/create-offer', function(req, res) {
                     if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
                     }
-                    else {
+                    if (results[i].hasOwnProperty('metafield')) {
                         result_store = results[i];
                     }
                 }
-                
+                console.log("METAFIELDS: " + JSON.stringify(result_metafields));
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
                     result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
