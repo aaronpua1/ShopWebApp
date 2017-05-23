@@ -539,7 +539,7 @@ app.get('/create-offer', function(req, res) {
                     var count = i + 1;
                     var temp_request = {
                         method: "GET",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,variants,image',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,image',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token
                         }
@@ -550,7 +550,7 @@ app.get('/create-offer', function(req, res) {
             else {
                 var temp_request = {
                     method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,image',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token
                     }
@@ -587,8 +587,8 @@ app.get('/create-offer', function(req, res) {
                 
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
-                        //result_products['products'].push.apply(result_products['products'], results[i].products);
-                        result_products.push(results[i]);
+                        result_products['products'].push.apply(result_products['products'], results[i].products);
+                        //result_products.push(results[i]);
                         //console.log("RESULTS: " + JSON.stringify(results[i].products));
                         //result_products.products = result_products.products.concat(results[i].products);
                     }
@@ -599,7 +599,7 @@ app.get('/create-offer', function(req, res) {
                         result_store = results[i];
                     }
                 }
-                console.log("RESULTS: " + JSON.stringify(result_products[0]));
+                console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
                 /*for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
