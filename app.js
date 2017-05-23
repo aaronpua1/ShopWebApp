@@ -492,157 +492,118 @@ app.get('/create-offer', function(req, res) {
 // http://bootsnipp.com/snippets/3xv0n
 // https://silviomoreto.github.io/bootstrap-select/
 // http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
+// This is to render the create-offer form page to allow users to customize their offers
+// http://bootsnipp.com/snippets/3xv0n
+// https://silviomoreto.github.io/bootstrap-select/
+// http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
 app.get('/create-offer', function(req, res) {
-    //var result_products = {products: []};
-    var result_products = {products: []};
-    var result_metafields;
-    var result_store;
-    var store_upsell;
-    var string_upsell;
-    var store_products;
-    var string_products;
-    var result_values = {values: []};
-    var string_keys = "";
-    var unique_vendors = [];
-    var unique_types = [];
+    var requests = [{
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, {
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/custom_collections.json?limit=250&fields=id,handle,title',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, {
+        method: "GET",
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }];
     
-    async.waterfall([
-        function(callback) {
-            request.get({
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/count.json',
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token
-                }
-            }, 
-            function(err,resp,body) {
-                if(err) { 
-                    console.log(err);
-                    callback(true); 
-                    return; 
-                }
-                console.log("GET RESPONSE: " + body);
-                body = JSON.parse(body);
+    if (Object.keys(req.query).length > 0) {
+        var temp_request = {
+            method: "GET",
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token
+            }
+        }
+        requests.push(temp_request);
+    }
+    async.map(requests, function(obj, callback) {
+        request(obj, function(err, resp, body) {
+            if (!err && resp.statusCode == 200) {
+                var body = JSON.parse(body);
                 callback(null, body);
-            });
-        },
-        function(products, callback) {
-            var pages = Number(products.count) / 250;
-            var requests = [{
-                method: "GET",
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token
-                }
-            }];
-            if (pages > 0){
-                for (var i = 0; i < pages; i++) {
-                    var count = i + 1;
-                    var temp_request = {
-                        method: "GET",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,variants,image',
-                        headers: {
-                            'X-Shopify-Access-Token': req.session.access_token
-                        }
-                    }
-                    requests.push(temp_request);
-                }
             }
             else {
-                var temp_request = {
-                    method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token
-                    }
-                }
-                requests.push(temp_request);
+                callback(err || resp.statusCode);
             }
-            if (Object.keys(req.query).length > 0) {
-                var temp_request = {
-                    method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token
-                    }
-                }
-                requests.push(temp_request);
-            }
-            async.map(requests, function(obj, callback) {
-                throttledRequest(obj, function(err, resp, body) {
-                    if (!err && resp.statusCode == 200) {
-                        var body = JSON.parse(body);
-                        callback(null, body);
-                    }
-                    else {
-                        callback(err || resp.statusCode);
-                    }
-                });
-            },  
-            function(err, results) {
-                if (err) {                   
-                    console.log("THIS FUCKING ERRROR: " + err);
-                     callback(err);
-                    return next(err);
-                }
-                
-                for (var i = 0; i < results.length; i++) {
-                    if (results[i].hasOwnProperty('products')){
-                        result_products['products'].push.apply(result_products['products'], results[i].products);
-                        //result_products.push(results[i]);
-                    }
-                    else if (results[i].hasOwnProperty('metafields')) {
-                        result_metafields = results[i];
-                    }
-                    else {
-                        result_store = results[i];
-                    }
-                }
-                
-                for (var i in result_products.products) {
-                    if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
-                        unique_vendors.push(result_products.products[i].vendor);
-                    }
-                    if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
-                        unique_types.push(result_products.products[i].product_type);
-                    }
-                }
-                console.log("SAD");
-                for (var i = 0; i < result_metafields.metafields.length; i++) {
-                    var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
-                    result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
-                    string_keys += result_metafields.metafields[i].key;
-                    if (i < result_metafields.metafields.length - 1) {
-                        string_keys += "|"
-                    }
-                }
-                
-                if (result_store) {
-                    result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
-                    store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
-                    store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));  
-                    string_upsell = stringify_configs(store_upsell.products);
-                    string_products = stringify_configs(store_products.products);
-                    console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
-                    console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
-                }
-                console.log("WTF");
-                callback(null, 'done');
-                //console.log(JSON.stringify(result_metafields));
-                //console.log(JSON.stringify(result_values));
-            });
-        }
-    ],
-    function(err, result) {
+        });
+    },  
+    function(err, results) {
         if (err) {
-            //console.log("RESULT: " + JSON.stringify(result));
-            callback(true); 
-            return; 
-        }    
-        console.log("RESULT: " + JSON.stringify(result));
+            return next(err);
+        } 
+        var result_collections;
+        var result_products;
+        var result_metafields;
+        var result_store;
+        var store_upsell;
+        var string_upsell;
+        var store_products;
+        var string_products;
+        var result_values = {values: []};
+        var string_keys = "";
+        
+        for (var i = 0; i < results.length; i++) {
+            if (results[i].hasOwnProperty('products')){
+                result_products = results[i];
+            }
+            else if (results[i].hasOwnProperty('metafields')) {
+                result_metafields = results[i];
+            }
+            else if (results[i].hasOwnProperty('metafield')) {
+                result_store = results[i];
+            }
+            else {
+                result_collections = results[i];
+            }
+        }
+        var unique_vendors = [];
+        var unique_types = [];
+        
+        for (var i in result_products.products) {
+            if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
+                unique_vendors.push(result_products.products[i].vendor);
+            }
+            if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
+                unique_types.push(result_products.products[i].product_type);
+            }
+        }
+        for (var i = 0; i < result_metafields.metafields.length; i++) {
+            var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
+            result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+            string_keys += result_metafields.metafields[i].key;
+            if (i < result_metafields.metafields.length - 1) {
+                string_keys += "|"
+            }
+        }
+        
+        if (result_store) {
+            result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
+            store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
+            store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));  
+            string_upsell = stringify_configs(store_upsell.products);
+            string_products = stringify_configs(store_products.products);
+            console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
+            console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
+        }
+        
+        //console.log(JSON.stringify(result_metafields));
+        console.log(JSON.stringify(result_values));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
+            collection_selections: result_collections,
             product_selections: result_products,
             store: result_store,
             store_upsell: store_upsell,
