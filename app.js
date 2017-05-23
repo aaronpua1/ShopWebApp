@@ -642,7 +642,7 @@ app.get('/create-offer', function(req, res) {
                                     unique_types.push(result_products.products[i].product_type);
                                 }
                             }
-                            console.log("GET PRODUCT RESULTS: " + JSON.stringify(result_products));
+                            console.log("GET PRODUCT RESULTS: " + JSON.stringify(result_products.products[0]));
                             console.log("GET PRODUCT RESULTS: " + JSON.stringify(unique_types));
                             callback(null, 'done');
                         });
