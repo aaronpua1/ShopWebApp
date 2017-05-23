@@ -625,7 +625,7 @@ app.get('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            
+                            console.log("GET PRODUCT RESULTS: " + JSON.stringify(results[0]));
                             //result_products = {'products':[]};
                             for (var i = 0; i < results.length; i++) {
                                 if (i == 0) {
