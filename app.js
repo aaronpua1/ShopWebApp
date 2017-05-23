@@ -354,8 +354,14 @@ app.get('/', function(req, res) {
         })
     } else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
-        req.session.shop = req.query.shop.replace(".myshopify.com", "");
-        res.redirect('/shopify_auth');
+        if (req.query.shop) {
+            req.session.shop = req.query.shop.replace(".myshopify.com", "");
+            res.redirect('/shopify_auth');
+        }
+        else {
+            res.redirect('/install');
+        }
+
     }
 })
 
