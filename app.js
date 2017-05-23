@@ -563,7 +563,17 @@ app.get('/create-offer', function(req, res) {
                 result_collections = results[i];
             }
         }
+        var unique_vendors = [];
+        var unique_types = [];
         
+        for (var i in result_products.products) {
+            if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
+                unique_vendors.push(result_products.products[i].vendor);
+            }
+            if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
+                unique_types.push(result_products.products[i].product_type);
+            }
+        }
         for (var i = 0; i < result_metafields.metafields.length; i++) {
             var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
             result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
@@ -598,7 +608,9 @@ app.get('/create-offer', function(req, res) {
             product_config: string_products,
             metafields: result_values,
             keys: string_keys,
-            key: req.query.key
+            key: req.query.key,
+            vendors: unique_vendors,
+            product_type: unique_types
         });
     });
 })
