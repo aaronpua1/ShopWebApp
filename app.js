@@ -453,13 +453,13 @@ app.get('/create-offer', function(req, res) {
         var unique_vendors = [];
         var unique_types = [];
         
-        for (var i in result_products) {
-            if (unique_vendors.indexOf(result_products[i].vendor) === -1) {
-                unique_vendors.push(result_products[i].vendor);
-                console.log("UNIQUE VENDOR: " + result_products[i].vendor);
+        for (var i in result_products.products) {
+            if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
+                unique_vendors.push(result_products.products[i].vendor);
+                //console.log("UNIQUE VENDOR: " + result_products[i].vendor);
             }
-            if (unique_types.indexOf(result_products[i].product_type) === -1) {
-                unique_types.push(result_products[i].product_type);
+            if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
+                unique_types.push(result_products.products[i].product_type);
             }
         }
         /*
