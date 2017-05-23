@@ -367,16 +367,16 @@
           <% for(var i = 0; i < product_selections.products.length; i++) { %>
             product_list.push('<option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>');
           <% } %>
-          $(window).load(function() {
+          /*$(window).load(function() {
             /*for (var i = 0; i < product_list.length; i++) {
               $('#upsell-dual-box').append(product_list[i]);
               $('#product-dual-box').append(product_list[i]);
-            }*/
+            }
             $('#upsell-dual-box').append(product_list[0]);
             $('#product-dual-box').append(product_list[0]);
             $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             $("#product-dual-box").bootstrapDualListbox('refresh', true);
-          });
+          });*/
         <% } %>*/
 
     });
