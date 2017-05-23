@@ -385,7 +385,7 @@
         //<% if (product_selections.products.length > 250) { %>
 
         //<% } %>
-        var product = JSON.stringify(<%- product_selections.products[0].handle %>);
+        var product = <%- JSON.stringify(product_selections.products[0].handle) %>;
         $('.h1').text(product);
     });
   </script>
