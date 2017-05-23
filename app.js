@@ -579,9 +579,9 @@ app.get('/create-offer', function(req, res) {
                 });
             },  
             function(err, results) {
-                if (err) {
-                    callback(null, 'done')
+                if (err) {                   
                     console.log("THIS FUCKING ERRROR: " + err);
+                     callback(err);
                     return next(err);
                 }
                 
