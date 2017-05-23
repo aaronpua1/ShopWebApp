@@ -540,9 +540,9 @@
                   <select class="selectpicker" data-width="49%" id="upsell_vendor" name="upsell_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><%for(var i = 0; i < vendors.length; i++) { %>
-                    <option value="<%= vendors[i] %>">
-                      <%= vendors[i] %>
+                    </option><%for(var i = 0; i < vendors.unique_vendors.length; i++) { %>
+                    <option value="<%= vendors.unique_vendors[i] %>">
+                      <%= vendors.unique_vendors[i] %>
                     </option><%} %>
                   </select>
                 </div>

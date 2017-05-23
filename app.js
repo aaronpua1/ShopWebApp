@@ -456,6 +456,7 @@ app.get('/create-offer', function(req, res) {
         for (var i in result_products) {
             if (unique_vendors.indexOf(result_products[i].vendor) === -1) {
                 unique_vendors.push(result_products[i].vendor);
+                console.log("UNIQUE VENDOR: " + result_products[i].vendor);
             }
             if (unique_types.indexOf(result_products[i].product_type) === -1) {
                 unique_types.push(result_products[i].product_type);
