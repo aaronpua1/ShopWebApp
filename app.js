@@ -597,7 +597,7 @@ app.get('/create-offer', function(req, res) {
                         for (var i = 1; i <= pages; i++) {
                             var temp_request = {
                                 method: "GET",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250' + i + '&fields=id,title,vendor,product_type,handle,variants,image',
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + i + '&fields=id,title,vendor,product_type,handle,variants,image',
                                 headers: {
                                     'X-Shopify-Access-Token': req.session.access_token
                                 }
