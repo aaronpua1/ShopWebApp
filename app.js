@@ -638,7 +638,7 @@ app.get('/create-offer', function(req, res) {
             callback(true); 
             return; 
         }    
-        console.log("RESULT: " + JSON.stringify(result_products));
+        //console.log("RESULT: " + JSON.stringify(result_products));
         result_products = JSON.parse(result_products);
         res.render('create_offer', {
             title: 'Create Your Offer', 
