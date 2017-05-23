@@ -368,6 +368,8 @@
               $("#upsell-dual-box").append('<option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>');
               $("#product-dual-box").append('<option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>');
             <% } %>
+            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+            $("#product-dual-box").bootstrapDualListbox('refresh', true);
           <% } %>
         });
     });
