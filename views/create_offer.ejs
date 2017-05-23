@@ -520,21 +520,6 @@
             </div>
             <div class="form-group col-md-12">
               <div class="control-group">
-                <label class="control-label" for="upsell_custom_collection">Filter by custom collection</label>
-                <div class="controls">
-                  <select class="selectpicker" data-width="49%" id="upsell_custom_collection" name="upsell_custom_collection" style="display: none;">
-                    <option value="none">
-                      Filter by custom collection
-                    </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                    <option value="<%= collection_selections.custom_collections[i].title %>">
-                      <%= collection_selections.custom_collections[i].title %>
-                    </option><%} %>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-12">
-              <div class="control-group">
                 <label class="control-label" for="upsell_vendor">Filter by vendor</label>
                 <div class="controls">
                   <select class="selectpicker" data-width="49%" id="upsell_vendor" name="upsell_vendor" style="display: none;">
@@ -598,21 +583,6 @@
                 <label class="control-label" for="product_title">Filter by product title</label>
                 <div class="controls">
                   <input class="form-control" id="product_title" name="product_title" placeholder="Enter product title" style="width: 49%;" type="text">
-                </div>
-              </div>
-            </div>
-            <div class="form-group col-md-12">
-              <div class="control-group">
-                <label class="control-label" for="product_custom_collection">Filter by custom collection</label>
-                <div class="controls">
-                  <select class="selectpicker" data-width="49%" id="product_custom_collection" name="product_custom_collection" style="display: none;">
-                    <option value="none">
-                      Filter by custom collection
-                    </option><%for(var i = 0; i < collection_selections.custom_collections.length; i++) { %>
-                    <option value="<%= collection_selections.custom_collections[i].title %>">
-                      <%= collection_selections.custom_collections[i].title %>
-                    </option><%} %>
-                  </select>
                 </div>
               </div>
             </div>

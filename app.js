@@ -381,7 +381,7 @@ app.get('/', function(req, res) {
 app.get('/create-offer', function(req, res) {
     var requests = [{
         method: "GET",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,variants,image',
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?fields=id,title,vendor,product_type,handle,variants,image',
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
@@ -456,20 +456,11 @@ app.get('/create-offer', function(req, res) {
         for (var i in result_products.products) {
             if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                 unique_vendors.push(result_products.products[i].vendor);
-                //console.log("UNIQUE VENDOR: " + result_products[i].vendor);
             }
             if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
                 unique_types.push(result_products.products[i].product_type);
             }
         }
-        /*
-        unique_vendors = unique_vendors.filter(function(elem, index, self) {
-            return index == self.indexOf(elem);
-        })
-        unique_types = unique_types.filter(function(elem, index, self) {
-            return index == self.indexOf(elem);
-        })
-        */
         for (var i = 0; i < result_metafields.metafields.length; i++) {
             var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
             result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
