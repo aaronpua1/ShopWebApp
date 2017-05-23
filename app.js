@@ -587,7 +587,7 @@ app.get('/create-offer', function(req, res) {
                 
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
-                        result_products['products'].push.apply(result_products['products'], results[i].products);
+                        //result_products['products'].push.apply(result_products['products'], results[i].products);
                         //result_products.push(results[i]);
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
@@ -639,7 +639,7 @@ app.get('/create-offer', function(req, res) {
             return; 
         }    
         //console.log("RESULT: " + JSON.stringify(result_products));
-        result_products = JSON.parse(JSON.stringify(result_products));
+        //result_products = JSON.parse(JSON.stringify(result_products));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
