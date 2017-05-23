@@ -625,7 +625,7 @@ app.get('/create-offer', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            console.log("GET PRODUCT RESULTS: " + JSON.stringify(results[0]));
+                            //console.log("GET PRODUCT RESULTS: " + JSON.stringify(results[0]));
                             result_products = {};
                             //result_products['products'] = 
                             for (var i = 0; i < results.length; i++) {
@@ -644,6 +644,7 @@ app.get('/create-offer', function(req, res) {
                                     unique_types.push(result_products.products[i].product_type);
                                 }
                             }
+                            console.log("GET PRODUCT RESULTS: " + JSON.stringify(result_products));
                             callback(null, 'done');
                         });
                     }
