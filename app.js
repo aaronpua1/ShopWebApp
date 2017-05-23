@@ -493,8 +493,8 @@ app.get('/create-offer', function(req, res) {
 // https://silviomoreto.github.io/bootstrap-select/
 // http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
 app.get('/create-offer', function(req, res) {
-    //var result_products = {products: []};
-    var result_products = [];
+    var result_products = {products: []};
+    //var result_products = [];
     var result_metafields;
     var result_store;
     var store_upsell;
