@@ -712,7 +712,7 @@ app.get('/create-offer', function(req, res) {
             vendors: unique_vendors,
             product_type: unique_types
         });
-    })
+    });
 })
 /*
 app.post('/create-offer', function(req, res) {
