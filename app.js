@@ -591,7 +591,7 @@ app.get('/create-offer', function(req, res) {
                     });
                 },
                 function(products, callback) {
-                    var pages = products.count / 250;
+                    var pages = Number(products.count) / 250;
                     if (pages > 0) {
                         var requests = [];
                         for (var i = 1; i <= pages; i++) {
@@ -642,6 +642,7 @@ app.get('/create-offer', function(req, res) {
                                     unique_types.push(result_products.products[i].product_type);
                                 }
                             }
+                            result_products = JSON.parse(JSON.stringify(result_products));
                             console.log("GET PRODUCT RESULTS: " + JSON.stringify(result_products.products[0]));
                             console.log("GET PRODUCT RESULTS: " + JSON.stringify(unique_types));
                             callback(null, 'done');
