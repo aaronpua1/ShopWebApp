@@ -217,7 +217,7 @@
             else {
                 result += "vendor=(.*?)$";
             }
-            $('#key').val(result);
+            $('#key').val("id=<%- JSON.stringify(product_selections.products[0].id) %>|title=<%- JSON.stringify(product_selections.products[0].title) %>|handle=<%- JSON.stringify(product_selections.products[0].handle) %>|product_type=<%- JSON.stringify(product_selections.products[0].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[0].vendor) %>");
             $("#product-dual-box").bootstrapDualListbox('setNonSelectedFilter', result, true);
         });
 
