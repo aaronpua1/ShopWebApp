@@ -21,6 +21,7 @@ var throttledRequest = function() {
         request.apply(this, requestArgs);
     });
 };
+const util = require('util');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -646,6 +647,7 @@ app.get('/create-offer', function(req, res) {
         //console.log("RESULT: " + JSON.stringify(result_products));
         //result_products = JSON.parse(JSON.stringify(result_products));
         result_products = JSON.parse(JSON.stringify(result_products));
+        console.log(util.inspect(result_products, false, null));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
