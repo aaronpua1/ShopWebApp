@@ -563,11 +563,9 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
-
-                  <% for(var i = 0; i < 400; i++) { %>
-                    <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- product_selections.products[i].title %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
-                  <% } %>
-
+                <% for(var i = 0; i < 400; i++) { %>
+                  <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -633,9 +631,9 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                  <% for(var i = 0; i < 400; i++) { %>
-                    <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- product_selections.products[i].title %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- JSON.stringify(product_selections.products[i].title) %></option>
-                  <% } %>
+                <% for(var i = 0; i < 400; i++) { %>
+                  <option value="id=<%- JSON.stringify(product_selections.products[i].id) %>|title=<%- JSON.stringify(product_selections.products[i].title) %>|handle=<%- JSON.stringify(product_selections.products[i].handle) %>|product_type=<%- JSON.stringify(product_selections.products[i].product_type) %>|vendor=<%- JSON.stringify(product_selections.products[i].vendor) %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
