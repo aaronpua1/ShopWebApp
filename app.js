@@ -493,8 +493,8 @@ app.get('/create-offer', function(req, res) {
 // https://silviomoreto.github.io/bootstrap-select/
 // http://www.jqueryscript.net/demo/Responsive-jQuery-Dual-Select-Boxes-For-Bootstrap-Bootstrap-Dual-Listbox/
 app.get('/create-offer', function(req, res) {
-    var result_products = {products: []};
-    //var result_products = [];
+    //var result_products = {products: []};
+    var result_products = [];
     var result_metafields;
     var result_store;
     var store_upsell;
@@ -591,9 +591,10 @@ app.get('/create-offer', function(req, res) {
                         //result_products.push(results[i]);
                         //console.log("RESULTS: " + JSON.stringify(results[i].products));
                         //result_products.products = result_products.products.concat(results[i].products);
-                        for (var j = 0; j < results[i].products.length; j++) {
+                        /*for (var j = 0; j < results[i].products.length; j++) {
                             result_products.products.push(results[i].products[j]);
-                        }
+                        }*/
+                        result_products.push(results[i]);
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
@@ -602,15 +603,15 @@ app.get('/create-offer', function(req, res) {
                         result_store = results[i];
                     }
                 }
-                console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
-                for (var i in result_products.products) {
+                console.log("RESULTS: " + JSON.stringify(result_products[0].products[0]));
+                /*for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
                     }
                     if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
                         unique_types.push(result_products.products[i].product_type);
                     }
-                }
+                }*/
                 console.log("SAD");
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
@@ -645,7 +646,7 @@ app.get('/create-offer', function(req, res) {
         }    
         //console.log("RESULT: " + JSON.stringify(result_products));
         //result_products = JSON.parse(JSON.stringify(result_products));
-        result_products = JSON.parse(JSON.stringify(result_products));
+        //result_products = JSON.parse(JSON.stringify(result_products));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
