@@ -566,7 +566,7 @@
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <% for(var i = 0; i < 1; i++) { %>
                   <% for(var j = 0; j < product_selections[i].products.length; j++) { %>
-                    <option value="id=<%- product_selections[i].products[j].id %>|title=<%- product_selections[i].products[j].title %>|handle=<%- product_selections[i].products[j].handle %>|product_type=<%- product_selections[i].products[j].product_type %>|vendor=<%- product_selections[i].products[j].vendor %>" style="background-image: url(<%= product_selections[i].products[j].image.src %>);"><%- product_selections[i].products[j].title %></option>
+                    <option value="id=<%= product_selections[i].products[j].id %>|title=<%- product_selections[i].products[j].title %>|handle=<%= product_selections[i].products[j].handle %>|product_type=<%= product_selections[i].products[j].product_type %>|vendor=<%= product_selections[i].products[j].vendor %>" style="background-image: url(<%= product_selections[i].products[j].image.src %>);"><%- product_selections[i].products[j].title %></option>
                   <% } %>
                 <% } %>
               </select>
@@ -599,7 +599,7 @@
                   <select class="selectpicker" data-width="49%" id="product_vendor" name="product_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><%for(var i = 0; i < vendors.length; i++) { %>
+                    </option><% for(var i = 0; i < vendors.length; i++) { %>
                     <option value="<%- vendors[i] %>">
                       <%- vendors[i] %>
                     </option><% } %>
@@ -614,7 +614,7 @@
                   <select class="selectpicker" data-width="49%" id="product_type" name="product_type" style="display: none;">
                     <option value="none">
                       Filter by product type
-                    </option><%for(var i = 0; i < product_type.length; i++) { %>
+                    </option><% for(var i = 0; i < product_type.length; i++) { %>
                     <option value="<%= product_type[i] %>">
                       <%= product_type[i] %>
                     </option><% } %>
@@ -636,7 +636,7 @@
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <% for(var i = 0; i < 1; i++) { %>
                   <% for(var j = 0; j < product_selections[i].products.length; j++) { %>
-                    <option value="id=<%- product_selections[i].products[j].id %>|title=<%- product_selections[i].products[j].title %>|handle=<%- product_selections[i].products[j].handle %>|product_type=<%- product_selections[i].products[j].product_type %>|vendor=<%- product_selections[i].products[j].vendor %>" style="background-image: url(<%= product_selections[i].products[j].image.src %>);"><%- product_selections[i].products[j].title %></option>
+                    <option value="id=<%= product_selections[i].products[j].id %>|title=<%- product_selections[i].products[j].title %>|handle=<%= product_selections[i].products[j].handle %>|product_type=<%= product_selections[i].products[j].product_type %>|vendor=<%= product_selections[i].products[j].vendor %>" style="background-image: url(<%= product_selections[i].products[j].image.src %>);"><%- product_selections[i].products[j].title %></option>
                   <% } %>
                 <% } %>
               </select>
