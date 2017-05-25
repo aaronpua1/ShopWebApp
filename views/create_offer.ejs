@@ -47,7 +47,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        /*$("#upsell-dual-box").bootstrapDualListbox({
+        $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -69,7 +69,20 @@
             moveOnSelect: true,
             filterOnValues: true,
             selectorMinimalHeight: 100
-        });*/
+        });
+        /*
+        I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
+
+        dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
+
+        to this
+
+        // dualListbox.elements['select'+selectIndex].empty();
+
+        Voila! :)
+
+        What a great tool Thank you!
+        */
         <% if(typeof store != "undefined") { %>
           $("#border_color").colorpicker({
               color: "<%= store.border_color %>",
@@ -562,7 +575,7 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box duallistbox" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
-                <% for(var i = 0; i < 400; i++) { %>
+                <% for(var i = 0; i < 0; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
               </select>
@@ -630,7 +643,7 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box duallistbox" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                <% for(var i = 0; i < 400; i++) { %>
+                <% for(var i = 0; i < 0; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
               </select>
