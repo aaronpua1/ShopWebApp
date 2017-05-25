@@ -47,7 +47,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        /*$("#upsell-dual-box").bootstrapDualListbox({
+        $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -69,7 +69,8 @@
             moveOnSelect: true,
             filterOnValues: true,
             selectorMinimalHeight: 100
-        });*/
+        });
+        
         <% if(typeof store != "undefined") { %>
           $("#border_color").colorpicker({
               color: "<%= store.border_color %>",
@@ -561,7 +562,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <% for(var i = 0; i < 400; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
@@ -629,7 +630,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <% for(var i = 0; i < 400; i++) { %>
                   <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
