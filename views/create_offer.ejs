@@ -37,10 +37,10 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        $("#upsell-dual-box").DualListBox();
-        $("#product-dual-box").DualListBox();
+        //$("#upsell-dual-box").DualListBox();
         //$("#product-dual-box").DualListBox();
-        /*$("#upsell-dual-box").bootstrapDualListbox({
+
+        $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -49,7 +49,7 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 100
+            selectorMinimalHeight: 200
         });
 
         $("#product-dual-box").bootstrapDualListbox({
@@ -61,8 +61,8 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 100
-        });*/
+            selectorMinimalHeight: 200
+        });
 
         /*
         I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
@@ -386,12 +386,7 @@
           });
         });*/
         /*
-        var pages = $("#key").val();
-        pages = Number(pages) / 250;
-        
-        if (pages == 0) {
-          pages = 1;
-        }
+
         
         for (var i = 1; i <= pages; i++) {
           $.ajax({
@@ -404,16 +399,25 @@
           });
         }
         */
+        var pages = $("#key").val();
+        pages = Number(pages) / 250;
+        
+        if (pages == 0) {
+          pages = 1;
+        }
+        
         $("#btn-upsells").click(function( event ) {
+          for (var i = 1; i <= pages; i++) {
             $.ajax({
               type: 'GET',
-              url: '/products?page=1',
+              url: '/products?page=' + i,
               success: function(data) {
                 for (var i = 0; i < data.product_selections.products.length; i++) {
                   $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
                 }
               }
             });
+          }
         });
         $("#btn-products").click(function( event ) {
           $.ajax({
