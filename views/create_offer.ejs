@@ -145,7 +145,7 @@
             keys = parseKeys(keys);
         }
         
-        
+        /*
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
@@ -167,7 +167,7 @@
             }
           <% } %>
         <% } %>
-        
+        */
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
@@ -365,13 +365,34 @@
             this.submit();
             
         });
-        
-        var products = [];
-        <% for(var i = 0; i < 500; i++) { %>
-          var temp = '<option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>';
-          products.push(temp);
-        <% } %>
-        
+        $( "#btn-upsells" ).click(function( event ) {
+          $.ajax({
+            type: 'GET',
+            url: '/products',
+            success: function(data) {
+              for (var i = 0; i < data.product_selections.products.length; i++) {
+                $('#upsell-dual-box').append($("<option>", {
+                  value: "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor",
+                  text: product_selections.products[i].title
+                })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
+              }
+            }
+          });
+        });
+        $( "#btn-products" ).click(function( event ) {
+          $.ajax({
+            type: 'GET',
+            url: '/products',
+            success: function(data) {
+              for (var i = 0; i < data.product_selections.products.length; i++) {
+                $('#product-dual-box').append($("<option>", {
+                  value: "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor",
+                  text: product_selections.products[i].title
+                })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
+              }
+            }
+          });
+        });
         /*$('#create-offer').on('click', function() {
           ShopifyApp.Bar.loadingOn();
           var $this = $(this);
@@ -577,6 +598,7 @@
                   <div class="row">
                     <button type="button" id="btn-upsell-filter" class="btn btn-primary">Filter</button>
                     <button type="button" id="btn-upsell-reset" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-upsells" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
@@ -645,6 +667,7 @@
                   <div class="row">
                     <button type="button" id="btn-product-filter" class="btn btn-primary">Filter</button>                    
                     <button type="button" id="btn-product-reset" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-products" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
