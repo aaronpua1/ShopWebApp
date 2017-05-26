@@ -387,10 +387,7 @@
             success: function(data) {
               for (var i = 0; i < data.product_selections.products.length; i++) {
                 $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
-                $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
               }
-              //$('#upsell-dual-box').bootstrapDualListbox('refresh');
-              $('#key').attr("value", data.product_selections.products.length);
             }
           });
         });
@@ -401,10 +398,13 @@
             success: function(data) {
               for (var i = 0; i < data.product_selections.products.length; i++) {
                 $('#product-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
-                $("#product-dual-box").bootstrapDualListbox('refresh', true);
               }
             }
           });
+        });
+        $( document ).ajaxComplete(function() {
+          $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+          $("#product-dual-box").bootstrapDualListbox('refresh', true);          
         });
         /*$('#create-offer').on('click', function() {
           ShopifyApp.Bar.loadingOn();
