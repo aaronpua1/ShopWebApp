@@ -588,10 +588,6 @@ app.get('/create-offer', function(req, res) {
                 
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
-                        //result_products['products'].push.apply(result_products['products'], results[i].products);
-                        //result_products.push(results[i]);
-                        //console.log("RESULTS: " + JSON.stringify(results[i].products));
-                        //result_products.products = result_products.products.concat(results[i].products);
                         for (var j = 0; j < results[i].products.length; j++) {
                             result_products.products.push(results[i].products[j]);
                         }
