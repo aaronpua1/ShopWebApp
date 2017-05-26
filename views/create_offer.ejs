@@ -398,18 +398,18 @@
               }
           });
         }*/
+        var count = 1;
         $("#btn-upsells").click(function( event ) {
-          for (var i = 1; i <= pages; i++) {
             $.ajax({
               type: 'GET',
-              url: '/products?page=' + i,
+              url: '/products?page=' + count,
               success: function(data) {
                 for (var i = 0; i < data.product_selections.products.length; i++) {
                   $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
                 }
               }
             });
-          }
+            count++;
         });
         $("#btn-products").click(function( event ) {
           $.ajax({
@@ -422,9 +422,13 @@
             }
           });
         });
-        $( document ).ajaxComplete(function() {
+        $( document ).ajaxComplete(function() {          
           $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-          $("#product-dual-box").bootstrapDualListbox('refresh', true);          
+          $("#product-dual-box").bootstrapDualListbox('refresh', true);
+          
+          if (count <= pages) {
+            $("#btn-upsells").trigger("click");
+          }
         });
         /*$('#create-offer').on('click', function() {
           ShopifyApp.Bar.loadingOn();
