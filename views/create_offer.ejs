@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
+    <script src="/javascripts/dual-list-box.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-*.min.js"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -36,7 +37,7 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        $("#upsell-dual-box").bootstrapDualListbox({
+        /*$("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
             moveAllLabel: 'Move all',
@@ -58,7 +59,9 @@
             moveOnSelect: true,
             filterOnValues: true,
             selectorMinimalHeight: 100
-        });
+        });*/
+        $("#upsell-dual-box").DualListBox();
+        $("#product-dual-box").DualListBox();
         /*
         I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
 
