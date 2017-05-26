@@ -39,7 +39,7 @@
         ShopifyApp.Bar.loadingOff();
         //$("#upsell-dual-box").DualListBox();
         //$("#product-dual-box").DualListBox();
-
+        /*
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -63,7 +63,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 200
         });
-
+*/
         /*
         I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
 
@@ -645,7 +645,10 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10" data-source="/products?page=1">
+              <select class="dual-box duallistbox" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="20">
+                <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -711,7 +714,10 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10" data-source="/products?page=1">
+              <select class="dual-box duallistbox" id="product-dual-box" multiple="multiple" name="product_dual_box" size="20">
+                <% for(var i = 0; i < product_selections.products.length; i++) { %>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
