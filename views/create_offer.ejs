@@ -398,11 +398,11 @@
           $.ajax({
             type: 'GET',
             url: '/products',
-            success: function(data) {
-              count = data.product_selections.products.length;
-              for (var i = count; i < 421; i++) {
+            success: function(data) {              
+              for (var i = 0; i < 421; i++) {
                 $('#product-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
               }
+              //$("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           });          
         });
