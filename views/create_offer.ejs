@@ -413,7 +413,7 @@
               url: '/products?page=' + i,
               success: function(data) {
                 for (var i = 0; i < data.product_selections.products.length; i++) {
-                  $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+                  $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title));
                 }
               }
             });
