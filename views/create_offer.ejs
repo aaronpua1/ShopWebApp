@@ -145,7 +145,7 @@
             keys = parseKeys(keys);
         }
         
-        /*
+        
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
@@ -167,7 +167,7 @@
             }
           <% } %>
         <% } %>
-        */
+        
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
@@ -376,6 +376,7 @@
                   text: product_selections.products[i].title
                 })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
               }
+              $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
           });
         });
@@ -389,7 +390,8 @@
                   value: "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor",
                   text: product_selections.products[i].title
                 })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
-              }
+              }              
+              $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
           });
         });*/
