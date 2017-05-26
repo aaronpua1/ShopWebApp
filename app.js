@@ -666,8 +666,32 @@ app.get('/create-offer', function(req, res) {
         });
     });
 })
+    var next, previous, page;
+    page = req.query.page ? ~~req.query.page:1;
+
+    next = page + 1;
+    previous = page == 1 ? page : page - 1;
+
+    request.get({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&page=' + page,
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, function(err, resp, body){
+        if(err)
+            return next(err);
+        body = JSON.parse(body);
+        res.render('products', {
+            title: 'Products', 
+            api_key: config.oauth.api_key,
+            shop: req.session.shop,
+            next: next,
+            previous: previous,
+            products: body.products
+        });
+    })  
 app.get('/products', function(req, res) {
-    var result_products = {products: []};
+    var result_products;
     //var result_products = [];
     var result_metafields;
     var result_store;
@@ -707,30 +731,14 @@ app.get('/products', function(req, res) {
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
+            }, {
+                method: "GET",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&page=' + req.query.page + '&fields=id,title,vendor,product_type,handle,image',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
             }];
-            if (pages > 0){
-                for (var i = 0; i < pages; i++) {
-                    var count = i + 1;
-                    var temp_request = {
-                        method: "GET",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,image',
-                        headers: {
-                            'X-Shopify-Access-Token': req.session.access_token
-                        }
-                    }
-                    requests.push(temp_request);
-                }
-            }
-            else {
-                var temp_request = {
-                    method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,image',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token
-                    }
-                }
-                requests.push(temp_request);
-            }
+            
             if (Object.keys(req.query).length > 0) {
                 var temp_request = {
                     method: "GET",
@@ -761,13 +769,7 @@ app.get('/products', function(req, res) {
                 
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
-                        //result_products['products'].push.apply(result_products['products'], results[i].products);
-                        //result_products.push(results[i]);
-                        //console.log("RESULTS: " + JSON.stringify(results[i].products));
-                        //result_products.products = result_products.products.concat(results[i].products);
-                        for (var j = 0; j < results[i].products.length; j++) {
-                            result_products.products.push(results[i].products[j]);
-                        }
+                        result_products = results[i];
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
@@ -777,14 +779,14 @@ app.get('/products', function(req, res) {
                     }
                 }
                 console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
-                for (var i in result_products.products) {
+                /*for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
                     }
                     if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
                         unique_types.push(result_products.products[i].product_type);
                     }
-                }
+                }*/
                 console.log("SAD");
                 for (var i = 0; i < result_metafields.metafields.length; i++) {
                     var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
@@ -819,7 +821,7 @@ app.get('/products', function(req, res) {
         }    
         //console.log("RESULT: " + JSON.stringify(result_products));
         //result_products = JSON.parse(JSON.stringify(result_products));
-        result_products = JSON.parse(JSON.stringify(result_products));
+        //result_products = JSON.parse(JSON.stringify(result_products));
         //console.log(util.inspect(result_products, false, null));
         res.json({
             //title: 'Create Your Offer', 
@@ -2406,7 +2408,7 @@ app.get('/products', function(req, res) {
     previous = page == 1 ? page : page - 1;
 
     request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=5&page=' + page,
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&page=' + page,
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
