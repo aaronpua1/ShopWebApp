@@ -424,7 +424,7 @@
               url: '/products?page=' + i,
               success: function(data) {
                 for (var i = 0; i < data.product_selections.products.length; i++) {
-                  $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+                  $('#upsell-dual-box-source').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
                 }
               }
             });
@@ -723,10 +723,10 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-6">
-              <select class="dual-box duallistbox" id="product-dual-box-source" multiple="multiple" name="upsell_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
+            <div class="form-group col-md-12">
+              <select class="dual-box duallistbox" id="product-dual-box-source" multiple="multiple" name="product_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
               </select>
-              <select class="dual-box duallistbox" id="product-dual-box-dest" multiple="multiple" name="upsell_dual_box" size="20" data-text="Selected" data-search="Search for products">
+              <select class="dual-box duallistbox" id="product-dual-box-dest" multiple="multiple" name="product_dual_box" size="20" data-text="Selected" data-search="Search for products">
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
