@@ -37,6 +37,8 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
+        $("#upsell-dual-box").DualListBox();
+        $("#product-dual-box").DualListBox();
         /*$("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -60,8 +62,7 @@
             filterOnValues: true,
             selectorMinimalHeight: 100
         });*/
-        $("#upsell-dual-box").DualListBox();
-        $("#product-dual-box").DualListBox();
+
         /*
         I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
 
@@ -383,7 +384,7 @@
             }
           });
         });*/
-        
+        /*
         var pages = $("#key").val();
         pages = Number(pages) / 250;
         
@@ -391,7 +392,7 @@
           pages = 1;
         }
         
-        /*for (var i = 1; i <= pages; i++) {
+        for (var i = 1; i <= pages; i++) {
           $.ajax({
             type: 'GET',
             url: '/products?page' + i,
@@ -400,7 +401,7 @@
                 $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
               }
           });
-        }*/
+        }
         var count = 1;
         $("#btn-upsells").click(function( event ) {
             $.ajax({
