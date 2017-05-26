@@ -666,30 +666,7 @@ app.get('/create-offer', function(req, res) {
         });
     });
 })
-    var next, previous, page;
-    page = req.query.page ? ~~req.query.page:1;
 
-    next = page + 1;
-    previous = page == 1 ? page : page - 1;
-
-    request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&page=' + page,
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token
-        }
-    }, function(err, resp, body){
-        if(err)
-            return next(err);
-        body = JSON.parse(body);
-        res.render('products', {
-            title: 'Products', 
-            api_key: config.oauth.api_key,
-            shop: req.session.shop,
-            next: next,
-            previous: previous,
-            products: body.products
-        });
-    })  
 app.get('/products', function(req, res) {
     var result_products;
     //var result_products = [];
