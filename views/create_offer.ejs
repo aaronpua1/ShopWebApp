@@ -38,13 +38,13 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        $("#upsell-dual-box").listswap({
+        $("#upsell-dual-box-source, #upsell-dual-box-dest").listswap({
             truncate: false,
             is_scroll: true,
             label_add: 'Add',
             label_remove: 'Remove'
         });
-        $("#product-dual-box").listswap({
+        $("#product-dual-box-source, #product-dual-box-dest").listswap({
             truncate: false,
             is_scroll: true,
             label_add: 'Add',
@@ -656,7 +656,9 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="20">
+              <select class="dual-box duallistbox" id="upsell-dual-box-source" multiple="multiple" name="upsell_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
+              </select>
+              <select class="dual-box duallistbox" id="upsell-dual-box-dest" multiple="multiple" name="upsell_dual_box" size="20" data-text="Selected" data-search="Search for products">
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -721,8 +723,10 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="product-dual-box" multiple="multiple" name="product_dual_box" size="20">
+            <div class="form-group col-md-6">
+              <select class="dual-box duallistbox" id="product-dual-box-source" multiple="multiple" name="upsell_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
+              </select>
+              <select class="dual-box duallistbox" id="product-dual-box-dest" multiple="multiple" name="upsell_dual_box" size="20" data-text="Selected" data-search="Search for products">
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
