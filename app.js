@@ -2397,7 +2397,7 @@ app.get('/add_product', function(req, res) {
         shop: req.session.shop,
     });
 })
-
+/*
 app.get('/products', function(req, res) {
     var next, previous, page;
     page = req.query.page ? ~~req.query.page:1;
@@ -2424,7 +2424,7 @@ app.get('/products', function(req, res) {
         });
     })  
 })
-
+*/
 app.post('/products', function(req, res) {
     data = {
      product: {
