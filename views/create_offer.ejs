@@ -383,7 +383,7 @@
         });*/
         
         var pages = $("#key").val();
-        pages = pages / 250;
+        pages = Number(pages) / 250;
         
         if (pages == 0) {
           pages = 1;
