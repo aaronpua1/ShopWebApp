@@ -1496,7 +1496,7 @@ app.post('/create-offer', function(req, res) {
         res.redirect('/');
     });    
 })
-/
+/*
 //GOOD
 //https://cdn.shopify.com/s/files/1/1826/5527/products/news-icon-7728.png?v=1490957249
 //https://cdn.shopify.com/s/files/1/1826/5527/products/folder-icon-25160.png?v=1490957265
@@ -1941,7 +1941,7 @@ app.get('/deactivate-offer', function(req, res) {
         }
         res.json(200);
     });
-})*//*
+})*/
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
         function(callback) {
@@ -2024,7 +2024,7 @@ app.get('/delete-offer', function(req, res) {
         }
         res.json(200);
     });
-})*/
+})
 
 app.get('/activate-offer', function(req, res) {
     async.waterfall([
