@@ -430,7 +430,8 @@ app.get('/create-offer', function(req, res) {
     var string_keys = "";
     var unique_vendors = [];
     var unique_types = [];
-    var string_ids = "";
+    var string_meta_ids = "";
+    var string_owner_ids = "";
     
     async.waterfall([
         function(callback) {
@@ -547,7 +548,8 @@ app.get('/create-offer', function(req, res) {
                     result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
                     store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
                     store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
-                    string_ids = result_store.prod_meta_ids;
+                    string_meta_ids = result_store.prod_meta_ids;
+                    string_owner_ids = result_store.prod_owner_ids;
                     string_upsell = stringify_configs(store_upsell.products);
                     string_products = stringify_configs(store_products.products);
                     console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
@@ -585,7 +587,8 @@ app.get('/create-offer', function(req, res) {
             key: req.query.key,
             vendors: unique_vendors,
             product_type: unique_types,
-            prod_meta_ids: string_ids
+            prod_meta_ids: string_meta_ids,
+            prod_owner_ids: string_owner_ids
         });
     });
 })
