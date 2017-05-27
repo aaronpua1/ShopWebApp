@@ -1974,7 +1974,7 @@ app.get('/delete-offer', function(req, res) {
             
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = mergeValues(ids, owner_ids);
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
             
             for (var i in merged_values) {
                 var temp_request = {
@@ -2085,12 +2085,12 @@ app.get('/activate-offer', function(req, res) {
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = mergeValues(ids, owner_ids);
+            ar merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
             var upsells = JSON.parse(JSON.stringify(parse_products(values.upsell_products)));
             var string_upsells = "";
             
-            for (var i in upsells) {
-                string_upsells += upsells[i].handle;
+            for (var i in upsells.products) {
+                string_upsells += upsells.products[i].handle;
                 string_upsells += "|";
             }
             string_upsells = string_upsells.substring(0, string_upsells.length - 1);
@@ -2207,12 +2207,12 @@ app.get('/deactivate-offer', function(req, res) {
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = mergeValues(ids, owner_ids);
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
             var upsells = JSON.parse(JSON.stringify(parse_products(values.upsell_products)));
             var string_upsells = "";
             
-            for (var i in upsells) {
-                string_upsells += upsells[i].handle;
+            for (var i in upsells.products) {
+                string_upsells += upsells.products[i].handle;
                 string_upsells += "|";
             }
             string_upsells = string_upsells.substring(0, string_upsells.length - 1);
