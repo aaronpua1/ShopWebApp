@@ -642,13 +642,13 @@ app.get('/create-offer', function(req, res) {
         }    
         //console.log("RESULT: " + JSON.stringify(result_products));
         //result_products = JSON.parse(JSON.stringify(result_products));
-        //result_products = JSON.parse(JSON.stringify(result_products));
+        result_products = JSON.parse(result_products);
         //console.log(util.inspect(result_products, false, null));
         res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
-            product_selections: result_products.products,
+            product_selections: result_products,
             store: result_store,
             store_upsell: store_upsell,
             store_products: store_products,
