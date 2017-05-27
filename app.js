@@ -1297,14 +1297,16 @@ app.post('/create-offer', function(req, res) {
             var upsell_products = "";
             var products = "";
             var ids = "";
-            var owner_id = product_ids[0].metafield.owner_id;
+            var owner_ids = "";
 
             for (var i in product_ids) {
+                owner_ids += product_ids[i].metafield.owner_id;
+                owner_ids += ",";
                 ids += product_ids[i].metafield.id;
                 ids += ",";
             }
             ids = ids.replace(/\,$/, '');
-                               
+            owner_ids = owner_ids.replace(/\,$/, '');
             
             if (Array.isArray(req.body.upsell_dual_box)) {
                 for (var key in req.body.upsell_dual_box) {
@@ -1333,7 +1335,7 @@ app.post('/create-offer', function(req, res) {
                 var data = {
                     metafield: {
                         id: metafields[0].id,
-                        value: "offer_id:" + id + ";owner_id:" + owner_id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                        value: "offer_id:" + id + ";owner_ids:" + owner_ids + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
                         value_type: "string"
                     }
                 }
@@ -1358,7 +1360,7 @@ app.post('/create-offer', function(req, res) {
                     console.log("PUT RESPONSE: " + body);
                     
                     body = JSON.parse(body);
-                    callback(null, ids, owner_id);
+                    callback(null, ids, owner_ids);
                 });
             }
             else {
@@ -1367,7 +1369,7 @@ app.post('/create-offer', function(req, res) {
                     metafield: {
                         namespace: "suo",
                         key: req.body.offer_name,
-                        value: "offer_id:0;" + "owner_id:" + owner_id + "offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                        value: "offer_id:0;" + "owner_ids:" + owner_ids + "offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
                         value_type: "string"
                     }
                 }
@@ -1398,7 +1400,7 @@ app.post('/create-offer', function(req, res) {
                     var data2 = {
                         metafield: {
                             id: body1.metafield.id,
-                            value: "offer_id:" + id + ";owner_id:" + owner_id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                            value: "offer_id:" + id + ";owner_ids:" + owner_ids + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
                             value_type: "string"
                         }
                     }
@@ -1422,18 +1424,22 @@ app.post('/create-offer', function(req, res) {
                         }
                         //console.log("PUT RESPONSE: " + body2);
                         body2 = JSON.parse(body2);
-                        callback(null, ids, owner_id);
+                        callback(null, ids, owner_ids);
                     });
                 });
             }
         },
-        function(ids, owner_id, callback) { //HERE
+        function(ids, owner_ids, callback) { //HERE
             var product_differences;
 
-            if (req.body.prev_meta_ids != "") {
+            if (req.body.prev_meta_ids != "" && req.body.prev_owner_ids != "") {
                 var meta_ids = ids.split(",");
-                var prev_meta_ids = req.body.prev_meta_ids.split(",");                    
-                product_differences = findDifferences(prev_meta_ids, meta_ids);                      
+                var own_ids = owner_ids.split(",");
+                var prev_owner_ids = req.body.prev_owner_ids.split(",");
+                var prev_meta_ids = req.body.prev_meta_ids.split(",");
+                var merged_prev = mergeValues(own_ids, meta_ids);
+                var merged_current = mergeValues(prev_owner_ids, prev_meta_ids);
+                product_differences = findDifferences(merged_prev, merged_current);                      
             }
             else {
                 product_differences = [];
@@ -1445,7 +1451,7 @@ app.post('/create-offer', function(req, res) {
                 for (var i in product_differences) {
                     var temp_request = {
                         method: "DELETE",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + owner_id + '/metafields/' + product_differences[i] + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product_differences[i].owner_id + '/metafields/' + product_differences[i].meta_id + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token
                         }
@@ -1490,7 +1496,7 @@ app.post('/create-offer', function(req, res) {
         res.redirect('/');
     });    
 })
-/*
+/
 //GOOD
 //https://cdn.shopify.com/s/files/1/1826/5527/products/news-icon-7728.png?v=1490957249
 //https://cdn.shopify.com/s/files/1/1826/5527/products/folder-icon-25160.png?v=1490957265
@@ -1514,7 +1520,7 @@ app.get('/delete-offer', function(req, res) {
         } 
         res.json(200);
     });
-})*/
+})
 /*
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
@@ -1935,7 +1941,7 @@ app.get('/deactivate-offer', function(req, res) {
         }
         res.json(200);
     });
-})*/
+})*//*
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
         function(callback) {
@@ -1964,11 +1970,13 @@ app.get('/delete-offer', function(req, res) {
             var requests = [];
             
             var ids = values.prod_meta_ids.split(",");
+            var owner_ids = values.owner_ids.split(",");
+            var merged_values = mergeValues(ids, owner_ids);
             
-            for (var i in ids) {
+            for (var i in merged_values) {
                 var temp_request = {
                     method: "DELETE",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + merged_values[i].owner_id + '/metafields/' + merged_values[i].meta_id + '.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -2016,7 +2024,7 @@ app.get('/delete-offer', function(req, res) {
         }
         res.json(200);
     });
-})
+})*/
 
 app.get('/activate-offer', function(req, res) {
     async.waterfall([
@@ -2073,12 +2081,14 @@ app.get('/activate-offer', function(req, res) {
         function(values, callback) { //HERE            
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
+            var owner_ids = values.owner_ids.split(",");
+            var merged_values = mergeValues(ids, owner_ids);
             
-            for (var i in ids) {
+            for (var i in merged_values) {
                 var temp = "handle:" + values.upsell_products + ";status:on;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
                 var data = {
                     metafield: {
-                        id: values[i].metafields[0].id,
+                        id: merged_values[i].meta_id,
                         value: temp,
                         value_type: "string"
                     }
@@ -2088,7 +2098,7 @@ app.get('/activate-offer', function(req, res) {
                 
                 var temp_request = {
                     method: "PUT",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + merged_values[i].owner_id + '/metafields/' + merged_values[i].meta_id + '.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -2185,12 +2195,14 @@ app.get('/deactivate-offer', function(req, res) {
         function(values, callback) { //HERE            
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
+            var owner_ids = values.owner_ids.split(",");
+            var merged_values = mergeValues(ids, owner_ids);
             
-            for (var i in ids) {
+            for (var i in merged_values) {
                 var temp = "handle:" + values.upsell_products + ";status:off;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
                 var data = {
                     metafield: {
-                        id: values[i].metafields[0].id,
+                        id: merged_values[i].meta_id,
                         value: temp,
                         value_type: "string"
                     }
@@ -2200,7 +2212,7 @@ app.get('/deactivate-offer', function(req, res) {
                 
                 var temp_request = {
                     method: "PUT",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + merged_values[i].owner_id + '/metafields/' + merged_values[i].meta_id + '.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -2281,7 +2293,7 @@ function findDifferences(arr1, arr2) {
     for (var i = 0; i < arr1.length; i++) {
         var contains = false;
         for (var j = 0; j < arr2.length; j++) {
-            if (arr1[i] == arr2[j]) {
+            if (arr1[i].owner_id == arr2[j].owner_id && arr1[i].meta_id == arr2[j].meta_id) {
                 contains = true;
                 break;
             }
@@ -2338,7 +2350,14 @@ function parse_selections(values) {
     }
     return result;
 }
-
+function mergeValues(arr1, arr2) {
+    var result = [];
+    
+    for (var i = 0; i < arr1.length; i++) {
+        result.push({'owner_id':arr1[i], 'meta_id':arr2[i]})
+    }
+    return result;
+}
 function parse_products(values) {    
     var result = {products: []};
     var products = values.split(",");   
