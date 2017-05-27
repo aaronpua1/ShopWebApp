@@ -729,7 +729,7 @@
             <div class="form-group col-md-12">
               <select class="dual-box duallistbox" id="product-dual-box-source" multiple="multiple" name="product_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
                 <% for(var i = 0; i < 400; i++) { %>
-                  <option value="id=<%= product_selections[i].id %>|title=<%- product_selections[i].title %>|handle=<%= product_selections[i].handle %>|product_type=<%= product_selections[i].product_type %>|vendor=<%= product_selections[i].vendor %>" style="background-image: url(<%= product_selections[i].image.src %>);"><%- product_selections[i].title %></option>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
               </select>
               <select class="dual-box duallistbox" id="product-dual-box-dest" multiple="multiple" name="product_dual_box" size="20" data-text="Selected" data-search="Search for products">
