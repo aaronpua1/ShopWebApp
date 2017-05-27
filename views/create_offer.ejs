@@ -9,6 +9,7 @@
   });
   </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
@@ -19,7 +20,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link async href="http://fonts.googleapis.com/css?family=Advent%20Pro" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
   <title><%= title %></title>
 </head>
 <body>
@@ -36,17 +36,6 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        /*$(".dual-box").bootstrapDualListbox({
-            nonSelectedListLabel: 'Non-selected',
-            selectedListLabel: 'Selected',
-            moveAllLabel: 'Move all',
-            removeAllLabel: 'Remove all',
-            infoText: false,
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: true,
-            filterOnValues: true,
-            selectorMinimalHeight: 100
-        });*/
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -108,35 +97,13 @@
         <% } %>
         
         $(".filter").hide();
-        /*var dualListBox = $('select[multiple=multiple]').bootstrapDualListbox();
-        var isRequiredField = dualListBox.attr('required');
-
-        function initDualListBox() {
-            var instance = dualListBox.data('plugin_bootstrapDualListbox');
-            var nonSelectedList = instance.elements.select1;
-            var isDualListBoxValidated = !(instance.selectedElements > 0);
-
-            nonSelectedList.prop('required', isDualListBoxValidated);
-            instance.elements.originalSelect.prop('required', false);
-        }
-
-        dualListBox.change(function () {
-            if (isRequiredField)
-                initDualListBox();
-        });
-
-        if (isRequiredField)
-            initDualListBox();
-            */
+            
         var keys = $('#keys').val();
         if (keys != "") {
             keys = parseKeys(keys);
-        }
-        
+        }        
         
         <% if(typeof store != "undefined") { %>
-          //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
-          //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
             $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%- store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
           <% } %>
@@ -157,18 +124,7 @@
         <% } %>
         
         $( "#btn-upsell-filter" ).click(function( event ) {
-            //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
-            
-            /*if ($("#upsell_custom_collection").val() !== "none") {
-                $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").empty();
-                $("#bootstrap-duallistbox-nonselected-list_upsell-dual-box").append(
-                    '<%for(var i = 0; i < product_selections.products.length; i++) { %>' + 
-                        '<option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>"><%= product_selections.products[i].title %></option>'+
-                    '<% } %>'                    
-                );
-                $("#product-dual-box").bootstrapDualListbox('refresh', true);
-            }*/
             
             if ($("#upsell_title").val() !== "") {
                 result += "title=(.*?)" + $("#upsell_title").val() + "(.*?).";
@@ -235,6 +191,7 @@
                 $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             }
         });
+        
         $('#offer_name').on('input', function() {
             var input = $(this);
             var is_valid = true;
@@ -251,6 +208,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
+        
         $('#border_color').on('input', function() {
             var input=$(this);
             var re = /^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(transparent)$/;
@@ -260,6 +218,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
+        
         $('#border_highlight_color').on('input', function() {
             var input=$(this);
             var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -269,6 +228,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
+        
         $('#background_color').on('input', function() {
             var input=$(this);
             var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -278,6 +238,7 @@
             else
                 {input.removeClass("valid").addClass("invalid");}
         });
+        
         $('#button_color').on('input', function() {
             var input=$(this);
             var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -288,23 +249,9 @@
                 {input.removeClass("valid").addClass("invalid");}
         });
 
-        function validate() {            
-            var validated = true;            
-            //var tags = ["offer_name", "border_color", "border_highlight_color", "background_color", "button_color"];
-            /*
-            for (var i = 0; i < tags.length; i++) {
-                var element = $("#" + tags[i]);
-                var valid = element.hasClass("valid");
-                var error_element=$("span", element.parent());
-                
-                if (!valid) {
-                    validated = false;
-                    error_element.removeClass("error").addClass("error_show"); 
-                }
-                else {
-                    error_element.removeClass("error_show").addClass("error");
-                }
-            }*/
+        function validate() {
+            var validated = true;
+            
             if (!$("#offer_name").hasClass("valid")) {
                 validated = false;                
                 $("#offer_name").removeClass("error").addClass("error_show"); 
@@ -353,15 +300,6 @@
             this.submit();
             
         });
-        /*$('#create-offer').on('click', function() {
-          ShopifyApp.Bar.loadingOn();
-          var $this = $(this);
-          $this.button('loading');
-            setTimeout(function() {
-               $this.button('reset');
-               ShopifyApp.Bar.loadingOff();
-           }, 35000);           
-        });*/
     });
   </script>
   <div class="container">
@@ -375,7 +313,7 @@
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
-          <input class="form-control" id="key" name="key" value="">
+          <input class="form-control" type="hidden" id="key" name="key" value="">
           <input class="form-control" type="hidden" id="keys" name="keys" value="<%= keys %>">
         <% } else { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%= upsell_config %>>
@@ -564,7 +502,11 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                  <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
+                    <option>undefined option</option>
+                  <% } else { %>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                  <% } %>
                 <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
@@ -596,7 +538,7 @@
                   <select class="selectpicker" data-width="49%" id="product_vendor" name="product_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><%for(var i = 0; i < vendors.length; i++) { %>
+                    </option><% for(var i = 0; i < vendors.length; i++) { %>
                     <option value="<%= vendors[i] %>">
                       <%= vendors[i] %>
                     </option><% } %>
@@ -611,7 +553,7 @@
                   <select class="selectpicker" data-width="49%" id="product_type" name="product_type" style="display: none;">
                     <option value="none">
                       Filter by product type
-                    </option><%for(var i = 0; i < product_type.length; i++) { %>
+                    </option><% for(var i = 0; i < product_type.length; i++) { %>
                     <option value="<%= product_type[i] %>">
                       <%= product_type[i] %>
                     </option><% } %>
@@ -632,7 +574,11 @@
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
-                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                  <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
+                    <option>undefined option</option>
+                  <% } else { %>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                  <% } %>
                 <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
