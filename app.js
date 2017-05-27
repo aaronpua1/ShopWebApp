@@ -628,22 +628,6 @@ app.get('/create-offer', function(req, res) {
                     console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
                 }
                 console.log("WTF");
-                  res.render('create_offer', {
-                    title: 'Create Your Offer', 
-                    api_key: config.oauth.api_key,
-                    shop: req.session.shop,
-                    product_selections: result_products,
-                    store: result_store,
-                    store_upsell: store_upsell,
-                    store_products: store_products,
-                    upsell_config: string_upsell,
-                    product_config: string_products,
-                    metafields: result_values,
-                    keys: string_keys,
-                    key: req.query.key,
-                    vendors: unique_vendors,
-                    product_type: unique_types
-                });
                 callback(null, 'done');
                 //console.log(JSON.stringify(result_metafields));
                 //console.log(JSON.stringify(result_values));
@@ -660,11 +644,11 @@ app.get('/create-offer', function(req, res) {
         //result_products = JSON.parse(JSON.stringify(result_products));
         result_products = JSON.parse(JSON.stringify(result_products));
         //console.log(util.inspect(result_products, false, null));
-        /*res.render('create_offer', {
+        res.render('create_offer', {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
-            product_selections: result_products,
+            product_selections: result_products.products,
             store: result_store,
             store_upsell: store_upsell,
             store_products: store_products,
@@ -675,7 +659,7 @@ app.get('/create-offer', function(req, res) {
             key: req.query.key,
             vendors: unique_vendors,
             product_type: unique_types
-        });*/
+        });
     });
 })
 
