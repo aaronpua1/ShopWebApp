@@ -1297,7 +1297,7 @@ app.post('/create-offer', function(req, res) {
             var upsell_products = "";
             var products = "";
             var ids = "";
-            var owner_id = product_ids[0].owner_id;
+            var owner_id = product_ids[0].metafield.owner_id;
 
             for (var i in product_ids) {
                 ids += product_ids[i].metafield.id;
