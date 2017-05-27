@@ -1974,7 +1974,7 @@ app.get('/delete-offer', function(req, res) {
             
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(owner_ids, ids)));
             
             for (var i in merged_values) {
                 var temp_request = {
@@ -2085,7 +2085,7 @@ app.get('/activate-offer', function(req, res) {
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(owner_ids, ids)));
             var upsells = JSON.parse(JSON.stringify(parse_products(values.upsell_products)));
             var string_upsells = "";
             
@@ -2207,7 +2207,7 @@ app.get('/deactivate-offer', function(req, res) {
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(owner_ids, ids)));
             var upsells = JSON.parse(JSON.stringify(parse_products(values.upsell_products)));
             var string_upsells = "";
             
