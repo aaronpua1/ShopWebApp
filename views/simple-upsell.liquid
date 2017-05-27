@@ -1,8 +1,8 @@
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   {{ 'contained-bootstrap.min.css' | asset_url | stylesheet_tag }}
-
   {% if product.metafields.suop != blank %}
+	{% assign total = 0 %}    
     {% assign metafields = product.metafields.suop %}
 	{% assign configs = metafields.su1 %}    
     {% if configs contains "status:on" %}
@@ -30,14 +30,13 @@
               <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
                 <div class="col-item" id="item1" value="{{  }}">
                   <span class="tooltiptext">{{ product.title }}</span>
-                  <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ product | img_url: 'medium' }}"></div>
+                  <div class="photo"><a href="{{ product.url }}"><img alt="{{ product.title }}" class="img-responsive upsell-image" src="{{ product | img_url: 'medium' }}"></a></div>
                   <div class="info">
                     <div class="row">
                       <div class="title col-md-12">
-                        <h5>{{ product.title }}</h5>
-                      </div>
-                      <div class="price col-md-12">
-                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}   </span>
+                        <a href="{{ product.url }}" style="color: black;"><h5>{{ product.title }}</h5></a>
+                        {% assign total = total | plus: variants[0].price %}
+                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}   </span> 
                         {% if product.compare_at_price > variants[0].price %}
                           <s id="compare-price1" class="sale-price">
                             {{ product.compare_at_price_max | money }}
@@ -66,7 +65,7 @@
                     </div>
 
                     <div class="separator">
-                      <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon1" class="fa fa-shopping-cart" style="color:black;"></i><a id="text1" href="#">Add to bundle</a></p>
+                      <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon1" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text1" href="#">Remove item</a></p>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -84,19 +83,18 @@
                     <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
                       <div class="col-item" id="item{{ forloop.index | plus: 1 }}" value="{{  }}">
                         <span class="tooltiptext">{{ item.title }}</span>
-                        <div class="photo"><img alt="a" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></div>
+                        <div class="photo"><a href="{{ item.url }}"><img alt="{{ item.title }}" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></a></div>
                         <div class="info">
                           <div class="row">
                             <div class="title col-md-12">
-                              <h5>{{ item.title }}</h5>                              
-                            </div>
-                            <div class="price col-md-12">                              
+                              <a href="{{ item.url }}" style="color: black;"><h5>{{ item.title }}</h5></a>   
+                              {% assign total = total | plus: variants[0].price %}
                               <span id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}  </span>                                                      
-                                {% if item.compare_at_price > variants[0].price %}
-                                  <s id="compare-price{{ forloop.index | plus: 1 }}" class="sale-price">
-                                    {{ item.compare_at_price_max | money }}
-                                  </s>
-                                {% endif %} 
+                              {% if item.compare_at_price > variants[0].price %}
+                                <s id="compare-price{{ forloop.index | plus: 1 }}" class="sale-price">
+                                  {{ item.compare_at_price_max | money }}
+                                </s>
+                              {% endif %} 
                             </div>
                             <div class="variant col-md-12">
                             {% if variantSize <= 1 %}
@@ -120,7 +118,7 @@
                           </div>
 
                           <div class="separator">
-                            <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;"><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-shopping-cart" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Add to bundle</a></p>
+                            <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Remove item</a></p>
                           </div>
                           <div class="clearfix"></div>
                         </div>
@@ -132,7 +130,7 @@
               <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width: 20px;">
                 <div class="cart-confirmation">
                   <p style="font-size:17px; color:black; font-weight:bold;">
-                    Total Price: <span id="total-price" style="color:red">$0.00</span>
+                    Total Price: <span id="total-price" style="color:red">${{ total | divided_by: 100.0 }}</span>
                   </p>
                   <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">ADD TO CART</button>
                 </div>
@@ -145,7 +143,7 @@
   {% endif %}
   <script type="text/javascript">
     jQuery(window).bind("pageshow", function() {
-        jQuery('input:checkbox').prop('checked', false);
+        jQuery('input:checkbox').prop('checked', true);
     });
     var values = jQuery('#configs').val();
     values = parseValues(values);
@@ -166,10 +164,11 @@
       jQuery('#add-upsell').css('border-radius', '0px');
     }
     
-    jQuery('.col-item').css('border-color', values['border_color']); 
+    //jQuery('.col-item').css('border-color', values['border_color']);
+    jQuery('.upsell-icon').css('color', 'red');
     jQuery('.col-item').css('background-color', values['background_color']);
-    jQuery('#add-upsell').css('background-color', values['button_color']);
- 
+    jQuery('.col-item').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
+    jQuery('#add-upsell').css('background-color', values['button_color']);    
     
     Shopify.queue = [];
     function submitUpsell() {
@@ -227,11 +226,7 @@
       }
       return result;
     }
-    /*function parseHandles(values) {
-      var result = values.split("|");
-      
-      return result;
-    }*/
+
     jQuery("#variant1").on('focus', function () {
       jQuery(this).data('val', jQuery(this).val());
     }).change(function() {
@@ -247,8 +242,9 @@
       }
       if (jQuery('#c1').is(':checked')) {
         calculateTotal(previous[1], false);
-        calculateTotal(current[1], true);
+        calculateTotal(current[1], true);        
       }
+      jQuery("#variant1").blur();
     });
     jQuery("#variant2").on('focus', function () {
       jQuery(this).data('val', jQuery(this).val());
@@ -267,6 +263,7 @@
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
       }
+      jQuery("#variant2").blur();
     });
     jQuery("#variant3").on('focus', function () {
       jQuery(this).data('val', jQuery(this).val());
@@ -285,6 +282,7 @@
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
       }
+      jQuery("#variant3").blur();
     });
     jQuery("#variant4").on('focus', function () {
       jQuery(this).data('val', jQuery(this).val());
@@ -303,6 +301,7 @@
         calculateTotal(previous[1], false);
         calculateTotal(current[1], true);
       }
+      jQuery("#variant4").blur();
     });
     jQuery('#btn-id1').click(function(event) {
       if (jQuery('#c1').is(':checked')) {
@@ -487,13 +486,7 @@
     min-height: 315px;    
     max-width: 175px;    
     max-height: 315px;
-    border-radius: 10px;
-    background: #f2f2f2;
-    -webkit-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-    -moz-box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
-    /*border-color: transparent;*/
-    border: 1px solid black;
+    border-color: transparent;
   }
   .col-item .tooltiptext
   {
@@ -555,7 +548,7 @@
     background-color: #FFF;
   }
   .col-item .info
-  {
+  {    
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 0 0 5px 5px;
@@ -564,9 +557,11 @@
   .col-item .title
   {
     float: none;
-    height: 20px;
-    min-height: 20px;
-    max-height: 20px;
+    height: 25px;
+    min-height: 25px;
+    max-height: 25px;  
+    line-height: 115%;
+    margin-bottom: 28px;
   }
   .col-item .title h5
   {
@@ -574,9 +569,9 @@
     margin-top: 1px;
     margin-bottom: 1px;
     height: auto;
-    max-height: 24px;
+    max-height: 25px;
     text-align: left;
-    line-height: normal;
+    line-height: 115%;
     width: 100%;
     max-width: 170px;
     overflow: hidden;
@@ -584,8 +579,9 @@
     white-space: nowrap;
     font-size: 14px;
   }
-  .col-item .price
+  .col-item .title .price
   {
+    text-align: left;
     margin-top: 5px;
     margin-bottom: 10px;
     float: none; 
@@ -593,13 +589,14 @@
     min-height: 20px;
     max-height: 20px;
   }
-  .col-item .price span
+  .col-item .title span
   {
 	padding-top: 1px;
     margin-top: 1px;
     margin-bottom: 1px;
-    height: auto;
-    max-height: 20px;
+    height: 14;
+    max-height: 14px;
+    min-height: 14px;
     text-align: left;
     line-height: normal;
     width: 100%;
@@ -634,7 +631,7 @@
     text-align: center;
     line-height: 0;
     margin-top: 5px;
-    margin-bottom: 0;
+    margin-bottom: 5px;
   }
   .variant .variant-select 
   {
