@@ -947,7 +947,7 @@ app.get('/delete-offer', function(req, res) {
             for (var i in values.products) {
                 var temp_request = {
                     method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json?&namespace=suop&key=su1',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json?namespace=suop&key=su1',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -1095,7 +1095,7 @@ app.get('/activate-offer', function(req, res) {
             for (var i in values.products) {
                 var temp_request = {
                     method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json&namespace=suop&key=su1',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json?namespace=suop&key=su1',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -1245,7 +1245,7 @@ app.get('/deactivate-offer', function(req, res) {
             for (var i in values.products) {
                 var temp_request = {
                     method: "GET",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json&namespace=suop&key=su1',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.products[i].id + '/metafields.json?namespace=suop&key=su1',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
