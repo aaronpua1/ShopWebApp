@@ -2302,7 +2302,7 @@ function findDifferences(arr1, arr2) {
             }
         }
         if (!contains) {
-            difference.push(arr1[i]);
+            difference.push({'owner_id':arr1[i].owner_id, 'meta_id':arr1[i].meta_id});
         }
     }
     return difference;
@@ -2357,7 +2357,7 @@ function mergeValues(arr1, arr2) {
     var result = [];
     
     for (var i = 0; i < arr1.length; i++) {
-        result.push({'owner_id':arr1[i], 'meta_id':arr2[i]})
+        result.push({'owner_id':arr1[i], 'meta_id':arr2[i]});
     }
     return result;
 }
