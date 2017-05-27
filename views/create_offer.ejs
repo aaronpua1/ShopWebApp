@@ -192,6 +192,18 @@
             }
         });
         
+        $("#product-dual-box").on('change', function(){
+            var size = $("#product-dual-box").find(":selected").size();
+            if(size > 40){
+                $("#product-dual-box").find(":selected").each(function(ind, sel){            
+                    if(ind > 39)
+                        $(this).prop("selected", false)
+                })
+                alert('You can only choose 40!');
+                $("#product-dual-box").bootstrapDualListbox('refresh', true);
+            }
+        });
+        
         $('#offer_name').on('input', function() {
             var input = $(this);
             var is_valid = true;
