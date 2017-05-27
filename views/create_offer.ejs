@@ -38,7 +38,7 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        $("#upsell-dual-box-source, #upsell-dual-box-dest").listswap({
+        /*$("#upsell-dual-box-source, #upsell-dual-box-dest").listswap({
             truncate: false,
             is_scroll: true,
             label_add: 'Add',
@@ -51,7 +51,7 @@
             label_add: 'Add',
             height: 300,
             label_remove: 'Remove'
-        });
+        });*/
         /*
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
@@ -659,9 +659,10 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="upsell-dual-box-source" multiple="multiple" name="upsell_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
-              </select>
-              <select class="dual-box duallistbox" id="upsell-dual-box-dest" multiple="multiple" name="upsell_dual_box" size="20" data-text="Selected" data-search="Search for products">
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
+                <% for(var i = 0; i < 400; i++) { %>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -727,12 +728,10 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box duallistbox" id="product-dual-box-source" multiple="multiple" name="product_dual_box" size="20" data-text="Not Selected" data-search="Search for products">
-                <% for(var i = 0; i < 500; i++) { %>
-                  <option value="id=<%- product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%- product_selections.products[i].handle %>|product_type=<%- product_selections.products[i].product_type %>|vendor=<%- product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
+                <% for(var i = 0; i < 400; i++) { %>
+                  <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
                 <% } %>
-              </select>
-              <select class="dual-box duallistbox" id="product-dual-box-dest" multiple="multiple" name="product_dual_box" size="20" data-text="Selected" data-search="Search for products">
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
