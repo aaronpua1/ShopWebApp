@@ -2091,12 +2091,12 @@ app.get('/activate-offer', function(req, res) {
             
             for (var i in upsells) {
                 string_upsells += upsells[i].handle;
-                string_upsell += "|"
+                string_upsells += "|";
             }
             string_upsell = string_upsell.substring(0, string_upsell.length - 1);
             
             for (var i in merged_values) {
-                var temp = "handle:" + string_upsell + ";status:on;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
+                var temp = "handle:" + string_upsells + ";status:on;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
                 var data = {
                     metafield: {
                         id: merged_values[i].meta_id,
@@ -2213,12 +2213,12 @@ app.get('/deactivate-offer', function(req, res) {
             
             for (var i in upsells) {
                 string_upsells += upsells[i].handle;
-                string_upsell += "|"
+                string_upsells += "|";
             }
             string_upsell = string_upsell.substring(0, string_upsell.length - 1);
             
             for (var i in merged_values) {
-                var temp = "handle:" + string_upsell + ";status:off;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
+                var temp = "handle:" + string_upsells + ";status:off;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
                 var data = {
                     metafield: {
                         id: merged_values[i].meta_id,
