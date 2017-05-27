@@ -11,12 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
-    <script src="/javascripts/jquery.listswap.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-*.min.js"></script>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-duallistbox.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/listswap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link async href="http://fonts.googleapis.com/css?family=Advent%20Pro" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
@@ -38,21 +36,17 @@
           icon: '/images/logo.png'
         });
         ShopifyApp.Bar.loadingOff();
-        /*$("#upsell-dual-box-source, #upsell-dual-box-dest").listswap({
-            truncate: false,
-            is_scroll: true,
-            label_add: 'Add',
-            height: 300,
-            label_remove: 'Remove'
-        });
-        $("#product-dual-box-source, #product-dual-box-dest").listswap({
-            truncate: false,
-            is_scroll: true,
-            label_add: 'Add',
-            height: 300,
-            label_remove: 'Remove'
+        /*$(".dual-box").bootstrapDualListbox({
+            nonSelectedListLabel: 'Non-selected',
+            selectedListLabel: 'Selected',
+            moveAllLabel: 'Move all',
+            removeAllLabel: 'Remove all',
+            infoText: false,
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterOnValues: true,
+            selectorMinimalHeight: 100
         });*/
-        /*
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
@@ -62,7 +56,7 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 200
+            selectorMinimalHeight: 100
         });
 
         $("#product-dual-box").bootstrapDualListbox({
@@ -74,22 +68,9 @@
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
             filterOnValues: true,
-            selectorMinimalHeight: 200
+            selectorMinimalHeight: 100
         });
-*/
-        /*
-        I have a long list, and it was frustrating having the thing scroll back to the top every time I clicked an item over to the other box. So on line 183 of jquery.bootstrap-duallistbox.js I changed this line
-
-        dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
-
-        to this
-
-        // dualListbox.elements['select'+selectIndex].empty();
-
-        Voila! :)
-
-        What a great tool Thank you!
-        */
+        
         <% if(typeof store != "undefined") { %>
           $("#border_color").colorpicker({
               color: "<%= store.border_color %>",
@@ -152,7 +133,7 @@
             keys = parseKeys(keys);
         }
         
-        /*
+        
         <% if(typeof store != "undefined") { %>
           //$("#upsell_configs").val(JSON.stringify(<%= store_upsell.products %>));
           //$("#product_configs").val(JSON.stringify(<%= store_products.products %>));
@@ -174,7 +155,7 @@
             }
           <% } %>
         <% } %>
-        */
+        
         $( "#btn-upsell-filter" ).click(function( event ) {
             //"(.*?)title:(.*?)value(.*?);vendor:(.*?);upsell_product_type:(.*?)"
             var result = "(.*?)";
@@ -212,7 +193,7 @@
         });
 
         $( "#btn-upsell-reset" ).click(function( event ) {
-            $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);            
+            $("#upsell-dual-box").bootstrapDualListbox('setNonSelectedFilter', '', true);
         });
         
         $( "#btn-product-filter" ).click(function( event ) {
@@ -372,84 +353,6 @@
             this.submit();
             
         });
-        /*$("#btn-upsells").click(function(event) {
-          $.ajax('/products', {
-            success: function(data) {
-              for (var i = 0; i < data.product_selections.products.length; i++) {
-                $('#upsell-dual-box').append($("<option>", {
-                  value: "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor,
-                  text: data.product_selections.products[i].title
-                })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
-              }
-              $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-            }
-          });
-        });
-        $("#btn-products").click(function(event) {
-          $.ajax('/products', {
-            success: function(data) {
-              for (var i = 0; i < data.product_selections.products.length; i++) {
-                $('#product-dual-box').append($("<option>", {
-                  value: "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor,
-                  text: data.product_selections.products[i].title
-                })).css("background-image", "url(" + data.product_selections.products[i].image.src + ")");
-              }
-              $("#product-dual-box").bootstrapDualListbox('refresh', true);
-            }
-          });
-        });*/
-        /*
-
-        
-        for (var i = 1; i <= pages; i++) {
-          $.ajax({
-            type: 'GET',
-            url: '/products?page' + i,
-            success: function(data) {
-              for (var i = 0; i < data.product_selections.products.length; i++) {
-                $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
-              }
-          });
-        }
-        */
-        var pages = $("#key").val();
-        pages = Number(pages) / 250;
-        
-        if (pages == 0) {
-          pages = 1;
-        }
-
-        $("#btn-upsells").click(function( event ) {
-          for (var i = 1; i <= pages; i++) {
-            setTimeout(function() {
-              $.ajax({
-                type: 'GET',
-                url: '/products?page=' + i,
-                success: function(data) {
-                  for (var i = 0; i < data.product_selections.products.length; i++) {
-                    $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
-                  }
-                  $('#upsell-dual-box').trigger("chosen:updated");
-                }
-              });
-            }, 5000);
-          }
-        });
-        $("#btn-products").click(function( event ) {
-          $.ajax({
-            type: 'GET',
-            url: '/products?page=1',
-            success: function(data) {
-              for (var i = 0; i < data.product_selections.products.length; i++) {
-                $('#product-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
-              }
-            }
-          });
-        });
-        $( document ).ajaxComplete(function() {          
-          $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-          $("#product-dual-box").bootstrapDualListbox('refresh', true);
-        });
         /*$('#create-offer').on('click', function() {
           ShopifyApp.Bar.loadingOn();
           var $this = $(this);
@@ -459,7 +362,6 @@
                ShopifyApp.Bar.loadingOff();
            }, 35000);           
         });*/
-
     });
   </script>
   <div class="container">
@@ -473,7 +375,7 @@
         <% if (typeof store == "undefined") { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value="">
           <input class="form-control" type="hidden" id="product_configs" name="product_configs" value="">
-          <input class="form-control" id="key" name="key" value="<%= product_selections.products.length %>">
+          <input class="form-control" id="key" name="key" value="">
           <input class="form-control" type="hidden" id="keys" name="keys" value="<%= keys %>">
         <% } else { %>
           <input class="form-control" type="hidden" id="upsell_configs" name="upsell_configs" value=<%= upsell_config %>>
@@ -655,7 +557,6 @@
                   <div class="row">
                     <button type="button" id="btn-upsell-filter" class="btn btn-primary">Filter</button>
                     <button type="button" id="btn-upsell-reset" class="btn btn-danger">Reset</button>
-                    <button type="button" id="btn-upsells" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
@@ -695,7 +596,7 @@
                   <select class="selectpicker" data-width="49%" id="product_vendor" name="product_vendor" style="display: none;">
                     <option value="none">
                       Filter by vendor
-                    </option><% for(var i = 0; i < vendors.length; i++) { %>
+                    </option><%for(var i = 0; i < vendors.length; i++) { %>
                     <option value="<%= vendors[i] %>">
                       <%= vendors[i] %>
                     </option><% } %>
@@ -710,7 +611,7 @@
                   <select class="selectpicker" data-width="49%" id="product_type" name="product_type" style="display: none;">
                     <option value="none">
                       Filter by product type
-                    </option><% for(var i = 0; i < product_type.length; i++) { %>
+                    </option><%for(var i = 0; i < product_type.length; i++) { %>
                     <option value="<%= product_type[i] %>">
                       <%= product_type[i] %>
                     </option><% } %>
@@ -724,7 +625,6 @@
                   <div class="row">
                     <button type="button" id="btn-product-filter" class="btn btn-primary">Filter</button>                    
                     <button type="button" id="btn-product-reset" class="btn btn-danger">Reset</button>
-                    <button type="button" id="btn-products" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
