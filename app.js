@@ -245,7 +245,7 @@ app.get('/', function(req, res) {
         }
     }
 })
-
+/*
 // This is to render the create-offer form page to allow users to customize their offers
 // http://bootsnipp.com/snippets/3xv0n
 // https://silviomoreto.github.io/bootstrap-select/
@@ -417,8 +417,179 @@ app.get('/create-offer', function(req, res) {
             product_type: unique_types
         });
     });
+})*/
+app.get('/create-offer', function(req, res) {
+    var result_products = {products: []};
+    var result_metafields;
+    var result_store;
+    var store_upsell;
+    var string_upsell;
+    var store_products;
+    var string_products;
+    var result_values = {values: []};
+    var string_keys = "";
+    var unique_vendors = [];
+    var unique_types = [];
+    var string_ids = "";
+    
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/count.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("GET RESPONSE: " + body);
+                body = JSON.parse(body);
+                callback(null, body);
+            });
+        },
+        function(products, callback) {
+            var pages = Number(products.count) / 250;
+            var requests = [{
+                method: "GET",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }];
+            if (pages > 0){
+                for (var i = 0; i < pages; i++) {
+                    var count = i + 1;
+                    var temp_request = {
+                        method: "GET",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250=&page=' + count + '&fields=id,title,vendor,product_type,handle,image',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }
+                    requests.push(temp_request);
+                }
+            }
+            else {
+                var temp_request = {
+                    method: "GET",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=250&fields=id,title,vendor,product_type,handle,image',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }
+                requests.push(temp_request);
+            }
+            if (Object.keys(req.query).length > 0) {
+                var temp_request = {
+                    method: "GET",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }
+                requests.push(temp_request);
+            }
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                });
+            },  
+            function(err, results) {
+                if (err) {                   
+                    console.log("THIS FUCKING ERRROR: " + err);
+                     callback(err);
+                    return next(err);
+                }
+                
+                for (var i = 0; i < results.length; i++) {
+                    if (results[i].hasOwnProperty('products')){
+                        for (var j = 0; j < results[i].products.length; j++) {
+                            result_products.products.push(results[i].products[j]);
+                        }
+                    }
+                    else if (results[i].hasOwnProperty('metafields')) {
+                        result_metafields = results[i];
+                    }
+                    else {
+                        result_store = results[i];
+                    }
+                }
+                console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
+                for (var i in result_products.products) {
+                    if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
+                        unique_vendors.push(result_products.products[i].vendor);
+                    }
+                    if (unique_types.indexOf(result_products.products[i].product_type) === -1) {
+                        unique_types.push(result_products.products[i].product_type);
+                    }
+                }
+                console.log("SAD");
+                for (var i = 0; i < result_metafields.metafields.length; i++) {
+                    var temp = JSON.parse(JSON.stringify(parse_values(result_metafields.metafields[i].value)));
+                    result_values.values.push(JSON.parse(JSON.stringify(parse_products(temp.products))));
+                    string_keys += result_metafields.metafields[i].key;
+                    if (i < result_metafields.metafields.length - 1) {
+                        string_keys += "|"
+                    }
+                }
+                
+                if (result_store) {
+                    result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
+                    store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
+                    store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
+                    string_ids = result_store.prod_meta_ids;
+                    string_upsell = stringify_configs(store_upsell.products);
+                    string_products = stringify_configs(store_products.products);
+                    console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
+                    console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
+                }
+                console.log("WTF");
+                callback(null, 'done');
+                //console.log(JSON.stringify(result_metafields));
+                //console.log(JSON.stringify(result_values));
+            });
+        }
+    ],
+    function(err, result) {
+        if (err) {
+            //console.log("RESULT: " + JSON.stringify(result));
+            callback(true); 
+            return; 
+        }    
+        //console.log("RESULT: " + JSON.stringify(result_products));
+        //result_products = JSON.parse(JSON.stringify(result_products));
+        result_products = JSON.parse(JSON.stringify(result_products));
+        //console.log(util.inspect(result_products, false, null));
+        res.render('create_offer', {
+            title: 'Create Your Offer', 
+            api_key: config.oauth.api_key,
+            shop: req.session.shop,
+            product_selections: result_products,
+            store: result_store,
+            store_upsell: store_upsell,
+            store_products: store_products,
+            upsell_config: string_upsell,
+            product_config: string_products,
+            metafields: result_values,
+            keys: string_keys,
+            key: req.query.key,
+            vendors: unique_vendors,
+            product_type: unique_types,
+            prod_meta_ids: string_ids
+        });
+    });
 })
-
+/*
 app.post('/create-offer', function(req, res) {
     var upsell_selections = [];
     var product_selections = [];
@@ -891,6 +1062,433 @@ app.post('/create-offer', function(req, res) {
         }
         res.redirect('/');
     });
+})*/
+
+app.post('/create-offer', function(req, res) {
+    var upsell_selections = [];
+    var product_selections = [];
+    //console.log("TEST: FUCKKKK!" + req.body.product_configs);
+    //console.log("TEST: FUCKKKK!" + req.body.upsell_configs);
+    //var previous_product_selections = req.body.product_configs;
+    
+    if (Array.isArray(req.body.upsell_dual_box)) {
+        upsell_selections = req.body.upsell_dual_box.slice(0);
+    }
+    else {
+        upsell_selections.push(req.body.upsell_dual_box);
+    }
+    if (Array.isArray(req.body.product_dual_box)) {
+        product_selections = req.body.product_dual_box.slice(0);
+    }
+    else {
+        product_selections.push(req.body.product_dual_box);
+    }
+    
+    var upsells = stringify_products(upsell_selections);
+
+    //if (previous_product_selections != "") {
+        //console.log("POS: " + JSON.stringify(previous_product_selections));
+        //previous_product_selections = JSON.parse(JSON.stringify(parse_products(previous_product_selections)));
+        //console.log("POS: " + JSON.stringify(previous_product_selections));
+        //var parsed_product_selections = [];
+        
+        //for (var i in product_selections) {
+            //console.log("BETWEEN POS AND SOB:" + JSON.stringify(product_selections[i]));
+            //parsed_product_selections.push(JSON.parse(JSON.stringify(parse_selections(product_selections[i]))));
+        //}
+        //console.log("BETWEEN POS AND SOB: " + JSON.stringify(parsed_product_selections));
+        //console.log("selections: " + parsed_product_selections[0].id);
+        //console.log("previous: " + previous_product_selections.products[0].id);
+        //var product_differences = findDifferences(previous_product_selections.products, parsed_product_selections);
+        
+        //console.log("upsell selections:" + JSON.stringify(parsed_upsell_selections));
+        //console.log("product selections:" + JSON.stringify(parsed_product_selections));
+        //console.log("upsell parse configs:" + JSON.stringify(previous_upsell_selections));
+        //console.log("product parse configs:" + JSON.stringify(previous_product_selections));
+        //console.log("upsell configs:" + req.body.upsell_configs);
+        //console.log("product configs:" + req.body.product_configs);
+        //console.log("product diff:" + JSON.stringify(product_differences));
+    //}
+    //else {
+        //var product_differences = [];
+    //}
+
+    async.waterfall([
+        function(callback) {   
+
+            var requests = [];
+            
+            for (var i in product_selections) {
+                var temp_product = JSON.parse(JSON.stringify(parse_selections(product_selections[i])));
+                //console.log("PRODUCT: "+ temp_product.id);
+ 
+                if (upsells != "") {                    
+                    console.log("UPSELL HANDLES: " + upsells);
+                    if (req.body.activate_offer) {
+                        if (req.body.upsell_edge_type) {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:on;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        if (req.body.upsell_edge_type) {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (req.body.button_edge_type) {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                            else {
+                                var data = {
+                                    metafield: {
+                                        namespace: "suop",
+                                        key: "su1",
+                                        value: "handle:" + upsells + ";status:off;offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:not_rounded;button_edge_type:not_rounded",
+                                        value_type: "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    req_body = JSON.stringify(data);
+                    //console.log("POST REQUEST: "+ req_body);
+                    
+                    var temp_request = {
+                        method: "POST",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }
+                    requests.push(temp_request);
+
+                }
+            }
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 201) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }    
+                //console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                callback(null, result);
+            });
+        },
+        function(products, callback) {                    
+            if (req.body.key != "" && req.body.key != req.body.offer_name) {
+                request.get({
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.key,
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err,resp,body) {
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("GET RESPONSE: " + body);
+                    body = JSON.parse(body);
+                    callback(null, body.metafields, products);
+                });
+            }
+            else {
+                request.get({
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo' + '&key=' + req.body.offer_name,
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err,resp,body) {
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("GET RESPONSE: " + body);
+                    body = JSON.parse(body);
+                    callback(null, body.metafields, products);
+                });
+            }
+        },
+        function(metafields, product_ids, callback) {
+            var upsell_products = "";
+            var products = "";
+            var ids = "";
+            
+
+            for (var i in product_ids) {
+                ids += product_ids[i].metafield.id;
+                ids += ",";
+            }
+            ids = ids.replace(/\,$/, '');
+                               
+            
+            if (Array.isArray(req.body.upsell_dual_box)) {
+                for (var key in req.body.upsell_dual_box) {
+                    upsell_products += req.body.upsell_dual_box[key];
+                    upsell_products += ",";
+                }
+                upsell_products = upsell_products.replace(/\,$/, '');
+            }
+            else {
+                upsell_products = req.body.upsell_dual_box;
+            }
+            if (Array.isArray(req.body.product_dual_box)) {
+                for (var key in req.body.product_dual_box) {
+                    products += req.body.product_dual_box[key];
+                    products += ",";
+                }
+                products = products.replace(/\,$/, '');
+            }
+            else {
+                products = req.body.product_dual_box;
+            }
+            
+            if (req.body.key != "" && metafields.length > 0) {
+                var id = metafields[0].id.toString();
+                //var values = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                var data = {
+                    metafield: {
+                        id: metafields[0].id,
+                        value: "offer_id:" + id + ";owner_id:" + metafields[0].owner_id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                //console.log(data);
+                console.log("PUT REQUEST: " + req_body);
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("PUT RESPONSE: " + body);
+                    
+                    body = JSON.parse(body);
+                    callback(null, ids, metafields[0].owner_id);
+                });
+            }
+            else {
+                //var values1 = "offer_id:0;offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                var data1 = {
+                    metafield: {
+                        namespace: "suo",
+                        key: req.body.offer_name,
+                        value: "offer_id:0;" + "owner_id:" + metafields[0].owner_id + "offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data1);
+                //console.log(data1);
+                console.log("POST REQUEST: " + req_body);
+                request({
+                    method: "POST",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err1, resp1, body1){
+                    if(err1) { 
+                        console.log(err1);
+                        callback(true); 
+                        return; 
+                    }
+                    //console.log("POST RESPONSE" + body1);                            
+                    body1 = JSON.parse(body1);
+                    
+                    //var values2 = "offer_id:" + id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products// + ";offer_type:" + req.body.offer_type
+                    var id = body1.metafield.id.toString();
+                    
+                    var data2 = {
+                        metafield: {
+                            id: body1.metafield.id,
+                            value: "offer_id:" + id + ";owner_id:" + metafields[0].owner_id + ";offer_name:" + req.body.offer_name + ";offer_title:" + req.body.offer_title + ";offer_description:" + req.body.offer_description + ";upsell_products:" + upsell_products + ";products:" + products + ";status:" + req.body.activate_offer + ";background_color:" + req.body.background_color + ";border_highlight_color:" + req.body.border_highlight_color + ";border_color:" + req.body.border_color + ";button_color:" + req.body.button_color + ";upsell_edge_type:" + req.body.upsell_edge_type + ";button_edge_type:" + req.body.button_edge_type + ";prod_meta_ids:" + ids,
+                            value_type: "string"
+                        }
+                    }
+                    req_body = JSON.stringify(data2);
+                    //console.log(data2);
+                    //console.log("PUT REQUEST: " + req_body);
+                    request({
+                        method: "PUT",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + id + '.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }, 
+                    function(err2, resp2, body2){
+                        if(err2) { 
+                            console.log(err2);
+                            callback(true); 
+                            return; 
+                        }
+                        //console.log("PUT RESPONSE: " + body2);
+                        body2 = JSON.parse(body2);
+                        callback(null, ids, metafields[0].owner_id);
+                    });
+                });
+            }
+        },
+        function(ids, owner_id, callback) { //HERE
+            var product_differences;
+
+            if (req.body.prev_meta_ids != "") {
+                var meta_ids = ids.split(",");
+                var prev_meta_ids = req.body.prev_meta_ids.split(",");                    
+                product_differences = findDifferences(prev_meta_ids, meta_ids);                      
+            }
+            else {
+                product_differences = [];
+            }
+            
+            if (product_differences.length > 0) {
+                var requests = [];
+
+                for (var i in product_differences) {
+                    var temp_request = {
+                        method: "DELETE",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + owner_id + '/metafields/' + product_differences[i] + '.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }
+                    requests.push(temp_request);
+                }
+                        
+                requests = JSON.parse(JSON.stringify(requests));
+                
+                async.map(requests, function(obj, callback) {
+                    throttledRequest(obj, function(err, resp, body) {
+                        if (!err && resp.statusCode == 200) {
+                            var body = JSON.parse(body);
+                            callback(null, body);
+                        }
+                        else {
+                            callback(err || resp.statusCode);
+                        }
+                    })
+                },  
+                function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    //console.log("GET PRODUCT DELETE RESPONSE: " + JSON.stringify(result));
+                    callback(null, 'done');
+                });
+            }
+            else {
+                callback(null, 'done');
+            }
+        },
+    ],
+    function(err, result) {
+        console.log("FINAL RESPONSE: " + JSON.stringify(result));
+        if (err) {
+            console.log(err);
+            return res.json(500);
+        }
+        res.redirect('/');
+    });    
 })
 /*
 //GOOD
@@ -917,7 +1515,7 @@ app.get('/delete-offer', function(req, res) {
         res.json(200);
     });
 })*/
-
+/*
 app.get('/delete-offer', function(req, res) {
     async.waterfall([
         function(callback) {
@@ -1337,8 +1935,312 @@ app.get('/deactivate-offer', function(req, res) {
         }
         res.json(200);
     });
+})*/
+app.get('/delete-offer', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("METAFIELD GET RESPONSE: " + body);
+                body = JSON.parse(body);
+                
+                var values = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+                //values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                //console.log("PARSE PRODUCTS: " + JSON.stringify(values));
+                callback(null, values);
+            });
+        },
+        function(values, callback) {
+            var requests = [];
+            
+            var ids = values.prod_meta_ids.split(",");
+            
+            for (var i in ids) {
+                var temp_request = {
+                    method: "DELETE",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    }
+                }
+                requests.push(temp_request);                
+            }
+            var temp_request = {
+                method: "DELETE",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                }
+            }
+            requests.push(temp_request);
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 200) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("DELETE RESPONSE" + JSON.stringify(result));
+                callback(null, 'done');
+            });
+        }
+    ],
+    function(err, resp, body){
+        if(err) {
+            return res.json(404);
+        }
+        res.json(200);
+    });
 })
 
+app.get('/activate-offer', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err1,resp1,body1) {
+                if(err1) { 
+                    console.log(err1);
+                    callback(true); 
+                    return; 
+                }
+                console.log("METAFIELD GET RESPONSE: " + body1);
+                body1 = JSON.parse(body1);                
+                
+                var data = {
+                    metafield: {
+                        id: req.query.id,
+                        value: body1.metafield.value.replace('status:undefined', 'status:on'),
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+
+                console.log("PUT REQUEST: " + req_body);
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err2, resp2, body2){
+                    if(err2) { 
+                        console.log(err2);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("PUT RESPONSE: " + body2);
+                    body2 = JSON.parse(body2);
+                    var values = JSON.parse(JSON.stringify(parse_values(body1.metafield.value)));
+                    //values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                    //console.log("PARSE PRODUCTS: " + JSON.stringify(values));
+                    callback(null, values);
+                });
+            });
+        },
+        function(values, callback) { //HERE            
+            var requests = [];
+            var ids = values.prod_meta_ids.split(",");
+            
+            for (var i in ids) {
+                var temp = "handle:" + values.upsell_products + ";status:on;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
+                var data = {
+                    metafield: {
+                        id: values[i].metafields[0].id,
+                        value: temp,
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                console.log("PUT REQUEST: "+ req_body);
+                
+                var temp_request = {
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }
+                requests.push(temp_request);
+            }
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 201) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("PUT RESPONSE" + JSON.stringify(result));
+                callback(null, 'done');
+            });
+        }
+    ],
+    function(err, resp, body){
+        if(err) {
+            return res.json(404);
+        }
+        res.json(200);
+    });
+})
+
+app.get('/deactivate-offer', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err1,resp1,body1) {
+                if(err1) { 
+                    console.log(err1);
+                    callback(true); 
+                    return; 
+                }
+                console.log("METAFIELD GET RESPONSE: " + body1);
+                body1 = JSON.parse(body1);                
+                
+                var data = {
+                    metafield: {
+                        id: req.query.id,
+                        value: body1.metafield.value.replace('status:on', 'status:undefined'),
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+
+                console.log("PUT REQUEST: " + req_body);
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err2, resp2, body2){
+                    if(err2) { 
+                        console.log(err2);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log("PUT RESPONSE: " + body2);
+                    body2 = JSON.parse(body2);
+                    var values = JSON.parse(JSON.stringify(parse_values(body1.metafield.value)));
+                    //values = JSON.parse(JSON.stringify(parse_products(values.products)));
+                    //console.log("PARSE PRODUCTS: " + JSON.stringify(values));
+                    callback(null, values);
+                });
+            });
+        },
+        function(values, callback) { //HERE            
+            var requests = [];
+            var ids = values.prod_meta_ids.split(",");
+            
+            for (var i in ids) {
+                var temp = "handle:" + values.upsell_products + ";status:off;offer_title:" + values.offer_title + ";offer_description:" + values.offer_description + ";background_color:" + values.background_color + ";border_highlight_color:" + values.border_highlight_color + ";border_color:" + values.border_color + ";button_color:" + values.button_color + ";upsell_edge_type:" + values.upsell_edge_type + ";button_edge_type:" + values.button_edge_type;
+                var data = {
+                    metafield: {
+                        id: values[i].metafields[0].id,
+                        value: temp,
+                        value_type: "string"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                console.log("PUT REQUEST: "+ req_body);
+                
+                var temp_request = {
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + values.owner_id + '/metafields/' + ids[i] + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }
+                requests.push(temp_request);
+            }
+            
+            requests = JSON.parse(JSON.stringify(requests));
+            
+            async.map(requests, function(obj, callback) {
+                throttledRequest(obj, function(err, resp, body) {
+                    if (!err && resp.statusCode == 201) {
+                        var body = JSON.parse(body);
+                        callback(null, body);
+                    }
+                    else {
+                        callback(err || resp.statusCode);
+                    }
+                })
+            },  
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log("PUT RESPONSE" + JSON.stringify(result));
+                callback(null, 'done');
+            });
+        }
+    ],
+    function(err, resp, body){
+        if(err) {
+            return res.json(404);
+        }
+        res.json(200);
+    });
+})
 function verifyRequest(req, res, next) {
     var map = JSON.parse(JSON.stringify(req.query));
     delete map['signature'];
@@ -1354,7 +2256,7 @@ function verifyRequest(req, res, next) {
         return res.json(400);
     }
 }
-
+/* GOOD
 function findDifferences(arr1, arr2) {
     difference = [];
     for (var i = 0; i < arr1.length; i++) {
@@ -1373,7 +2275,23 @@ function findDifferences(arr1, arr2) {
     }
     return difference;
 }
-
+*/
+function findDifferences(arr1, arr2) {
+    difference = [];
+    for (var i = 0; i < arr1.length; i++) {
+        var contains = false;
+        for (var j = 0; j < arr2.length; j++) {
+            if (arr1[i] == arr2[j]) {
+                contains = true;
+                break;
+            }
+        }
+        if (!contains) {
+            difference.push(arr1[i]);
+        }
+    }
+    return difference;
+}
 function parse_values(values) {
     var result = {};
     var pairs = values.split(";");
