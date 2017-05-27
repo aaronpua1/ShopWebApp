@@ -2085,7 +2085,7 @@ app.get('/activate-offer', function(req, res) {
             var requests = [];
             var ids = values.prod_meta_ids.split(",");
             var owner_ids = values.owner_ids.split(",");
-            ar merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
+            var merged_values = JSON.parse(JSON.stringify(mergeValues(ids, owner_ids)));
             var upsells = JSON.parse(JSON.stringify(parse_products(values.upsell_products)));
             var string_upsells = "";
             
