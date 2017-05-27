@@ -648,7 +648,7 @@ app.get('/create-offer', function(req, res) {
             title: 'Create Your Offer', 
             api_key: config.oauth.api_key,
             shop: req.session.shop,
-            product_selections: result_products,
+            product_selections: result_products.products,
             store: result_store,
             store_upsell: store_upsell,
             store_products: store_products,
