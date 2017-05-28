@@ -200,7 +200,7 @@ app.get('/install', function(req, res) {
 app.get('/', function(req, res) {
      if (req.session.access_token) {
         request.get({
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=100&namespace=suo',
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
             headers: {
                 'X-Shopify-Access-Token': req.session.access_token
             }
@@ -549,7 +549,7 @@ app.get('/create-offer', function(req, res) {
                     store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
                     store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
                     string_meta_ids = result_store.prod_meta_ids;
-                    string_owner_ids = result_store.prod_owner_ids;
+                    string_owner_ids = result_store.owner_ids;
                     string_upsell = stringify_configs(store_upsell.products);
                     string_products = stringify_configs(store_products.products);
                     console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
