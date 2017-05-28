@@ -1137,7 +1137,7 @@ app.post('/create-offer', function(req, res) {
  
                 if (upsells != "") {
                     if (prev_owner_ids != "") {
-                        var current = prev_owner_ids.indexOf(temp_product[i].id);
+                        var current = prev_owner_ids.indexOf(temp_product.id);
                         if (current === -1) {
                             if (req.body.activate_offer) {
                                 if (req.body.upsell_edge_type) {
@@ -1337,7 +1337,7 @@ app.post('/create-offer', function(req, res) {
                             
                             var temp_request = {
                                 method: "PUT",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + prev_owner_ids[current] + '/metafields/' + prev_meta_ids[current] + '.json',
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + temp_product.id + '/metafields/' + prev_meta_ids[current] + '.json',
                                 headers: {
                                     'X-Shopify-Access-Token': req.session.access_token,
                                     'Content-type': 'application/json; charset=utf-8'
