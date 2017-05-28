@@ -1657,7 +1657,7 @@ app.post('/create-offer', function(req, res) {
             }
         },
         function(ids, owner_ids, callback) { //HERE
-            var product_differences;
+            var product_differences = [];
 
             if (req.body.prev_meta_ids != "" && req.body.prev_owner_ids != "") {
                 var current_meta_ids = ids.split(",");
@@ -1668,10 +1668,7 @@ app.post('/create-offer', function(req, res) {
                 //var merged_current = mergeValues(prev_owner_ids, prev_meta_ids);
                 product_differences = findDifferences(prev_owner_ids, current_owner_ids);                    
             }
-            else {
-                product_differences = [];
-            }
-            
+            console.log("THIS FUCKING SHIT: " + JSON.stringify(product_differences));
             if (product_differences.length > 0) {
                 var requests = [];
 
