@@ -1660,13 +1660,13 @@ app.post('/create-offer', function(req, res) {
             var product_differences;
 
             if (req.body.prev_meta_ids != "" && req.body.prev_owner_ids != "") {
-                var meta_ids = ids.split(",");
-                var own_ids = owner_ids.split(",");
+                var current_meta_ids = ids.split(",");
+                var current_owner_ids = owner_ids.split(",");
                 var prev_owner_ids = req.body.prev_owner_ids.split(",");
                 var prev_meta_ids = req.body.prev_meta_ids.split(",");
-                var merged_prev = mergeValues(own_ids, meta_ids);
-                var merged_current = mergeValues(prev_owner_ids, prev_meta_ids);
-                product_differences = findDifferences(merged_prev, merged_current);                      
+                //var merged_prev = mergeValues(own_ids, meta_ids);
+                //var merged_current = mergeValues(prev_owner_ids, prev_meta_ids);
+                product_differences = findDifferences(current_owner_ids, prev_owner_ids);                    
             }
             else {
                 product_differences = [];
@@ -1676,9 +1676,10 @@ app.post('/create-offer', function(req, res) {
                 var requests = [];
 
                 for (var i in product_differences) {
+                    var index = prev_owner_ids.indexOf(product_differences[i]);
                     var temp_request = {
                         method: "DELETE",
-                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + product_differences[i].owner_id + '/metafields/' + product_differences[i].meta_id + '.json',
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + prev_owner_ids[index] + '/metafields/' + prev_meta_ids[index] + '.json',
                         headers: {
                             'X-Shopify-Access-Token': req.session.access_token
                         }
@@ -2537,13 +2538,13 @@ function findDifferences(arr1, arr2) {
     for (var i = 0; i < arr1.length; i++) {
         var contains = false;
         for (var j = 0; j < arr2.length; j++) {
-            if (arr1[i].owner_id == arr2[j].owner_id && arr1[i].meta_id == arr2[j].meta_id) {
+            if (arr1[i] == arr2[j]) {
                 contains = true;
                 break;
             }
         }
         if (!contains) {
-            difference.push({'owner_id':arr1[i].owner_id, 'meta_id':arr1[i].meta_id});
+            difference.push(arr1[i]);
         }
     }
     return difference;
