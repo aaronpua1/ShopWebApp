@@ -1336,7 +1336,7 @@ app.post('/create-offer', function(req, res) {
                             
                             var temp_request = {
                                 method: "PUT",
-                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + prev_owner_ids[current] + '/metafields/' + prev_meta_ids[current], + '.json',
+                                url: 'https://' + req.session.shop + '.myshopify.com/admin/products/' + prev_owner_ids[current] + '/metafields/' + prev_meta_ids[current] + '.json',
                                 headers: {
                                     'X-Shopify-Access-Token': req.session.access_token,
                                     'Content-type': 'application/json; charset=utf-8'
