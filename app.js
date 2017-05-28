@@ -1666,7 +1666,7 @@ app.post('/create-offer', function(req, res) {
                 var prev_meta_ids = req.body.prev_meta_ids.split(",");
                 //var merged_prev = mergeValues(own_ids, meta_ids);
                 //var merged_current = mergeValues(prev_owner_ids, prev_meta_ids);
-                product_differences = findDifferences(current_owner_ids, prev_owner_ids);                    
+                product_differences = findDifferences(prev_owner_ids, current_owner_ids);                    
             }
             else {
                 product_differences = [];
