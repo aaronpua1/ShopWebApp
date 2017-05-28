@@ -2108,21 +2108,14 @@ app.get('/delete-offer', function(req, res) {
                 }
                 requests.push(temp_request);                
             }
-            var temp_request = {
-                method: "DELETE",
-                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
-                headers: {
-                    'X-Shopify-Access-Token': req.session.access_token,
-                    'Content-type': 'application/json; charset=utf-8'
-                }
-            }
+
             requests.push(temp_request);
             
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
                 throttledRequest(obj, function(err, resp, body) {
-                    if (!err && resp.statusCode == 200) {
+                    if (!err && (resp.statusCode == 200 || resp.statusCode == 404)) {
                         var body = JSON.parse(body);
                         callback(null, body);
                     }
@@ -2138,6 +2131,24 @@ app.get('/delete-offer', function(req, res) {
                     return; 
                 }
                 console.log("DELETE RESPONSE" + JSON.stringify(result));
+                callback(null);
+            });
+        },
+        function(callback) {
+            request({
+                method: "DELETE",
+                url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token,
+                    'Content-type': 'application/json; charset=utf-8'
+                }
+            }, 
+            function(err,resp,body) {
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
                 callback(null, 'done');
             });
         }
