@@ -1119,13 +1119,14 @@ app.post('/create-offer', function(req, res) {
     async.waterfall([
         function(callback) {
             var prev_owner_ids;
-
+            var prev_meta_ids;
             if (req.body.prev_owner_ids != "" && req.body.prev_meta_ids != "") {
                 prev_owner_ids = req.body.prev_owner_ids.split(",");
                 prev_meta_ids = req.body.prev_meta_ids.split(",");
             }
             else {
                 prev_owner_ids = "";
+                prev_meta_ids = "";
             }
             
             var requests = [];
