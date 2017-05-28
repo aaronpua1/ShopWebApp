@@ -1345,6 +1345,7 @@ app.post('/create-offer', function(req, res) {
                     }
                 }
             }
+            console.log("PUT/POST PRODUCT REQUESTS: " + JSON.stringify(requests));
             requests = JSON.parse(JSON.stringify(requests));
             
             async.map(requests, function(obj, callback) {
@@ -1364,7 +1365,7 @@ app.post('/create-offer', function(req, res) {
                     callback(true); 
                     return; 
                 }    
-                //console.log("SECOND SKIP DELETE RESPONSE: " + JSON.stringify(result));
+                console.log("PUT/POST PRODUCT RESPONSE: " + JSON.stringify(result));
                 callback(null, result);
             });
         },
