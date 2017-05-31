@@ -29,14 +29,33 @@
         }).api();
         
         ShopifyApp.Bar.initialize({
+          title: '<%= title %>',
+          icon: '/images/logo.png',
           buttons: {
             primary: {
               label: "Create an Offer",
               href: '/create-offer'
-            }
-          },
-          title: '<%= title %>',
-          icon: '/images/logo.png'
+            },          
+            secondary: [
+              { 
+                label: "Setup Instructions", 
+                callback: function() {
+                  ShopifyApp.Modal.open({
+                    src: 'https://simple-upsells.herokuapp.com/setup_instructions',
+                    title: 'Setup Instructions',
+                    width: 'small',
+                    height: 300,
+                    buttons: {
+                    primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }//,
+                    /*secondary: [
+                      { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } }
+                    ]*/
+                    }
+                  });
+                }
+              }
+            ]
+          }
         });
         ShopifyApp.Bar.loadingOff();
         
@@ -65,7 +84,6 @@
                         },
                         error: function(status)
                         {
-                            console.log(status);
                             ShopifyApp.flashError("Warning: Offer Deletion Failed");
                             ShopifyApp.Bar.loadingOff();
                         }
@@ -76,6 +94,7 @@
         
         $(document).on('click', '[id^="activate-offer-"]', function() {
             var $button = $(this);
+            ShopifyApp.Bar.loadingOn();
             var id = this.id.split('-').pop();
             if (this.checked) {
                 ShopifyApp.Modal.confirm({
@@ -94,11 +113,13 @@
                             success: function(callback)
                             {
                                 ShopifyApp.flashNotice("Offer Activated Successfully");
+                                ShopifyApp.Bar.loadingOff();
                             },
                             error: function(status)
                             {
-                                console.log(status);
                                 ShopifyApp.flashError("Warning: Offer Activation Failed");
+                                $button.prop('checked', false);
+                                ShopifyApp.Bar.loadingOff();
                             }
                         })
                     }
@@ -121,11 +142,13 @@
                             success: function(callback)
                             {
                                 ShopifyApp.flashNotice("Offer Deactivated Successfully");
+                                ShopifyApp.Bar.loadingOff();
                             },
                             error: function(status)
                             {
-                                console.log(status);
                                 ShopifyApp.flashError("Warning: Offer Deactivation Failed");
+                                $button.prop('checked', true);
+                                ShopifyApp.Bar.loadingOff();
                             }
                         })
                     }

@@ -193,6 +193,13 @@ app.get('/install', function(req, res) {
     });
 })
 
+// Renders content for a modal
+app.get('/setup_instructions', function(req, res) {
+    res.render('setup_instructions', {
+        title: 'Setup Instructions'
+    });
+})
+
 // This is to render the current-offers page that shows all active offers created by store owner 
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND

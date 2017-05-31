@@ -1,11 +1,12 @@
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
   {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
   {{ 'contained-bootstrap.min.css' | asset_url | stylesheet_tag }}
+
   {% if product.metafields.suop != blank %}
 	{% assign total = 0 %}    
-    {% assign metafields = product.metafields.suop %}
+  {% assign metafields = product.metafields.suop %}
 	{% assign configs = metafields.su1 %}    
-    {% if configs contains "status:on" %}
+    {% if configs contains "status:on" and product.available %}
       <div id="simple-upsell" class="bootstrap">
         <input type="hidden" id="configs" name="configs" value="{{ configs }}" />
         <div class="container upsell-container padded-row" style="margin-top:20px;">
@@ -19,7 +20,10 @@
               <h3>{{ upsell_value | replace: "offer_title:", ""}}</h3>
             {% endif %}
             {% if upsell_value contains "offer_description:" %}
-              <h5>{{ upsell_value | replace: "offer_description:", ""}}</h5>
+              {% assign description = upsell_value | replace: "offer_description:", "" %} 
+              {% if description != "" %}
+                <h5>{{ description }}</h5>
+              {% endif %}
               {% break %}
             {% endif %}          
           {% endfor %}
@@ -130,7 +134,7 @@
               <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width: 20px;">
                 <div class="cart-confirmation">
                   <p style="font-size:17px; color:black; font-weight:bold;">
-                    Total Price: <span id="total-price" style="color:red">${{ total | divided_by: 100.0 }}</span>
+                    Total Price: <span id="total-price" style="color:red">{{ total | money }}</span>
                   </p>
                   <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">ADD TO CART</button>
                 </div>
@@ -168,7 +172,7 @@
     jQuery('.upsell-icon').css('color', 'red');
     jQuery('.col-item').css('background-color', values['background_color']);
     jQuery('.col-item').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
-    jQuery('#add-upsell').css('background-color', values['button_color']);    
+    jQuery('#add-upsell').css('background-color', values['button_color']); 
     
     Shopify.queue = [];
     function submitUpsell() {

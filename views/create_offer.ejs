@@ -253,7 +253,7 @@
         
         $('#button_color').on('input', function() {
             var input=$(this);
-            var re = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+            var re = /^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(inherit)$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
@@ -309,8 +309,7 @@
             }
 
             $(this).off("submit");
-            this.submit();
-            
+            this.submit();            
         });
     });
   </script>
@@ -365,9 +364,9 @@
                 <label class="control-label" for="offer_title">Offer Title</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" maxlength="27">
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Frequently bought together" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Bold font that shows up at the top of the offer" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>" maxlength="27">
+                    <input class="form-control" id="offer_title" name="offer_title" placeholder="Frequently bought together" required="" style="width: 49%;" type="text" value="<%= store.offer_title %>" maxlength="27">
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -378,9 +377,9 @@
                 <label class="control-label" for="offer_description">Offer Description</label>
                 <div class="controls">
                   <% if (typeof store == "undefined") { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"></textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Based on this item, other customers also like..." rows="10" style="width: 49%;" maxlength="230"></textarea>
                   <% } else { %>
-                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Briefly describe what your offer means and how it works" required="" rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
+                    <textarea class="form-control" cols="65" id="offer_description" name="offer_description" placeholder="Based on this item, other customers also like..." rows="10" style="width: 49%;" maxlength="230"><%= store.offer_description %></textarea>
                   <% } %>
                   <span class="error">This field is required</span>
                 </div>
@@ -415,7 +414,7 @@
            </div>
            <div class="form-group col-md-12 offer-input-groups required">
               <div class="control-group">
-                <label class="control-label" for="button_color">Cart Button Color</label>
+                <label class="control-label" for="button_color">Cart Button Color (For theme color use: "inherit")</label>
                 <div class="controls">
                   <input class="form-control" id="button_color" name="button_color" placeholder="Enter hex color code" required="" style="width: 49%;" type="text">
                   <span class="error">This field input is invalid. Please enter hex color value.</span>
@@ -461,7 +460,7 @@
         <div class="form-group col-md-12 bg-primary h4 required">
           <div class="control-group">
             <div class="controls">
-              <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell (Must select one)</p>
+              <p class="control-label" for="form-steps">Step 2: Select product(s) to upsell (Must select one, 3 max)</p>
             </div>
           </div>
         </div>
@@ -533,7 +532,7 @@
         <div class="form-group col-md-12 bg-primary h4 required">
           <div class="control-group">
             <div class="controls">
-              <p class="control-label" for="form-steps">Step 3: Select Product(s) to Place Offer (Must select one)</p>
+              <p class="control-label" for="form-steps">Step 3: Select Product(s) to Place Offer (Must select one, 20 max)</p>
             </div>
           </div>
         </div>
