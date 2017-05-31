@@ -172,7 +172,12 @@
     jQuery('.upsell-icon').css('color', 'red');
     jQuery('.col-item').css('background-color', values['background_color']);
     jQuery('.col-item').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
-    jQuery('#add-upsell').css('background-color', values['button_color']); 
+    if (values['button_color'] == "transparent") {
+      jQuery('#add-upsell').css('background-color', inherit); 
+    }
+    else {
+      jQuery('#add-upsell').css('background-color', values['button_color']); 
+    }
     
     Shopify.queue = [];
     function submitUpsell() {

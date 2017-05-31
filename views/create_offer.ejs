@@ -91,7 +91,7 @@
               format: "hex"
           });
           $("#button_color").colorpicker({
-              color: "inherit",
+              color: "transparent",
               format: "hex"
           });
         <% } %>
@@ -253,7 +253,7 @@
         
         $('#button_color').on('input', function() {
             var input=$(this);
-            var re = /^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(inherit)$/;
+            var re = /^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(transparent)$/;
             var is_valid = re.test(input.val());
             if(is_valid)
                 {input.removeClass("invalid").addClass("valid");}
