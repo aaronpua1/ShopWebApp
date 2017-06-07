@@ -19,20 +19,13 @@
         </h4>
       </div>
       <div class="panel-body">
-          Account registration at <strong>PrepBootstrap</strong> is only required if you will be selling or buying themes. 
-          This ensures a valid communication channel for all parties involved in any transactions. 
-          sadsa
-          asdadsa
-          adsada
-          adssadsa
-          asdsadsad
-          asdasdsa
-          adsadsa
-          adasda
-          asdsadas
-          adsadsaasdsa
-          asdas
-      </div>      
+        <ol>
+          <li>On the store admin page navigate to "Online Store / Themes"</li>
+          <li>On the main store theme click on “…” and select “Edit HTML/CSS”</li>
+          <li>Under the “Templates” folder, select “product.liquid”</li>
+          <li>On the “product.liquid” source code, type “{% include 'simple-upsell' %}” in the location of the product page that you want to display your upsell offers and click “Save”. <mark>Note: To pinpoint the optimal location to type code, it is best to create an offer in the Simple-Upsells first, type the code in “product.liquid, click save, click preview (eye icon), then navigate to the product page related to the upsell offer to see where the upsell offer is displayed. Continue to move the code around “product.liquid” till the optimal placement is found.</mark></li>
+        </ol>
+      </div>
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -41,19 +34,33 @@
         </h4>
       </div>
       <div class="panel-body">
-          Account registration at <strong>PrepBootstrap</strong> is only required if you will be selling or buying themes. 
-          This ensures a valid communication channel for all parties involved in any transactions. 
-          sadsa
-          asdadsa
-          adsada
-          adssadsa
-          asdsadsad
-          asdasdsa
-          adsadsa
-          adasda
-          asdsadas
-          adsadsaasdsa
-          asdas
+        <ol>
+          <li>On the “Current Offers” page click on “Create an Offer.” <mark>Note: If the store contains over 500 products, it will take a few seconds to display the “Create an Offer” page.</mark></li>
+          <li>The “Create Your Offer” page allows the user to customize their upsell offer:
+            <ul>
+              <li><strong>Offer Name:</strong> This field is not displayed on the store. It is used internally on the admin page to help identify the offers created. <mark>Note: The offer name must be unique to other offer names.</mark></li>
+              <li><strong>Offer Title:</strong> This is a required field that is displayed on the top of your upsell offer.</li>
+              <li><strong>Offer Description:</strong> This is an optional field that can be displayed on the store to further describe the upsell offer.</li>
+              <li><strong>Upsell Border Color:</strong> This is a required field that uses a color-picker (hex) to create a border color around the upsell products in the upsell offer. <mark>Note: Use “transparent” to make the upsell products borderless.</mark></li>
+              <li><strong>Upsell Highlight Border Color:</strong> This is a required field that uses a color-picker (hex) to create a border color around the upsell products that have been selected for bundling in the upsell offer.</li>
+              <li><strong>Upsell Background Color:</strong> This is a required field that uses a color-picker (hex) to add a background color inside the upsell products in the upsell offer.</li>
+              <li><strong>Cart Button Color:</strong> This is a required field that uses a color-picker (hex) to customize the “Add to Cart” button color in the upsell offer. <mark>Note: Use “transparent” to inherit the store’s “Add to Cart” button color.</mark></li>
+              <li><strong>Upsell Border Rounded Edges:</strong> This is an optional checkbox to make the upsell products border have rounded edges instead of sharp edges.</li>
+              <li><strong>Cart Button Rounded Edges:</strong> This is an optional checkbox to make the “Add to Cart” button have rounded edges instead of sharp edges.</li>
+              <li><strong>Activate Offer Upon Creation:</strong> This is an optional checkbox to activate the offer once the offer has been created for immediate display on the store.</li>
+              <li><strong>Select Products(s) to Upsell:</strong> This is a required section to select the upsell products that are displayed in the upsell offer. Minimum upsell product selection is 1 and maximum upsell product selection is 3. </li>
+              <li><strong>Select Products(s) to Place Offer:</strong> This is a required section to select the products that will display the upsell offer along with the upsell products. Minimum product selection is 1 and maximum product selection is 20. <mark>Note: Products cannot be used more than once between all the offers. Products already selected in other created offers are unavailable for selection by another offer.</mark></li>
+            </ul>
+          </li>
+          <li>Click on “Create Offer” button on the bottom of “Create Your Offer” page when customization is complete. </li>
+          <li>Once offer has been created, the “Current Offers” page will display all upsell offers:
+            <ul>
+              <li><strong>Edit:</strong> This will allow the further customization of an existing selected offer and all its current values. <mark>Note: The “Offer Name” cannot be changed once it’s created.</mark></li>
+              <li><strong>Delete:</strong> This will delete the selected upsell offer and remove the upsell offer from all products related to the offer. This will enable the products to be selected in other offers. <mark>Note: If the offer has 20 products selected, the delete will take a few seconds. Please wait for success notification before doing other actions.</mark></li>
+              <li><strong>Status:</strong> This is a switch to either activate or deactivate the selected offer. When an offer is deactivated, the upsell offer will not be displayed in the store products related to the offer.</li>
+            </ul>
+          </li>
+        </ol>
       </div>      
     </div>
   </div>
