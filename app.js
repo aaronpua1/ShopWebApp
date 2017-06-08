@@ -522,7 +522,7 @@ app.get('/create-offer', function(req, res) {
                 for (var i = 0; i < results.length; i++) {
                     if (results[i].hasOwnProperty('products')){
                         for (var j = 0; j < results[i].products.length; j++) {
-                            result_products.products.push(results[i].products[j]);
+                            result_products.products.push(results[i].products[j].replace(/"/g, "").replace(/'/g,""));//HERE
                         }
                     }
                     else if (results[i].hasOwnProperty('metafields')) {
