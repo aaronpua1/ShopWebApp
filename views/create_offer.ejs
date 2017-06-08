@@ -539,7 +539,7 @@
                   <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
                     <option>undefined option</option>
                   <% } else { %>
-                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                   <% } %>
                 <% } %>
               </select>
@@ -611,7 +611,7 @@
                   <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
                     <option>undefined option</option>
                   <% } else { %>
-                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%- product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
+                    <option value="id=<%= product_selections.products[i].id %>|title=<%= product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%= product_selections.products[i].title %></option>
                   <% } %>
                 <% } %>
               </select>
