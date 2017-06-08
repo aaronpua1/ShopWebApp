@@ -330,6 +330,32 @@
             $(this).off("submit");
             this.submit();            
         });
+       $("#btn-upsells").click(function( event ) {
+          $.ajax({
+            type: 'GET',
+            url: '/products,
+            success: function(data) {
+              for (var i = 0; i < data.product_selections.products.length; i++) {
+                $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+              }
+            }
+          });          
+        });
+        $("#btn-products").click(function( event ) {
+          $.ajax({
+            type: 'GET',
+            url: '/products,
+            success: function(data) {
+              for (var i = 0; i < data.product_selections.products.length; i++) {
+                $('#product-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+              }
+            }
+          }); 
+        });
+        $( document ).ajaxComplete(function() {
+          $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+          $("#product-dual-box").bootstrapDualListbox('refresh', true);          
+        });
     });
   </script>
   <div class="container">
@@ -529,19 +555,13 @@
                   <div class="row">
                     <button type="button" id="btn-upsell-filter" class="btn btn-primary">Filter</button>
                     <button type="button" id="btn-upsell-reset" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-upsells" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
-                <% for(var i = 0; i < 1; i++) { %>
-                  <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
-                    <option>undefined option</option>
-                  <% } else { %>
-                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
-                  <% } %>
-                <% } %>
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -601,19 +621,13 @@
                   <div class="row">
                     <button type="button" id="btn-product-filter" class="btn btn-primary">Filter</button>                    
                     <button type="button" id="btn-product-reset" class="btn btn-danger">Reset</button>
+                    <button type="button" id="btn-products" class="btn btn-primary">Show Products</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
-                <% for(var i = 0; i < 1; i++) { %>
-                  <% if (product_selections.products[i].id == "undefined" || product_selections.products[i].title == "undefined" || product_selections.products[i].handle == "undefined" || product_selections.products[i].product_type == "undefined" || product_selections.products[i].vendor == "undefined" || product_selections.products[i].image == "undefined" || product_selections.products[i].image.src == "undefined") { %>
-                    <option>undefined option</option>
-                  <% } else { %>
-                    <option value="id=<%= product_selections.products[i].id %>|title=<%- product_selections.products[i].title %>|handle=<%= product_selections.products[i].handle %>|product_type=<%= product_selections.products[i].product_type %>|vendor=<%= product_selections.products[i].vendor %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title %></option>
-                  <% } %>
-                <% } %>
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>
