@@ -564,9 +564,9 @@
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="10">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <% if (product_selections.products[i].image) { %>
-                    <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
-                  <% } else { %>
                     <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
+                  <% } else { %>
+                    <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
                   <% } %>
                 <% } %>
               </select>
@@ -637,9 +637,9 @@
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
                 <% for(var i = 0; i < product_selections.products.length; i++) { %>
                   <% if (product_selections.products[i].image) { %>
-                    <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
-                  <% } else { %>
                     <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>" style="background-image: url(<%= product_selections.products[i].image.src %>);"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
+                  <% } else { %>
+                    <option value="id=<%= product_selections.products[i].id ? product_selections.products[i].id : "" %>|title=<%- product_selections.products[i].title ? product_selections.products[i].title : "" %>|handle=<%= product_selections.products[i].handle ? product_selections.products[i].handle : "" %>|product_type=<%= product_selections.products[i].product_type ? product_selections.products[i].product_type : "" %>|vendor=<%= product_selections.products[i].vendor ? product_selections.products[i].vendor : "" %>"><%- product_selections.products[i].title ? product_selections.products[i].title : "" %></option>
                   <% } %>
                 <% } %>
               </select>
