@@ -120,7 +120,6 @@
                             {% endif %}
                             </div>
                           </div>
-
                           <div class="separator">
                             <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Remove item</a></p>
                           </div>
@@ -134,7 +133,8 @@
               <div class="col-xs-1 col-sm-1 col-md1 col-lg-1 nopadding" style="width: 20px;">
                 <div class="cart-confirmation">
                   <p style="font-size:17px; color:black; font-weight:bold;">
-                    Total Price: <span id="total-price" style="color:red">{{ total | money }}</span>
+                    Total Price: <br />
+                    <span id="total-price" style="color:red">{{ total | money }}</span>
                   </p>
                   <button class="btn upsell-button" id="add-upsell" name="add-upsell" type="submit" form="add-upsell-form">ADD TO CART</button>
                 </div>
@@ -172,8 +172,9 @@
     jQuery('.upsell-icon').css('color', 'red');
     jQuery('.col-item').css('background-color', values['background_color']);
     jQuery('.col-item').css('box-shadow', '0px 0px 2px 2px ' + values['border_highlight_color']);
+    //jQuery('#add-upsell').css('background-color', values['button_color'] == 'transparent' ? inherit : values['button_color']); 
     if (values['button_color'] == "transparent") {
-      jQuery('#add-upsell').css('background-color', inherit); 
+      jQuery('#add-upsell').css('background-color', ""); 
     }
     else {
       jQuery('#add-upsell').css('background-color', values['button_color']); 
@@ -345,6 +346,7 @@
       }  
     });
     jQuery('#btn-id2').click(function(event) {
+      event.preventDefault();
       if (jQuery('#c2').is(':checked')) {
         jQuery('#c2').prop('checked', false);
         jQuery('#text2').text('Add to bundle');
