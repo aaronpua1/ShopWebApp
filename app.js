@@ -224,8 +224,8 @@ app.get('/preview', function(req, res) {
             return; 
         }
         console.log("PREVIEW BODY: " + JSON.stringify(body));
-        var result_store = body;
-        result_store = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+        var result_store = JSON.parse(body);
+        result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
         var store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
         var store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
         res.render('preview', {
