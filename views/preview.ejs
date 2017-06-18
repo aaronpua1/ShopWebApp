@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+	<link rel='stylesheet' href='/stylesheets/foundation.min.css' />
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<title><%= title %></title>
+</head>
+<body>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      $.ajax({
+          type: 'GET',
+          url: '/products',
+          data: "id=" + <%= id %>,
+          success: function(data) {
+            for (var i = 0; i < data.store_upsell.products.length; i++) {
+              $("#upsells ol").append('<li>' + data.store_upsell.products[i].title + '</li>');
+            }
+            for (var i = 0; i < data.store_products.products.length; i++) {
+              $("#products ol").append('<li>' + data.store_products.products[i].title + '</li>');
+            }
+          }
+      });
+    });
+  </script>
+  <div class="panel-group">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <h4 style="color: white;">Upsell Products in Offer</h4>
+        </h4>
+      </div>
+      <div class="panel-body" id="upsells">
+        <ol>
+        </ol>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <h4 style="color: white;">Products in Offer</h4>
+        </h4>
+      </div>
+      <div class="panel-body" id="products">
+        <ol>
+        </ol>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
