@@ -225,7 +225,7 @@ app.get('/preview', function(req, res) {
         }
         console.log("PREVIEW BODY: " + JSON.stringify(body));
         var result_store = JSON.parse(body);
-        console.log("PREVIEW BODY: " + result_store);
+        console.log("PREVIEW BODY: " + JSON.stringify(result_store));
         result_store = JSON.parse(JSON.stringify(parse_values(result_store.metafield.value)));
         var store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
         var store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
