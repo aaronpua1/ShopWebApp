@@ -330,7 +330,7 @@
             $(this).off("submit");
             this.submit();            
         });
-       $("#btn-upsells").click(function( event ) {
+       /*$("#btn-upsells").click(function( event ) {
           $.ajax({
             type: 'GET',
             url: '/products',
@@ -357,6 +357,19 @@
               }
             }
           }); 
+        });*/
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            success: function(data) {
+              for (var i = 0; i < data.product_selections.products.length; i++) {
+                if (data.product_selections.products[i] == null || data.product_selections.products[i].id == null || data.product_selections.products[i].title == null || data.product_selections.products[i].handle == null || data.product_selections.products[i].product_type == null || data.product_selections.products[i].vendor == null || data.product_selections.products[i].image == null || data.product_selections.products[i].image.src == null) {
+                  continue;
+                }
+                $('#upsell-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+                $('#product-dual-box').append($("<option></option>").attr("value", "id=" + data.product_selections.products[i].id + "|title=" + data.product_selections.products[i].title + "|handle=" + data.product_selections.products[i].handle + "|product_type=" + data.product_selections.products[i].product_type + "|vendor=" + data.product_selections.products[i].vendor).text(data.product_selections.products[i].title).css("background-image", "url(" + data.product_selections.products[i].image.src + ")"));
+              }
+            }
         });
         $( document ).ajaxComplete(function() {
           <% if(typeof store != "undefined") { %>
