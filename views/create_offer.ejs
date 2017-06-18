@@ -366,12 +366,16 @@
             <% for(var i = 0; i < store_products.products.length; i++) { %>
               $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%- store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
             <% } %>
-            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-            $("#product-dual-box").bootstrapDualListbox('refresh', true);
-          <% } else { %>
-            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-            $("#product-dual-box").bootstrapDualListbox('refresh', true);   
-          <% } %>       
+          <% } %>
+          <% for(var i = 0; i < metafields.values.length; i++) { %>
+            <% for(var j = 0; j < metafields.values[i].products.length; j++) { %>
+              if ($("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%- metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").is(':not(:selected)')) {
+                $("#product-dual-box option[value='id=<%= metafields.values[i].products[j].id %>|title=<%- metafields.values[i].products[j].title %>|handle=<%= metafields.values[i].products[j].handle %>|product_type=<%= metafields.values[i].products[j].product_type %>|vendor=<%= metafields.values[i].products[j].vendor %>']").attr('disabled', 'disabled');
+              }
+            <% } %>
+          <% } %>
+          $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+          $("#product-dual-box").bootstrapDualListbox('refresh', true);         
         });
             /*<div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
