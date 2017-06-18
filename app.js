@@ -203,7 +203,8 @@ app.get('/setup_instructions', function(req, res) {
 // Renders content for a modal
 app.get('/preview', function(req, res) {
     res.render('preview', {
-        title: 'Offer Preview'
+        title: 'Offer Preview',
+        id: req.query.id
     });
 })
 
