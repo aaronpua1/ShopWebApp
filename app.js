@@ -209,10 +209,6 @@ app.get('/preview', function(req, res) {
     });
 })*/
 app.get('/preview', function(req, res) {
-    var result_store;
-    var store_upsell;
-    var store_products;
-    
     request({
         method: "GET",
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
@@ -221,15 +217,15 @@ app.get('/preview', function(req, res) {
             'Content-type': 'application/json; charset=utf-8'
         }
     }, 
-    function(err,resp,body) {
+    function(err, resp, body) {
         if(err) { 
             console.log(err);
             callback(true); 
             return; 
         }
-        result_store = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
-        store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
-        store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
+        var result_store = JSON.parse(JSON.stringify(parse_values(body.metafield.value)));
+        var store_upsell = JSON.parse(JSON.stringify(parse_products(result_store.upsell_products)));
+        var store_products = JSON.parse(JSON.stringify(parse_products(result_store.products)));
         res.render('preview', {
             title: 'Offer Preview', 
             store_upsell: store_upsell,
