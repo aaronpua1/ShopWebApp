@@ -368,9 +368,10 @@
             <% } %>
             $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
             $("#product-dual-box").bootstrapDualListbox('refresh', true);
-          <% } %>
-          //$("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-          //$("#product-dual-box").bootstrapDualListbox('refresh', true);          
+          <% } else { %>
+            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+            $("#product-dual-box").bootstrapDualListbox('refresh', true);   
+          <% } %>       
         });
             /*<div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
