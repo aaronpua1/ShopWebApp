@@ -121,7 +121,7 @@
         if (keys != "") {
             keys = parseKeys(keys);
         }        
-        
+        /*
         <% if(typeof store != "undefined") { %>
           <% for(var i = 0; i < store_upsell.products.length; i++) { %>
             $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%- store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
@@ -141,7 +141,7 @@
             }
           <% } %>
         <% } %>
-        
+        */
         $( "#btn-upsell-filter" ).click(function( event ) {
             var result = "(.*?)";
             
@@ -359,8 +359,18 @@
           }); 
         });
         $( document ).ajaxComplete(function() {
-          $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
-          $("#product-dual-box").bootstrapDualListbox('refresh', true);          
+          <% if(typeof store != "undefined") { %>
+            <% for(var i = 0; i < store_upsell.products.length; i++) { %>
+              $("#upsell-dual-box option[value='id=<%= store_upsell.products[i].id %>|title=<%- store_upsell.products[i].title %>|handle=<%= store_upsell.products[i].handle %>|product_type=<%= store_upsell.products[i].product_type %>|vendor=<%= store_upsell.products[i].vendor %>']").prop('selected', true);
+            <% } %>
+            <% for(var i = 0; i < store_products.products.length; i++) { %>
+              $("#product-dual-box option[value='id=<%= store_products.products[i].id %>|title=<%- store_products.products[i].title %>|handle=<%= store_products.products[i].handle %>|product_type=<%= store_products.products[i].product_type %>|vendor=<%= store_products.products[i].vendor %>']").prop('selected', true);
+            <% } %>
+            $("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+            $("#product-dual-box").bootstrapDualListbox('refresh', true);
+          <% } %>
+          //$("#upsell-dual-box").bootstrapDualListbox('refresh', true);
+          //$("#product-dual-box").bootstrapDualListbox('refresh', true);          
         });
             /*<div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="10">
