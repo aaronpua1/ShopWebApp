@@ -12,7 +12,7 @@
 </head>
 <body>
   <script type="text/javascript">
-    ShopifyApp.ready(function(){
+    /*ShopifyApp.ready(function(){
       $.ajax({
           type: 'GET',
           url: '/products',
@@ -26,7 +26,7 @@
             }
           }
       });
-    });
+    });*/
   </script>
   <div class="panel-group">
     <div class="panel panel-primary">
@@ -37,6 +37,9 @@
       </div>
       <div class="panel-body" id="upsells">
         <ol>
+          <% for(var i = 0; i < store_upsell.products.length; i++) { %>
+            <li><%- store_upsell.products[i].title %></li>
+          <% } %>
         </ol>
       </div>
     </div>
@@ -48,6 +51,9 @@
       </div>
       <div class="panel-body" id="products">
         <ol>
+          <% for(var i = 0; i < store_products.products.length; i++) { %>
+            <li><%- store_products.products[i].title %></li>
+          <% } %>
         </ol>
       </div>
     </div>

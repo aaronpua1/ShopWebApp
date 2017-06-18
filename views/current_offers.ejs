@@ -61,7 +61,6 @@
         
         $(document).on('click', '[id^="preview-offer-"]', function() {
             var $button = $(this);
-            ShopifyApp.Bar.loadingOn();
             var id = this.id.split('-').pop();
             ShopifyApp.Modal.open({
               src: 'https://simple-upsells.herokuapp.com/preview?id=' + id,
@@ -187,7 +186,7 @@
               <th>Preview</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>On/Off</th>
+              <th>Off/On</th>
             </tr>
           </thead>
           <tfoot>
@@ -198,7 +197,7 @@
               <th>Preview</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>On/Off</th>
+              <th>Off/On</th>
             </tr>
           </tfoot>
           <tbody>
