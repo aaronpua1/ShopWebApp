@@ -200,14 +200,6 @@ app.get('/setup_instructions', function(req, res) {
     });
 })
 
-// Renders content for a modal
-/*
-app.get('/preview', function(req, res) {
-    res.render('preview', {
-        title: 'Offer Preview',
-        id: req.query.id
-    });
-})*/
 app.get('/preview', function(req, res) {
     request({
         method: "GET",
