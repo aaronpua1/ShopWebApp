@@ -237,7 +237,7 @@ app.get('/preview', function(req, res) {
 // https://datatables.net/reference/api/
 app.get('/', function(req, res) {
     if (req.session.access_token) {
-        var values;
+        var values = {};
         async.waterfall([
             function(callback) {
                 var theme_id;
