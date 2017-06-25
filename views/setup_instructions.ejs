@@ -22,8 +22,8 @@
         <ol>
           <li>On the store admin page navigate to "Online Store / Themes"</li>
           <li>On the main store theme click on “…” and select “Edit HTML/CSS”</li>
-          <li>Under the “Templates” folder, select “product.liquid”</li>
-          <li>On the “product.liquid” source code, type “{% include 'simple-upsell' %}” in the location of the product page that you want to display your upsell offers and click “Save”. <mark>Note: To pinpoint the optimal location to type code, it is best to create an offer in the Simple-Upsells first, type the code in “product.liquid, click save, click preview (eye icon), then navigate to the product page related to the upsell offer to see where the upsell offer is displayed. Continue to move the code around “product.liquid” till the optimal placement is found. (Repeat this step if the theme is changed)</mark></li>
+          <li>Under the “Templates” folder, select “product.liquid” or "product-template.liquid" (Depending on where most of the code is located)</li>
+          <li>On the “product.liquid” or "product-template.liquid" source code, type “{% include 'simple-upsell' %}” in the location of the product page that you want to display your upsell offers and click “Save”. <mark>Note: To pinpoint the optimal location to type code, it is best to create an offer in the Simple-Upsells first, type the code in “product.liquid" or "product-template.liquid", click save, click preview, then navigate to the product page related to the offer to see where the upsell offer is displayed. Continue to move the code around “product.liquid” or "product-template.liquid" till the optimal placement is found. It is typical to place the code at the end of the product or after it. (Repeat this step if the theme is changed)</mark></li>
         </ol>
       </div>
     </div>
@@ -39,15 +39,14 @@
           <li>The “Create Your Offer” page allows the user to customize their upsell offer:
             <ul>
               <li><strong>Offer Name:</strong> This field is not displayed on the store. It is used internally on the admin page to help identify the offers created. <mark>Note: The offer name must be unique to other offer names.</mark></li>
-              <li><strong>Offer Title:</strong> This is a required field that is displayed on the top of your upsell offer.</li>
+              <li><strong>Offer Banner Title:</strong> This is an optional field that is displayed on the top of your upsell offer.</li>
               <li><strong>Offer Description:</strong> This is an optional field that can be displayed on the store to further describe the upsell offer.</li>
               <li><strong>Upsell Border Color:</strong> This is a required field that uses a color-picker (hex) to create a border color around the upsell products in the upsell offer. <mark>Note: Use “transparent” to make the upsell products borderless.</mark></li>
               <li><strong>Upsell Highlight Border Color:</strong> This is a required field that uses a color-picker (hex) to create a border color around the upsell products that have been selected for bundling in the upsell offer.</li>
               <li><strong>Upsell Background Color:</strong> This is a required field that uses a color-picker (hex) to add a background color inside the upsell products in the upsell offer.</li>
               <li><strong>Cart Button Color:</strong> This is a required field that uses a color-picker (hex) to customize the “Add to Cart” button color in the upsell offer. <mark>Note: Use “transparent” to inherit the store’s “Add to Cart” button color.</mark></li>
-              <li><strong>Upsell Border Rounded Edges:</strong> This is an optional checkbox to make the upsell products border have rounded edges instead of sharp edges.</li>
-              <li><strong>Cart Button Rounded Edges:</strong> This is an optional checkbox to make the “Add to Cart” button have rounded edges instead of sharp edges.</li>
-              <li><strong>Activate Offer Upon Creation:</strong> This is an optional checkbox to activate the offer once the offer has been created for immediate display on the store.</li>
+              <li><strong>Use rounded edges around upsell products:</strong> This is an optional checkbox to make the upsell products border have rounded edges instead of sharp edges.</li>
+              <li><strong>Use rounded edges on "Add to Cart" button:</strong> This is an optional checkbox to make the “Add to Cart” button have rounded edges instead of sharp edges.</li>
               <li><strong>Select Products(s) to Upsell:</strong> This is a required section to select the upsell products that are displayed in the upsell offer. Minimum upsell product selection is 1 and maximum upsell product selection is 3. </li>
               <li><strong>Select Products(s) to Place Offer:</strong> This is a required section to select the products that will display the upsell offer along with the upsell products. Minimum product selection is 1 and maximum product selection is 20. <mark>Note: Products cannot be used more than once between all the offers. Products already selected in other created offers are unavailable for selection by another offer.</mark></li>
             </ul>
