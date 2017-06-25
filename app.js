@@ -236,42 +236,138 @@ app.get('/preview', function(req, res) {
 // http://bootsnipp.com/snippets/BDDND
 // https://datatables.net/reference/api/
 app.get('/', function(req, res) {
-     if (req.session.access_token) {
-        request.get({
-            url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
-            headers: {
-                'X-Shopify-Access-Token': req.session.access_token
+    if (req.session.access_token) {
+        var values;
+        async.waterfall([
+            function(callback) {
+                var theme_id;
+                request.get({
+                    url: 'https://' + req.session.shop + '/admin/themes.json?fields=name,id,role',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);                
+                    for (var i = 0; i < body.themes.length; i++) {
+                        if (body.themes[i].role == "main") {
+                            theme_id = body.themes[i].id;
+                            break;
+                        }
+                    }
+                    req.session.theme_id = theme_id;
+                    console.log(theme_id);
+                    callback(null, theme_id);
+                });
+            },
+            function(theme_id, callback) {
+                var data = {
+                    asset: {
+                        key: "snippets\/simple-upsell.liquid",
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, theme_id);
+                });
+            },
+            function(theme_id, callback) {
+                var data = {
+                    asset: {
+                        key: "assets\/contained-bootstrap.min.css",
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null);
+                });
+            },
+            function(callback) {
+                request.get({
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    var data = JSON.parse(body);
+                    console.log(data);
+                    
+                    var metafields = [];
+
+                    for (var key in data.metafields) {
+                        var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
+                        console.log("METAFIELDS: " + JSON.stringify(temp));
+                        temp = JSON.parse(JSON.stringify(parse_values(temp)));
+                        metafields.push(temp);
+                    }
+
+                    values = { metafields: JSON.parse(JSON.stringify(metafields)) };
+                    values = JSON.parse(JSON.stringify(values));
+                    console.log(values);
+                    callback(null, 'done');
+                });                
             }
-        }, 
-        function(err, resp, body){
-            if(err) {
+        ],
+        function(err, result) {
+            if (err) {
                 console.log(err);
-                return res.json(JSON.parse(err));
-            }
-            
-            var data = JSON.parse(body);
-            console.log(data);
-            
-            var metafields = [];
-
-            for (var key in data.metafields) {
-                var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
-                console.log("METAFIELDS: " + JSON.stringify(temp));
-                temp = JSON.parse(JSON.stringify(parse_values(temp)));
-                metafields.push(temp);
-            }
-
-            var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
-            values = JSON.parse(JSON.stringify(values));
-            console.log(values);
-            
+                return res.json(500);
+            }    
             res.render('current_offers', {
                 title: 'Current Offers', 
                 api_key: config.oauth.api_key,
                 shop: req.session.shop,
                 current_offers: values
             });
-        })
+        });
     } else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
         if (req.query.shop) {
