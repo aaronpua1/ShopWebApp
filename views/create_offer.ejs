@@ -213,12 +213,12 @@
         
         $("#product-dual-box").on('change', function(){
             var size = $("#product-dual-box").find(":selected").size();
-            if(size > 20){
+            if(size > 50){
                 $("#product-dual-box").find(":selected").each(function(ind, sel){            
-                    if(ind > 19)
+                    if(ind > 49)
                         $(this).prop("selected", false)
                 })
-                alert('You can only choose 20!');
+                alert('You can only choose 50!');
                 $("#product-dual-box").bootstrapDualListbox('refresh', true);
             }
         });
@@ -450,7 +450,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12 offer-input-groups required">
+            <div class="form-group col-md-12 offer-input-groups">
               <div class="control-group">
                 <label class="control-label" for="offer_title">Offer Banner Title</label>
                 <div class="controls">

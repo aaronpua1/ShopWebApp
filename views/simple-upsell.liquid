@@ -17,12 +17,12 @@
           	  {% assign items = items | split: "|" %} 
             {% endif %}
             {% if upsell_value contains "offer_title:" %}
-              <h3>{{ upsell_value | replace: "offer_title:", ""}}</h3>
+              <h3 id="offer-title">{{ upsell_value | replace: "offer_title:", ""}}</h3>
             {% endif %}
             {% if upsell_value contains "offer_description:" %}
               {% assign description = upsell_value | replace: "offer_description:", "" %} 
               {% if description != "" %}
-                <h5>{{ description }}</h5>
+                <h5 id="offer-description">{{ description }}</h5>
               {% endif %}
               {% break %}
             {% endif %}          
@@ -445,6 +445,14 @@
   </script>
   <style>
   @import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+  #offer-title {
+    margin: 0;
+    padding: 0;
+  }
+  #offer-description {
+    margin: 0;
+    padding: 0;
+  }
   .nopadding 
   {
     padding: 0 !important;
