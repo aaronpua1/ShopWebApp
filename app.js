@@ -741,7 +741,7 @@ app.get('/create-offer', function(req, res) {
 })
 app.get('/products', function(req, res) {
     var result_products = {products: []};
-    var result_metafields;
+    /*var result_metafields;
     var result_store;
     var store_upsell;
     var string_upsell;
@@ -753,7 +753,7 @@ app.get('/products', function(req, res) {
     var unique_types = [];
     var string_meta_ids = "";
     var string_owner_ids = "";
-    
+    */
     async.waterfall([
         function(callback) {
             request.get({
@@ -775,13 +775,14 @@ app.get('/products', function(req, res) {
         },
         function(products, callback) {
             var pages = Number(products.count) / 250;
-            var requests = [{
+            /*var requests = [{
                 method: "GET",
                 url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?fields=value,key&namespace=suo',
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
-            }];
+            }];*/
+            var requests = [];
             if (pages > 0){
                 for (var i = 0; i < pages; i++) {
                     var count = i + 1;
@@ -805,7 +806,7 @@ app.get('/products', function(req, res) {
                 }
                 requests.push(temp_request);
             }
-            if (Object.keys(req.query).length > 0) {
+            /*if (Object.keys(req.query).length > 0) {
                 var temp_request = {
                     method: "GET",
                     url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields/' + req.query.id + '.json?fields=value',
@@ -814,7 +815,7 @@ app.get('/products', function(req, res) {
                     }
                 }
                 requests.push(temp_request);
-            }
+            }*/
             async.map(requests, function(obj, callback) {
                 throttledRequest(obj, function(err, resp, body) {
                     if (!err && resp.statusCode == 200) {
@@ -841,14 +842,14 @@ app.get('/products', function(req, res) {
                             result_products.products.push(temp);//HERE
                         }
                     }
-                    else if (results[i].hasOwnProperty('metafields')) {
+                    /*else if (results[i].hasOwnProperty('metafields')) {
                         result_metafields = results[i];
                     }
                     else {
                         result_store = results[i];
-                    }
+                    }*/
                 }
-                console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
+                /*console.log("RESULTS: " + JSON.stringify(result_products.products[0]));
                 for (var i in result_products.products) {
                     if (unique_vendors.indexOf(result_products.products[i].vendor) === -1) {
                         unique_vendors.push(result_products.products[i].vendor);
@@ -878,7 +879,7 @@ app.get('/products', function(req, res) {
                     console.log("UPSELL STRING: " + JSON.stringify(store_upsell.products));
                     console.log("PRODUCT STRING: " + JSON.stringify(store_products.products));
                 }
-                console.log("WTF");
+                console.log("WTF");*/
                 callback(null, 'done');
                 //console.log(JSON.stringify(result_metafields));
                 //console.log(JSON.stringify(result_values));
@@ -896,10 +897,7 @@ app.get('/products', function(req, res) {
         result_products = JSON.parse(JSON.stringify(result_products));
         //console.log(util.inspect(result_products, false, null));
         res.json({
-            title: 'Create Your Offer', 
-            api_key: config.oauth.api_key,
-            shop: req.session.shop,
-            product_selections: result_products,
+            product_selections: result_products/*,
             store: result_store,
             store_upsell: store_upsell,
             store_products: store_products,
@@ -911,7 +909,7 @@ app.get('/products', function(req, res) {
             vendors: unique_vendors,
             product_type: unique_types,
             prod_meta_ids: string_meta_ids,
-            prod_owner_ids: string_owner_ids
+            prod_owner_ids: string_owner_ids*/
         });
     });
 })
