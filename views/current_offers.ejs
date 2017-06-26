@@ -121,7 +121,7 @@
             function(result) {
                 ShopifyApp.Bar.loadingOn();
                 if (result) {
-                    ShopifyApp.flashNotice("Processing. Please wait for status message.");
+                    ShopifyApp.flashNotice("Processing...");
                     $.ajax({
                         type: 'GET',
                         url: '/delete-offer',
@@ -156,7 +156,7 @@
                 }, 
                 function(result) {
                     if (result) {
-                        ShopifyApp.flashNotice("Processing. Please wait for status message.");
+                        ShopifyApp.flashNotice("Processing...");
                         $.ajax({
                             type: 'GET',
                             url: '/activate-offer',
@@ -186,7 +186,7 @@
                 }, 
                 function(result) {
                     if (result) {
-                        ShopifyApp.flashNotice("Processing. Please wait for status message.");
+                        ShopifyApp.flashNotice("Processing...");
                         $.ajax({
                             type: 'GET',
                             url: '/deactivate-offer',
