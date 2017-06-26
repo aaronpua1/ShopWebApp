@@ -1937,7 +1937,8 @@ app.post('/create-offer', function(req, res) {
             console.log(err);
             return res.json(500);
         }
-        res.redirect('/');
+        //res.redirect('/');
+        res.json(200);
     });    
 })
 /*
