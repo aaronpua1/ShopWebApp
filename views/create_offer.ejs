@@ -448,7 +448,7 @@
                   <% if (typeof store == "undefined") { %>
                     <input class="form-control invalid" id="offer_name" name="offer_name" placeholder="Internal use only (will not be displayed on store)" required="" style="width: 49%;" type="text" maxlength="27">
                   <% } else { %>
-                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only (will not be displayed on store)" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" readonly="readonly">
+                    <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only (will not be displayed on store)" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" html-readOnly="true">
                   <% } %>
                   <span id="error-name" class="error">This offer name is already being used.</span>
                 </div>
