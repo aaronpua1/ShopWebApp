@@ -86,7 +86,7 @@
                   loading: true,
                   callback: function () { 
                     ShopifyApp.Modal.window().$("#offer-form").submit(function (event) {
-                      event.preventDefault();
+                      //event.preventDefault();
                       ShopifyApp.flashNotice("Processing...");
                       ShopifyApp.Modal.window().$('#create-offer').button('loading');
                       
@@ -114,7 +114,7 @@
                           ShopifyApp.Modal.window().$("#error-product").removeClass("error_show").addClass("error");
                       }
                       if (!validated) {
-                        ShopifyApp.Modal.window().$('body, html').animate({scrollTop:ShopifyApp.Modal.window().$('form').offset().top}, 'slow');
+                        ShopifyApp.Modal.window().$('body, html').animate({scrollTop:ShopifyApp.Modal.window().$('#offer-form').offset().top}, 'slow');
                         ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
                         ShopifyApp.Modal.window().$('#create-offer').button('reset');
                         ShopifyApp.Bar.loadingOff();
