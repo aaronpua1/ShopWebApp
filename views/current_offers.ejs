@@ -202,7 +202,7 @@
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
                         $.get('/current-offers', function(data) {
-                          var data = [];
+                          var values = [];
                           for (var i = 0; i < data.current_offers.metafields.length; i++) {
                             var temp;
                             if (data.current_offers.metafields[i].status == "undefined") {
@@ -227,10 +227,10 @@
                                 "Off/On": '<label class="switch"><input id="activate-offer-' + data.current_offers.metafields[i].id + '" name="activate" type="checkbox" value="' + data.current_offers.metafields[i].id + '" checked /><div class="slider round"></div></label>'
                               }
                             }
-                            data.push(temp);
+                            values.push(temp);
                           }
                           table.clear();
-                          table.rows.add(data);
+                          table.rows.add(values);
                           table.draw();
                         });
                         //ShopifyApp.Modal.close();
