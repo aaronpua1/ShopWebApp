@@ -325,13 +325,7 @@
                 ShopifyApp.Bar.loadingOff();
                 return false;
             }
-            $.post( "/create-offer", $( "#create-offer" ).serialize() ).done(function(data) {
-                //ShopifyApp.flashNotice("Offer Changes Successful");
-                //ShopifyApp.Modal.close();
-            }.fail(function (data) {
-                //ShopifyApp.flashError("Warning: Offer Changes Failed");
-                //ShopifyApp.Modal.close();
-            });
+            //$.post( "/create-offer", $( "#create-offer" ).serialize() );
             //$(this).off("submit");
             //this.submit();            
         });
