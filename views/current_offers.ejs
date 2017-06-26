@@ -196,6 +196,7 @@
                       .done(function() {
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
+                        document.getElementById(FrameID).contentDocument.location.reload(true);
                         //ShopifyApp.Modal.close();
                         //$('#datatable').fnReloadAjax();
                         //ShopifyApp.Modal.window().$('body').removeClass("loading");
