@@ -90,12 +90,12 @@
                       ShopifyApp.flashNotice("Offer Deleted Successfully");
                       ShopifyApp.Bar.loadingOff();
                       ShopifyApp.Modal.close();
-                    }
+                    })
                     .fail(function() {
                       ShopifyApp.flashError("Warning: Offer Deletion Failed");
                       ShopifyApp.Bar.loadingOff();
                       ShopifyApp.Modal.close();
-                    };
+                    });
                   }
                 },
                 secondary: [{ 
