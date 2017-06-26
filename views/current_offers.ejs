@@ -197,11 +197,11 @@
                       ShopifyApp.Modal.close();
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
-                        //ShopifyApp.redirect("/apps/simple-upsells/");
+                        ShopifyApp.redirect("/apps/simple-upsells/");
                         //table.ajax.reload(null, false);
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
-                        $.get('/current-offers', function(data) {
+                        /*$.get('/current-offers', function(data) {
                           var values = [];
                           for (var i = 0; i < data.current_offers.metafields.length; i++) {
                             var temp;
@@ -232,7 +232,7 @@
                           table.clear();
                           table.rows.add(values);
                           table.draw();
-                        });
+                        });*/
                         //ShopifyApp.Modal.close();
                         //$('#datatable').fnReloadAjax();
                         //ShopifyApp.Modal.window().$('body').removeClass("loading");
