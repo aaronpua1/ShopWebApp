@@ -85,7 +85,8 @@
                   label: "Submit Changes", 
                   loading: true,
                   callback: function () { 
-                    ShopifyApp.Modal.window().$("#offer-form").submit();        
+                    ShopifyApp.Modal.window().$("#offer-form").submit();
+                    table.ajax.reload();
                     ShopifyApp.Modal.close(); 
                   }
                 },

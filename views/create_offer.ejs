@@ -8,6 +8,7 @@
     shopOrigin: 'https://<%= shop %>.myshopify.com'
   });
   </script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -323,7 +324,7 @@
                 ShopifyApp.Bar.loadingOff();
                 return false;
             }
-
+            
             $(this).off("submit");
             this.submit();            
         });
