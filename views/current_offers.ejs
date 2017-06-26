@@ -72,7 +72,7 @@
               }
             });
         });
-        $(document).on('click', '[id^="edit-offer-"]', function() {
+        /*$(document).on('click', '[id^="edit-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
             ShopifyApp.Modal.open({
@@ -107,7 +107,7 @@
                 }]
               }
             });
-        });
+        });*/
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);            
             var id = this.id.split('-').pop();
@@ -204,37 +204,6 @@
                 });
             }
         });
-        function validate() {
-            var validated = true;
-            
-            if (!$("#offer_name").hasClass("valid")) {
-                validated = false;                
-                $("#offer_name").removeClass("error").addClass("error_show"); 
-            }
-            else {                
-                $("#offer_name").removeClass("error_show").addClass("error");
-            }
-            if ($("#upsell-dual-box option:selected").length == 0) {
-                validated = false;                
-                $("#error-upsell").removeClass("error").addClass("error_show"); 
-            }
-            else {                
-                $("#error-upsell").removeClass("error_show").addClass("error");
-            }
-            if ($('#product-dual-box option:selected').length == 0) {
-                validated = false;                
-                $("#error-product").removeClass("error").addClass("error_show"); 
-            }
-            else {                
-                $("#error-product").removeClass("error_show").addClass("error");
-            }
-            if (!validated) {
-                return false;
-            }
-            else {                
-                return true;
-            }            
-        }
     });
   </script>
   <div class="container">
@@ -276,7 +245,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="preview-offer-<%= current_offers.metafields[i].id %>" data-target="#preview" data-title="Preview" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-eye-open"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer?id=<%= current_offers.metafields[i].id %>"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
                   </td>
                   <td>
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer"><span class="glyphicon glyphicon-trash"></span></button></p>
