@@ -85,8 +85,8 @@
                           ShopifyApp.Modal.close();
                           $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                           .done(function() {
-                            table.ajax.reload(null, false);
-                            //ShopifyApp.redirect("/apps/simple-upsells/");
+                            //table.ajax.reload(null, false);
+                            ShopifyApp.redirect("/apps/simple-upsells/");
                             ShopifyApp.flashNotice("Offer Created Successfully");
                             ShopifyApp.Bar.loadingOff();
                             //ShopifyApp.Modal.close();
@@ -197,8 +197,8 @@
                       ShopifyApp.Modal.close();
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
-                        //ShopifyApp.redirect("/apps/simple-upsells/");
-                        table.ajax.reload(null, false);
+                        ShopifyApp.redirect("/apps/simple-upsells/");
+                        //table.ajax.reload(null, false);
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
                         /*$.get('/current-offers', function(data) {
