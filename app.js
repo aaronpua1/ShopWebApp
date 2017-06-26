@@ -48,7 +48,7 @@ app.get('/shopify_auth', function(req, res) {
             redirect_uri: config.oauth.redirect_uri
         });
     } else {
-       res.render('embedded_app_redirect', {
+        res.render('embedded_app_redirect', {
             shop: req.session.shop,
             api_key: config.oauth.api_key,
             scope: config.oauth.scope,
@@ -261,68 +261,73 @@ app.get('/', function(req, res) {
                             break;
                         }
                     }
-                    req.session.theme_id = theme_id;
+                    //req.session.theme_id = theme_id;
                     console.log(theme_id);
                     callback(null, theme_id);
                 });
             },
             function(theme_id, callback) {
-                var data = {
-                    asset: {
-                        key: "snippets\/simple-upsell.liquid",
-                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
+                if (theme_id != req.session.theme_id) {
+                    var data = {
+                        asset: {
+                            key: "snippets\/simple-upsell.liquid",
+                            src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
+                        }
                     }
+                    req_body = JSON.stringify(data);
+                    
+                    request({
+                        method: "PUT",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }, 
+                    function(err, resp, body){
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log(body);
+                        body = JSON.parse(body);
+                        callback(null, theme_id);
+                    });
                 }
-                req_body = JSON.stringify(data);
-                
-                request({
-                    method: "PUT",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
-                }, 
-                function(err, resp, body){
-                    if(err) { 
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }
-                    console.log(body);
-                    body = JSON.parse(body);
-                    callback(null, theme_id);
-                });
             },
             function(theme_id, callback) {
-                var data = {
-                    asset: {
-                        key: "assets\/contained-bootstrap.min.css",
-                        src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
+                if (theme_id != req.session.theme_id) {                    
+                    var data = {
+                        asset: {
+                            key: "assets\/contained-bootstrap.min.css",
+                            src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
+                        }
                     }
+                    req_body = JSON.stringify(data);
+                    
+                    request({
+                        method: "PUT",
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }, 
+                    function(err, resp, body){
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log(body);
+                        body = JSON.parse(body);
+                        req.session.theme_id = theme_id;
+                        callback(null);
+                    });
                 }
-                req_body = JSON.stringify(data);
-                
-                request({
-                    method: "PUT",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
-                    headers: {
-                        'X-Shopify-Access-Token': req.session.access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
-                }, 
-                function(err, resp, body){
-                    if(err) { 
-                        console.log(err);
-                        callback(true); 
-                        return; 
-                    }
-                    console.log(body);
-                    body = JSON.parse(body);
-                    callback(null);
-                });
             },
             function(callback) {
                 request.get({
