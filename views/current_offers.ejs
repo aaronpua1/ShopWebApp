@@ -118,19 +118,20 @@
                       ShopifyApp.Modal.window().$('#create-offer').button('reset');
                     }
                     else {
-                      $body.addClass("loading");
+                      //$body.addClass("loading");
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
                         ShopifyApp.Modal.close();
-                        $body.removeClass("loading");
+                        $('#datatable').DataTable().ajax.reload();
+                        //$body.removeClass("loading");
                       })
                       .fail(function() {
                         ShopifyApp.flashError("Warning: Offer Changes Failed");
                         ShopifyApp.Bar.loadingOff();
                         ShopifyApp.Modal.close();
-                        $body.removeClass("loading");
+                        //$body.removeClass("loading");
                       });
                     }            
                   }
