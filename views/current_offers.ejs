@@ -85,6 +85,7 @@
                   label: "Submit Changes", 
                   loading: true,
                   callback: function () {
+                    ShopifyApp.flashNotice("Processing...");
                     ShopifyApp.Bar.loadingOn();
                     ShopifyApp.Modal.window().$('#create-offer').button('loading');
                     var validated = true;
@@ -111,7 +112,7 @@
                         ShopifyApp.Modal.window().$("#error-product").removeClass("error_show").addClass("error");
                     }
                     if (!validated) {
-                      ShopifyApp.Modal.window().$('body, html').animate({scrollTop:$('form').offset().top}, 'slow');
+                      ShopifyApp.Modal.window().$('body, html').animate({scrollTop: ShopifyApp.Modal.window().$('form').offset().top}, 'slow');
                       ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
                       ShopifyApp.Modal.window().$('#create-offer').button('reset');
                     }
