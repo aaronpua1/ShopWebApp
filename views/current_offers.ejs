@@ -190,20 +190,21 @@
                       ShopifyApp.Modal.window().$('#create-offer').button('reset');
                     }
                     else {
-                      //$body.addClass("loading");
+                      //ShopifyApp.Modal.window().$('body').addClass("loading");
+                      ShopifyApp.Modal.close();
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
-                        ShopifyApp.Modal.close();
+                        //ShopifyApp.Modal.close();
                         //$('#datatable').fnReloadAjax();
-                        //$body.removeClass("loading");
+                        //ShopifyApp.Modal.window().$('body').removeClass("loading");
                       })
                       .fail(function() {
                         ShopifyApp.flashError("Warning: Offer Changes Failed");
                         ShopifyApp.Bar.loadingOff();
-                        ShopifyApp.Modal.close();
-                        //$body.removeClass("loading");
+                        //ShopifyApp.Modal.close();
+                        //ShopifyApp.Modal.window().$('body').removeClass("loading");
                       });
                     }            
                   }
