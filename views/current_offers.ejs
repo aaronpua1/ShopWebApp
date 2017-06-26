@@ -85,15 +85,16 @@
                           ShopifyApp.Modal.close();
                           $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                           .done(function() {
-                            ShopifyApp.redirect("/apps/simple-upsells/");
-                            ShopifyApp.flashNotice("Offer Changes Successful");
+                            table.ajax.reload(null, false);
+                            //ShopifyApp.redirect("/apps/simple-upsells/");
+                            ShopifyApp.flashNotice("Offer Created Successfully");
                             ShopifyApp.Bar.loadingOff();
                             //ShopifyApp.Modal.close();
                             //$('#datatable').fnReloadAjax();
                             //ShopifyApp.Modal.window().$('body').removeClass("loading");
                           })
                           .fail(function() {
-                            ShopifyApp.flashError("Warning: Offer Changes Failed");
+                            ShopifyApp.flashError("Warning: Offer Creation Failed");
                             ShopifyApp.Bar.loadingOff();
                             //ShopifyApp.Modal.close();
                             //ShopifyApp.Modal.window().$('body').removeClass("loading");
@@ -196,9 +197,22 @@
                       ShopifyApp.Modal.close();
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
-                        ShopifyApp.redirect("/apps/simple-upsells/");
+                        //ShopifyApp.redirect("/apps/simple-upsells/");
+                        table.ajax.reload(null, false);
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
+                        /*$.get('/current-offers', function(data) {
+                          for (var i = 0; i < data.current_offers.metafields.length; i++) {
+                            var temp = { 
+                              "Offer Name": data.current_offers.metafields[i].offer_name,
+                              "Offer Title": data.current_offers.metafields[i].offer_title,
+                              "Offer Description": data.current_offers.metafields[i].offer_description
+                            }
+                          }
+                          table.clear();
+                          table.rows.add(data);
+                          table.draw();
+                        });*/
                         //ShopifyApp.Modal.close();
                         //$('#datatable').fnReloadAjax();
                         //ShopifyApp.Modal.window().$('body').removeClass("loading");
