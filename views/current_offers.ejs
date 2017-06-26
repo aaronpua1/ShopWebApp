@@ -85,8 +85,17 @@
                   label: "Submit Changes", 
                   loading: true,
                   callback: function () { 
-                    ShopifyApp.Modal.window().$("#offer-form").submit();        
-                    ShopifyApp.Modal.close(); 
+                    $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
+                    .done(function() {
+                      ShopifyApp.flashNotice("Offer Deleted Successfully");
+                      ShopifyApp.Bar.loadingOff();
+                      ShopifyApp.Modal.close();
+                    }
+                    .fail(function() {
+                      ShopifyApp.flashError("Warning: Offer Deletion Failed");
+                      ShopifyApp.Bar.loadingOff();
+                      ShopifyApp.Modal.close();
+                    };
                   }
                 },
                 secondary: [{ 
