@@ -86,6 +86,13 @@
                   message: 'create-offer-submit',
                   loading: true,
                   callback: function () { 
+                    if (!ShopifyApp.Modal.window().validate()) {
+                      ShopifyApp.Modal.window().$('body, html').animate({scrollTop:$('form').offset().top}, 'slow');
+                      ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
+                      //ShopifyApp.Modal.window().$('#create-offer').button('reset');
+                      ShopifyApp.Bar.loadingOff();
+                      return false;
+                    }
                     ShopifyApp.Modal.close(); 
                   }
                 },
