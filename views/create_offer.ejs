@@ -24,8 +24,8 @@
 </head>
 <body>
   <script type="text/javascript">
-    ShopifyApp.ready(function(){
-        ShopifyApp.Bar.initialize({
+    $(document).ready(function(){
+        /*ShopifyApp.Bar.initialize({
           title: '<%= title %>',
           icon: '/images/logo.png',
           buttons: {
@@ -43,18 +43,15 @@
                     width: 'large',
                     height: 700,
                     buttons: {
-                    primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }//,
-                    /*secondary: [
-                      { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } }
-                    ]*/
+                    primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }
                     }
                   });
                 }
               }
             ]
           }
-        });
-        ShopifyApp.Bar.loadingOff();
+        })
+        ShopifyApp.Bar.loadingOff();*/
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
