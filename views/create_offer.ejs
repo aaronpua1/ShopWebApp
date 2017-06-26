@@ -24,37 +24,8 @@
 </head>
 <body>
   <script type="text/javascript">
-    ShopifyApp.ready(function(){
-        ShopifyApp.Bar.initialize({
-          title: '<%= title %>',
-          icon: '/images/logo.png',
-          buttons: {
-            primary: {
-                label: "Cancel", 
-                href: '/'
-            },          
-            secondary: [
-              { 
-                label: "Setup Instructions", 
-                callback: function() {
-                  ShopifyApp.Modal.open({
-                    src: 'https://simple-upsells.herokuapp.com/setup_instructions',
-                    title: 'Setup Instructions',
-                    width: 'large',
-                    height: 700,
-                    buttons: {
-                    primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }//,
-                    /*secondary: [
-                      { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } }
-                    ]*/
-                    }
-                  });
-                }
-              }
-            ]
-          }
-        });
-        ShopifyApp.Bar.loadingOff();
+    $(document).ready(function(){
+
         $("#upsell-dual-box").bootstrapDualListbox({
             nonSelectedListLabel: 'Non-selected',
             selectedListLabel: 'Selected',
