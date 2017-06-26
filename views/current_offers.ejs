@@ -121,7 +121,7 @@
                         return false;
                       }
                       else {
-                        $.ajax({
+                        /*$.ajax({
                           type: "POST",
                           url: "/create-offer",
                           data: ShopifyApp.Modal.window().$( "#offer-form" ).serialize(),
@@ -137,6 +137,18 @@
                             ShopifyApp.Bar.loadingOff();
                             ShopifyApp.Modal.close();
                           }                          
+                        });*/
+                        $.post( "/create-offer", ShopifyApp.Modal.window().$( "#offer-form" ).serialize())
+                        .done(function() {
+                          ShopifyApp.flashNotice("Offer Changes Successful");
+                          ShopifyApp.Bar.loadingOff();
+                          ShopifyApp.Modal.close();
+                          $('#datatable').DataTable().ajax.reload();
+                        })
+                        .fail(function() {
+                          ShopifyApp.flashError("Warning: Offer Changes Failed");
+                          ShopifyApp.Bar.loadingOff();
+                          ShopifyApp.Modal.close();
                         });
                       }            
                     });                    
