@@ -296,6 +296,9 @@ app.get('/', function(req, res) {
                         callback(null, theme_id);
                     });
                 }
+                else {
+                    callback(null, theme_id);
+                }
             },
             function(theme_id, callback) {
                 if (theme_id != req.session.theme_id) {                    
@@ -327,6 +330,9 @@ app.get('/', function(req, res) {
                         req.session.theme_id = theme_id;
                         callback(null);
                     });
+                }
+                else {
+                    callback(null);
                 }
             },
             function(callback) {
