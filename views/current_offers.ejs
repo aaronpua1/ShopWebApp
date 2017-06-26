@@ -85,13 +85,7 @@
                   label: "Submit Changes", 
                   loading: true,
                   callback: function () { 
-                    ShopifyApp.Modal.window().$("#offer-form").submit().done(function(data) {
-                        ShopifyApp.flashNotice("Offer Changes Successful");
-                        ShopifyApp.Modal.close();
-                    }.fail(function (data) {
-                        ShopifyApp.flashError("Warning: Offer Changes Failed");
-                        ShopifyApp.Modal.close();
-                    });                    
+                    ShopifyApp.Modal.window().$("#offer-form").submit();                  
                   }
                 },
                 secondary: [{ 
