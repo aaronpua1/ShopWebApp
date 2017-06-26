@@ -204,6 +204,37 @@
                 });
             }
         });
+        function validate() {
+            var validated = true;
+            
+            if (!$("#offer_name").hasClass("valid")) {
+                validated = false;                
+                $("#offer_name").removeClass("error").addClass("error_show"); 
+            }
+            else {                
+                $("#offer_name").removeClass("error_show").addClass("error");
+            }
+            if ($("#upsell-dual-box option:selected").length == 0) {
+                validated = false;                
+                $("#error-upsell").removeClass("error").addClass("error_show"); 
+            }
+            else {                
+                $("#error-upsell").removeClass("error_show").addClass("error");
+            }
+            if ($('#product-dual-box option:selected').length == 0) {
+                validated = false;                
+                $("#error-product").removeClass("error").addClass("error_show"); 
+            }
+            else {                
+                $("#error-product").removeClass("error_show").addClass("error");
+            }
+            if (!validated) {
+                return false;
+            }
+            else {                
+                return true;
+            }            
+        }
     });
   </script>
   <div class="container">
