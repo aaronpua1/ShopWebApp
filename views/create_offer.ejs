@@ -324,9 +324,9 @@
                 ShopifyApp.Bar.loadingOff();
                 return false;
             }
-            //$.post( "/create-offer", $( "#create-offer" ).serialize() ).done(function(data) {
-                
-            //};
+            $.post( "/create-offer", $( "#create-offer" ).serialize() ).done(function(data) {
+                ShopifyApp.Modal.close();
+            };
             //$(this).off("submit");
             //this.submit();            
         });

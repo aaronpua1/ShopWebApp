@@ -85,13 +85,7 @@
                   label: "Submit Changes", 
                   loading: true,
                   callback: function () { 
-                    ShopifyApp.Modal.window().$("#offer-form").submit(function(event) {
-                      event.preventDefault();
-                      $.post( "/create-offer", ShopifyApp.Modal.window().$( "#create-offer" ).serialize() ).done(function(data) {
-                        $('#datatable').DataTable().ajax.reload();
-                        ShopifyApp.Modal.close(); 
-                      });
-                    });                    
+                    ShopifyApp.Modal.window().$("#offer-form").submit();                    
                   }
                 },
                 secondary: [{ 
