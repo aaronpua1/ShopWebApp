@@ -197,22 +197,42 @@
                       ShopifyApp.Modal.close();
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
-                        ShopifyApp.redirect("/apps/simple-upsells/");
+                        //ShopifyApp.redirect("/apps/simple-upsells/");
                         //table.ajax.reload(null, false);
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
-                        /*$.get('/current-offers', function(data) {
+                        $.get('/current-offers', function(data) {
+                          var data = [];
                           for (var i = 0; i < data.current_offers.metafields.length; i++) {
-                            var temp = { 
-                              "Offer Name": data.current_offers.metafields[i].offer_name,
-                              "Offer Title": data.current_offers.metafields[i].offer_title,
-                              "Offer Description": data.current_offers.metafields[i].offer_description
+                            var temp;
+                            if (data.current_offers.metafields[i].status == "undefined") {
+                              temp = { 
+                                "Offer Name": data.current_offers.metafields[i].offer_name,
+                                "Offer Title": data.current_offers.metafields[i].offer_title,
+                                "Offer Description": data.current_offers.metafields[i].offer_description,
+                                "Preview": '<p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="preview-offer-' + data.current_offers.metafields[i].id + '" data-target="#preview" data-title="Preview" data-toggle="modal" value="' + current_offers.metafields[i].id + '"><span class="glyphicon glyphicon-eye-open"></span></button></p>',
+                                "Edit": '<p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-' + data.current_offers.metafields[i].id + '" data-target="#edit" data-title="Edit" data-toggle="modal" value="' + data.current_offers.metafields[i].id + '"><span class="glyphicon glyphicon-pencil"></span></button></p>',
+                                "Delete": '<p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-' + data.current_offers.metafields[i].id + '" data-target="#delete" data-title="Delete" data-toggle="modal" value="' + data.current_offers.metafields[i].id + '" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer"><span class="glyphicon glyphicon-trash"></span></button></p>',
+                                "Off/On": '<label class="switch"><input id="activate-offer-' + data.current_offers.metafields[i].id + '" name="activate" type="checkbox" value="' + data.current_offers.metafields[i].id + '"/><div class="slider round"></div></label>'
+                              }
                             }
+                            else {
+                              temp = { 
+                                "Offer Name": data.current_offers.metafields[i].offer_name,
+                                "Offer Title": data.current_offers.metafields[i].offer_title,
+                                "Offer Description": data.current_offers.metafields[i].offer_description,
+                                "Preview": '<p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="preview-offer-' + data.current_offers.metafields[i].id + '" data-target="#preview" data-title="Preview" data-toggle="modal" value="' + current_offers.metafields[i].id + '"><span class="glyphicon glyphicon-eye-open"></span></button></p>',
+                                "Edit": '<p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-' + data.current_offers.metafields[i].id + '" data-target="#edit" data-title="Edit" data-toggle="modal" value="' + data.current_offers.metafields[i].id + '"><span class="glyphicon glyphicon-pencil"></span></button></p>',
+                                "Delete": '<p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-' + data.current_offers.metafields[i].id + '" data-target="#delete" data-title="Delete" data-toggle="modal" value="' + data.current_offers.metafields[i].id + '" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer"><span class="glyphicon glyphicon-trash"></span></button></p>',
+                                "Off/On": '<label class="switch"><input id="activate-offer-' + data.current_offers.metafields[i].id + '" name="activate" type="checkbox" value="' + data.current_offers.metafields[i].id + '" checked /><div class="slider round"></div></label>'
+                              }
+                            }
+                            data.push(temp);
                           }
                           table.clear();
                           table.rows.add(data);
                           table.draw();
-                        });*/
+                        });
                         //ShopifyApp.Modal.close();
                         //$('#datatable').fnReloadAjax();
                         //ShopifyApp.Modal.window().$('body').removeClass("loading");
