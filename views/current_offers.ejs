@@ -35,9 +35,59 @@
           title: '<%= title %>',
           icon: '/images/logo.png',
           buttons: {
-            primary: {
-              label: "Create an Offer",
-              href: '/create-offer'
+            primary: { 
+              label: "Create an Offer", 
+              loading: true,
+              callback: function () {
+                ShopifyApp.flashNotice("Processing...");
+                ShopifyApp.Bar.loadingOn();
+                ShopifyApp.Modal.window().$('#create-offer').button('loading');
+                var validated = true;
+        
+                if (!ShopifyApp.Modal.window().$("#offer_name").hasClass("valid")) {
+                    validated = false;                
+                    ShopifyApp.Modal.window().$("#offer_name").removeClass("error").addClass("error_show"); 
+                }
+                else {                
+                    ShopifyApp.Modal.window().$("#offer_name").removeClass("error_show").addClass("error");
+                }
+                if (ShopifyApp.Modal.window().$("#upsell-dual-box option:selected").length == 0) {
+                    validated = false;                
+                    ShopifyApp.Modal.window().$("#error-upsell").removeClass("error").addClass("error_show"); 
+                }
+                else {                
+                    ShopifyApp.Modal.window().$("#error-upsell").removeClass("error_show").addClass("error");
+                }
+                if (ShopifyApp.Modal.window().$('#product-dual-box option:selected').length == 0) {
+                    validated = false;                
+                    ShopifyApp.Modal.window().$("#error-product").removeClass("error").addClass("error_show"); 
+                }
+                else {                
+                    ShopifyApp.Modal.window().$("#error-product").removeClass("error_show").addClass("error");
+                }
+                if (!validated) {
+                  ShopifyApp.Modal.window().$('body, html').animate({scrollTop: ShopifyApp.Modal.window().$('form').offset().top}, 'slow');
+                  ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
+                  ShopifyApp.Modal.window().$('#create-offer').button('reset');
+                }
+                else {
+                  //$body.addClass("loading");
+                  $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
+                  .done(function() {
+                    ShopifyApp.flashNotice("Offer Changes Successful");
+                    ShopifyApp.Bar.loadingOff();
+                    ShopifyApp.Modal.close();
+                    //$('#datatable').fnReloadAjax();
+                    //$body.removeClass("loading");
+                  })
+                  .fail(function() {
+                    ShopifyApp.flashError("Warning: Offer Changes Failed");
+                    ShopifyApp.Bar.loadingOff();
+                    ShopifyApp.Modal.close();
+                    //$body.removeClass("loading");
+                  });
+                }            
+              }
             },          
             secondary: [
               { 
@@ -126,7 +176,7 @@
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
                         ShopifyApp.Modal.close();
-                        $('#datatable').fnReloadAjax();
+                        //$('#datatable').fnReloadAjax();
                         //$body.removeClass("loading");
                       })
                       .fail(function() {
