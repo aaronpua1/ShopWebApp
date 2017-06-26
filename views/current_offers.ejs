@@ -116,17 +116,20 @@
                       ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
                       ShopifyApp.Modal.window().$('#create-offer').button('reset');
                     }
-                    else {                
+                    else {
+                      $body.addClass("loading");
                       $.post("/create-offer", ShopifyApp.Modal.window().$("#offer-form").serialize())
                       .done(function() {
                         ShopifyApp.flashNotice("Offer Changes Successful");
                         ShopifyApp.Bar.loadingOff();
                         ShopifyApp.Modal.close();
+                        $body.removeClass("loading");
                       })
                       .fail(function() {
                         ShopifyApp.flashError("Warning: Offer Changes Failed");
                         ShopifyApp.Bar.loadingOff();
                         ShopifyApp.Modal.close();
+                        $body.removeClass("loading");
                       });
                     }            
                   }
