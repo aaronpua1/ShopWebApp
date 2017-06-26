@@ -379,7 +379,11 @@
     <div class="row">
       <hr>
       <div class="bg-primary">
-        <p class="h1">Create Your Offer</p>        
+        <% if (typeof store == "undefined") { %>
+          <p class="h1">Create Your Offer</p>        
+        <% } else { %>
+          <p class="h1">Edit Your Offer</p>
+        <% } %>                
       </div>
       <hr>
       <form id="offer-form" method="POST" action="/create-offer">
@@ -574,7 +578,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="20" data-width="49%">
+              <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="20">
               </select>
               <span id="error-upsell" class="error">Must select one</span>
             </div>
@@ -638,7 +642,7 @@
               </div>
             </div>
             <div class="form-group col-md-12">
-              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="20" data-width="49%">
+              <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="20">
               </select>
               <span id="error-product" class="error">Must select one</span>
             </div>

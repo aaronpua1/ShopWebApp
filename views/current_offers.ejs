@@ -81,7 +81,18 @@
               width: 'fullwidth',
               height: 700,
               buttons: {
-              primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }
+                primary: { 
+                  label: "Submit", 
+                  callback: function () { 
+                    ShopifyApp.Modal.close(); 
+                  }
+                },
+                secondary: [{ 
+                  label: "Cancel", 
+                  callback: function () {
+                    ShopifyApp.Modal.close(); 
+                  }
+                }]
               }
             });
         });
