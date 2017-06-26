@@ -72,7 +72,20 @@
               }
             });
         });
-        
+        $(document).on('click', '[id^="edit-offer-"]', function() {
+            var $button = $(this);
+            var id = this.id.split('-').pop();
+            ShopifyApp.Modal.open({
+              src: 'https://simple-upsells.herokuapp.com/create-offer?id=' + id,
+              title: 'Edit Offer',
+              width: 'large',
+              height: 700,
+              buttons: {
+              primary: { label: "Edit Offer", callback: function (label) { ShopifyApp.Modal.close(); } }
+              secondary: [ { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } } ]
+              }
+            });
+        });
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);
             ShopifyApp.Bar.loadingOn();
@@ -210,7 +223,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="preview-offer-<%= current_offers.metafields[i].id %>" data-target="#preview" data-title="Preview" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-eye-open"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer?id=<%= current_offers.metafields[i].id %>"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></p>
                   </td>
                   <td>
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-trash"></span></button></p>
