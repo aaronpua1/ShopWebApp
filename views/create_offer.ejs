@@ -313,9 +313,8 @@
             
             return result;
         }
-        /*$("#offer-form").on("submit", function(event) {
+        $("#offer-form").on("submit", function(event) {
             event.preventDefault();
-            ShopifyApp.flashNotice("Processing...");
             $('#create-offer').button('loading');
             if (!validate()) {
                 $('body, html').animate({scrollTop:$('form').offset().top}, 'slow');
@@ -324,10 +323,10 @@
                 ShopifyApp.Bar.loadingOff();
                 return false;
             }
-            //$.post( "/create-offer", $( "#create-offer" ).serialize() );
-            //$(this).off("submit");
-            //this.submit();            
-        });*/
+            
+            $(this).off("submit");
+            this.submit();            
+        });
        /*$("#btn-upsells").click(function( event ) {
           $.ajax({
             type: 'GET',
