@@ -682,9 +682,9 @@
             <label class="control-label" for="create-offer"></label>
             <div class="controls">
               <% if (typeof store == "undefined") { %>
-                <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create">Create Offer</button>
+                <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create" style="display:none;">Create Offer</button>
               <% } else { %>
-                <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create">Update Offer</button>
+                <button class="btn btn-primary btn-lg" id="create-offer" name="create-offer" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer" value="Create" style="display:none;">Update Offer</button>
               <% } %>              
             </div>
           </div>
