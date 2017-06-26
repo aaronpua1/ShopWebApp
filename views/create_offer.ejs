@@ -282,10 +282,10 @@
             
             if (!$("#offer_name").hasClass("valid")) {
                 validated = false;                
-                $("#offer_name").removeClass("error").addClass("error_show"); 
+                $("#error-name").removeClass("error").addClass("error_show"); 
             }
             else {                
-                $("#offer_name").removeClass("error_show").addClass("error");
+                $("#error-name").removeClass("error_show").addClass("error");
             }
             if ($("#upsell-dual-box option:selected").length == 0) {
                 validated = false;                
@@ -318,7 +318,7 @@
             ajaxStart: function() { $body.addClass("loading"); },
             ajaxStop: function() { $body.removeClass("loading"); }    
         });
-        $("#offer-form").on("submit", function(event) {
+        /*$("#offer-form").on("submit", function(event) {
             event.preventDefault();
             $('#create-offer').button('loading');
             if (!validate()) {
@@ -331,7 +331,7 @@
             
             $(this).off("submit");
             this.submit();            
-        });
+        });*/
        /*$("#btn-upsells").click(function( event ) {
           $.ajax({
             type: 'GET',
@@ -436,9 +436,9 @@
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <h4 style="color: white;">Step 1: Setup Offer</h4>
-              <span id="error-top" class="error">There's an error on the page</span>
+              <h4 style="color: white;">Step 1: Setup Offer</h4>              
             </h4>
+            <span id="error-top" class="error">There's an error on the page</span>
           </div>
           <div class="panel-body">
             <div class="form-group col-md-12 offer-input-groups required">
@@ -450,7 +450,7 @@
                   <% } else { %>
                     <input class="form-control valid" id="offer_name" name="offer_name" placeholder="Internal use only (will not be displayed on store)" required="" style="width: 49%;" type="text" value="<%= store.offer_name %>" maxlength="27" readonly="readonly">
                   <% } %>
-                  <span class="error">This offer name is already being used.</span>
+                  <span id="error-name" class="error">This offer name is already being used.</span>
                 </div>
               </div>
             </div>
@@ -556,8 +556,8 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               <h4 style="color: white;">Step 2: Select product(s) to upsell (Must select one, 3 max)</h4>
-              <span id="error-top" class="error">There's an error on the page</span>
             </h4>
+            <span id="error-upsell" class="error">Must select one</span>
           </div>
           <div class="panel-body">
             <div class="form-group col-md-12 offer-input-groups">
@@ -610,8 +610,7 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="upsell-dual-box" multiple="multiple" name="upsell_dual_box" size="20">
-              </select>
-              <span id="error-upsell" class="error">Must select one</span>
+              </select>              
             </div>
           </div>
         </div>
@@ -620,8 +619,8 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               <h4 style="color: white;">Step 3: Select Product(s) to Place Offer (Must select one, 50 max)</h4>
-              <span id="error-top" class="error">There's an error on the page</span>
             </h4>
+            <span id="error-product" class="error">Must select one</span>
           </div>
           <div class="panel-body">
             <div class="form-group col-md-12 offer-input-groups">
@@ -674,8 +673,7 @@
             </div>
             <div class="form-group col-md-12">
               <select class="dual-box" id="product-dual-box" multiple="multiple" name="product_dual_box" size="20">
-              </select>
-              <span id="error-product" class="error">Must select one</span>
+              </select>              
             </div>
           </div>
         </div>
