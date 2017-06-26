@@ -87,7 +87,7 @@
                   loading: true,
                   callback: function () { 
                     ShopifyApp.Modal.window().$('#create-offer').button('loading');
-                    if (!ShopifyApp.Modal.window().validate()) {
+                    if (!ShopifyApp.Modal.window().performValidation()) {
                       ShopifyApp.Modal.window().$('body, html').animate({scrollTop:ShopifyApp.Modal.window().$('form').offset().top}, 'slow');
                       ShopifyApp.Modal.window().$('#error-top').removeClass("error").addClass("error_show");
                       ShopifyApp.Modal.window().$('#create-offer').button('reset');
