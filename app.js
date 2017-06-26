@@ -390,6 +390,39 @@ app.get('/', function(req, res) {
         }
     }
 })
+app.get('/current-offers', function(req, res) {
+    request.get({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, 
+    function(err, resp, body){
+        if(err) { 
+            console.log(err);
+            callback(true); 
+            return; 
+        }
+        var data = JSON.parse(body);
+        console.log(data);
+        
+        var metafields = [];
+
+        for (var key in data.metafields) {
+            var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
+            console.log("METAFIELDS: " + JSON.stringify(temp));
+            temp = JSON.parse(JSON.stringify(parse_values(temp)));
+            metafields.push(temp);
+        }
+
+        var values = { metafields: JSON.parse(JSON.stringify(metafields)) };
+        values = JSON.parse(JSON.stringify(values));
+        console.log(values);
+        res.json({
+            current_offers: values
+        });
+    });
+})
 /*
 // This is to render the create-offer form page to allow users to customize their offers
 // http://bootsnipp.com/snippets/3xv0n
