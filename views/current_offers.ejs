@@ -11,18 +11,6 @@
       <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
       <link href="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
       <link rel='stylesheet' href='/stylesheets/style.css' />
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/js/bootstrap-colorpicker.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="/javascripts/jquery.bootstrap-duallistbox.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-*.min.js"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-duallistbox.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link async href="http://fonts.googleapis.com/css?family=Advent%20Pro" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.3.3/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <script type="text/javascript">
     ShopifyApp.init({
         apiKey: '<%= api_key %>',
@@ -84,7 +72,7 @@
               }
             });
         });
-        $(document).on('click', '[id^="edit-offer-"]', function() {
+        /*$(document).on('click', '[id^="edit-offer-"]', function() {
             var $button = $(this);
             var id = this.id.split('-').pop();
             ShopifyApp.Modal.open({
@@ -96,7 +84,7 @@
               primary: { label: "OK", callback: function (label) { ShopifyApp.Modal.close(); } }
               }
             });
-        });
+        });*/
         $(document).on('click', '[id^="delete-offer-"]', function() {
             var $button = $(this);            
             var id = this.id.split('-').pop();
@@ -234,7 +222,7 @@
                     <p data-placement="top" data-toggle="tooltip" title="Preview"><button class="btn btn-primary btn-xs preview" name="preview" id="preview-offer-<%= current_offers.metafields[i].id %>" data-target="#preview" data-title="Preview" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-eye-open"></span></button></p>
                   </td>
                   <td>
-                    <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                    <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/create-offer?id=<%= current_offers.metafields[i].id %>"><button class="btn btn-primary btn-xs edit" name="edit" id="edit-offer-<%= current_offers.metafields[i].id %>" data-target="#edit" data-title="Edit" data-toggle="modal" value="<%= current_offers.metafields[i].id %>"><span class="glyphicon glyphicon-pencil"></span></button></a></p>
                   </td>
                   <td>
                     <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs delete" name="delete" id="delete-offer-<%= current_offers.metafields[i].id %>" data-target="#delete" data-title="Delete" data-toggle="modal" value="<%= current_offers.metafields[i].id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Offer"><span class="glyphicon glyphicon-trash"></span></button></p>
