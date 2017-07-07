@@ -198,9 +198,9 @@
         
         $("#upsell-dual-box").on('change', function(){
             var size = $("#upsell-dual-box").find(":selected").size();
-            if(size > 3){
+            if(size > 4){
                 $("#upsell-dual-box").find(":selected").each(function(ind, sel){            
-                    if(ind > 2)
+                    if(ind > 3)
                         $(this).prop("selected", false)
                 })
                 alert('You can only choose 3!');
@@ -555,7 +555,7 @@
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h4 class="panel-title">
-              <h4 style="color: white;">Step 2: Select product(s) to upsell (Must select one, 3 max)</h4>
+              <h4 style="color: white;">Step 2: Select product(s) to upsell (Must select one, 4 max)</h4>
             </h4>
             <span id="error-upsell" class="error">Must select one</span>
           </div>
