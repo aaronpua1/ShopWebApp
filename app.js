@@ -196,7 +196,8 @@ app.get('/install', function(req, res) {
 // Renders content for a modal
 app.get('/setup_instructions', function(req, res) {
     res.render('setup_instructions', {
-        title: 'Setup Instructions'
+        title: 'Setup Instructions',
+        shop: req.session.shop
     });
 })
 

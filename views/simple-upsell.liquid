@@ -6,7 +6,7 @@
 	{% assign total = 0 %}    
   {% assign metafields = product.metafields.suop %}
 	{% assign configs = metafields.su1 %}    
-    {% if configs contains "status:on" and product.available %}
+    {% if configs contains "status:on" %}
       <div id="simple-upsell" class="bootstrap">
         <input type="hidden" id="configs" name="configs" value="{{ configs }}" />
         <div class="container upsell-container padded-row" style="margin-top:20px;">
@@ -31,61 +31,14 @@
             <div class="row upsell-row">
               {% assign variants = product.variants %}
               {% assign variantSize = product.variants | size %}
-              <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                <div class="col-item" id="item1" value="{{  }}">
-                  <span class="tooltiptext">{{ product.title }}</span>
-                  <div class="photo"><a href="{{ product.url }}"><img alt="{{ product.title }}" class="img-responsive upsell-image" src="{{ product | img_url: 'medium' }}"></a></div>
-                  <div class="info">
-                    <div class="row">
-                      <div class="title col-md-12">
-                        <a href="{{ product.url }}" style="color: black;"><h5>{{ product.title }}</h5></a>
-                        {% assign total = total | plus: variants[0].price %}
-                        <span id="variant-price1" class="price-text-color">{{ variants[0].price | money }}   </span> 
-                        {% if product.compare_at_price > variants[0].price %}
-                          <s id="compare-price1" class="sale-price">
-                            {{ product.compare_at_price_max | money }}
-                          </s>
-                        {% endif %} 
-                      </div>
-                      <div class="variant col-md-12">
-                        {% if variantSize <= 1 %}
-                        <select id="variant1" class="variant-select" name="variant1" style="visibility: hidden;">
-                          {% for variant in variants %}
-                            {% if variant.available %}
-                              <option value="{{ variant.id }}-{{ variant.price | money }}-{{ product.compare_at_price_max | money }}">{{ variant.title }}</option>
-                            {% endif %}
-                          {% endfor %}
-                        </select>
-                        {% else %}
-                        <select id="variant1" class="variant-select" name="variant1">
-                          {% for variant in variants %}
-                            {% if variant.available %}
-                              <option value="{{ variant.id }}-{{ variant.price | money }}-{{ product.compare_at_price_max | money }}">{{ variant.title }}</option>
-                            {% endif %}
-                          {% endfor %}
-                        </select>
-                        {% endif %}
-                      </div>
-                    </div>
-
-                    <div class="separator">
-                      <p id="btn-id1" class="btn-add"><input type="checkbox" id="c1" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon1" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text1" href="#">Remove item</a></p>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                </div>
-              </div> 
               {% for handle in items %}              	
                 {% assign item = all_products[handle] %}
                 {% assign variants = item.variants %}
                 {% assign variantSize = item.variants | size %}
               	{% if item.id != product.id and item != blank %}
               	  {% if item.available %}
-                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
-                      <h2><span class="glyphicon glyphicon-plus"></span></h2>
-                    </div>
                     <div class="col-xs-10 col-sm-4 col-md-1 col-lg-1 upsell-product">
-                      <div class="col-item" id="item{{ forloop.index | plus: 1 }}" value="{{  }}">
+                      <div class="col-item" id="item{{ forloop.index }}" value="{{  }}">
                         <span class="tooltiptext">{{ item.title }}</span>
                         <div class="photo"><a href="{{ item.url }}"><img alt="{{ item.title }}" class="img-responsive upsell-image" src="{{ item | img_url: 'medium' }}"></a></div>
                         <div class="info">
@@ -93,16 +46,16 @@
                             <div class="title col-md-12">
                               <a href="{{ item.url }}" style="color: black;"><h5>{{ item.title }}</h5></a>   
                               {% assign total = total | plus: variants[0].price %}
-                              <span id="variant-price{{ forloop.index | plus: 1 }}" class="price-text-color">{{ variants[0].price | money }}  </span>                                                      
+                              <span id="variant-price{{ forloop.index }}" class="price-text-color">{{ variants[0].price | money }}  </span>                                                      
                               {% if item.compare_at_price > variants[0].price %}
-                                <s id="compare-price{{ forloop.index | plus: 1 }}" class="sale-price">
+                                <s id="compare-price{{ forloop.index }}" class="sale-price">
                                   {{ item.compare_at_price_max | money }}
                                 </s>
                               {% endif %} 
                             </div>
                             <div class="variant col-md-12">
                             {% if variantSize <= 1 %}
-                              <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}" style="visibility: hidden;">
+                              <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}" style="visibility: hidden;">
                                 {% for variant in variants %}
                                   {% if variant.available %}
                                     <option value="{{ variant.id }}-{{ variant.price | money }}-{{ item.compare_at_price_max | money }}">{{ variant.title }}</option>
@@ -110,7 +63,7 @@
                                 {% endfor %}
                               </select>
                             {% else %}
-                              <select id="variant{{ forloop.index | plus: 1 }}" class="variant-select" name="variant{{ forloop.index | plus: 1 }}">
+                              <select id="variant{{ forloop.index }}" class="variant-select" name="variant{{ forloop.index }}">
                                 {% for variant in variants %}
                                   {% if variant.available %}
                                     <option value="{{ variant.id }}-{{ variant.price | money }}-{{ item.compare_at_price_max | money }}">{{ variant.title }}</option>
@@ -121,12 +74,17 @@
                             </div>
                           </div>
                           <div class="separator">
-                            <p id="btn-id{{ forloop.index | plus: 1 }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index | plus: 1 }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon{{ forloop.index | plus: 1 }}" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text{{ forloop.index | plus: 1 }}" href="#">Remove item</a></p>
+                            <p id="btn-id{{ forloop.index }}" class="btn-add"><input type="checkbox" id="c{{ forloop.index }}" name="cb[]" value="{{ variants[0].id }}" style="display:none;" checked><i id="icon{{ forloop.index }}" class="fa fa-times upsell-icon" style="color:black;"></i><a id="text{{ forloop.index }}" href="#">Remove item</a></p>
                           </div>
                           <div class="clearfix"></div>
                         </div>
                       </div>
                     </div>
+                    {% if forloop.last == false %}
+                      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="width: 15px;">
+                        <h2><span class="glyphicon glyphicon-plus"></span></h2>
+                      </div>
+                    {% endif %}
               	  {% endif %}
               	{% endif %}
               {% endfor %}
