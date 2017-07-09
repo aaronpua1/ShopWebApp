@@ -409,7 +409,7 @@ app.get('/', function(req, res) {
                 return res.json(500);
             }    
             var data = JSON.parse(result);
-            console.log("WATERFALL RESULT: " + JSON.stringify(result));
+            console.log("WATERFALL RESULT: " + JSON.stringify(data));
             res.render('current_offers', {
                 title: 'Current Offers', 
                 api_key: config.oauth.api_key,
