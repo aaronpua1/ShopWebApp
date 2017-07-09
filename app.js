@@ -185,6 +185,41 @@ app.get('/access_token', verifyRequest, function(req, res) {
         });
     }
 })
+/*
+app.get('/activate_charge', function(req, res) {
+    function(access_token, callback) {
+        var data = {
+            recurring_application_charge: {
+                name: "snippets\/simple-upsell.liquid",
+                price: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid",
+                return_url: ,
+                test: true,
+                trial_days: 7
+            }
+        }
+        req_body = JSON.stringify(data);
+        
+        request({
+            method: "POST",
+            url: 'https://' + req.query.shop + '/admin/admin/recurring_application_charges.json',
+            headers: {
+                'X-Shopify-Access-Token': access_token,
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            body: req_body
+        }, 
+        function(err, resp, body){
+            if(err) { 
+                console.log(err);
+                callback(true); 
+                return; 
+            }
+            console.log(body);
+            body = JSON.parse(body);
+            callback(null, access_token, theme_id);
+        });
+    }
+})*/
 
 // Renders the install/login form
 app.get('/install', function(req, res) {
@@ -373,6 +408,7 @@ app.get('/', function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
+            console.log(JSON.stringify(result));
             res.render('current_offers', {
                 title: 'Current Offers', 
                 api_key: config.oauth.api_key,
