@@ -408,7 +408,7 @@ app.get('/', function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
-            console.log(JSON.stringify(result));
+            console.log("WATERFALL RESULT: " + JSON.stringify(result));
             res.render('current_offers', {
                 title: 'Current Offers', 
                 api_key: config.oauth.api_key,
