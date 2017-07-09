@@ -408,6 +408,7 @@ app.get('/', function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
+            var data = JSON.parse(result);
             console.log("WATERFALL RESULT: " + JSON.stringify(result));
             res.render('current_offers', {
                 title: 'Current Offers', 
