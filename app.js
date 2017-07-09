@@ -399,7 +399,7 @@ app.get('/', function(req, res) {
                     values = { metafields: JSON.parse(JSON.stringify(metafields)) };
                     values = JSON.parse(JSON.stringify(values));
                     console.log(values);
-                    callback(null, 'done');
+                    callback(null, body);
                 });                
             }
         ],
