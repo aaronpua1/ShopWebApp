@@ -56,7 +56,7 @@ app.get('/shopify_auth', function(req, res) {
         });
     } 
 })
-
+/*
 app.get('/access_token', verifyRequest, function(req, res) {
     if (req.query.shop) {
         async.waterfall([
@@ -185,7 +185,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
         });
     }
 })
-/*
+*/
 app.get('/access_token', verifyRequest, function(req, res) {
     if (req.query.shop) {
         async.waterfall([
@@ -282,8 +282,108 @@ app.get('/activate_charge', function(req, res) {
                 }
                 console.log(body);
                 body = JSON.parse(body);                
-                callback(null, recurring_application_charge.status);
+                callback(null, body.recurring_application_charge.status);
             });
+        },
+        function(status, callback) {
+            var theme_id;
+            if (status == "accepted") {
+                request.get({
+                    url: 'https://' + req.session.shop + '/admin/themes.json?fields=name,id,role',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);                
+                    for (var i = 0; i < body.themes.length; i++) {
+                        if (body.themes[i].role == "main") {
+                            theme_id = body.themes[i].id;
+                            break;
+                        }
+                    }
+                    req.session.theme_id = theme_id;
+                    console.log(theme_id);
+                    callback(null, status, theme_id);
+                });              
+            }
+            else {
+                callback(status, "none");
+            }
+        },
+        function(status, theme_id, callback) {
+            if (status == "accepted") {
+                var data = {
+                    asset: {
+                        key: "snippets\/simple-upsell.liquid",
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, status, theme_id);
+                });              
+            }
+            else {
+                callback(status, "none");
+            }
+        },
+        function(status, theme_id, callback) {
+            if (status == "accepted") {
+                var data = {
+                    asset: {
+                        key: "assets\/contained-bootstrap.min.css",
+                        src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "PUT",
+                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, status);
+                });              
+            }
+            else {
+                callback(status)
+            }
         },
         function(status, callback) {
             if (status == "accepted") {
@@ -301,7 +401,7 @@ app.get('/activate_charge', function(req, res) {
                 
                 request({
                     method: "POST",
-                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
+                    url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -338,7 +438,7 @@ app.get('/activate_charge', function(req, res) {
         }        
     });
 })
-*/
+
 
 // Renders the install/login form
 app.get('/install', function(req, res) {
@@ -390,7 +490,7 @@ app.get('/preview', function(req, res) {
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
 // https://datatables.net/reference/api/
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
     if (req.session.access_token) {
         var values = {};
         async.waterfall([
@@ -536,6 +636,209 @@ app.get('/', function(req, res) {
                 shop: req.session.shop,
                 current_offers: values
             });
+        });
+    } else {
+        //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
+        if (req.query.shop) {
+            req.session.shop = req.query.shop.replace(".myshopify.com", "");
+            res.redirect('/shopify_auth');
+        }
+        else {
+            res.redirect('/install');
+        }
+    }
+})*/
+app.get('/', function(req, res) {
+    if (req.session.access_token) {
+        var values = {};
+        async.waterfall([
+            function(callback) {
+                request.get({
+                    url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token
+                    }
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    req.session.confirm_url = body.recurring_application_charge.confirmation_url;
+                    callback(null, body.recurring_application_charge.status);
+                });
+            },
+            function(status, callback) {
+                if (status == "accepted" || status == "active") {
+                    var theme_id;
+                    request.get({
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/themes.json?fields=name,id,role',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }, 
+                    function(err, resp, body){
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log(body);
+                        body = JSON.parse(body);                
+                        for (var i = 0; i < body.themes.length; i++) {
+                            if (body.themes[i].role == "main") {
+                                theme_id = body.themes[i].id;
+                                break;
+                            }
+                        }
+                        //req.session.theme_id = theme_id;
+                        console.log(theme_id);
+                        callback(null, status, theme_id);
+                    });                  
+                }
+                else {
+                    callback(null, status, "none");
+                }
+            },
+            function(status, theme_id, callback) {
+                if (status == "accepted" || status == "active") {
+                    if (theme_id != req.session.theme_id && theme_id != "none") {
+                        var data = {
+                            asset: {
+                                key: "snippets\/simple-upsell.liquid",
+                                src: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid"
+                            }
+                        }
+                        req_body = JSON.stringify(data);
+                        
+                        request({
+                            method: "PUT",
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token,
+                                'Content-type': 'application/json; charset=utf-8'
+                            },
+                            body: req_body
+                        }, 
+                        function(err, resp, body){
+                            if(err) { 
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log(body);
+                            body = JSON.parse(body);
+                            callback(null, status, theme_id);
+                        });
+                    }
+                    else {
+                        callback(null, status, theme_id);
+                    }
+                }
+                else {
+                    callback(null, status, "none")
+                }
+            },
+            function(status, theme_id, callback) {
+                if (status == "accepted" || status == "active") {
+                    if (theme_id != req.session.theme_id && theme_id != "none") {                    
+                        var data = {
+                            asset: {
+                                key: "assets\/contained-bootstrap.min.css",
+                                src: "http:\/\/dl.dropboxusercontent.com\/s\/9xlkw3edoydnnhf\/contained-bootstrap.min.css"
+                            }
+                        }
+                        req_body = JSON.stringify(data);
+                        
+                        request({
+                            method: "PUT",
+                            url: 'https://' + req.session.shop + '.myshopify.com/admin/themes/' + theme_id + '/assets.json',
+                            headers: {
+                                'X-Shopify-Access-Token': req.session.access_token,
+                                'Content-type': 'application/json; charset=utf-8'
+                            },
+                            body: req_body
+                        }, 
+                        function(err, resp, body){
+                            if(err) { 
+                                console.log(err);
+                                callback(true); 
+                                return; 
+                            }
+                            console.log(body);
+                            body = JSON.parse(body);
+                            req.session.theme_id = theme_id;
+                            callback(status, null);
+                        });
+                    }
+                    else {
+                        callback(status, null);
+                    }                  
+                }
+                else {
+                    callback(status, null);
+                }
+            },
+            function(callback) {
+                if (status == "accepted" || status == "active") {
+                    request.get({
+                        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
+                        headers: {
+                            'X-Shopify-Access-Token': req.session.access_token
+                        }
+                    }, 
+                    function(err, resp, body){
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        var data = JSON.parse(body);
+                        console.log(data);
+                        
+                        var metafields = [];
+
+                        for (var key in data.metafields) {
+                            var temp = data.metafields[key].value + ";id:" + data.metafields[key].id.toString();
+                            console.log("METAFIELDS: " + JSON.stringify(temp));
+                            temp = JSON.parse(JSON.stringify(parse_values(temp)));
+                            metafields.push(temp);
+                        }
+
+                        values = { metafields: JSON.parse(JSON.stringify(metafields)) };
+                        values = JSON.parse(JSON.stringify(values));
+                        console.log(values);
+                        //callback(null, body);
+                        callback(null, "accepted");
+                    });                   
+                }
+               else {
+                  callback(null, "declined");
+               }
+            }
+        ],
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.json(500);
+            }    
+            //var data = JSON.parse(result);
+            //console.log("WATERFALL RESULT: " + JSON.stringify(data));
+            
+            if (result == "accepted") {
+                res.render('current_offers', {
+                    title: 'Current Offers', 
+                    api_key: config.oauth.api_key,
+                    shop: req.session.shop,
+                    current_offers: values
+                });              
+            }
+            else {
+                res.redirect(req.session.confirm_url);
+            }
         });
     } else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
