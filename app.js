@@ -271,7 +271,7 @@ app.get('/activate_charge', function(req, res) {
     async.waterfall([
         function(callback) {
             request.get({
-                url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.query.charge_id + '.json',
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
@@ -316,7 +316,7 @@ app.get('/activate_charge', function(req, res) {
                 });              
             }
             else {
-                callback(status, "none");
+                callback(null, status, "none");
             }
         },
         function(status, theme_id, callback) {
@@ -350,7 +350,7 @@ app.get('/activate_charge', function(req, res) {
                 });              
             }
             else {
-                callback(status, "none");
+                callback(null, status, "none");
             }
         },
         function(status, theme_id, callback) {
@@ -384,7 +384,7 @@ app.get('/activate_charge', function(req, res) {
                 });              
             }
             else {
-                callback(status)
+                callback(null, status)
             }
         },
         function(status, callback) {
