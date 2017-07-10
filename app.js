@@ -493,7 +493,7 @@ app.get('/preview', function(req, res) {
 // This page should display a table from the data retrieved from store metafields Namespace: suo 
 // http://bootsnipp.com/snippets/BDDND
 // https://datatables.net/reference/api/
-/*app.get('/', function(req, res) {
+app.get('/', function(req, res) {
     if (req.session.access_token) {
         var values = {};
         async.waterfall([
@@ -650,7 +650,8 @@ app.get('/preview', function(req, res) {
             res.redirect('/install');
         }
     }
-})*/
+})
+/*
 app.get('/', function(req, res) {
     if (req.session.access_token) {
         var values = {};
@@ -853,7 +854,7 @@ app.get('/', function(req, res) {
             res.redirect('/install');
         }
     }
-})
+})*/
 app.get('/current-offers', function(req, res) {
     request.get({
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
