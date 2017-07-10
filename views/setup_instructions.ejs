@@ -20,10 +20,10 @@
       </div>
       <div class="panel-body">
         <ol>
-          <li><p>On the store admin page navigate to "Online Store / Themes"</p><img src="/images/image.JPG" /></li>
-          <li>On the main store theme click on “Actions” and select “Edit HTML/CSS”</li>
-          <li>Under the “Templates” folder, select “product.liquid” OR under the "Sections" folder, select "product-template.liquid" (Depending on where most of the product code is located)</li>
-          <li>On the <a href="https://<%= shop %>.myshopify.com/admin/themes/current/?key=templates/product.liquid" rel="noopener noreferrer" target="_blank">“product.liquid”</a> OR <a href="https://<%= shop %>.myshopify.com/admin/themes/current/?key=sections/product-template.liquid" rel="noopener noreferrer" target="_blank">"product-template.liquid"</a> source code, type “{% include 'simple-upsell' %}” in the location of the product page that you want to display your upsell offers and click “Save”. <mark>Note: To pinpoint the optimal location to type code, it is best to create an offer in the Simple-Upsells first, type the code in “product.liquid" or "product-template.liquid", click save, click preview, then navigate to the product page related to the offer to see where the upsell offer is displayed. Continue to move the code around “product.liquid” or "product-template.liquid" till the optimal placement is found. It is typical to place the code at the end of the product or after it. (Repeat this step if the theme is changed)</mark></li>
+          <li>On the store admin page navigate to "Online Store / Themes"</li>
+          <li><p>On the main store theme click on “Actions” and select “Edit HTML/CSS”</p><img src="/images/1.jpeg" /></li>
+          <li><p>Under the “Templates” folder, select “product.liquid” OR under the "Sections" folder, select "product-template.liquid" (Depending on where most of the product code is located)</li>
+          <li>On the <a href="https://<%= shop %>.myshopify.com/admin/themes/current/?key=templates/product.liquid" rel="noopener noreferrer" target="_blank">“product.liquid”</a> OR <a href="https://<%= shop %>.myshopify.com/admin/themes/current/?key=sections/product-template.liquid" rel="noopener noreferrer" target="_blank">"product-template.liquid"</a> source code, type “{% include 'simple-upsell' %}” in the location of the product page that you want to display your upsell offers and click “Save”. <mark>Note: To pinpoint the optimal location to type code, it is best to create an offer in the Simple-Upsells first, type the code in “product.liquid" or "product-template.liquid", click save, click preview, then navigate to the product page related to the offer to see where the upsell offer is displayed. Continue to move the code around “product.liquid” or "product-template.liquid" till the optimal placement is found. It is typical to place the code at the end of the product or after it. (Repeat this step if the theme is changed)</mark></p><img src="/images/2.jpeg" /></li>
         </ol>
       </div>
     </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="panel-body">
         <ol>
-          <li>On the “Current Offers” page click on “Create an Offer.” <mark>Note: If the store contains over 500 products, it will take a few seconds to display the “Create an Offer” page.</mark></li>
+          <li><p>On the “Current Offers” page click on “Create an Offer.” <mark>Note: If the store contains over 500 products, it will take a few seconds to display the “Create an Offer” page.</mark></p><img src="/images/3.jpeg" /></li>
           <li>The “Create Your Offer” page allows the user to customize their upsell offer:
             <ul>
               <li><strong>Offer Name:</strong> This field is not displayed on the store. It is used internally on the admin page to help identify the offers created. <mark>Note: The offer name must be unique to other offer names.</mark></li>
@@ -47,8 +47,8 @@
               <li><strong>Cart Button Color:</strong> This is a required field that uses a color-picker (hex) to customize the “Add to Cart” button color in the upsell offer. <mark>Note: Use “transparent” to inherit the store’s “Add to Cart” button color.</mark></li>
               <li><strong>Use rounded edges around upsell products:</strong> This is an optional checkbox to make the upsell products border have rounded edges instead of sharp edges.</li>
               <li><strong>Use rounded edges on "Add to Cart" button:</strong> This is an optional checkbox to make the “Add to Cart” button have rounded edges instead of sharp edges.</li>
-              <li><strong>Select Products(s) to Upsell:</strong> This is a required section to select the upsell products that are displayed in the upsell offer. Minimum upsell product selection is 1 and maximum upsell product selection is 4. </li>
-              <li><strong>Select Products(s) to Place Offer:</strong> This is a required section to select the products that will display the upsell offer along with the upsell products. Minimum product selection is 1 and maximum product selection is 50. <mark>Note: Products cannot be used more than once between all the offers. Products already selected in other created offers are unavailable for selection by another offer.</mark></li>
+              <li><p><strong>Select Products(s) to Upsell:</strong> This is a required section to select the upsell products that are displayed in the upsell offer. Minimum upsell product selection is 1 and maximum upsell product selection is 4.</p><img src="/images/4.jpeg" /></li>
+              <li><p><strong>Select Products(s) to Place Offer:</strong> This is a required section to select the products that will display the upsell offer along with the upsell products. Minimum product selection is 1 and maximum product selection is 50. <mark>Note: Products cannot be used more than once between all the offers. Products already selected in other created offers are unavailable for selection by another offer.</mark></p><img src="/images/5.jpeg" /></li>
             </ul>
           </li>
           <li>Click on “Create Offer” button on the bottom of “Create Your Offer” page when customization is complete. </li>
@@ -59,6 +59,8 @@
               <li><strong>Delete:</strong> This will delete the selected upsell offer and remove the upsell offer from all products related to the offer. This will enable the products to be selected in other offers. <mark>Note: If the offer has 20 products selected, the delete will take a few seconds. Please wait for success notification before doing other actions.</mark></li>
               <li><strong>Status:</strong> This is a switch to either activate or deactivate the selected offer. When an offer is deactivated, the upsell offer will not be displayed in the store products related to the offer.</li>
             </ul>
+            </br>
+            <img src="/images/6.jpeg" />
           </li>
         </ol>
       </div>      

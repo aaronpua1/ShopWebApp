@@ -186,40 +186,159 @@ app.get('/access_token', verifyRequest, function(req, res) {
     }
 })
 /*
-app.get('/activate_charge', function(req, res) {
-    function(access_token, callback) {
-        var data = {
-            recurring_application_charge: {
-                name: "snippets\/simple-upsell.liquid",
-                price: "http:\/\/dl.dropboxusercontent.com\/s\/tmhfkp2b94tupfy\/simple-upsell.liquid",
-                return_url: ,
-                test: true,
-                trial_days: 7
-            }
-        }
-        req_body = JSON.stringify(data);
-        
-        request({
-            method: "POST",
-            url: 'https://' + req.query.shop + '/admin/admin/recurring_application_charges.json',
-            headers: {
-                'X-Shopify-Access-Token': access_token,
-                'Content-type': 'application/json; charset=utf-8'
+app.get('/access_token', verifyRequest, function(req, res) {
+    if (req.query.shop) {
+        async.waterfall([
+            function(callback) {
+                var params = { 
+                    client_id: config.oauth.api_key,
+                    client_secret: config.oauth.client_secret,
+                    code: req.query.code
+                }
+                var req_body = querystring.stringify(params);
+                console.log(req_body)
+                request({
+                    url: 'https://' + req.query.shop + '/admin/oauth/access_token', 
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Length': Buffer.byteLength(req_body)
+                    },
+                    body: req_body
+                }, 
+                function(err,resp,body) {
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    req.session.access_token = body.access_token;
+                    console.log(req.session);
+                    callback(null, body.access_token);
+                });
             },
-            body: req_body
-        }, 
-        function(err, resp, body){
-            if(err) { 
-                console.log(err);
-                callback(true); 
-                return; 
+            function(access_token, callback) {
+                var data = {
+                    recurring_application_charge: {
+                        name: "Simple-Upsells Monthly Recurring Charge",
+                        price: 6.99,
+                        return_url: "https:\/\/simple-upsells.herokuapp.com\/activate_charge",
+                        test: true,
+                        trial_days: 7
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "POST",
+                    url: 'https://' + req.query.shop + '/admin/admin/recurring_application_charges.json',
+                    headers: {
+                        'X-Shopify-Access-Token': access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, body);
+                });
             }
-            console.log(body);
-            body = JSON.parse(body);
-            callback(null, access_token, theme_id);
+        ],
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.json(500);
+            }
+            var data = JSON.parse(result);
+            req.session.confirm_url = data.recurring_application_charge.confirmation_url;
+            req.session.charge_id = data.recurring_application_charge.id;
+            res.redirect(req.session.confirm_url);
         });
     }
-})*/
+})
+
+app.get('/activate_charge', function(req, res) {
+    async.waterfall([
+        function(callback) {
+            request.get({
+                url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                headers: {
+                    'X-Shopify-Access-Token': req.session.access_token
+                }
+            }, 
+            function(err, resp, body){
+                if(err) { 
+                    console.log(err);
+                    callback(true); 
+                    return; 
+                }
+                console.log(body);
+                body = JSON.parse(body);                
+                callback(null, recurring_application_charge.status);
+            });
+        },
+        function(status, callback) {
+            if (status == "accepted") {
+                var data = {
+                    recurring_application_charge: {
+                        id: req.session.charge_id,
+                        name: "Simple-Upsells Monthly Recurring Charge",
+                        price: 6.99,
+                        status: "accepted"
+                        test: true,
+                        trial_days: 7
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "POST",
+                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    console.log(body);
+                    body = JSON.parse(body);
+                    callback(null, "accepted");
+                });
+            }
+            else {
+                callback(null, "declined");
+            }
+        }
+    ],
+    function(err, result) {
+        if (err) {
+            console.log(err);
+            return res.json(500);
+        }
+        
+        if (result == "accepted") {
+            res.redirect("/");
+        }
+        else {
+            res.redirect(req.session.confirm_url);
+        }        
+    });
+})
+*/
 
 // Renders the install/login form
 app.get('/install', function(req, res) {
@@ -399,7 +518,8 @@ app.get('/', function(req, res) {
                     values = { metafields: JSON.parse(JSON.stringify(metafields)) };
                     values = JSON.parse(JSON.stringify(values));
                     console.log(values);
-                    callback(null, body);
+                    //callback(null, body);
+                    callback(null, "done");
                 });                
             }
         ],
@@ -409,7 +529,7 @@ app.get('/', function(req, res) {
                 return res.json(500);
             }    
             var data = JSON.parse(result);
-            console.log("WATERFALL RESULT: " + JSON.stringify(data));
+            //console.log("WATERFALL RESULT: " + JSON.stringify(data));
             res.render('current_offers', {
                 title: 'Current Offers', 
                 api_key: config.oauth.api_key,
