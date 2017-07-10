@@ -269,7 +269,7 @@ app.get('/activate_charge', function(req, res) {
     async.waterfall([
         function(callback) {
             request.get({
-                url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
@@ -289,7 +289,7 @@ app.get('/activate_charge', function(req, res) {
             var theme_id;
             if (status == "accepted") {
                 request.get({
-                    url: 'https://' + req.session.shop + '/admin/themes.json?fields=name,id,role',
+                    url: 'https://' + req.query.shop + '/admin/themes.json?fields=name,id,role',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token
                     }
@@ -329,7 +329,7 @@ app.get('/activate_charge', function(req, res) {
                 
                 request({
                     method: "PUT",
-                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    url: 'https://' + req.query.shop + '/admin/themes/' + theme_id + '/assets.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -363,7 +363,7 @@ app.get('/activate_charge', function(req, res) {
                 
                 request({
                     method: "PUT",
-                    url: 'https://' + req.session.shop + '/admin/themes/' + theme_id + '/assets.json',
+                    url: 'https://' + req.query.shop + '/admin/themes/' + theme_id + '/assets.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -401,7 +401,7 @@ app.get('/activate_charge', function(req, res) {
                 
                 request({
                     method: "POST",
-                    url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
+                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -654,7 +654,7 @@ app.get('/', function(req, res) {
         async.waterfall([
             function(callback) {
                 request.get({
-                    url: 'https://' + req.session.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/recurring_application_charges/' + req.session.charge_id + '.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token
                     }
