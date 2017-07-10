@@ -260,7 +260,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             var data = JSON.parse(result);
             req.session.confirm_url = data.recurring_application_charge.confirmation_url;
             req.session.charge_id = data.recurring_application_charge.id;
-            res.redirect(req.session.confirm_url);
+            res.redirect(data.recurring_application_charge.confirmation_url);
         });
     }
 })
