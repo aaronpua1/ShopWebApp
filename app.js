@@ -392,7 +392,7 @@ app.get('/activate_charge', function(req, res) {
                         id: req.session.charge_id,
                         name: "Simple-Upsells Monthly Recurring Charge",
                         price: 6.99,
-                        status: "accepted"
+                        status: "accepted",
                         test: true,
                         trial_days: 7
                     }
