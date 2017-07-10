@@ -431,9 +431,9 @@ app.get('/activate_charge', function(req, res) {
         if (err) {
             console.log(err);
             return res.json(500);
-        }
-        console.log("HERE IS THE FINAL SPOT");
+        }        
         if (result == "accepted") {
+            console.log("HERE IS THE FINAL SPOT");
             res.redirect("/");
         }
         else {
