@@ -267,7 +267,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 })
 
 app.get('/activate_charge', function(req, res) {
-    console.log("FUCK THIS SHT!")
+    console.log("FUCK THIS SHT!" + req.query.charge_id);
     async.waterfall([
         function(callback) {
             request.get({
@@ -282,6 +282,7 @@ app.get('/activate_charge', function(req, res) {
                     callback(true); 
                     return; 
                 }
+                console.log("MORE FUCK THIS SHT!" + req.query.charge_id);
                 console.log(body);
                 //body = JSON.parse(body);                
                 callback(null, body.recurring_application_charge.status);
