@@ -271,7 +271,7 @@ app.get('/activate_charge', function(req, res) {
     async.waterfall([
         function(callback) {
             request.get({
-                url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.query.charge_id + '.json',
+                url: 'https://' + req.query.shop + '/admin/recurring_application_charges.json?id=' + req.query.charge_id,
                 headers: {
                     'X-Shopify-Access-Token': req.session.access_token
                 }
