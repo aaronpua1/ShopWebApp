@@ -392,7 +392,7 @@ app.get('/activate_charge', function(req, res) {
             if (status == "accepted") {
                 var data = {
                     recurring_application_charge: {
-                        id: req.session.charge_id,
+                        id: req.query.charge_id,
                         name: "Simple-Upsells Monthly Recurring Charge",
                         price: 6.99,
                         status: "accepted",
@@ -404,7 +404,7 @@ app.get('/activate_charge', function(req, res) {
                 
                 request({
                     method: "POST",
-                    url: 'https://' + req.session.shop + '.myshopify.com/admin/recurring_application_charges/' + req.session.charge_id + '/activate.json',
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/recurring_application_charges/' + req.query.charge_id + '/activate.json',
                     headers: {
                         'X-Shopify-Access-Token': req.session.access_token,
                         'Content-type': 'application/json; charset=utf-8'
@@ -432,7 +432,7 @@ app.get('/activate_charge', function(req, res) {
             console.log(err);
             return res.json(500);
         }
-        
+        console.log("HERE IS THE FINAL SPOT");
         if (result == "accepted") {
             res.redirect("/");
         }
