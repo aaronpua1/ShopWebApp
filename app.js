@@ -246,7 +246,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log(body);
+                    console.log("CREATE BILLING RESPONSE BODY: " + body);
                     body = JSON.parse(body);
                     callback(null, body);
                 });
