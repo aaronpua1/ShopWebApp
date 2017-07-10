@@ -283,7 +283,7 @@ app.get('/activate_charge', function(req, res) {
                     return; 
                 }
                 console.log(body);
-                body = JSON.parse(body);                
+                //body = JSON.parse(body);                
                 callback(null, body.recurring_application_charge.status);
             });
         },
