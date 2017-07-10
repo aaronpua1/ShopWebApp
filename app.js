@@ -434,7 +434,7 @@ app.get('/activate_charge', function(req, res) {
         }        
         if (result == "accepted") {
             console.log("HERE IS THE FINAL SPOT");
-            res.redirect("/");
+            res.redirect('/');
         }
         else {
             res.redirect(req.session.confirm_url);
