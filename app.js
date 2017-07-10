@@ -258,6 +258,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 return res.json(500);
             }
             var data = JSON.parse(result);
+            console.log("CREATE BILLING: " + JSON.stringify(data));
             req.session.confirm_url = data.recurring_application_charge.confirmation_url;
             req.session.charge_id = data.recurring_application_charge.id;
             res.redirect(data.recurring_application_charge.confirmation_url);
@@ -266,6 +267,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
 })
 
 app.get('/activate_charge', function(req, res) {
+    console.log("FUCK THIS SHT!")
     async.waterfall([
         function(callback) {
             request.get({
