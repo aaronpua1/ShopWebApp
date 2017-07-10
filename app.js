@@ -284,7 +284,7 @@ app.get('/activate_charge', function(req, res) {
                 }
                 console.log("MORE FUCK THIS SHT!" + req.query.charge_id);
                 console.log(body);
-                //body = JSON.parse(body);                
+                body = JSON.parse(body);                
                 callback(null, body.recurring_application_charge.status);
             });
         },
