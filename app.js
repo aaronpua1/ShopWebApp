@@ -233,7 +233,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 
                 request({
                     method: "POST",
-                    url: 'https://' + req.query.shop + '/admin/admin/recurring_application_charges.json',
+                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges.json',
                     headers: {
                         'X-Shopify-Access-Token': access_token,
                         'Content-type': 'application/json; charset=utf-8'
