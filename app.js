@@ -743,7 +743,7 @@ app.get('/', function(req, res) {
                     }
                 }
                 else {
-                    callback(null, status, "none")
+                    callback(null, status, "none");
                 }
             },
             function(status, theme_id, callback) {
