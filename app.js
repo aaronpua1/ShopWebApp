@@ -829,8 +829,8 @@ app.get('/', function(req, res) {
                 console.log(err);
                 return res.json(500);
             }    
-            //var data = JSON.parse(result);
-            //console.log("WATERFALL RESULT: " + JSON.stringify(data));
+            var data = JSON.parse(result);
+            console.log("WATERFALL RESULT: " + JSON.stringify(data));
             
             if (result == "accepted") {
                 res.render('current_offers', {
