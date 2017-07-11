@@ -669,7 +669,7 @@ app.get('/', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log("INDEX FUCK THIS SHIT!!" + req.session.charge_id);
+                    console.log("INDEX FUCK THIS SHIT!!" + req.session.confirm_url);
                     console.log(body);
                     body = JSON.parse(body);                
                     callback(null, body.recurring_application_charge.status);
