@@ -221,7 +221,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             },
             function(access_token, callback) {
                 request.get({
-                    url: 'https://' + req.query.shop + '.myshopify.com/admin/recurring_application_charges.json?name=Simple-Upsells+Monthly+Recurring+Charge',
+                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges.json?name=Simple-Upsells+Monthly+Recurring+Charge',
                     headers: {
                         'X-Shopify-Access-Token': access_token
                     }
