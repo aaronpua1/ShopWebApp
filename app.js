@@ -437,7 +437,7 @@ app.get('/activate_charge', function(req, res) {
             res.redirect('/');
         }
         else {
-            res.redirect(req.session.confirm_url);
+            res.redirect('/shopify_auth');
         }        
     });
 })
@@ -841,7 +841,8 @@ app.get('/', function(req, res) {
                 });              
             }
             else {
-                res.redirect(req.session.confirm_url);
+                //res.redirect(req.session.confirm_url);
+                res.redirect('/shopify_auth');
             }
         });
     } else {
