@@ -397,8 +397,7 @@ app.get('/activate_charge', function(req, res) {
                         price: 6.99,
                         status: "accepted",
                         test: true,
-                        trial_days: 7,
-                        return_url: "https:\/\/simple-upsells.herokuapp.com"
+                        trial_days: 7
                     }
                 }
                 req_body = JSON.stringify(data);
