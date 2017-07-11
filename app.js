@@ -251,9 +251,6 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     callback(null, body);
                 });                  
             }
-            else {
-                callback(null, "active");
-            }            
         ],
         function(err, result) {
             if (err) {
