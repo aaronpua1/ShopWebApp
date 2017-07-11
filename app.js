@@ -221,7 +221,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
             },
             function(access_token, callback) {
                 request.get({
-                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
+                    url: 'https://' + req.query.shop + '.myshopify.com/admin/recurring_application_charges.json?name=Simple-Upsells+Monthly+Recurring+Charge',
                     headers: {
                         'X-Shopify-Access-Token': access_token
                     }
@@ -232,13 +232,13 @@ app.get('/access_token', verifyRequest, function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log("TESTING REAUTH: " + req.session.charge_id);
-                    console.log(body);
-                    body = JSON.parse(body);                
-                    callback(null, access_token, body.recurring_application_charge.status);
+                    console.log("REAUTH TEST: " + body);
+                    body = JSON.parse(body);
+                    req.session.charge_id = body.recurring_application_charge[0].id;
+                    callback(null, body.recurring_application_charge[0].status, access_token);
                 });
             },
-            function(access_token, status, callback) {
+            function(status, access_token, callback) {
                 if (status != "active") {
                     var data = {
                         recurring_application_charge: {
@@ -290,9 +290,8 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 console.log("CREATE BILLING: " + JSON.stringify(data));
                 req.session.confirm_url = data.recurring_application_charge.confirmation_url;
                 req.session.charge_id = data.recurring_application_charge.id;
-                res.redirect(data.recurring_application_charge.confirmation_url);              
+                res.redirect(data.recurring_application_charge.confirmation_url);                
             }
-
         });
     }
 })
