@@ -776,15 +776,15 @@ app.get('/', function(req, res) {
                             console.log("THIS IS THE SECOND LIQUID FILE: " + body);
                             body = JSON.parse(body);
                             req.session.theme_id = theme_id;
-                            callback(status, null);
+                            callback(null, status);
                         });
                     }
                     else {
-                        callback(status, null);
+                        callback(null, status);
                     }                  
                 }
                 else {
-                    callback(status, null);
+                    callback(null, status);
                 }
             },
             function(status, callback) {
