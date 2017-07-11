@@ -220,25 +220,11 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 });
             },
             function(access_token, callback) {
-                var data = {
-                    recurring_application_charge: {
-                        name: "Simple-Upsells Monthly Recurring Charge",
-                        price: 6.99,
-                        return_url: "https:\/\/simple-upsells.herokuapp.com\/activate_charge",
-                        test: true,
-                        trial_days: 7
-                    }
-                }
-                req_body = JSON.stringify(data);
-                
-                request({
-                    method: "POST",
-                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges.json',
+                request.get({
+                    url: 'https://' + req.query.shop + '/admin/recurring_application_charges/' + req.session.charge_id + '.json',
                     headers: {
-                        'X-Shopify-Access-Token': access_token,
-                        'Content-type': 'application/json; charset=utf-8'
-                    },
-                    body: req_body
+                        'X-Shopify-Access-Token': access_token
+                    }
                 }, 
                 function(err, resp, body){
                     if(err) { 
@@ -246,10 +232,48 @@ app.get('/access_token', verifyRequest, function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log("CREATE BILLING RESPONSE BODY: " + body);
-                    //body = JSON.parse(body);
-                    callback(null, body);
+                    console.log("TESTING REAUTH: " + req.session.charge_id);
+                    console.log(body);
+                    body = JSON.parse(body);                
+                    callback(null, access_token, body.recurring_application_charge.status);
                 });
+            },
+            function(access_token, status, callback) {
+                if (status != "active") {
+                    var data = {
+                        recurring_application_charge: {
+                            name: "Simple-Upsells Monthly Recurring Charge",
+                            price: 6.99,
+                            return_url: "https:\/\/simple-upsells.herokuapp.com\/activate_charge",
+                            test: true,
+                            trial_days: 7
+                        }
+                    }
+                    req_body = JSON.stringify(data);
+                    
+                    request({
+                        method: "POST",
+                        url: 'https://' + req.query.shop + '/admin/recurring_application_charges.json',
+                        headers: {
+                            'X-Shopify-Access-Token': access_token,
+                            'Content-type': 'application/json; charset=utf-8'
+                        },
+                        body: req_body
+                    }, 
+                    function(err, resp, body){
+                        if(err) { 
+                            console.log(err);
+                            callback(true); 
+                            return; 
+                        }
+                        console.log("CREATE BILLING RESPONSE BODY: " + body);
+                        //body = JSON.parse(body);
+                        callback(null, body);
+                    });                  
+                }
+                else {
+                    callback(null, "active");
+                }
             }
         ],
         function(err, result) {
@@ -257,11 +281,18 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 console.log(err);
                 return res.json(500);
             }
-            var data = JSON.parse(result);
-            console.log("CREATE BILLING: " + JSON.stringify(data));
-            req.session.confirm_url = data.recurring_application_charge.confirmation_url;
-            req.session.charge_id = data.recurring_application_charge.id;
-            res.redirect(data.recurring_application_charge.confirmation_url);
+            
+            if (result == "active") {
+                res.redirect('/');
+            }
+            else {
+                var data = JSON.parse(result);
+                console.log("CREATE BILLING: " + JSON.stringify(data));
+                req.session.confirm_url = data.recurring_application_charge.confirmation_url;
+                req.session.charge_id = data.recurring_application_charge.id;
+                res.redirect(data.recurring_application_charge.confirmation_url);              
+            }
+
         });
     }
 })
