@@ -699,7 +699,7 @@ app.get('/', function(req, res) {
                             }
                         }
                         //req.session.theme_id = theme_id;
-                        console.log(theme_id);
+                        console.log("THIS IS THE THEME ID: " + theme_id);
                         callback(null, status, theme_id);
                     });                  
                 }
@@ -733,7 +733,7 @@ app.get('/', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            console.log(body);
+                            console.log("THIS IS THE FIRST LIQUID FILE: " + body);
                             body = JSON.parse(body);
                             callback(null, status, theme_id);
                         });
@@ -772,7 +772,7 @@ app.get('/', function(req, res) {
                                 callback(true); 
                                 return; 
                             }
-                            console.log(body);
+                            console.log("THIS IS THE SECOND LIQUID FILE: " + body);
                             body = JSON.parse(body);
                             req.session.theme_id = theme_id;
                             callback(status, null);
@@ -814,7 +814,7 @@ app.get('/', function(req, res) {
 
                         values = { metafields: JSON.parse(JSON.stringify(metafields)) };
                         values = JSON.parse(JSON.stringify(values));
-                        console.log(values);
+                        console.log("THIS IS THE FINAL VALUES: " + values);
                         //callback(null, body);
                         callback(null, "accepted");
                     });                   
