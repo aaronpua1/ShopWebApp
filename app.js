@@ -233,7 +233,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                         return; 
                     }                    
                     body = JSON.parse(body);
-                    console.log("REAUTH TEST: " + body.recurring_application_charge[0]);
+                    console.log("REAUTH TEST: " + body);
                     req.session.charge_id = body.recurring_application_charge[0].id;
                     callback(null, body.recurring_application_charge[0].status, access_token);
                 });
