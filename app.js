@@ -671,7 +671,7 @@ app.get('/', function(req, res) {
                     }
                     console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);
                     console.log("THIS SHITTY RESPOJNSE BODY: " + body);
-                    body = JSON.parse(body);                
+                    //body = JSON.parse(body);                
                     callback(null, body.recurring_application_charge.status);
                 });
             },
@@ -786,7 +786,7 @@ app.get('/', function(req, res) {
                     callback(status, null);
                 }
             },
-            function(callback) {
+            function(status, callback) {
                 if (status == "accepted" || status == "active") {
                     request.get({
                         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json?limit=250&namespace=suo',
