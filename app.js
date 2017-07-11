@@ -282,7 +282,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                 return res.json(500);
             }
             
-            if (result == "active") {
+            if (typeof result !== "object" || result == "active") {
                 res.redirect('/');
             }
             else {
