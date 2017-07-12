@@ -489,7 +489,7 @@ app.get('/activate_charge', function(req, res) {
                     console.log(body);
                     body = JSON.parse(body);
                     //findone update
-                    console.log("SESSION: " + JSON.stringify(req.session));
+                    
                     
                     db.collection('shops').insert({
                         "shop": req.session.shop.toLowerCase(),
@@ -918,6 +918,7 @@ app.get('/', function(req, res) {
             //console.log("WATERFALL RESULT: " + JSON.stringify(data));
             
             if (result == "accepted") {
+                console.log("SESSION: " + JSON.stringify(req.session));
                 res.render('current_offers', {
                     title: 'Current Offers', 
                     api_key: config.oauth.api_key,
