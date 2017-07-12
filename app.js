@@ -490,6 +490,7 @@ app.get('/activate_charge', function(req, res) {
                     body = JSON.parse(body);
                     //findone update
                     console.log("SESSION: " + JSON.stringify(req.session));
+                    
                     db.collection('shops').insert({
                         "shop": req.session.shop.toLowerCase(),
                         "access_token": req.session.access_token,
