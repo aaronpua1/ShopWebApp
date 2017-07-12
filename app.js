@@ -15,9 +15,8 @@ var async = require('async');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-console.log("MONGODB: " + process.env.MLAB_PASSWORD);
-//mongoose.connect('mongodb://' + process.env.MLAB_USERNAME + ':' + process.env.MLAB_PASSWORD + '@ds153732.mlab.com:53732/shops');
-mongoose.connect('mongodb://Simple-Upsells:BigMoney123@ds153732.mlab.com:53732/shops');
+mongoose.connect('mongodb://' + process.env.MLAB_USERNAME + ':' + process.env.MLAB_PASSWORD + '@ds153732.mlab.com:53732/shops');
+
 var db = mongoose.connection;
 
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
