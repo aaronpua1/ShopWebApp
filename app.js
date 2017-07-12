@@ -8,12 +8,16 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var request = require('request');
 var RateLimiter = require('limiter').RateLimiter;
-//var DelayedResponse = require('http-delayed-response'); 
 var config = require('./settings');
 var session = require('express-session');
 var app = express();
 var async = require('async');
-//var delayed = new DelayedResponse(req, res);
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://' + process.env.MLAB_USERNAME + ':' + process.env.MLAB_PASSWORD + '@ds153732.mlab.com:53732/shops');
+var db = mongoose.connection;
+
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
 var throttledRequest = function() {
     var requestArgs = arguments;
@@ -22,6 +26,7 @@ var throttledRequest = function() {
     });
 };
 const util = require('util');
+const port = 3000;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +41,27 @@ app.use(cookieParser());
 app.use(session({secret: 'keyboard cat'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.listen(port, () => {
+   console.log("Listening for Shopify webhook event data on port ${portToListenOn}.");
+});
+
+app.post('/uninstall', (req, res) => {
+    //res.send('OK');
+    
+    console.log("LISTENER WEBHOOK EVENT REQUEST: " + req.body);
+    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain}, function(err, result) {
+        if (err) {
+            res.send(err);
+        }
+        if (result) {
+            res.send(200);
+        }
+        else {
+            res.send(404);
+        }
+    });
+});
+
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
@@ -47,14 +73,14 @@ app.get('/shopify_auth', function(req, res) {
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    } else {
+    } /*else {
         res.render('embedded_app_redirect', {
             shop: req.session.shop,
             api_key: config.oauth.api_key,
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    } 
+    }*/ 
 })
 /*
 app.get('/access_token', verifyRequest, function(req, res) {
@@ -284,7 +310,7 @@ app.get('/activate_charge', function(req, res) {
                 }
                 console.log("MORE FUCK THIS SHT!" + req.query.charge_id);
                 console.log(body);
-                body = JSON.parse(body);                
+                body = JSON.parse(body);
                 callback(null, body.recurring_application_charge.status);
             });
         },
@@ -391,6 +417,42 @@ app.get('/activate_charge', function(req, res) {
         function(status, callback) {
             if (status == "accepted") {
                 var data = {
+                    webhook: {
+                        topic: "app\/uninstalled",
+                        address: "https:\/\/simple-upsells.herokuapp.com\/uninstall",
+                        format: "json"
+                    }
+                }
+                req_body = JSON.stringify(data);
+                
+                request({
+                    method: "POST",
+                    url: 'https://' + req.session.shop + '.myshopify.com/admin/webhooks.json',
+                    headers: {
+                        'X-Shopify-Access-Token': req.session.access_token,
+                        'Content-type': 'application/json; charset=utf-8'
+                    },
+                    body: req_body
+                }, 
+                function(err, resp, body){
+                    if(err) { 
+                        console.log(err);
+                        callback(true); 
+                        return; 
+                    }
+                    
+                    console.log(body);
+                    body = JSON.parse(body);                    
+                    callback(null, status);
+                });
+            }
+             else {
+                callback(null, status)
+            }
+        },
+        function(status, callback) {
+            if (status == "accepted") {
+                var data = {
                     recurring_application_charge: {
                         id: req.query.charge_id,
                         name: "Simple-Upsells Monthly Recurring Charge",
@@ -417,8 +479,18 @@ app.get('/activate_charge', function(req, res) {
                         callback(true); 
                         return; 
                     }
+                    
                     console.log(body);
                     body = JSON.parse(body);
+                    
+                    db.collection('shops').insert({
+                        "shop": req.session.shop,
+                        "access_token": req.session.access_token,
+                        "status": "active",
+                        "charge_id": req.query.charge_id,
+                        "theme_id": req.session.theme_id
+                    });
+                    
                     callback(null, "accepted");
                 });
             }
@@ -669,9 +741,9 @@ app.get('/', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
+                    //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body); 
-                    console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
+                    //console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
                     callback(null, body.recurring_application_charge.status);
                 });
             },
@@ -775,6 +847,11 @@ app.get('/', function(req, res) {
                             console.log("THIS IS THE SECOND LIQUID FILE: " + body);
                             body = JSON.parse(body);
                             req.session.theme_id = theme_id;
+                            
+                            db.collection('shops').update({shop: req.session.shop}, {$set: {
+                                "theme_id": theme_id
+                            }});
+                            
                             callback(null, status);
                         });
                     }
@@ -845,15 +922,32 @@ app.get('/', function(req, res) {
                 res.redirect('/shopify_auth');
             }
         });
-    } else {
+    } 
+    else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
-        if (req.query.shop) {
-            req.session.shop = req.query.shop.replace(".myshopify.com", "");
-            res.redirect('/shopify_auth');
-        }
-        else {
-            res.redirect('/install');
-        }
+        //if (req.query.shop) {
+        db.collection('shops').findOne({shop: req.query.shop.replace(".myshopify.com", "")}, function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.json(500);
+            }
+            if (result) {
+                req.session.shop = result.shop;
+                req.session.access_token = result.access_token;
+                req.session.charge_id = result.charge_id;
+                req.session.theme_id = result.theme_id;
+                res.redirect('/');
+            }
+            else {
+                res.redirect('/install');
+            }
+        });
+            //req.session.shop = req.query.shop.replace(".myshopify.com", "");
+            //res.redirect('/shopify_auth');
+        //}
+        //else {
+        //    res.redirect('/install');
+        //}
     }
 })
 app.get('/current-offers', function(req, res) {
