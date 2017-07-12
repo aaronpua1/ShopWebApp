@@ -859,7 +859,6 @@ app.get('/', function(req, res) {
                             
                             db.collection('shops').update({shop: req.session.shop}, {$set: {
                                 "theme_id": theme_id,
-                                "session_id": req.sessionID
                             }});
                             
                             callback(null, status);
@@ -921,7 +920,7 @@ app.get('/', function(req, res) {
             
             if (result == "accepted") {
                 db.collection('shops').update({shop: req.session.shop}, {$set: {
-                    "session_id": req.sessionID;
+                    "session_id": req.sessionID
                 }});
                 console.log("SESSION: " + JSON.stringify(req.session));
                 res.render('current_offers', {
