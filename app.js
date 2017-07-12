@@ -15,8 +15,8 @@ var async = require('async');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + process.env.MLAB_USERNAME + ':' + process.env.MLAB_PASSWORD + '@ds153732.mlab.com:53732/shops');
-
 var db = mongoose.connection;
 
 var limiter = new RateLimiter(2, 1000); // at most 2 request every 1000 ms
@@ -44,7 +44,7 @@ app.use(session({secret: 'keyboard cat'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
-   console.log("Listening for Shopify webhook event data on port ${portToListenOn}.");
+   console.log("Listening for Shopify webhook event data on port ${port}.");
 });
 
 app.post('/uninstall', (req, res) => {
