@@ -58,6 +58,7 @@ app.post('/uninstall', (req, res) => {
             res.send(err);
         }
         if (result) {
+            req.session.destroy();
             res.send(200);
         }
         else {
