@@ -15,6 +15,7 @@ var async = require('async');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+console.log("MONGODB: " + process.env.MLAB_PASSWORD);
 mongoose.connect('mongodb://' + process.env.MLAB_USERNAME + ':' + process.env.MLAB_PASSWORD + '@ds153732.mlab.com:53732/shops');
 var db = mongoose.connection;
 
