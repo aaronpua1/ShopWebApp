@@ -77,14 +77,14 @@ app.get('/shopify_auth', function(req, res) {
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    } /*else {
+    } else {
         res.render('embedded_app_redirect', {
             shop: req.session.shop,
             api_key: config.oauth.api_key,
             scope: config.oauth.scope,
             redirect_uri: config.oauth.redirect_uri
         });
-    }*/ 
+    }
 })
 /*
 app.get('/access_token', verifyRequest, function(req, res) {
@@ -944,7 +944,8 @@ app.get('/', function(req, res) {
                     res.redirect('/');
                 }
                 else {
-                    res.redirect('/install');
+                    req.session.shop = req.query.shop.replace(".myshopify.com", "");
+                    res.redirect('/shopify_auth');
                 }
             });
             //req.session.shop = req.query.shop.replace(".myshopify.com", "");
