@@ -52,13 +52,13 @@ app.post('/uninstall', (req, res) => {
     
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body));
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body.myshopify_domain));
-    //db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
-    db.collection('shops').deleteMany({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
+    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
+    //db.collection('shops').deleteMany({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
         if (err) {
             res.send(err);
         }
         if (result) {
-            //req.session.destroy();
+            req.session.destroy(result.session_id);            
             res.send(200);
         }
         else {
@@ -488,15 +488,15 @@ app.get('/activate_charge', function(req, res) {
                     
                     console.log(body);
                     body = JSON.parse(body);
-                    //findone update
-                    
+                    //findone update                   
                     
                     db.collection('shops').insert({
                         "shop": req.session.shop.toLowerCase(),
                         "access_token": req.session.access_token,
                         "status": "active",
                         "charge_id": req.query.charge_id,
-                        "theme_id": req.session.theme_id
+                        "theme_id": req.session.theme_id,
+                        "session_id": req.sessionID
                     });
                     
                     callback(null, "accepted");
@@ -857,7 +857,8 @@ app.get('/', function(req, res) {
                             req.session.theme_id = theme_id;
                             
                             db.collection('shops').update({shop: req.session.shop}, {$set: {
-                                "theme_id": theme_id
+                                "theme_id": theme_id,
+                                "session_id": req.sessionID;
                             }});
                             
                             callback(null, status);
@@ -918,6 +919,9 @@ app.get('/', function(req, res) {
             //console.log("WATERFALL RESULT: " + JSON.stringify(data));
             
             if (result == "accepted") {
+                db.collection('shops').update({shop: req.session.shop}, {$set: {
+                    "session_id": req.sessionID;
+                }});
                 console.log("SESSION: " + JSON.stringify(req.session));
                 res.render('current_offers', {
                     title: 'Current Offers', 
