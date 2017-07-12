@@ -52,7 +52,7 @@ app.post('/uninstall', (req, res) => {
     
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body));
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body.myshopify_domain));
-    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain}, function(err, result) {
+    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "")}, function(err, result) {
         if (err) {
             res.send(err);
         }
