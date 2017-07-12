@@ -58,7 +58,7 @@ app.post('/uninstall', (req, res) => {
             res.send(err);
         }
         if (result) {
-            req.session.destroy();
+            //req.session.destroy();
             res.send(200);
         }
         else {
@@ -489,6 +489,7 @@ app.get('/activate_charge', function(req, res) {
                     console.log(body);
                     body = JSON.parse(body);
                     //findone update
+                    console.log("SESSION: " + JSON.stringify(req.session));
                     db.collection('shops').insert({
                         "shop": req.session.shop.toLowerCase(),
                         "access_token": req.session.access_token,
