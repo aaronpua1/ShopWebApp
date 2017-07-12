@@ -52,7 +52,7 @@ app.post('/uninstall', (req, res) => {
     
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body));
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body.myshopify_domain));
-    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "")}, function(err, result) {
+    db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
         if (err) {
             res.send(err);
         }
@@ -69,7 +69,7 @@ app.post('/uninstall', (req, res) => {
 // The template in views/embedded_app_redirect.ejs is rendered 
 app.get('/shopify_auth', function(req, res) {
     if (req.query.shop) {
-        req.session.shop = req.query.shop;
+        req.session.shop = req.query.shop.toLowerCase();
         res.render('embedded_app_redirect', {
             shop: req.query.shop,
             api_key: config.oauth.api_key,
@@ -248,6 +248,7 @@ app.get('/access_token', verifyRequest, function(req, res) {
                     callback(null, body.access_token);
                 });
             },
+            //check status
             function(access_token, callback) {
                 var data = {
                     recurring_application_charge: {
@@ -485,9 +486,9 @@ app.get('/activate_charge', function(req, res) {
                     
                     console.log(body);
                     body = JSON.parse(body);
-                    
+                    //findone update
                     db.collection('shops').insert({
-                        "shop": req.session.shop,
+                        "shop": req.session.shop.toLowerCase(),
                         "access_token": req.session.access_token,
                         "status": "active",
                         "charge_id": req.query.charge_id,
@@ -929,7 +930,7 @@ app.get('/', function(req, res) {
     else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
         if (req.query.shop) {
-            db.collection('shops').findOne({shop: req.query.shop.replace(".myshopify.com", "")}, function(err, result) {
+            db.collection('shops').findOne({shop: req.query.shop.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
                 if (err) {
                     console.log(err);
                     return res.json(500);
