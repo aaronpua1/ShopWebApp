@@ -87,6 +87,7 @@ app.get('/shopify_auth', function(req, res) {
         });
     }
 })
+
 /*
 app.get('/access_token', verifyRequest, function(req, res) {
     if (req.query.shop) {
