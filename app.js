@@ -734,6 +734,7 @@ app.get('/preview', function(req, res) {
 })*/
 
 app.get('/', function(req, res) {
+    console.log("ACCESSTOKEM" + req.session.access_token);
     if (req.session.access_token) {
         var values = {};
         async.waterfall([
