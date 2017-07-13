@@ -751,7 +751,7 @@ app.get('/', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    console.log("RESPONSE BODY: " + JSON.stringify(body));
+                    console.log("RESPONSE BODY: " + JSON.stringify(err));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body); 
                     //console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
