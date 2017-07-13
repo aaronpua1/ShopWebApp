@@ -60,10 +60,10 @@ app.post('/uninstall', (req, res) => {
         }
         if (result) {
             //req.session.destroy(result.session_id);            
-            res.send(200).end();
+            res.send(200);
         }
         else {
-            res.send(404).end();
+            res.send(404);
         }
     });
 });
