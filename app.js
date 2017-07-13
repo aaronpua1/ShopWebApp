@@ -757,7 +757,7 @@ app.get('/', function(req, res) {
                     //console.log("RESPONSE BODY: " + JSON.stringify(body));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body);
-                    resp = JSON.parse(resp);
+                    //resp = JSON.parse(resp);
                     //console.log("THIS SHITTY RESPOJNSE BODY: " + body);
                     if (resp.statusCode == 401) {
                         callback(null, "error");
