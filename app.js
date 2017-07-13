@@ -754,8 +754,13 @@ app.get('/', function(req, res) {
                     console.log("RESPONSE BODY: " + JSON.stringify(body));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body); 
-                    //console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
-                    callback(null, body.recurring_application_charge.status);
+                    //console.log("THIS SHITTY RESPOJNSE BODY: " + body);
+                    if (resp.statusCode == 200) {
+                        callback(null, body.recurring_application_charge.status);
+                    }
+                    else {
+                        callback(null, "error");
+                    }
                 });
             },
             function(status, callback) {
@@ -907,9 +912,12 @@ app.get('/', function(req, res) {
                         callback(null, "accepted");
                     });                   
                 }
-               else {
-                  callback(null, "declined");
-               }
+                else if (status == "error") {
+                    callback(null, "error");
+                }
+                else {
+                    callback(null, "declined");
+                }
             }
         ],
         function(err, result) {
@@ -931,6 +939,10 @@ app.get('/', function(req, res) {
                     shop: req.session.shop,
                     current_offers: values
                 });              
+            }
+            else if (result == "error") {
+                req.session.destroy();
+                res.redirect('/install');
             }
             else {
                 //res.redirect(req.session.confirm_url);
