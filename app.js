@@ -52,14 +52,13 @@ app.post('/uninstall', (req, res) => {
     
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body));
     console.log("LISTENER WEBHOOK EVENT REQUEST: " + JSON.stringify(req.body.myshopify_domain));
-    console.log("LISTENER WEBHOOK EVENT RESPONSE: " + JSON.stringify(res));
     db.collection('shops').findOneAndDelete({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
     //db.collection('shops').deleteMany({shop: req.body.myshopify_domain.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
         if (err) {
             res.send(err);
         }
         if (result) {
-            //req.session.destroy(result.session_id);            
+            req.session.destroy(result.session_id);            
             res.send(200);
         }
         else {
@@ -752,19 +751,11 @@ app.get('/', function(req, res) {
                         callback(true); 
                         return; 
                     }
-                    //console.log("RESPONSE BODY: " + JSON.stringify(err));
-                    console.log("RESPONSE BODY: " + JSON.stringify(resp));
-                    //console.log("RESPONSE BODY: " + JSON.stringify(body));
+                    console.log("RESPONSE BODY: " + JSON.stringify(body));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
-                    body = JSON.parse(body);
-                    //resp = JSON.parse(resp);
-                    //console.log("THIS SHITTY RESPOJNSE BODY: " + body);
-                    if (resp.statusCode == 401) {
-                        callback(null, "error");
-                    }
-                    else {
-                        callback(null, body.recurring_application_charge.status);                        
-                    }                    
+                    body = JSON.parse(body); 
+                    //console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
+                    callback(null, body.recurring_application_charge.status);
                 });
             },
             function(status, callback) {
@@ -916,12 +907,9 @@ app.get('/', function(req, res) {
                         callback(null, "accepted");
                     });                   
                 }
-                else if (status == "error") {
-                    callback(null, "error");
-                }
-                else {
-                    callback(null, "declined");
-                }
+               else {
+                  callback(null, "declined");
+               }
             }
         ],
         function(err, result) {
@@ -943,10 +931,6 @@ app.get('/', function(req, res) {
                     shop: req.session.shop,
                     current_offers: values
                 });              
-            }
-            else if (result == "error") {
-                req.session.destroy(req.sessionID);
-                res.redirect('/install');
             }
             else {
                 //res.redirect(req.session.confirm_url);
