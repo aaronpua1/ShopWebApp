@@ -59,10 +59,10 @@ app.post('/uninstall', (req, res) => {
         }
         if (result) {
             req.session.destroy(result.session_id);            
-            res.send(200);
+            res.send(200).end();
         }
         else {
-            res.send(404);
+            res.send(404).end();
         }
     });
 });
@@ -752,6 +752,8 @@ app.get('/', function(req, res) {
                         return; 
                     }
                     console.log("RESPONSE BODY: " + JSON.stringify(err));
+                    console.log("RESPONSE BODY: " + JSON.stringify(resp));
+                    console.log("RESPONSE BODY: " + JSON.stringify(body));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body); 
                     //console.log("THIS SHITTY RESPOJNSE BODY: " + body);                    
