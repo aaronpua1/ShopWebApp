@@ -754,11 +754,11 @@ app.get('/', function(req, res) {
                     }
                     //console.log("RESPONSE BODY: " + JSON.stringify(err));
                     //console.log("RESPONSE BODY: " + JSON.stringify(resp));
-                    console.log("RESPONSE BODY: " + JSON.stringify(body));
+                    //console.log("RESPONSE BODY: " + JSON.stringify(body));
                     //console.log("INDEX FUCK THIS SHIT!" + req.session.confirm_url);                    
                     body = JSON.parse(body); 
                     //console.log("THIS SHITTY RESPOJNSE BODY: " + body);
-                    if (body.statusCode == 401) {
+                    if (resp.statusCode == 401) {
                         callback(null, "error");
                     }
                     else {
