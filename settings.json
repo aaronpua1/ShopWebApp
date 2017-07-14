@@ -3,7 +3,7 @@
 		"api_key": "12b4f4f19940af28cf35f48b0270c207",
 		"client_secret": "fccbb069441e3687a5ba1736dfda7971",
 		"redirect_uri": "https://simple-upsells.herokuapp.com/access_token",
-		"scope": "read_themes,write_themes,write_customers,read_script_tags,write_script_tags,read_products,write_products"
+		"scope": "read_themes,write_themes,read_script_tags,write_script_tags,read_products,write_products"
 	},
 	"app_url": "//simple-upsells.herokuapp.com"
 }
