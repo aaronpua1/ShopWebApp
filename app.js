@@ -258,7 +258,8 @@ app.get('/access_token', verifyRequest, function(req, res) {
                         name: "Simple-Upsells Monthly Recurring Charge",
                         price: 6.99,
                         return_url: "https:\/\/simple-upsells.herokuapp.com\/activate_charge",
-                        trial_days: 7
+                        trial_days: 7,
+                        test: true
                     }
                 }
                 req_body = JSON.stringify(data);
@@ -464,7 +465,8 @@ app.get('/activate_charge', function(req, res) {
                         name: "Simple-Upsells Monthly Recurring Charge",
                         price: 6.99,
                         status: "accepted",
-                        trial_days: 7
+                        trial_days: 7,
+                        test: true
                     }
                 }
                 req_body = JSON.stringify(data);
