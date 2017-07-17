@@ -942,7 +942,7 @@ app.get('/', function(req, res) {
             }
             else if (result == "error") {
                 req.session.destroy();
-                res.redirect('/shopify_auth');
+                res.redirect('/install');
             }
             else {
                 //res.redirect(req.session.confirm_url);
@@ -952,30 +952,30 @@ app.get('/', function(req, res) {
     } 
     else {
         //console.log("THIS SOB NEEDS TO WORK: " + JSON.stringify(req.query));
-        //if (req.query.shop) {
-        db.collection('shops').findOne({shop: req.query.shop.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
-            if (err) {
-                console.log(err);
-                return res.json(500);
-            }
-            if (result) {
-                req.session.shop = result.shop;
-                req.session.access_token = result.access_token;
-                req.session.charge_id = result.charge_id;
-                req.session.theme_id = result.theme_id;
-                res.redirect('/');
-            }
-            else {
-                req.session.shop = req.query.shop.replace(".myshopify.com", "");
-                res.redirect('/shopify_auth');
-            }
-        });
+        if (req.query.shop) {
+            db.collection('shops').findOne({shop: req.query.shop.replace(".myshopify.com", "").toLowerCase()}, function(err, result) {
+                if (err) {
+                    console.log(err);
+                    return res.json(500);
+                }
+                if (result) {
+                    req.session.shop = result.shop;
+                    req.session.access_token = result.access_token;
+                    req.session.charge_id = result.charge_id;
+                    req.session.theme_id = result.theme_id;
+                    res.redirect('/');
+                }
+                else {
+                    req.session.shop = req.query.shop.replace(".myshopify.com", "");
+                    res.redirect('/shopify_auth');
+                }
+            });
             //req.session.shop = req.query.shop.replace(".myshopify.com", "");
             //res.redirect('/shopify_auth');
-       // }
-        //else {
-        //    res.redirect('/install');
-        //}
+        }
+        else {
+            res.redirect('/install');
+        }
     }
 })
 app.get('/current-offers', function(req, res) {
