@@ -940,10 +940,10 @@ app.get('/', function(req, res) {
                     current_offers: values
                 });              
             }
-            else if (result == "error") {
-                req.session.destroy();
-                res.redirect('/shopify_auth');
-            }
+            //else if (result == "error") {
+            //    req.session.destroy();
+            //    res.redirect('/shopify_auth');
+            //}
             else {
                 //res.redirect(req.session.confirm_url);
                 res.redirect('/shopify_auth');
